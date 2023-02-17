@@ -1,6 +1,7 @@
 #include "Header.h"
 #include "Common.h"
 #include "Constant.h"
+#include "Staff_func.h"
 int main() {
 	int x, y;
 	
@@ -10,6 +11,7 @@ int main() {
 	createHeader(header_title);
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
+			cout << "dsd";
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// phat hien click chuot
 			cout << "\nvi tri x:" << x << " - vi tri y:" << y << endl;
@@ -42,7 +44,7 @@ int main() {
 				delete_after_header();
 			}
 			if (sf_page) {
-
+				create_sf_header();
 			}
 			//Phu
 			if (ktVT(650, 10, 850, 50, x, y)) {

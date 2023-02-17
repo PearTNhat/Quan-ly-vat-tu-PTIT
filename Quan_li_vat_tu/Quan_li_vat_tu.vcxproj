@@ -143,8 +143,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constant.h" />
+    <ClInclude Include="Goods_Func.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Staff_func.h" />
+    <ClInclude Include="Struct_Goods.h" />
+    <ClInclude Include="Struct_Staff.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
