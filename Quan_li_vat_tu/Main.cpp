@@ -3,7 +3,7 @@
 #include "Constant.h"
 int main() {
 	int x, y;
-	bool g_page = false,sf_page=false,b_page=false,ss_page=false;
+	
 	initwindow(1200, 620,"Quan li vat tu");
 	setbkcolor(bk_screen);
 	cleardevice();
@@ -11,7 +11,7 @@ int main() {
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
-			// phat hien click chuot			getmouseclick(WM_LBUTTONDOWN, x, y);
+			// phat hien click chuot
 			cout << "\nvi tri x:" << x << " - vi tri y:" << y << endl;
 			// duong nay giup thay vi tri click
 			line(x, y, x + 20, y);
@@ -26,6 +26,7 @@ int main() {
 				sf_page = false;
 				b_page = false;
 				ss_page = false;
+				delete_after_header();
 			}
 			if (g_page) {
 
@@ -38,6 +39,7 @@ int main() {
 				sf_page = true;
 				b_page = false;
 				ss_page = false;
+				delete_after_header();
 			}
 			if (sf_page) {
 
@@ -50,6 +52,7 @@ int main() {
 				sf_page = false;
 				b_page = true;
 				ss_page = false;
+				delete_after_header();
 			}
 			if (b_page) {
 
@@ -64,6 +67,7 @@ int main() {
 				sf_page = false;
 				b_page = false;
 				ss_page = true;
+				delete_after_header();
 			}
 			if (ss_page) {
 				
