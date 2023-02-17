@@ -32,3 +32,7 @@ void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,in
 	setbkcolor(bg_hl);
 	outtextxy(l + kcl, t + kct, s);
 }
+void delete_after_header() {
+	setfillstyle(1, bk_screen);
+	bar(0, 60, 1200, 900);
+}

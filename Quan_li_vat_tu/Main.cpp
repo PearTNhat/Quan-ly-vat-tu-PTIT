@@ -26,6 +26,7 @@ int main() {
 				sf_page = false;
 				b_page = false;
 				ss_page = false;
+				delete_after_header();
 			}
 			if (g_page) {
 
@@ -38,6 +39,7 @@ int main() {
 				sf_page = true;
 				b_page = false;
 				ss_page = false;
+				delete_after_header();
 			}
 			if (sf_page) {
 
@@ -50,6 +52,7 @@ int main() {
 				sf_page = false;
 				b_page = true;
 				ss_page = false;
+				delete_after_header();
 			}
 			if (b_page) {
 
@@ -64,6 +67,7 @@ int main() {
 				sf_page = false;
 				b_page = false;
 				ss_page = true;
+				delete_after_header();
 			}
 			if (ss_page) {
 
