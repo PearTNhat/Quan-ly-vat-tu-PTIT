@@ -66,7 +66,7 @@ int main() {
 				ss_page = true;
 			}
 			if (ss_page) {
-
+				
 			}
 
 		}
