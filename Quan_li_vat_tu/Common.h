@@ -2,6 +2,7 @@
 #include "Header.h"
 #include "Constant.h"
 
+bool g_page = false, sf_page = false, b_page = false, ss_page = false;
 bool ktVT(int l, int t, int r, int b, int x, int y) {
 	/*cout << l << " " << x << " " << r << "|" << t << " " << y << " " << b << " ";*/
 	if (x <= r && x >= l && y >= t && y <= b) return true;
@@ -19,6 +20,7 @@ void createHeader(char x[][maxTHeader]) {
 	setfillstyle(1, 11);
 	setcolor(0);
 	bar3d(0, 0, 1200, 60,0,0);
+	
 	text_box(50, 10, 250, 50, x[0], f_medium, 3, 10, 56);
 	text_box(350, 10,550 , 50, x[1], f_medium, 3, 10, 43);
 	text_box(650, 10, 850, 50, x[2], f_medium, 3, 10, 35);

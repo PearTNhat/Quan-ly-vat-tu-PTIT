@@ -1,6 +1,7 @@
 #pragma once
 #define maxTHeader  20
 #define HIGHLIGHT_BOX 10
+
 char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","THANH TOAN","THONG KE" };
 
 const int bk_screen = 15;
