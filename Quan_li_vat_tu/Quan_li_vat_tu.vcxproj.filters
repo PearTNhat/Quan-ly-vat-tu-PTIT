@@ -29,7 +29,20 @@
     <ClInclude Include="Constant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="b_phu.h">
+=======
+    <ClInclude Include="Struct_Goods.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct_Staff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Goods_Func.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff_func.h">
+>>>>>>> 668ac23c482177efb454cc0b120c0f38d78f7245
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
