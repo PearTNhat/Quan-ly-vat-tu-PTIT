@@ -3,7 +3,7 @@
 #include "Constant.h"
 #include "Staff_func.h"
 int main() {
-	for (int i = 0; i < 18; i++)
+	for (int i = 0; i < 28; i++)
 	{
 		list_sf.A_staff[i] = new Staff;
 		strcpy_s(list_sf.A_staff[i]->maNV, "hello");

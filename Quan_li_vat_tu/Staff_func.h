@@ -48,7 +48,8 @@ void staff_table(
 	setbkcolor(6);
 	settextstyle(f_small, 0, 1);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
-	outtextxy(55, text_top, sf_table_header[0]);
+	outtextxy(55, text_top, (char *)"STT");
+	outtextxy(95, text_top, sf_table_header[0]);
 	outtextxy(230, text_top, sf_table_header[1]);
 	outtextxy(650, text_top, sf_table_header[2]);
 	outtextxy(900, text_top, sf_table_header[3]);
@@ -86,7 +87,10 @@ void staff_table(
 		// row
 		bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 		// title header
-		writeText(55, text_top, ds.A_staff[i]->maNV);
+		char stt[10];
+		strcpy_s(stt, to_string(i+1).c_str());
+		writeText(55, text_top,stt);
+		writeText(95, text_top, ds.A_staff[i]->maNV);
 		writeText(230, text_top, ds.A_staff[i]->tenNV);
 		writeText(650, text_top, ds.A_staff[i]->phai);
 
