@@ -8,6 +8,6 @@ struct Staff {
 	// ds hd
 };
 struct List_staff {
-	Staff staff[max_staff];
-	int total_staff;
+	Staff *A_staff [500];
+	int length=0;
 };

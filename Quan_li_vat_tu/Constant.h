@@ -1,8 +1,13 @@
 #pragma once
 #define maxTHeader  20
 #define HIGHLIGHT_BOX 10
+#define COLS_SF 10
 
 char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","THANH TOAN","THONG KE" };
+char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};
+
+//staff
+char sf_table_header[4][20] = { "MaNV","Ho Ten","Phai","Chuc nang"};
 
 const int bk_screen = 15;
 const int textColor = 0;
