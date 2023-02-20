@@ -29,16 +29,16 @@
     <ClInclude Include="Constant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Struct_Goods.h">
+    <ClInclude Include="Goods_Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Struct_Staff.h">
+    <ClInclude Include="Staff_Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Goods_Func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Staff_func.h">
+    <ClInclude Include="Staff_Func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
