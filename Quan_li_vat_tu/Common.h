@@ -8,14 +8,24 @@ bool ktVT(int l, int t, int r, int b, int x, int y) {
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }
-void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8) {
-	setcolor(0);
+void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = 11, int tColor = 0) {
+	setcolor(tColor);
 	settextstyle(font, 0, f_size);
-	setfillstyle(1, 11);
+	setfillstyle(1, bg);
 	bar3d(l, t, r, b, 0, 0);
-	setbkcolor(11);
+	setbkcolor(bg);
 	outtextxy(l + d_l, t + d_t, s);
 }
+
+void text_box_no_border(int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = 11, int tColor = 0) {
+	setcolor(tColor);
+	settextstyle(font, 0, f_size);
+	setfillstyle(1, bg);
+	bar(l, t, r, b);
+	setbkcolor(bg);
+	outtextxy(l + d_l, t + d_t, s);
+}
+
 void createHeader(char x[][maxTHeader]) {
 	setfillstyle(1, 11);
 	setcolor(0);
