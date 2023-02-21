@@ -29,6 +29,18 @@
     <ClInclude Include="Constant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Goods_Struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff_Struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Goods_Func.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff_Func.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Ss_page.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -1,10 +1,18 @@
 #include "Header.h"
 #include "Common.h"
 #include "Constant.h"
+#include "Staff_func.h"
 #include "Ss_page.h"
 int main() {
+	for (int i = 0; i < 28; i++)
+	{
+		list_sf.A_staff[i] = new Staff;
+		strcpy_s(list_sf.A_staff[i]->maNV, "hello");
+		strcpy_s(list_sf.A_staff[i]->tenNV, "hello");
+		strcpy_s(list_sf.A_staff[i]->phai, to_string(i).c_str());
+		list_sf.length++;
+	}
 	int x, y;
-	
 	initwindow(1200, 620,"Quan li vat tu");
 	setbkcolor(bk_screen);
 	cleardevice();
@@ -44,7 +52,18 @@ int main() {
 				delete_after_header();
 			}
 			if (sf_page) {
-
+				create_sf_header();
+				staff_table(sf_table_header, list_sf, CURD_o_text, vp_m_sf, edit_sf, delete_sf,COLS_SF);
+				if (ktVT(600, 565, 635, 600, x, y)) {
+					next_page(600, 565, 635, 600,vp_m_sf);
+					delete_after_header();
+					staff_table(sf_table_header, list_sf, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
+				}
+				if (ktVT(525,565,560,600,x,y)) {
+					prev_page(525, 565, 560, 600,vp_m_sf);
+					delete_after_header();
+					staff_table(sf_table_header, list_sf, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
+				}
 			}
 			//Phu
 			if (ktVT(650, 10, 850, 50, x, y)) {
@@ -96,7 +115,7 @@ int main() {
 		}
 		delay(1);
 	}
-
+	delete[] &list_sf.A_staff;
 		getch();
 		closegraph();
 	return 0;
