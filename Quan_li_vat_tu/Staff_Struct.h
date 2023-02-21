@@ -1,13 +1,14 @@
 #pragma once
 #include "Header.h"
-#define max_staff 500
-struct Staff {
+#include "Struct_Bill.h"
+#define MAX_NV 500
+struct NhanVien {
 	char maNV[11];
 	char tenNV[26];
 	char phai[4];
-	// ds hd
+	DS_HoaDon ds_hoadon;
 };
-struct List_staff {
-	Staff *A_staff [500];
+struct DS_NhanVien {
+	NhanVien *nhan_vien[MAX_NV];
 	int length=0;
 };

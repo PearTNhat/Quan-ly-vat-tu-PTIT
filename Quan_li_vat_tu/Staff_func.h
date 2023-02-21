@@ -8,7 +8,7 @@ check_CURD delete_sf[COLS_SF];
 check_CURD edit_sf[COLS_SF];
 view_page vp_m_sf;
 
-List_staff list_sf;
+DS_NhanVien ds_nv;
 
 void create_sf_header() {
 	
@@ -24,7 +24,7 @@ void create_sf_header() {
 }
 void staff_table(
 	char sf_table_header[][20],
-	List_staff ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
+	DS_NhanVien ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
 	char curd_o[][20], // "them sua xoa" // k can co the xoa
 	view_page& view_page,
 	check_CURD edit[],//// k can co the xoa
@@ -90,9 +90,9 @@ void staff_table(
 		char stt[10];
 		strcpy_s(stt, to_string(i+1).c_str());
 		writeText(55, text_top,stt);
-		writeText(95, text_top, ds.A_staff[i]->maNV);
-		writeText(230, text_top, ds.A_staff[i]->tenNV);
-		writeText(650, text_top, ds.A_staff[i]->phai);
+		writeText(95, text_top, ds.nhan_vien[i]->maNV);
+		writeText(230, text_top, ds.nhan_vien[i]->tenNV);
+		writeText(650, text_top, ds.nhan_vien[i]->phai);
 
 		//------------- k can cos the xoa
 		text_box(900, text_top, 978, text_top + 22, curd_o[0], f_small, 1, 1,2);

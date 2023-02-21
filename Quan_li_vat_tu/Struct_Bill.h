@@ -1,31 +1,34 @@
-#pragma once
+﻿#pragma once
 #include"Header.h"
-
-struct Chitiethoadon
+struct Date {
+	int ngay;
+	int thang;
+	int nam;
+};
+struct CT_HoaDon
 {
 	char MAVT[11];
 	int Soluong;
 	int Dongia;
-	int VAT;
+	float VAT;
 	int TrangThai;
 };
 
-struct Hoadon
+struct HoaDon
 {
 	char SoHD[21];
-	char Ngaylaphoadon[10];
+	Date date;
 	char Loai[2];
-
 };
 
-struct Link_list_Hoadon
+struct DS_HoaDon
 {
-	Hoadon hoadon;
-	Link_list_Hoadon* node;
+	HoaDon hoadon;
+	DS_HoaDon* next;
 };
 
-struct Link_list_Chitiethd
+struct DS_CTHoaDon
 {
-	Chitiethoadon chitiethoadon;
-	Link_list_Chitiethd* node;
+	CT_HoaDon ct_hoadon;
+	DS_CTHoaDon* next;
 };
