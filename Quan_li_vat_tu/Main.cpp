@@ -2,6 +2,7 @@
 #include "Common.h"
 #include "Constant.h"
 #include "Staff_func.h"
+#include"b_phu.h"
 int main() {
 	for (int i = 0; i < 28; i++)
 	{
@@ -25,7 +26,7 @@ int main() {
 			line(x, y, x + 20, y);
 			//code
 			//Nhat
-			
+			batdau:
 			//vat tu 
 			if (ktVT(50, 10, 250, 50, x,y)) {
 				createHeader(header_title);
@@ -74,7 +75,10 @@ int main() {
 				delete_after_header();
 			}
 			if (b_page) {
-
+				b_create_menu_title();
+				b_ktVT(x, y);
+				b_page = false;
+				goto batdau;
 
 
 			}
