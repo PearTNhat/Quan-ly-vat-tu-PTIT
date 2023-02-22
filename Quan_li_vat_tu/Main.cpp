@@ -12,6 +12,7 @@ int main() {
 		strcpy_s(ds_nv.nhan_vien[i]->phai, to_string(i).c_str());
 		ds_nv.length++;
 	}
+	string demo = ""; // bien nay chi la test thoi
 	int x, y;
 	initwindow(1200, 620,"Quan li vat tu");
 	setbkcolor(bk_screen);
@@ -20,11 +21,9 @@ int main() {
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
-			// phat hien click chuot
 			cout << "\nvi tri x:" << x << " - vi tri y:" << y << endl;
-			// duong nay giup thay vi tri click
 			line(x, y, x + 20, y);
-			//code
+			//------------------------
 			//Nhat
 			batdau:
 			//vat tu 
@@ -38,7 +37,11 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-
+				bar3d(100, 200, 300, 250, 0, 0);
+				if (ktVT(100, 200, 300, 250, x,y)) {
+					string s = input(100, 200, 300, 250, 5, 5, 5, 30,50,demo, 10);
+					demo = s;
+				}
 			}
 			// nhan vien
 			if (ktVT(350, 10, 550, 50, x, y)) {
@@ -53,13 +56,13 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf,COLS_SF);
-				if (ktVT(600, 565, 635, 600, x, y)) {
-					next_page(600, 565, 635, 600,vp_m_sf);
+				if (ktVT(650, 565, 685, 600, x, y)) {
+					next_page(650, 565, 685, 600,vp_m_sf);
 					delete_after_header();
 					staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
 				}
-				if (ktVT(525,565,560,600,x,y)) {
-					prev_page(525, 565, 560, 600,vp_m_sf);
+				if (ktVT(495,565,530,600,x,y)) {
+					prev_page(495, 565, 530, 600,vp_m_sf);
 					delete_after_header();
 					staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
 				}
