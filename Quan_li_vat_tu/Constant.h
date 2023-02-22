@@ -6,7 +6,7 @@
 #define HEADER_TEXT_COLOR 15
 #define COLS_SF 10
 // input
-#define I_BG 15 // màu nền  khi enter nhập xong
+#define I_BG COLOR(51, 73, 96) // màu nền  khi enter nhập xong
 #define I_HIGHLIGHT COLOR(226, 205, 247) // highlight khi click vào
 #define I_COLOR 0 // màu chữ
 #define I_ERROR_COLOR COLOR(255,0,0) // màu của chữ khi báo lỗi
