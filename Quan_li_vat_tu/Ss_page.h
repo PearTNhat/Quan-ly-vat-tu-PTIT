@@ -5,10 +5,6 @@
 
 char title[5][MAXTITLE] = { "Top", "Ma VT", "Ten Vat Tu", "Don Vi Tinh", "Doanh Thu" };
 
-//void create_table(int col, int row, char title[][MAXTITLE], int start_x, int start_y, int margin) {
-//	int i;
-//	for (int i)
-//}
 
 void create_ss_header() {
 	setfillstyle(1, 15);
@@ -54,17 +50,17 @@ void create_ss_search(bool isBill) {
 	bar3d(800, 360, 900, 395, 0, 0);
 }
 
-//void table_top_10_vattu() {
-//	setfillstyle(1, 15);
-//	setcolor(0);
-//	bar3d(110, 130, 1090, 590, 0, 0);
-//
-//	// thanh tieu de
-//	setfillstyle(1, COLOR(4, 169, 109));
-//	setcolor(15);
-//	text_box_no_border(200, 140, 1000, 185, (char*)"DANH SACH TOP 10 VAT TU DOANH THU CAO NHAT", 8, 3, 10, 100, COLOR(4, 170, 109), 15);
-//	
-//	// Bang top 10 vat tu
-//
-//}
+void table_top_10_vattu() {
+	setfillstyle(1, 15);
+	setcolor(0); 
+	bar3d(110, 130, 1090, 590, 0, 0);
+
+	// thanh tieu de
+	setfillstyle(1, COLOR(4, 169, 109));
+	setcolor(15);
+	text_box_no_border(200, 140, 1000, 185, (char*)"DANH SACH TOP 10 VAT TU DOANH THU CAO NHAT", 8, 3, 10, 100, COLOR(4, 170, 109), 15);
+	
+	// Bang top 10 vat tu
+
+}
 
