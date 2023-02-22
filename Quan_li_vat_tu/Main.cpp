@@ -2,15 +2,16 @@
 #include "Common.h"
 #include "Constant.h"
 #include "Staff_func.h"
+#include"b_phu.h"
 #include "Ss_page.h"
 int main() {
 	for (int i = 0; i < 28; i++)
 	{
-		list_sf.A_staff[i] = new Staff;
-		strcpy_s(list_sf.A_staff[i]->maNV, "hello");
-		strcpy_s(list_sf.A_staff[i]->tenNV, "hello");
-		strcpy_s(list_sf.A_staff[i]->phai, to_string(i).c_str());
-		list_sf.length++;
+		ds_nv.nhan_vien[i] = new NhanVien;
+		strcpy_s(ds_nv.nhan_vien[i]->maNV, "hello");
+		strcpy_s(ds_nv.nhan_vien[i]->tenNV, "hello");
+		strcpy_s(ds_nv.nhan_vien[i]->phai, to_string(i).c_str());
+		ds_nv.length++;
 	}
 	int x, y;
 	initwindow(1200, 620,"Quan li vat tu");
@@ -27,7 +28,7 @@ int main() {
 			//code
 			start:
 			//Nhat
-			
+			batdau:
 			//vat tu 
 			if (ktVT(50, 10, 250, 50, x,y)) {
 				createHeader(header_title);
@@ -53,16 +54,16 @@ int main() {
 			}
 			if (sf_page) {
 				create_sf_header();
-				staff_table(sf_table_header, list_sf, CURD_o_text, vp_m_sf, edit_sf, delete_sf,COLS_SF);
+				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf,COLS_SF);
 				if (ktVT(600, 565, 635, 600, x, y)) {
 					next_page(600, 565, 635, 600,vp_m_sf);
 					delete_after_header();
-					staff_table(sf_table_header, list_sf, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
+					staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
 				}
 				if (ktVT(525,565,560,600,x,y)) {
 					prev_page(525, 565, 560, 600,vp_m_sf);
 					delete_after_header();
-					staff_table(sf_table_header, list_sf, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
+					staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
 				}
 			}
 			//Phu
@@ -76,7 +77,10 @@ int main() {
 				delete_after_header();
 			}
 			if (b_page) {
-
+				b_create_menu_title();
+				b_ktVT(x, y);
+				b_page = false;
+				goto batdau;
 
 
 			}
@@ -115,7 +119,7 @@ int main() {
 		}
 		delay(1);
 	}
-	delete[] &list_sf.A_staff;
+	delete[] &ds_nv.length;
 		getch();
 		closegraph();
 	return 0;
