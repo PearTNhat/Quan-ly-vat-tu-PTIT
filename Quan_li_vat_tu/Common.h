@@ -48,12 +48,12 @@ void createHeader(char x[][maxTHeader]) {
 	text_box(650, 10, 850, 50, x[2], f_medium, 3, 10, 35);
 	text_box(950, 10, 1150, 50, x[3], f_medium, 3, 10, 45);
 }
-void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,int kct, int kcl, int color=0) {
+void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,int kct, int kcl, int bg= HIGHLIGHT_BACKGROUND, int color=0) {
 	setcolor(color);
 	settextstyle(font, 0, f_size);
-	setfillstyle(1, HIGHLIGHT_BACKGROUND);
+	setfillstyle(1, bg);
 	bar3d(l, t, r, b, 0, 0);
-	setbkcolor(HIGHLIGHT_BACKGROUND);
+	setbkcolor(bg);
 	outtextxy(l + kcl, t + kct, s);
 }
 void writeText(int x, int y, char text[], int size=1,int tColor=0,int font = f_small,int bg=bk_screen) {
