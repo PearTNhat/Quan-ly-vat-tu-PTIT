@@ -130,7 +130,7 @@ bool only_letter(char x) {
 	if (x >= 'A' && x <= 'Z') {
 		return true;
 	}
-	else if (x == 8 || x == 13) {
+	else if (x == 8 || x == 13 || x==' ') {
 		return true;
 	}
 	return false;
