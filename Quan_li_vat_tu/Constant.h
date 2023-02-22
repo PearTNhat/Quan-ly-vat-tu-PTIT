@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 #define maxTHeader  20
 #define HIGHLIGHT_BOX 10
 #define COLS_SF 10
 // input
-#define I_BG 15
-#define I_HIGHLIGHT COLOR(226, 205, 247)
-#define I_COLOR 0
-#define I_ERROR_COLOR COLOR(255,0,0)
+#define I_BG 15 // màu nền  khi enter nhập xong
+#define I_HIGHLIGHT COLOR(226, 205, 247) // highlight khi click vào
+#define I_COLOR 0 // màu chữ
+#define I_ERROR_COLOR COLOR(255,0,0) // màu của chữ khi báo lỗi
 
 char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","THANH TOAN","THONG KE" };
 char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};

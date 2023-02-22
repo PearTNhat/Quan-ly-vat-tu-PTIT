@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Header.h"
 #include "Constant.h"
 
@@ -223,7 +223,7 @@ string input(
 					input += "_";
 				}
 				if (input.length() > 2) {
-					// kiem tra 2 dau cach thi xoa
+					// kiem tra 2 dau cách, .  thi xoa
 					int n = input.length();
 					if ((input[n - 2] == input[n - 3]) && (input[n - 2] == ' ' || input[n - 2] == '.')) {
 						input.erase(input.end() - 2);
@@ -238,6 +238,7 @@ string input(
 				outtextxy(l + kcl, t + kct, result);
 				cout << "input: " << input << endl;
 				if (key == 13) {
+					//enter để break
 					key_enter = true;
 					input.erase(input.end() - 1);
 					strcpy_s(result, input.c_str());
