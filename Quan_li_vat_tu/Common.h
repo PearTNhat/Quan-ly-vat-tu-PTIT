@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Header.h"
 #include "Constant.h"
 
@@ -67,10 +67,11 @@ void delete_after_header() {
 	bar(0, 60, 1200, 900);
 }
 void page_transition(view_page& view_page) {
-	int l_arrow_l = 525, t_arrow_l = 565, r_arrow_l = 560, b_arrow_l = 600;
-	int l_arrow_r = 600, t_arrow_r = 565, r_arrow_r = 635, b_arrow_r = 600;
-	string s = to_string(view_page.current);
-	char num_p[2];
+	int l_arrow_l = 495, t_arrow_l = 565, r_arrow_l = 530, b_arrow_l = 600;
+	int l_arrow_r = 650, t_arrow_r = 565, r_arrow_r = 685, b_arrow_r = 600;
+	
+	string s = to_string(view_page.current) + " / " + to_string(view_page.page);
+	char num_p[10];
 	strcpy_s(num_p, s.c_str());
 	setbkcolor(bk_screen);
 	settextstyle(f_small, 0, 2);
@@ -107,9 +108,9 @@ void next_page(int l, int t, int r, int b, view_page& check_page,int _delay=200 
 	}
 	else {
 		check_page.current++;
+		highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l, color, bg);
+		delay(_delay);
 	}
-	highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l, color, bg);
-	delay(_delay);
 }
 void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200,int d_t = 5, int d_l = 10,int bg = 10, int color = 0) {
 	int current = check_page.current;
@@ -119,7 +120,150 @@ void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 	}
 	else {
 		check_page.current--;
+		highlight_box(l, t, r, b, (char*)"<", f_medium, 3,d_t,d_l,color,bg);
+		delay( _delay);
 	}
-	highlight_box(l, t, r, b, (char*)"<", f_medium, 3,d_t,d_l,color,bg);
-	delay( _delay);
+}bool only_number(char x) {
+
+	if (x >= '0' && x <= '9') {
+		return true;
+	}
+	else if (x == 8 || x == 13) {
+		return true;
+	}
+	return false;
+}
+bool only_letter(char x) {
+	if (x >= 'a' && x <= 'z') {
+		return true;
+	}
+	if (x >= 'A' && x <= 'Z') {
+		return true;
+	}
+	else if (x == 8 || x == 13) {
+		return true;
+	}
+	return false;
+}
+bool decimal_number(char x) {
+
+	if (x >= '0' && x <= '9') {
+		return true;
+	}
+	else if (x == 8 || x == 13 || x == '.') {
+		return true;
+	}
+	return false;
+}
+bool kt_KTu(char x) {
+	if (x >= 'a' && x <= 'z') {
+		return true;
+	}
+	if (x >= 'A' && x <= 'Z') {
+		return true;
+	}
+	else if (x >= '0' && x <= '9') {
+		return true;
+	}
+	else if (x == '/' || x == '\\' || x == 8 || x == 13 || x == ' ' || x == '.') {
+		return true;
+	}
+	return false;
+}
+string input(
+		int l, int t, int r, int b,
+		int kcl, int kct,// can chinh vi tri input
+		int e_kcl,int e_kct,int e_length=50, // can chinh bao loi
+		string value = "", int max_value = 255, int type = NULL
+	) {
+	bool key_enter = false;
+	string input = value;
+	input += "_";
+	char result[255] = {};
+	strcpy_s(result, input.c_str());
+	settextstyle(f_medium, 0, 1);
+	setfillstyle(1, I_HIGHLIGHT);
+	bar3d(l, t, r, b, 0, 0);
+	setcolor(I_COLOR);
+	setbkcolor(I_HIGHLIGHT);
+	outtextxy(l + kcl, t + kct, result);
+	while (!key_enter) {
+		while (kbhit()) {
+			char key = (char)getch();
+			bool check_key;
+			if (type == 1) {
+				check_key = only_number(key);
+			}
+			else if (type == 2) {
+				check_key = decimal_number(key);
+			}
+			else if (type == 3) {
+				check_key = only_letter(key);
+			}
+			else {
+				check_key = kt_KTu(key);
+			}
+			if (check_key) {
+				if (key == 8) {// <- backspace xoa
+					if (input.length() == 1) {
+
+					}
+					else {
+						input.erase(input.end() - 2);
+					}
+				}
+				else if (key != 13) {
+					if (input.length() == (max_value + 1)) {
+						string s = "Toi da chi co ";
+						s += to_string(max_value);
+						s += " ki tu.";
+						char m[30];
+						strcpy_s(m, s.c_str());
+						setcolor(I_ERROR_COLOR);
+						setbkcolor(I_BG);
+						settextstyle(f_medium, 0, 1);
+						outtextxy(l + e_kcl, t + e_kct, m);
+						settextstyle(f_medium, 0, 1);
+						setbkcolor(I_HIGHLIGHT);
+						setcolor(0);
+						continue;
+					}
+					input.erase(input.end() - 1);
+					input += key;
+					input += "_";
+				}
+				if (input.length() > 2) {
+					// kiem tra 2 dau cách, .  thi xoa
+					int n = input.length();
+					if ((input[n - 2] == input[n - 3]) && (input[n - 2] == ' ' || input[n - 2] == '.')) {
+						input.erase(input.end() - 2);
+					}
+				}
+				strcpy_s(result, input.c_str());
+				setfillstyle(1, I_BG);
+				bar(l + e_kcl, t+e_kct ,r+ e_length, b + 10);// xoa canh bao
+				setfillstyle(1, I_HIGHLIGHT);
+
+				bar3d(l, t, r, b, 0, 0);
+				outtextxy(l + kcl, t + kct, result);
+				cout << "input: " << input << endl;
+				if (key == 13) {
+					//enter để break
+					key_enter = true;
+					input.erase(input.end() - 1);
+					strcpy_s(result, input.c_str());
+					cout << "result:" << result << endl;
+					setfillstyle(1, 15);
+					setbkcolor(15);
+					bar3d(l, t, r, b, 0, 0);
+					outtextxy(l + kcl, t + kct, result);
+				}
+			}
+			else {
+				cout << "ki tu k hop le" << endl;
+			}
+		}
+		delay(1);
+	}
+	return input;
 }
