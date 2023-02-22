@@ -3,6 +3,7 @@
 #include "Constant.h"
 #include "Staff_func.h"
 #include"b_phu.h"
+#include "Ss_page.h"
 int main() {
 	for (int i = 0; i < 28; i++)
 	{
@@ -24,6 +25,8 @@ int main() {
 			cout << "\nvi tri x:" << x << " - vi tri y:" << y << endl;
 			line(x, y, x + 20, y);
 			//------------------------
+			//code
+			start:
 			//Nhat
 			batdau:
 			//vat tu 
@@ -96,7 +99,25 @@ int main() {
 				delete_after_header();
 			}
 			if (ss_page) {
-
+				create_ss_header();
+				while (1) {
+					if (ismouseclick(WM_LBUTTONDOWN)) {
+						getmouseclick(WM_LBUTTONDOWN, x, y);
+						if (ktVT(15, 70, 310, 110, x, y)) {
+							create_ss_header();
+							highlight_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40);
+							create_ss_search(1);
+						}
+						if (ktVT(320, 70, 565, 110, x, y)) {
+							create_ss_header();
+							highlight_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 3, 10, 40);
+							create_ss_search(0);
+						}
+						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y))
+							goto start;
+					}
+				}
+				//table_top_10_vattu();
 			}
 
 		}
