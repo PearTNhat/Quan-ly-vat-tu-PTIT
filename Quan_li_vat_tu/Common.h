@@ -20,7 +20,7 @@ bool ktVT(int l, int t, int r, int b, int x, int y) {
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }
-void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8,int bg=COLOR(11, 172, 173), int tColor = 15) {
+void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8,int bg=XANH_NHAT, int tColor = 15) {
 	setcolor(tColor);
 	settextstyle(font, 0, f_size);
 	setfillstyle(1, bg);
@@ -48,12 +48,12 @@ void createHeader(char x[][maxTHeader]) {
 	text_box(650, 10, 850, 50, x[2], f_medium, 3, 10, 35);
 	text_box(950, 10, 1150, 50, x[3], f_medium, 3, 10, 45);
 }
-void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,int kct, int kcl,int gb= HIGHLIGHT_BACKGROUND, int color=0) {
+void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,int kct, int kcl,int bg= HIGHLIGHT_BACKGROUND, int color=0) {
 	setcolor(color);
 	settextstyle(font, 0, f_size);
-	setfillstyle(1, gb);
+	setfillstyle(1, bg);
 	bar3d(l, t, r, b, 0, 0);
-	setbkcolor(gb);
+	setbkcolor(bg);
 	outtextxy(l + kcl, t + kct, s);
 }
 void writeText(int x, int y, char text[], int size=1,int tColor=0,int font = f_small,int bg=bk_screen) {
@@ -106,7 +106,7 @@ void next_page(int l, int t, int r, int b, view_page& check_page,int _delay=200 
 		delay(_delay);
 	}
 }
-void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200,int d_t = 5, int d_l = 10,int bg = 10, int color = 0) {
+void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200,int d_t = 5, int d_l = 10,int bg = HEADER_BACKGROUND, int color = 10) {
 	int current = check_page.current;
 	int total_page = check_page.page;
 	if (current <=1) {
@@ -114,7 +114,7 @@ void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 	}
 	else {
 		check_page.current--;
-		highlight_box(l, t, r, b, (char*)"<", f_medium, 3,d_t,d_l,color,bg);
+		highlight_box(l, t, r, b, (char*)"<", f_medium, 3,d_t,d_l,bg,color);
 		delay( _delay);
 	}
 }bool only_number(char x) {
