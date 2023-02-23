@@ -26,6 +26,7 @@ int main() {
 			line(x, y, x + 20, y);
 			//------------------------
 			//code
+			s_start:
 			start:
 			//Nhat
 			batdau:
@@ -58,16 +59,33 @@ int main() {
 			}
 			if (sf_page) {
 				create_sf_header();
-				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf,COLS_SF);
-				if (ktVT(650, 565, 685, 600, x, y)) {
-					next_page(650, 565, 685, 600,vp_m_sf);
-					delete_after_header();
-					staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
-				}
-				if (ktVT(495,565,530,600,x,y)) {
-					prev_page(495, 565, 530, 600,vp_m_sf);
-					delete_after_header();
-					staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
+				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
+				while (1) { // chong rerender k can thiet
+					if (ismouseclick(WM_LBUTTONDOWN)) {
+						getmouseclick(WM_LBUTTONDOWN, x, y);
+						if (ktVT(650, 565, 685, 600, x, y)) {
+							if (vp_m_sf.current == vp_m_sf.page) {
+								continue;
+							}
+							next_page(650, 565, 685, 600,vp_m_sf);
+							delete_after_header();
+							staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
+						}
+						if (ktVT(495,565,530,600,x,y)) {
+							if (vp_m_sf.current==1) {
+								continue;
+							}
+							prev_page(495, 565, 530, 600,vp_m_sf);
+							delete_after_header();
+							staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
+						}
+						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
+							sf_page = false;
+							goto s_start;
+						}
+					}
+					delay(1);
+
 				}
 			}
 			//Phu
