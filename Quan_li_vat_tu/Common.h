@@ -20,7 +20,7 @@ bool ktVT(int l, int t, int r, int b, int x, int y) {
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }
-void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8,int bg=COLOR(11, 172, 173), int tColor = 15) {
+void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8,int bg=XANH_NHAT, int tColor = 15) {
 	setcolor(tColor);
 	settextstyle(font, 0, f_size);
 	setfillstyle(1, bg);
@@ -48,7 +48,7 @@ void createHeader(char x[][maxTHeader]) {
 	text_box(650, 10, 850, 50, x[2], f_medium, 3, 10, 35);
 	text_box(950, 10, 1150, 50, x[3], f_medium, 3, 10, 45);
 }
-void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,int kct, int kcl, int bg= HIGHLIGHT_BACKGROUND, int color=0) {
+void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,int kct, int kcl,int bg= HIGHLIGHT_BACKGROUND, int color=0) {
 	setcolor(color);
 	settextstyle(font, 0, f_size);
 	setfillstyle(1, bg);
@@ -80,27 +80,21 @@ void page_transition(view_page& view_page) {
 	char arrow_right[] = ">";
 	if (view_page.current == 1) {
 		//>
-		setbkcolor(11);
-		settextstyle(f_small, 0, 3);
-		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10, 11);
+		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5,10);
 
 	}
 	else if (view_page.current == view_page.page) {
 		//<
-		setbkcolor(11);
-		settextstyle(f_small, 0, 3);
-		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10, 11);
+		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5,10);
 	}
 	else  {
-		//< >
-		settextstyle(f_small, 0, 3);
-		setbkcolor(11);
-		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10, 11);
-		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10, 11);
+		//<  >
+		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10);
+		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10);
 
 	}
 }
-void next_page(int l, int t, int r, int b, view_page& check_page,int _delay=200 ,int d_t=5,int d_l=10 ,int bg = 10, int color = 0) {
+void next_page(int l, int t, int r, int b, view_page& check_page,int _delay=200 ,int d_t=5,int d_l=10 ,int bg = HEADER_BACKGROUND, int color = 10) {
 	int current = check_page.current;
 	int total_page = check_page.page;
 	if (current >= total_page) {
@@ -108,11 +102,11 @@ void next_page(int l, int t, int r, int b, view_page& check_page,int _delay=200 
 	}
 	else {
 		check_page.current++;
-		highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l, color, bg);
+		highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l,bg,color );
 		delay(_delay);
 	}
 }
-void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200,int d_t = 5, int d_l = 10,int bg = 10, int color = 0) {
+void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200,int d_t = 5, int d_l = 10,int bg = HEADER_BACKGROUND, int color = 10) {
 	int current = check_page.current;
 	int total_page = check_page.page;
 	if (current <=1) {
@@ -120,7 +114,7 @@ void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 	}
 	else {
 		check_page.current--;
-		highlight_box(l, t, r, b, (char*)"<", f_medium, 3,d_t,d_l,color,bg);
+		highlight_box(l, t, r, b, (char*)"<", f_medium, 3,d_t,d_l,bg,color);
 		delay( _delay);
 	}
 }bool only_number(char x) {
@@ -140,7 +134,7 @@ bool only_letter(char x) {
 	if (x >= 'A' && x <= 'Z') {
 		return true;
 	}
-	else if (x == 8 || x == 13) {
+	else if (x == 8 || x == 13 || x==' ') {
 		return true;
 	}
 	return false;
@@ -214,7 +208,7 @@ string input(
 				}
 				else if (key != 13) {
 					if (input.length() == (max_value + 1)) {
-						string s = "Toi da chi co ";
+						string s = "Toi da la ";
 						s += to_string(max_value);
 						s += " ki tu.";
 						char m[30];
