@@ -85,6 +85,7 @@ void staff_table(
 		// --------------------------------- xuong day
 		
 		// row
+		setcolor(0);
 		bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 		// title header
 		char stt[10];
