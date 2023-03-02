@@ -20,7 +20,7 @@ bool ktVT(int l, int t, int r, int b, int x, int y) {
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }
-void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8,int bg=XANH_NHAT, int tColor = 15) {
+void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8,int bg=XANH_DUONG_NHAT, int tColor = 15) {
 	setcolor(tColor);
 	settextstyle(font, 0, f_size);
 	setfillstyle(1, bg);
