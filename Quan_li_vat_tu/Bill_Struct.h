@@ -17,7 +17,7 @@ struct CT_HoaDon
 	float VAT;
 	int TrangThai;
 };
-
+//123
 
 struct HoaDon
 {
