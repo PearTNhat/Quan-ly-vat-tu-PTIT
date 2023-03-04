@@ -215,6 +215,7 @@ string input(
 						setcolor(I_COLOR);
 						continue;
 					}
+					// them chữ vào input
 					input.erase(input.end() - 1);
 					input += key;
 					input += "_";
