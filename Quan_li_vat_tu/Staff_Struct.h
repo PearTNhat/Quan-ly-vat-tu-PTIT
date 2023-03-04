@@ -1,6 +1,6 @@
 #pragma once
 #include "Header.h"
-#include "Struct_Bill.h"
+#include "Bill_Struct.h"
 #define MAX_NV 500
 struct NhanVien {
 	char maNV[11];
