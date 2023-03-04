@@ -175,15 +175,11 @@ string input(
 	input += "_";
 	char result[255] = {};
 	strcpy_s(result, input.c_str());
-	settextstyle(f_medium, 0, 1);
-	setfillstyle(1, I_HIGHLIGHT);
-	bar3d(l, t, r, b, 0, 0);
-	setcolor(I_COLOR);
-	setbkcolor(I_HIGHLIGHT);
-	outtextxy(l + kcl, t + kct, result);
+	text_box(l, t, r, b, (char*)"", f_medium, 1, 0, 0, I_HIGHLIGHT, I_COLOR); // vẽ khung input
+	writeText(l + kcl, t + kct, result,1, I_COLOR, f_medium, I_HIGHLIGHT); // chữ trong input
 	while (!key_enter) {
 		while (kbhit()) {
-			char key = (char)getch();
+			char key = (char)getch(); // nhận key từ bàn phím
 			bool check_key;
 			if (type == 1) {
 				check_key = only_number(key);
@@ -211,15 +207,12 @@ string input(
 						string s = "Toi da la ";
 						s += to_string(max_value);
 						s += " ki tu.";
-						char m[30];
+						char m[255];
 						strcpy_s(m, s.c_str());
-						setcolor(I_ERROR_COLOR);
-						setbkcolor(I_BG);
-						settextstyle(f_medium, 0, 1);
-						outtextxy(l + e_kcl, t + e_kct, m);
-						settextstyle(f_medium, 0, 1);
+						writeText(l + e_kcl, t + e_kct, m, 1, I_ERROR_COLOR, f_medium, I_BG);
+						// reset lai mau
 						setbkcolor(I_HIGHLIGHT);
-						setcolor(0);
+						setcolor(I_COLOR);
 						continue;
 					}
 					input.erase(input.end() - 1);
@@ -234,11 +227,13 @@ string input(
 					}
 				}
 				strcpy_s(result, input.c_str());
+				//---xoa canh bao
 				setfillstyle(1, I_BG);
-				bar(l + e_kcl, t+e_kct ,r+ e_length, b + 10);// xoa canh bao
+				bar(l + e_kcl, t+e_kct ,r + e_length, b + 10);
+				//-- xoa đề render lại từ đầu
 				setfillstyle(1, I_HIGHLIGHT);
-
 				bar3d(l, t, r, b, 0, 0);
+				//-- ghi chữ lại
 				outtextxy(l + kcl, t + kct, result);
 				cout << "input: " << input << endl;
 				if (key == 13) {
@@ -247,10 +242,11 @@ string input(
 					input.erase(input.end() - 1);
 					strcpy_s(result, input.c_str());
 					cout << "result:" << result << endl;
+
+					// enter  xong vẫn để lại chữ
 					setfillstyle(1, 15);
-					setbkcolor(15);
 					bar3d(l, t, r, b, 0, 0);
-					outtextxy(l + kcl, t + kct, result);
+					writeText(l + kcl, t + kct, result,1,I_COLOR,f_medium,15);
 				}
 			}
 			else {
@@ -260,4 +256,15 @@ string input(
 		delay(1);
 	}
 	return input;
+}
+bool announce_board(int kcl=0, int kct=0,int bg= COLOR(232, 246, 250)) { // 200 //400 
+
+	setfillstyle(1, bg);
+	bar3d(420, 210, 780, 410, 0, 0);
+	writeText(450+kcl, 280+kct, (char*)"Ban co muon xoa khong?", 1, 0,f_medium, bg);
+	text_box(500, 345, 570, 370, (char*)"Co", f_medium, 1, 5, 20, bg, 0);
+	text_box(610, 345, 680, 370, (char*)"Khong", f_medium, 1, 5, 6, bg, 0);
+	text_box(750, 210, 780, 240,(char*)"X",f_medium,1,7,9,COLOR(255, 21, 0), 0);
+
+	return 0;
 }

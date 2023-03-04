@@ -14,11 +14,18 @@ struct CT_HoaDon
 	int TrangThai;
 };
 
+struct DS_CTHoaDon
+{
+	CT_HoaDon ct_hoadon;
+	DS_CTHoaDon* next;
+};
+
 struct HoaDon
 {
 	char SoHD[21];
 	Date date;
 	char Loai[2];
+	DS_CTHoaDon ds_ctHoaDon;
 };
 
 struct DS_HoaDon
@@ -27,8 +34,3 @@ struct DS_HoaDon
 	DS_HoaDon* next;
 };
 
-struct DS_CTHoaDon
-{
-	CT_HoaDon ct_hoadon;
-	DS_CTHoaDon* next;
-};
