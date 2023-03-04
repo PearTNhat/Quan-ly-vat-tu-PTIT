@@ -3,7 +3,7 @@
 #include "Constant.h"
 #include "Staff_func.h"
 #include "Goods_Func.h"
-#include"b_phu.h"
+#include "Bill_Func.h"
 #include "Ss_page.h"
 
 int main() {

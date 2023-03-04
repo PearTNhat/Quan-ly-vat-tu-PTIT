@@ -41,10 +41,10 @@
     <ClInclude Include="Staff_Func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="b_phu.h">
+    <ClInclude Include="Bill_Func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Struct_Bill.h">
+    <ClInclude Include="Bill_Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ss_page.h">

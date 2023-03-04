@@ -142,7 +142,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="b_phu.h" />
+    <ClInclude Include="Bill_Func.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="Goods_Func.h" />
     <ClInclude Include="Goods_tree.h" />
@@ -151,7 +151,7 @@
     <ClInclude Include="Staff_Func.h" />
     <ClInclude Include="Goods_Struct.h" />
     <ClInclude Include="Staff_Struct.h" />
-    <ClInclude Include="Struct_Bill.h" />
+    <ClInclude Include="Bill_Struct.h" />
     <ClInclude Include="Ss_page.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
