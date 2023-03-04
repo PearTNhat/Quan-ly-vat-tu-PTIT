@@ -2,6 +2,9 @@
 #include "Header.h"
 #include "Common.h"
 #include "Constant.h"
+void create_g_header();
+void goods_infor(); // edit insert
+
 void create_g_header() {
 	setfillstyle(1, 15);
 	setcolor(0);
