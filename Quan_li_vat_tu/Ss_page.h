@@ -7,12 +7,11 @@ char title[5][MAXTITLE] = { "Top", "Ma VT", "Ten Vat Tu", "Don Vi Tinh", "Doanh 
 
 
 void create_ss_header() {
-	setfillstyle(1, 15);
+	setfillstyle(1, HEADER_BACKGROUND);
 	setcolor(0);
 	bar3d(10, 65, 1180, 115, 0, 0);
-
-	text_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, bk_screen);
-	text_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 3, 10, 40, bk_screen);
+	text_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
+	text_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
 }
 
 void create_ss_search(bool isBill) {

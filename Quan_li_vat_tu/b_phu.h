@@ -14,9 +14,9 @@ void b_create_menu_title()
 	setfillstyle(1, bk_screen);
 	setcolor(0);
 	bar3d(10, 65, 1180, 115, 0, 0);
-	text_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 11);
-	text_box(350, 70, 645, 110, (char*)"Tra hang", f_medium, 3, 10, 40, 11);
-	text_box(685, 70, 980, 110, (char*)"In hoa don", f_medium, 3, 10, 40, 11);
+	text_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
+	text_box(350, 70, 645, 110, (char*)"Tra hang", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
+	text_box(685, 70, 980, 110, (char*)"In hoa don", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
 
 	b_taokhung(10, 120, 1180, 600);
 }
