@@ -5,9 +5,10 @@
 #define HEADER_BACKGROUND COLOR(51, 73, 96)
 #define HEADER_TEXT_COLOR 15
 //
-#define COLS_SF 10
+#define ROW_STAFF 10
 //color infor staff good
 #define COLOR_INFOR_SG COLOR(186, 245, 223)
+
 // input
 #define I_BG COLOR(51, 73, 96) // màu nền  khi enter nhập xong
 #define I_HIGHLIGHT COLOR(226, 205, 247) // highlight khi click vào

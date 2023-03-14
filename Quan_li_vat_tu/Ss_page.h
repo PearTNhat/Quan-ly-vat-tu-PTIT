@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.h";
+
 #define MAXTITLE 25
 
 char title[5][MAXTITLE] = { "Top", "Ma VT", "Ten Vat Tu", "Don Vi Tinh", "Doanh Thu" };

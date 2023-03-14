@@ -14,6 +14,7 @@ struct check_CURD {
 	int b;
 	int n; // luu so luong can check // o vi tri so index = 0 //  
 };
+int i_CURD = -1;
 
 bool ktVT(int l, int t, int r, int b, int x, int y) {
 	/*cout << l << " " << x << " " << r << "|" << t << " " << y << " " << b << " ";*/
@@ -165,18 +166,23 @@ bool kt_KTu(char x) {
 	return false;
 }
 string input(
-		int l, int t, int r, int b,
-		int kcl, int kct,// can chinh vi tri input
-		int e_kcl,int e_kct,int e_length=50, // can chinh bao loi
-		string value = "", int max_value = 255, int type = NULL
+	int l, int t, int r, int b,
+	int kcl, int kct,// can chinh vi tri input
+	int e_kcl, int e_kct, int e_length = 50, // can chinh bao loi
+	string value = "", int max_value = 255, int type = NULL,
+	int i_bg = I_BG,
+	int i_highlight = I_HIGHLIGHT,
+	int i_color = I_COLOR,
+	int i_error_color= I_ERROR_COLOR
+
 	) {
 	bool key_enter = false;
 	string input = value;
 	input += "_";
 	char result[255] = {};
 	strcpy_s(result, input.c_str());
-	text_box(l, t, r, b, (char*)"", f_medium, 1, 0, 0, I_HIGHLIGHT, I_COLOR); // vẽ khung input
-	writeText(l + kcl, t + kct, result,1, I_COLOR, f_medium, I_HIGHLIGHT); // chữ trong input
+	text_box(l, t, r, b, (char*)"", f_medium, 1, 0, 0, i_highlight, i_color); // vẽ khung input
+	writeText(l + kcl, t + kct, result,1, i_color, f_medium, i_highlight); // chữ trong input
 	while (!key_enter) {
 		while (kbhit()) {
 			char key = (char)getch(); // nhận key từ bàn phím
@@ -209,10 +215,10 @@ string input(
 						s += " ki tu.";
 						char m[255];
 						strcpy_s(m, s.c_str());
-						writeText(l + e_kcl, t + e_kct, m, 1, I_ERROR_COLOR, f_medium, I_BG);
+						writeText(l + e_kcl, t + e_kct, m, 1, i_error_color, f_medium, i_bg);
 						// reset lai mau
-						setbkcolor(I_HIGHLIGHT);
-						setcolor(I_COLOR);
+						setbkcolor(i_highlight);
+						setcolor(i_color);
 						continue;
 					}
 					// them chữ vào input
@@ -229,10 +235,10 @@ string input(
 				}
 				strcpy_s(result, input.c_str());
 				//---xoa canh bao
-				setfillstyle(1, I_BG);
-				bar(l + e_kcl, t+e_kct ,r + e_length, b + 10);
+				setfillstyle(1, i_bg);
+				bar(l + e_kcl, t+e_kct ,r + e_length, b + 20);
 				//-- xoa đề render lại từ đầu
-				setfillstyle(1, I_HIGHLIGHT);
+				setfillstyle(1, i_highlight);
 				bar3d(l, t, r, b, 0, 0);
 				//-- ghi chữ lại
 				outtextxy(l + kcl, t + kct, result);
@@ -247,7 +253,7 @@ string input(
 					// enter  xong vẫn để lại chữ
 					setfillstyle(1, 15);
 					bar3d(l, t, r, b, 0, 0);
-					writeText(l + kcl, t + kct, result,1,I_COLOR,f_medium,15);
+					writeText(l + kcl, t + kct, result,1, i_color,f_medium,15);
 				}
 			}
 			else {
