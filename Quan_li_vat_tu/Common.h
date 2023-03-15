@@ -196,7 +196,7 @@ string input(
 			if (check_key) {
 				if (key == 8) {// <- backspace xoa
 					if (input.length() == 1) {
-
+						
 					}
 					else {
 						input.erase(input.end() - 2);
@@ -244,7 +244,7 @@ string input(
 					strcpy_s(result, input.c_str());
 					cout << "result:" << result << endl;
 
-					// enter  xong vẫn để lại chữ
+					// enter xong vẫn để lại chữ
 					setfillstyle(1, 15);
 					bar3d(l, t, r, b, 0, 0);
 					writeText(l + kcl, t + kct, result,1,I_COLOR,f_medium,15);

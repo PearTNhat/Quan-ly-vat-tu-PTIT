@@ -154,6 +154,45 @@ int main() {
 							highlight_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
 							create_ss_search(1);
 						}
+						//---------------------------------
+						// Kiem tra vi tri input
+						if (ktVT(400, 250, 500, 285, x, y)) {
+							string demo = "";
+							cout << "Tien hanh nhap input";
+							string s = ss_page_input(400, 250, 500, 285, 40, 8, 5, 30, 50, demo, 2, 1);
+							demo = s;
+						}
+						else if (ktVT(610, 250, 710, 285, x, y)) {
+							string demo = "";
+							cout << "Tien hanh nhap input";
+							string s = ss_page_input(610, 250, 710, 285, 40, 8, 5, 30, 50, demo, 2, 1);
+							demo = s;
+						}
+						else if (ktVT(800, 250, 900, 285, x, y)) {
+							string demo = "";
+							cout << "Tien hanh nhap input";
+							string s = ss_page_input(800, 250, 900, 285, 40, 8, 5, 30, 50, demo, 2, 1);
+							demo = s;
+						} 
+						else if (ktVT(400, 360, 500, 395, x, y)) {
+							string demo = "";
+							cout << "Tien hanh nhap input";
+							string s = ss_page_input(400, 360, 500, 395, 40, 8, 5, 30, 50, demo, 2, 1);
+							demo = s;
+						}
+						else if (ktVT(610, 360, 710, 395, x, y)) {
+							string demo = "";
+							cout << "Tien hanh nhap input";
+							string s = ss_page_input(610, 360, 710, 395, 40, 8, 5, 30, 50, demo, 2, 1);
+							demo = s;
+						}
+						else if (ktVT(800, 360, 900, 395, x, y)) {
+							string demo = "";
+							cout << "Tien hanh nhap input";
+							string s = ss_page_input(800, 360, 900, 395, 40, 8, 5, 30, 50, demo, 2, 1);
+							demo = s;
+						}
+						//----------------------------------
 						if (ktVT(320, 70, 565, 110, x, y)) {
 							create_ss_header();
 							highlight_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
