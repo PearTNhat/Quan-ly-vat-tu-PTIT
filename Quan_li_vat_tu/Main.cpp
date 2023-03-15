@@ -3,7 +3,7 @@
 #include "Constant.h"
 #include "Staff_func.h"
 #include "Goods_Func.h"
-#include"b_phu.h"
+#include "Bill_Func.h"
 #include "Ss_page.h"
 
 int main() {
@@ -45,11 +45,11 @@ int main() {
 			}
 			if (g_page) {
 				bar3d(100, 200, 300, 250, 0, 0);
-				goods_infor();
 				if (ktVT(100, 200, 300, 250, x, y)) {
 					string s = input(100, 200, 300, 250, 5, 5, 5, 30, 50, demo, 10);
 					demo = s;
 				}
+				announce_board();
 			}
 			// nhan vien
 			if (ktVT(350, 10, 550, 50, x, y)) {
