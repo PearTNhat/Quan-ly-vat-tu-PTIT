@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.h";
+
 #define MAXTITLE 25
 #define I_BG_SS COLOR(186, 245, 223) // màu nền  khi enter nhập xong
 #define I_HIGHLIGHT_SS COLOR(255, 255, 255) // highlight khi click vào

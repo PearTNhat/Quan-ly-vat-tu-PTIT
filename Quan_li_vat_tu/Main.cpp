@@ -5,18 +5,41 @@
 #include "Goods_Func.h"
 #include "Bill_Func.h"
 #include "Ss_page.h"
+#include "Goods_tree.h"
 
 int main() {
+	DS_NhanVien ds_nv;
 	for (int i = 0; i < 28; i++)
 	{
 		ds_nv.nhan_vien[i] = new NhanVien;
 		strcpy_s(ds_nv.nhan_vien[i]->maNV, "hello");
 		strcpy_s(ds_nv.nhan_vien[i]->ho, "hello");
 		strcpy_s(ds_nv.nhan_vien[i]->ten, "hello");
-		ds_nv.nhan_vien[i]->phai = 0;
+		strcpy_s(ds_nv.nhan_vien[i]->phai, "Nam");
 		ds_nv.length++;
 	}
-	string demo = ""; // bien nay chi la test thoi
+	string demo = ""; // bien nay chi la test input thoi
+	//initNode(ds_vt);
+	//strcpy_s(vatu.tenVT, "MEW MEO");
+	//strcpy_s(vatu.DVT, "kg");
+	//vatu.SLT = 1234;
+	//strcpy_s(vatu.maVT, "VT060");
+	//insertNode(ds_vt, vatu);
+	//strcpy_s(vatu.maVT, "VT015");
+	//insertNode(ds_vt, vatu);
+	//strcpy_s(vatu.maVT, "VT007");
+	//insertNode(ds_vt, vatu);
+	//strcpy_s(vatu.maVT, "VT002");
+	//insertNode(ds_vt, vatu);
+	//strcpy_s(vatu.maVT, "VT001");
+	//insertNode(ds_vt, vatu);
+	//strcpy_s(vatu.maVT, "VT005");
+	//insertNode(ds_vt, vatu);
+	//strcpy_s(vatu.maVT, "VT012");
+	//insertNode(ds_vt, vatu);
+	//strcpy_s(vatu.maVT, "VT016");
+	//insertNode(ds_vt, vatu);
+	//copy_to_arr(ds_vt, arrGoods);
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	setbkcolor(bk_screen);
@@ -25,11 +48,12 @@ int main() {
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
-			cout << "\nvi tri x:" << x << " - vi tri y:" << y << endl;
+			cout << "\nvi tri x-out:" << x << " - vi tri y-out:" << y << endl;
 			line(x, y, x + 20, y);
+			cout << "table";
 			//------------------------
 			//code
-		s_start:
+		sf_start:
 		start:
 			//Nhat
 		batdau:
@@ -44,12 +68,8 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-				bar3d(100, 200, 300, 250, 0, 0);
-				if (ktVT(100, 200, 300, 250, x, y)) {
-					string s = input(100, 200, 300, 250, 5, 5, 5, 30, 50, demo, 10);
-					demo = s;
-				}
-				announce_board();
+				create_g_header();
+
 			}
 			// nhan vien
 			if (ktVT(350, 10, 550, 50, x, y)) {
@@ -61,60 +81,12 @@ int main() {
 				ss_page = false;
 				delete_after_header();
 			}
+				
 			if (sf_page) {
 				create_sf_header();
-				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
-
-				while (1) { // chong rerender k can thiet
-					if (ismouseclick(WM_LBUTTONDOWN)) {
-						getmouseclick(WM_LBUTTONDOWN, x, y);
-						cout << "\nvi tri x:" << x << " - vi tri y:" << y << endl;
-						// edit
-						for (int i = 0; i < edit_sf[0].n; i++)
-						{
-							if (ktVT(edit_sf[i].l, edit_sf[i].t, edit_sf[i].r, edit_sf[i].b, x, y)) {
-								staff_infor(ds_nv.nhan_vien[i]->maNV,ds_nv.nhan_vien[i]->ho, ds_nv.nhan_vien[i]->ten,ds_nv.nhan_vien[i]->phai);
-								s_isEdit = true;
-							}
-						}
-						if (s_isEdit) {
-							//HUY
-							if (ktVT(750, 420, 820, 450, x, y)) {
-								s_isEdit = false;
-								goto s_start;
-							}
-							//LUU
-							if (ktVT(840, 420, 910, 450, x, y)) {
-								s_isEdit = false;
-								goto s_start;
-							}
-
-						}
-						// transition page
-						if (ktVT(650, 565, 685, 600, x, y)) {
-							if (vp_m_sf.current == vp_m_sf.page) {
-								continue;
-							}
-							next_page(650, 565, 685, 600, vp_m_sf);
-							delete_after_header();
-							staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
-						}
-						if (ktVT(495, 565, 530, 600, x, y)) {
-							if (vp_m_sf.current == 1) {
-								continue;
-							}
-							prev_page(495, 565, 530, 600, vp_m_sf);
-							delete_after_header();
-							staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, COLS_SF);
-						}
-						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
-							sf_page = false;
-							goto s_start;
-						}
-					}
-					delay(1);
-
-				}
+				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				sf_handleTable(x, y,ds_nv);
+				goto sf_start;
 			}
 			//Phu
 			if (ktVT(650, 10, 850, 50, x, y)) {
