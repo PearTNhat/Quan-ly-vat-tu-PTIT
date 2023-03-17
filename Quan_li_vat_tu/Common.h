@@ -14,7 +14,6 @@ struct check_CURD {
 	int b;
 	int n; // luu so luong can check // o vi tri so index = 0 //  
 };
-int i_CURD = -1;
 
 bool ktVT(int l, int t, int r, int b, int x, int y) {
 	/*cout << l << " " << x << " " << r << "|" << t << " " << y << " " << b << " ";*/
@@ -166,6 +165,7 @@ bool kt_KTu(char x) {
 	return false;
 }
 string input(
+	int &x,int &y,
 	int l, int t, int r, int b,
 	int kcl, int kct,// can chinh vi tri input
 	int e_kcl, int e_kct, int e_length = 50, // can chinh bao loi
@@ -176,17 +176,45 @@ string input(
 	int i_error_color= I_ERROR_COLOR
 
 	) {
+	while (kbhit()) {
+		getch();
+	}
 	bool key_enter = false;
 	string input = value;
 	input += "_";
-	char result[255] = {};
-	strcpy_s(result, input.c_str());
+	char result[255] = {""};
+	if (input.length() != 0) {
+		strcpy_s(result, input.c_str());
+	}
 	text_box(l, t, r, b, (char*)"", f_medium, 1, 0, 0, i_highlight, i_color); // vẽ khung input
 	writeText(l + kcl, t + kct, result,1, i_color, f_medium, i_highlight); // chữ trong input
 	while (!key_enter) {
-		while (kbhit()) {
+		if (ismouseclick(WM_LBUTTONDOWN)) {
+			getmouseclick(WM_LBUTTONDOWN, x, y);
+			if (!ktVT(l, t, r, b, x, y)) {
+				//---xoa canh bao
+				setfillstyle(1, i_bg);
+				bar(l + e_kcl, t + e_kct, r + e_length, b + 20);
+				//-- xoa đề render lại từ đầu
+				setfillstyle(1, i_highlight);
+				bar3d(l, t, r, b, 0, 0);
+				//-- ghi chữ lại
+				outtextxy(l + kcl, t + kct, result);
+				input.erase(input.end() - 1);
+				strcpy_s(result, input.c_str());
+				cout << "result:" << result << endl;
+				// enter  xong vẫn để lại chữ
+				setfillstyle(1, 15);
+				bar3d(l, t, r, b, 0, 0);
+				writeText(l + kcl, t + kct, result, 1, i_color, f_medium, 15);
+				break;
+
+			}
+		}
+		if (kbhit()) {
 			char key = (char)getch(); // nhận key từ bàn phím
 			bool check_key;
+			cout << "key "<<endl;
 			if (type == 1) {
 				check_key = only_number(key);
 			}
@@ -243,13 +271,13 @@ string input(
 				//-- ghi chữ lại
 				outtextxy(l + kcl, t + kct, result);
 				cout << "input: " << input << endl;
-				if (key == 13) {
-					//enter để break
+				if (key == 13 ) {
+					//enter để break					
 					key_enter = true;
+					x = NULL; y = NULL;
 					input.erase(input.end() - 1);
 					strcpy_s(result, input.c_str());
 					cout << "result:" << result << endl;
-
 					// enter  xong vẫn để lại chữ
 					setfillstyle(1, 15);
 					bar3d(l, t, r, b, 0, 0);
@@ -259,9 +287,13 @@ string input(
 			else {
 				cout << "ki tu k hop le" << endl;
 			}
+			
 		}
+		
+		
 		delay(1);
 	}
+		cout << "out";
 	return input;
 }
 bool announce_board(int kcl=0, int kct=0,int bg= COLOR(232, 246, 250)) { // 200 //400 
