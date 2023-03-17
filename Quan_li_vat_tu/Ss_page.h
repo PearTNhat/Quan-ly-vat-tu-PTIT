@@ -16,18 +16,16 @@ void create_ss_header() {
 	setcolor(0);
 	bar3d(10, 65, 1180, 115, 0, 0);
 	text_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
-	text_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
+	text_box(320, 70, 640, 110, (char*)"Thong ke doanh thu", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
 }
 
-void create_ss_search(bool isBill) {
+void do_hoa_search_hd() {
 	setfillstyle(1, COLOR_INFOR_SG);
 	setcolor(0);
 	bar3d(280, 180, 920, 530, 0, 0);
 
 	// Thanh tieu de
-	const char* title;
-	if (isBill) title = "Tim Kiem Hoa Don";
-	else title = "Tim Top 10 Vat Tu";
+	const char* title = "Tim Kiem Hoa Don";
 	text_box(440, 140, 750, 181, (char*)title, f_medium, 3, 10, 40, 11, 0);
 	// Thanh tim kiem
 	text_box(310, 480, 890, 520, (char*)"Tim kiem", f_medium, 3, 10, 230, COLOR(255, 153, 51), 0);
@@ -54,10 +52,26 @@ void create_ss_search(bool isBill) {
 	bar3d(800, 360, 900, 395, 0, 0);
 }
 
+void do_hoa_search_doanh_thu() {
+	setfillstyle(1, COLOR_INFOR_SG);
+	setcolor(0);
+	bar3d(280, 180, 920, 300, 0, 0);
+
+	// Thanh tieu de
+	const char* title = "Tra cuu doanh thu";
+	text_box(440, 140, 750, 181, (char*)title, f_medium, 3, 10, 40, 11, 0);
+	// Thanh tim kiem
+	text_box(310, 480, 890, 520, (char*)"Tim kiem", f_medium, 3, 10, 230, COLOR(255, 153, 51), 0);
+
+	// Input
+	setfillstyle(1, 15);
+	bar3d(400, 150, 500, 260, 0, 0);
+}
+
 void table_top_10_vattu() {
 	setfillstyle(1, 15);
 	setcolor(0); 
-	bar3d(110, 130, 1090, 590, 0, 0);
+	bar3d(110, 130, 1090, 300, 0, 0);
 
 	// thanh tieu de
 	setfillstyle(1, COLOR(4, 169, 109));

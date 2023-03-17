@@ -124,7 +124,7 @@ int main() {
 						if (ktVT(15, 70, 310, 110, x, y)) {
 							create_ss_header();
 							highlight_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
-							create_ss_search(1);
+							do_hoa_search_hd();
 						}
 						//---------------------------------
 						// Kiem tra vi tri input
@@ -165,10 +165,11 @@ int main() {
 							demo = s;
 						}
 						//----------------------------------
-						if (ktVT(320, 70, 565, 110, x, y)) {
+						if (ktVT(320, 70, 640, 110, x, y)) {
+							delete_after_header();
 							create_ss_header();
-							highlight_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
-							create_ss_search(0);
+							highlight_box(320, 70, 640, 110, (char*)"Thong ke doanh thu", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
+							do_hoa_search_doanh_thu();
 						}
 						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y))
 							goto start;
