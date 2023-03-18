@@ -308,15 +308,24 @@ void traverse(PTRHD First, dscthd dautien)
 {
 	PTRHD p;
 	dscthd d;
-	int stt = 0;
+	int stt = 1;
 	p = First;
 	d = dautien;
 	if (p == NULL)
 		cout << "Khong co hoa don trong danh sach ";
 	while (p != NULL && d != NULL)
 	{
-		cout << stt++ << "\t" << p->hoadon.SoHD << "," << p->hoadon.date.ngay << "/" << p->hoadon.date.thang << "/" << p->hoadon.date.nam << "," << p->hoadon.Loai << "\n";
-		cout << d->ct_hoadon.MAVT << "\t" << d->ct_hoadon.Soluong << "\t" << d->ct_hoadon.Dongia << "\t" << d->ct_hoadon.VAT << "\t" << d->ct_hoadon.TrangThai << "\n";
+		cout << "\n\n";
+		cout << "Hoa don so " << stt++ << "\n";
+		cout << "So hoa don: " << p->hoadon.SoHD << "\n";
+		cout << "Date: " << p->hoadon.date.ngay << "/" << p->hoadon.date.thang << "/" << p->hoadon.date.nam << "\n";
+		cout << "Loai: " << p->hoadon.Loai << "\n";
+		cout << "Ma vat tu: " << d->ct_hoadon.MAVT << "\n";
+		cout << "So luong: " << d->ct_hoadon.Soluong << "\n";
+		cout << "Don gia: " << d->ct_hoadon.Dongia << "\n";
+		cout << "%VAT: " << d->ct_hoadon.VAT << "\n";
+		cout << "Trang thai ( 1-mua, 0-tra): " << d->ct_hoadon.TrangThai << "\n";
+
 		p = p->next;
 		d = d->next;
 	}
