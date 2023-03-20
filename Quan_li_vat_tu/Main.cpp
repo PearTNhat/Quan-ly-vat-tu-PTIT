@@ -117,6 +117,15 @@ int main() {
 				delete_after_header();
 			}
 			if (ss_page) {
+				string day_b = "";
+				string month_b = "";
+				string year_b = "";
+				string day_e = "";
+				string month_e = "";
+				string year_e = "";
+				string year = "";
+				bool thong_ke_hd_pg = false;
+				bool thong_ke_doanh_thu_pg = false;
 				create_ss_header();
 				while (1) {
 					if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -125,57 +134,30 @@ int main() {
 							create_ss_header();
 							highlight_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
 							do_hoa_search_hd();
+							thong_ke_hd_pg = true;
+							thong_ke_doanh_thu_pg = false;
+							day_b = "";
+							month_b = "";
+							year_b = "";
+							day_e = "";
+							month_e = "";
+							year_e = "";
 						}
-						//---------------------------------
-						// Kiem tra vi tri input
-						if (ktVT(400, 250, 500, 285, x, y)) {
-							string demo = "";
-							cout << "Tien hanh nhap input";
-							string s = ss_page_input(400, 250, 500, 285, 40, 8, 5, 30, 50, demo, 2, 1);
-							demo = s;
-						}
-						else if (ktVT(610, 250, 710, 285, x, y)) {
-							string demo = "";
-							cout << "Tien hanh nhap input";
-							string s = ss_page_input(610, 250, 710, 285, 40, 8, 5, 30, 50, demo, 2, 1);
-							demo = s;
-						}
-						else if (ktVT(800, 250, 900, 285, x, y)) {
-							string demo = "";
-							cout << "Tien hanh nhap input";
-							string s = ss_page_input(800, 250, 900, 285, 40, 8, 5, 30, 50, demo, 2, 1);
-							demo = s;
-						} 
-						else if (ktVT(400, 360, 500, 395, x, y)) {
-							string demo = "";
-							cout << "Tien hanh nhap input";
-							string s = ss_page_input(400, 360, 500, 395, 40, 8, 5, 30, 50, demo, 2, 1);
-							demo = s;
-						}
-						else if (ktVT(610, 360, 710, 395, x, y)) {
-							string demo = "";
-							cout << "Tien hanh nhap input";
-							string s = ss_page_input(610, 360, 710, 395, 40, 8, 5, 30, 50, demo, 2, 1);
-							demo = s;
-						}
-						else if (ktVT(800, 360, 900, 395, x, y)) {
-							string demo = "";
-							cout << "Tien hanh nhap input";
-							string s = ss_page_input(800, 360, 900, 395, 40, 8, 5, 30, 50, demo, 2, 1);
-							demo = s;
-						}
-						//----------------------------------
 						if (ktVT(320, 70, 640, 110, x, y)) {
 							delete_after_header();
 							create_ss_header();
 							highlight_box(320, 70, 640, 110, (char*)"Thong ke doanh thu", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
 							do_hoa_search_doanh_thu();
+							thong_ke_doanh_thu_pg = true;
+							thong_ke_hd_pg = false;
+							year = "";
 						}
+						xu_li_tra_cuu_doanh_thu(x, y, year, thong_ke_doanh_thu_pg);
+						xu_li_thong_ke_hd(x, y, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg);
 						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y))
 							goto start;
 					}
 				}
-				//table_top_10_vattu();
 			}
 
 		}
