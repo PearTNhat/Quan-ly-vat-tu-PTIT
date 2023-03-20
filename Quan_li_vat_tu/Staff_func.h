@@ -8,12 +8,12 @@ check_CURD delete_sf[ROW_STAFF];
 check_CURD edit_sf[ROW_STAFF];
 view_page vp_m_sf;
 
+bool sf_isEdit = false, sf_isAdd =false;
 
-
-bool s_isEdit = false;
-void staff_infor(char mnv[] = {}, char ho[] = {}, char ten[] = {}, char gender[] = {});
-
-
+//-------------
+void create_sf_header();
+void staff_infor(string mnv = "", string ho = "", string ten = "", string gender = "");
+//--------------
 void create_sf_header() {
 	
 	setfillstyle(1, bk_screen);
@@ -95,20 +95,20 @@ void staff_table(
 		// title header
 		char stt[10];
 		strcpy_s(stt, to_string(i+1).c_str());
-		writeText(55, text_top,stt);
-		writeText(95, text_top, ds.nhan_vien[i]->maNV);
+		writeText(55, text_top,stt,1,0,3,15);
+		writeText(95, text_top, ds.nhan_vien[i]->maNV,1,0,3,15);
 
 		string fullName = ds.nhan_vien[i]->ho;
 		fullName += " ";
 		fullName += ds.nhan_vien[i]->ten;
 		char ten[30];
 		strcpy_s(ten, fullName.c_str());
-		writeText(230, text_top,ten);
-		writeText(650, text_top, ds.nhan_vien[i]->phai);
+		writeText(230, text_top,ten,1,0,3,15);
+		writeText(650, text_top, ds.nhan_vien[i]->phai,1,0,3,15);
 
 		//------------- k can cos the xoa
-		text_box(900, text_top, 978, text_top + 22, curd_o[0], f_small, 1, 1,2);
-		text_box(995, text_top, 1038, text_top + 22, curd_o[1], f_small, 1, 1, 6);
+		text_box(900, text_top, 978, text_top + 22, curd_o[0], f_small, 1, 1);
+		text_box(995, text_top, 1038, text_top + 22, curd_o[1], f_small, 1, 1);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
@@ -120,17 +120,87 @@ void staff_table(
 	page_transition(view_page);
 
 }
-void sf_handleTable(int &x, int &y, DS_NhanVien ds_nv) {
+void editInfor_staff(int &x,int &y, DS_NhanVien &ds_nv, int & i_CRUD,string &t_mnv,string &t_ho,string &t_ten,string &t_gender,bool increase=false) {
+	while (1) { // chong rerender k can thiet
+			cout << "click  " << endl;
+		if (ismouseclick(WM_LBUTTONDOWN)) {
+			getmouseclick(WM_LBUTTONDOWN, x, y);
+		headInfor:;
+			if (ktVT(430, 165, 800, 195, x, y)) { // MNV
+				cout << "1 : " << endl;
+				t_mnv = input(x,y,430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, NULL, COLOR_INFOR_SG);
+				goto headInfor;
+			}
+			if (ktVT(430, 225, 800, 255, x, y)) { // ho
+				cout << "2 : " << endl;
+
+				t_ho = input(x,y,430, 225, 800, 255, 5, 6, 5, 35, 50, t_ho, 8, NULL, COLOR_INFOR_SG);
+				goto headInfor;
+
+			}
+			if (ktVT(430, 285, 800, 315, x, y)) { // ten
+				cout << "3 : " << endl;
+
+				t_ten = input(x,y,430, 285, 800, 315, 5, 6, 5, 35, 50, t_ten, 20, NULL, COLOR_INFOR_SG);
+				goto headInfor;
+
+			}
+			if (ktVT(430, 345, 530, 375, x, y)) {
+				t_gender = "Nam";
+				text_box(430, 345, 530, 375, (char*)"Nam", f_medium, 2, 5, 30, XANH_LA_CAY, 0);
+				text_box(560, 345, 660, 375, (char*)"Nu", f_medium, 2, 5, 35, 15, 0);
+
+			}
+			if (ktVT(560, 345, 660, 375, x, y)) {
+				t_gender = "Nu";
+				text_box(430, 345, 530, 375, (char*)"Nam", f_medium, 2, 5, 30, 15, 0);
+				text_box(560, 345, 660, 375, (char*)"Nu", f_medium, 2, 5, 35, XANH_LA_CAY, 0);
+			}
+			//HUY
+			if (ktVT(750, 420, 820, 450, x, y)) {
+				sf_isEdit = false;
+				goto sf_end;
+			}
+			//LUU
+			if (ktVT(840, 420, 910, 450, x, y)) {
+			
+				ds_nv.nhan_vien[i_CRUD] = new NhanVien;
+				strcpy_s(ds_nv.nhan_vien[i_CRUD]->maNV, t_mnv.c_str());
+				strcpy_s(ds_nv.nhan_vien[i_CRUD]->ho, t_ho.c_str());
+				strcpy_s(ds_nv.nhan_vien[i_CRUD]->ten, t_ten.c_str());
+				strcpy_s(ds_nv.nhan_vien[i_CRUD]->phai, t_gender.c_str());
+				if (increase) {
+					ds_nv.length++;
+				}
+				sf_isEdit = false;
+				sf_isAdd = false;
+				goto sf_end;
+			}
+			//cout << "click 2 " << endl;
+
+		}
+	}
+sf_end:;
+}
+void sf_handleTable(int &x, int &y, DS_NhanVien &ds_nv) {
+	bool break_all = false;
+	int i_CRUD = 0;
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
+			// them nhan vien moi
+			if (ktVT(950, 70, 1150, 110, x, y)) {
+				staff_infor();
+				sf_isAdd = true;
+				goto sf_out;
+			}
 			// edit
 			for (int i = 0; i < edit_sf[0].n; i++)
 			{
 				if (ktVT(edit_sf[i].l, edit_sf[i].t, edit_sf[i].r, edit_sf[i].b, x, y)) {
 					staff_infor(ds_nv.nhan_vien[i]->maNV, ds_nv.nhan_vien[i]->ho, ds_nv.nhan_vien[i]->ten, ds_nv.nhan_vien[i]->phai);
-					i_CURD = (vp_m_sf.current - 1) * ROW_STAFF + i;
-					s_isEdit = true;
+					i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
+					sf_isEdit = true;
 					goto sf_out;
 				}
 			}
@@ -153,79 +223,44 @@ void sf_handleTable(int &x, int &y, DS_NhanVien ds_nv) {
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				sf_page = false;
-				goto sf_out;
+				goto sf_end;
 			}
 		}
 		delay(1);
 	}
-	sf_out:;
-	string t_mnv = ds_nv.nhan_vien[i_CURD]->maNV;
-	string t_ho = ds_nv.nhan_vien[i_CURD]->ho;
-	string t_ten = ds_nv.nhan_vien[i_CURD]->ten;
-	string t_gender = ds_nv.nhan_vien[i_CURD]->phai;
-	while (1) { // chong rerender k can thiet
-		if (ismouseclick(WM_LBUTTONDOWN)) {
-			getmouseclick(WM_LBUTTONDOWN, x, y);
-			cout << "\nvi tri x:" << x << " - vi tri y:" << y << endl;
+sf_out:;
+			if (sf_isEdit) {
+				string t_mnv = ds_nv.nhan_vien[i_CRUD]->maNV;
+				string t_ho = ds_nv.nhan_vien[i_CRUD]->ho;
+				string t_ten = ds_nv.nhan_vien[i_CRUD]->ten;
+				string t_gender = ds_nv.nhan_vien[i_CRUD]->phai;
+				editInfor_staff(x, y, ds_nv, i_CRUD, t_mnv, t_ho, t_ten, t_gender);
+			}
+			if (sf_isAdd) {
+				string t_add_mnv = "";
+				string t_add_ho = "";
+				string t_add_ten = "";
+				string t_add_gender = "";
+				editInfor_staff(x,y,ds_nv,ds_nv.length,t_add_mnv,t_add_ho,t_add_ten,t_add_gender,true);
 			
-			if (s_isEdit) {
-				if (ktVT(430, 165, 800, 195,x,y)) { // MNV
-					t_mnv=input(430, 165, 800, 195, 5, 6,5, 35,50, t_mnv,10,NULL, COLOR_INFOR_SG);
-				}
-				if (ktVT(430, 225, 800, 255, x, y)) { // ho
-					t_ho = input(430, 225, 800, 255, 5, 6, 5, 35, 50, t_ho, 8, NULL, COLOR_INFOR_SG);
-				}
-				if (ktVT(430, 285, 800, 315, x, y)) { // ten
-					t_ten = input(430, 285, 800, 315, 5, 6, 5, 35, 50, t_ten, 20, NULL, COLOR_INFOR_SG);
-				}
-				if (ktVT(430, 345, 530, 375, x, y)) {
-					t_gender = "Nam";
-					text_box(430, 345, 530, 375, (char*)"Nam", f_medium, 2, 5, 30, XANH_LA_CAY, 0);
-					text_box(560, 345, 660, 375, (char*)"Nu", f_medium, 2, 5, 35, 15, 0);
-
-				}
-				if (ktVT(560, 345, 660, 375, x, y)) {
-					t_gender = "Nu";
-					text_box(430, 345, 530, 375, (char*)"Nam", f_medium, 2, 5, 30, 15, 0);
-					text_box(560, 345, 660, 375, (char*)"Nu", f_medium, 2, 5, 35, XANH_LA_CAY, 0);
-				}
-				//HUY
-				if (ktVT(750, 420, 820, 450, x, y)) {
-					s_isEdit = false;
-					goto s_start;
-				}
-				//LUU
-				if (ktVT(840, 420, 910, 450, x, y)) {
-					strcpy_s(ds_nv.nhan_vien[i_CURD]->maNV, t_mnv.c_str());
-					strcpy_s(ds_nv.nhan_vien[i_CURD]->ho, t_ho.c_str());
-					strcpy_s(ds_nv.nhan_vien[i_CURD]->ten, t_ten.c_str());
-					strcpy_s(ds_nv.nhan_vien[i_CURD]->phai, t_gender.c_str());
-					s_isEdit = false;
-					goto s_start;
-				}
-
 			}
 			
-		}
-		delay(1);
-
-	}
-s_start:;
+sf_end:;
 }
-void staff_infor(char mnv[], char ho[] , char ten[] , char gender[] ) { 
+void staff_infor( string mnv, string ho,  string ten,  string gender) {
 	delete_after_header();
 	text_box(430, 90, 800, 130, (char*)"Chinh sua thong tin nhan vien", f_medium, 2, 10, 10, 11,0);
 	//
 	setfillstyle(1, COLOR_INFOR_SG);
 	//
 	bar3d(250, 130, 950, 500, 0, 0);
-	text_box(430, 165, 800, 195,mnv,f_medium,1,6,5,15,0); // chu cao 20
+	text_box(430, 165, 800, 195, (char*)mnv.c_str(), f_medium, 1, 6, 5, 15, 0); // chu cao 20
 	writeText(260, 170, (char*)"Ma Nhan Vien", 2, 0, f_medium, COLOR_INFOR_SG);
 
-	text_box(430, 225, 800, 255, ho, f_medium, 1, 6, 5, 15, 0);
+	text_box(430, 225, 800, 255, (char*)ho.c_str(), f_medium, 1, 6, 5, 15, 0);
 	writeText(260, 230, (char*)"Ho", 2, 0, f_medium, COLOR_INFOR_SG);
 
-	text_box(430, 285, 800, 315, ten, f_medium, 1, 6, 5, 15, 0);
+	text_box(430, 285, 800, 315, (char*)ten.c_str(), f_medium, 1, 6, 5, 15, 0);
 	writeText(260, 290, (char*)"Ten", 2, 0, f_medium, COLOR_INFOR_SG);
 
 	bar3d(430, 345, 530, 375, 0, 0);
@@ -235,7 +270,7 @@ void staff_infor(char mnv[], char ho[] , char ten[] , char gender[] ) {
 	if (string(gender)=="Nam") {
 		highlightMan = XANH_LA_CAY;
 	}
-	else  {
+	else if(string(gender) == "Nu") {
 		highlightWoman = XANH_LA_CAY;
 	}
 	text_box(430, 345, 530, 375, (char*)"Nam", f_medium, 2, 5,30, highlightMan, 0);
@@ -244,4 +279,12 @@ void staff_infor(char mnv[], char ho[] , char ten[] , char gender[] ) {
 	text_box(750, 420, 820, 450, (char*)"Huy", f_medium, 2, 5, 15, 11, 0);
 	text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, 11, 0);
 
+}
+void delete_staff(DS_NhanVien &ds_nv,int index) {
+	for (int i = index; i < ds_nv.length-1; i++)
+	{
+		ds_nv.nhan_vien[i] = ds_nv.nhan_vien[i + 1];
+	}
+	ds_nv.nhan_vien[ds_nv.length-1]=new NhanVien;
+	ds_nv.length--;
 }

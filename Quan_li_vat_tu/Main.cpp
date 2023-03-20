@@ -14,11 +14,10 @@ int main() {
 		ds_nv.nhan_vien[i] = new NhanVien;
 		strcpy_s(ds_nv.nhan_vien[i]->maNV, "hello");
 		strcpy_s(ds_nv.nhan_vien[i]->ho, "hello");
-		strcpy_s(ds_nv.nhan_vien[i]->ten, "hello");
+		strcpy_s(ds_nv.nhan_vien[i]->ten, ("hello"+to_string(i)).c_str());
 		strcpy_s(ds_nv.nhan_vien[i]->phai, "Nam");
 		ds_nv.length++;
 	}
-	string demo = ""; // bien nay chi la test input thoi
 	//initNode(ds_vt);
 	//strcpy_s(vatu.tenVT, "MEW MEO");
 	//strcpy_s(vatu.DVT, "kg");
@@ -46,6 +45,7 @@ int main() {
 	cleardevice();
 	createHeader(header_title);
 	while (1) {
+		cout << "white: ";
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			cout << "\nvi tri x-out:" << x << " - vi tri y-out:" << y << endl;
