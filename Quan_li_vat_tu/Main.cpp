@@ -124,8 +124,11 @@ int main() {
 				string month_e = "";
 				string year_e = "";
 				string year = "";
+				bool is_error = false;
 				bool thong_ke_hd_pg = false;
 				bool thong_ke_doanh_thu_pg = false;
+				bool is_all_valid = true;
+				bool error_dayb = false, error_monthb = false, error_yearb = false, error_daye = false, error_monthe = false, error_yeare = false;
 				create_ss_header();
 				while (1) {
 					if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -153,7 +156,7 @@ int main() {
 							year = "";
 						}
 						xu_li_tra_cuu_doanh_thu(x, y, year, thong_ke_doanh_thu_pg);
-						xu_li_thong_ke_hd(x, y, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg);
+						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg);
 						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y))
 							goto start;
 					}
