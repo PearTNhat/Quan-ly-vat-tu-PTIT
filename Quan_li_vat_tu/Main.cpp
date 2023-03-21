@@ -99,6 +99,7 @@ int main() {
 				delete_after_header();
 			}
 			if (b_page) {
+				demoPhu();
 				b_create_menu_title();
 				b_ktVT(x, y);
 				b_page = false;
