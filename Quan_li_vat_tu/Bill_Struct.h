@@ -15,7 +15,7 @@ struct CT_HoaDon
 	int Soluong;
 	int Dongia;
 	float VAT;
-	int TrangThai;
+	bool TrangThai;
 };
 //123
 
@@ -52,6 +52,7 @@ PTRHD First = NULL;
 PTRHD Newnode(void) 
 {
 	PTRHD p = new DS_HoaDon;
+
 	return p;
 }
 PTRHD p = Newnode();

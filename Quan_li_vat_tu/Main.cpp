@@ -1,4 +1,4 @@
-#include "Header.h"
+﻿#include "Header.h"
 #include "Common.h"
 #include "Constant.h"
 #include "Staff_func.h"
@@ -6,9 +6,10 @@
 #include "Bill_Func.h"
 #include "Ss_page.h"
 #include "Goods_tree.h"
-
+// nếu mã trùng thì k cho nhập tiếp ở THêm
 int main() {
 	DS_NhanVien ds_nv;
+
 	for (int i = 0; i < 28; i++)
 	{
 		ds_nv.nhan_vien[i] = new NhanVien;
@@ -18,39 +19,16 @@ int main() {
 		strcpy_s(ds_nv.nhan_vien[i]->phai, "Nam");
 		ds_nv.length++;
 	}
-	//initNode(ds_vt);
-	//strcpy_s(vatu.tenVT, "MEW MEO");
-	//strcpy_s(vatu.DVT, "kg");
-	//vatu.SLT = 1234;
-	//strcpy_s(vatu.maVT, "VT060");
-	//insertNode(ds_vt, vatu);
-	//strcpy_s(vatu.maVT, "VT015");
-	//insertNode(ds_vt, vatu);
-	//strcpy_s(vatu.maVT, "VT007");
-	//insertNode(ds_vt, vatu);
-	//strcpy_s(vatu.maVT, "VT002");
-	//insertNode(ds_vt, vatu);
-	//strcpy_s(vatu.maVT, "VT001");
-	//insertNode(ds_vt, vatu);
-	//strcpy_s(vatu.maVT, "VT005");
-	//insertNode(ds_vt, vatu);
-	//strcpy_s(vatu.maVT, "VT012");
-	//insertNode(ds_vt, vatu);
-	//strcpy_s(vatu.maVT, "VT016");
-	//insertNode(ds_vt, vatu);
-	//copy_to_arr(ds_vt, arrGoods);
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	setbkcolor(bk_screen);
 	cleardevice();
 	createHeader(header_title);
 	while (1) {
-		cout << "white: ";
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			cout << "\nvi tri x-out:" << x << " - vi tri y-out:" << y << endl;
 			line(x, y, x + 20, y);
-			cout << "table";
 			//------------------------
 			//code
 		sf_start:
@@ -85,7 +63,7 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
-				sf_handleTable(x, y,ds_nv);
+				sf_handleTable(x, y,ds_nv, delete_sf);
 				goto sf_start;
 			}
 			//Phu

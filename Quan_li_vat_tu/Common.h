@@ -14,7 +14,16 @@ struct check_CURD {
 	int b;
 	int n; // luu so luong can check // o vi tri so index = 0 //  
 };
+struct arrString {
+	string s[100];
+	int length=0;
+};
+//
+string trim(string& s);
+void warning_msg(string text, int l, int t, int bg, int color, int font = f_medium);
+void split(string s, arrString& arrS);
 
+//
 bool ktVT(int l, int t, int r, int b, int x, int y) {
 	/*cout << l << " " << x << " " << r << "|" << t << " " << y << " " << b << " ";*/
 	if (x <= r && x >= l && y >= t && y <= b) return true;
@@ -169,12 +178,13 @@ string input(
 	int l, int t, int r, int b,
 	int kcl, int kct,// can chinh vi tri input
 	int e_kcl, int e_kct, int e_length = 50, // can chinh bao loi
-	string value = "", int max_value = 255, int type = NULL,
+	string value = "", int max_value = 255, string type = "",
+	string function="", // upcase abc -> ABC
+						// camelCase nguyen van a -> Nguyen Van A
 	int i_bg = I_BG,
 	int i_highlight = I_HIGHLIGHT,
 	int i_color = I_COLOR,
 	int i_error_color= I_ERROR_COLOR
-
 	) {
 	while (kbhit()) {
 		getch();
@@ -194,14 +204,21 @@ string input(
 			if (!ktVT(l, t, r, b, x, y)) {
 				//---xoa canh bao
 				setfillstyle(1, i_bg);
-				bar(l + e_kcl, t + e_kct, r + e_length, b + 20);
+				bar(l + e_kcl, t + e_kct, r + e_length, b + 25);
 				//-- xoa đề render lại từ đầu
 				setfillstyle(1, i_highlight);
 				bar3d(l, t, r, b, 0, 0);
 				//-- ghi chữ lại
 				outtextxy(l + kcl, t + kct, result);
+				//
+				if (input.length() == 1) {
+					warning_msg("Khong duoc de trong", l + e_kcl, t + e_kct, i_bg, i_error_color);
+					// reset lai mau
+					setbkcolor(i_highlight);
+					setcolor(i_color);
+				}
 				input.erase(input.end() - 1);
-				strcpy_s(result, input.c_str());
+				strcpy_s(result, trim(input).c_str());
 				cout << "result:" << result << endl;
 				// enter  xong vẫn để lại chữ
 				setfillstyle(1, 15);
@@ -215,18 +232,20 @@ string input(
 			char key = (char)getch(); // nhận key từ bàn phím
 			bool check_key;
 			cout << "key "<<endl;
-			if (type == 1) {
+			if (type == "number") {
 				check_key = only_number(key);
 			}
-			else if (type == 2) {
+			else if (type == "decimal") {
 				check_key = decimal_number(key);
 			}
-			else if (type == 3) {
+			else if (type == "text") {
 				check_key = only_letter(key);
 			}
 			else {
+				// all number and text
 				check_key = kt_KTu(key);
 			}
+			
 			if (check_key) {
 				if (key == 8) {// <- backspace xoa
 					if (input.length() == 1) {
@@ -237,34 +256,54 @@ string input(
 					}
 				}
 				else if (key != 13) {
-					if (input.length() == (max_value + 1)) {
+					if (input.length() == (max_value + 1) ) {
 						string s = "Toi da la ";
 						s += to_string(max_value);
 						s += " ki tu.";
-						char m[255];
-						strcpy_s(m, s.c_str());
-						writeText(l + e_kcl, t + e_kct, m, 1, i_error_color, f_medium, i_bg);
+						warning_msg(s, l + e_kcl, t + e_kct, i_bg, i_error_color);
 						// reset lai mau
 						setbkcolor(i_highlight);
 						setcolor(i_color);
 						continue;
 					}
-					// them chữ vào input
+					// delete _ ;
 					input.erase(input.end() - 1);
+
+					// kiem tra function
+					if (function == "upcase") {
+						key = toupper(key);
+					}
+					// noi chu vao
 					input += key;
+					
+					if (input.length() == 1 && input[0] == ' ') { // dau cach o dau thi xoa
+						input.erase(0, 1);
+					}
+					if (input.length() > 2) { // kiem tra 2 dau cách, .  thi xoa
+						int n = input.length();
+						if ((input[n - 1] == input[n - 2]) && (input[n - 2] == ' ' || input[n - 2] == '.')) {
+							input.erase(input.end() - 1);
+						}
+					}
+					// kiem tra function
+					if (input.length() > 0 && function == "camelCase") { // camelCase
+						int n = input.length();
+						if (n>1 && input[n-2]==' ') {
+							input[n-1] = toupper(input[n-1]);
+						}
+						else {
+							input[n-1]=tolower(input[n-1]);
+						}
+						input[0] = toupper(input[0]);
+					}
 					input += "_";
 				}
-				if (input.length() > 2) {
-					// kiem tra 2 dau cách, .  thi xoa
-					int n = input.length();
-					if ((input[n - 2] == input[n - 3]) && (input[n - 2] == ' ' || input[n - 2] == '.')) {
-						input.erase(input.end() - 2);
-					}
-				}
+				
+				
 				strcpy_s(result, input.c_str());
 				//---xoa canh bao
 				setfillstyle(1, i_bg);
-				bar(l + e_kcl, t+e_kct ,r + e_length, b + 20);
+				bar(l + e_kcl, t+e_kct ,r + e_length, b + 25);
 				//-- xoa đề render lại từ đầu
 				setfillstyle(1, i_highlight);
 				bar3d(l, t, r, b, 0, 0);
@@ -272,11 +311,17 @@ string input(
 				outtextxy(l + kcl, t + kct, result);
 				cout << "input: " << input << endl;
 				if (key == 13 ) {
-					//enter để break					
+					//enter để break		'
+					if(input.length()==1){
+						warning_msg("Khong duoc de trong", l + e_kcl, t + e_kct, i_bg, i_error_color);
+						// reset lai mau
+						setbkcolor(i_highlight);
+						setcolor(i_color);
+					}
 					key_enter = true;
 					x = NULL; y = NULL;
 					input.erase(input.end() - 1);
-					strcpy_s(result, input.c_str());
+					strcpy_s(result, trim(input).c_str());
 					cout << "result:" << result << endl;
 					// enter  xong vẫn để lại chữ
 					setfillstyle(1, 15);
@@ -296,6 +341,11 @@ string input(
 		cout << "out";
 	return input;
 }
+void warning_msg(string text,int l,int t,int bg,int color,int font) {
+	char m[255];
+	strcpy_s(m, text.c_str());
+	writeText(l , t , m, 1, color, f_medium, bg);
+}
 bool announce_board(int kcl=0, int kct=0,int bg= COLOR(232, 246, 250)) { // 200 //400 
 
 	setfillstyle(1, bg);
@@ -306,4 +356,37 @@ bool announce_board(int kcl=0, int kct=0,int bg= COLOR(232, 246, 250)) { // 200 
 	text_box(750, 210, 780, 240,(char*)"X",f_medium,1,7,9,COLOR(255, 21, 0), 0);
 
 	return 0;
+}
+string trim(string &s) {
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[0]==' ') {
+			s.erase(0,1);
+		}
+		if (s.length() > 0 && s[s.length()-1]==' '  ) {
+			s.pop_back();
+		}
+	}
+	
+	return s;
+}
+void split(string s,arrString &arrS ) {
+	string temp = "";
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[i]==' ') {
+			arrS.s[arrS.length++] = temp;
+			temp = "";
+			continue;
+		}
+		temp += s[i];
+	}
+	arrS.s[arrS.length++] = temp;
+}
+bool checkLowcase(char s) {
+	if (s >= 'a' && s <= 's') return true;
+	return false;
+}
+void camelCase(string &s) {
+	if (checkLowcase(s[0])) s[0] -= 32;
 }
