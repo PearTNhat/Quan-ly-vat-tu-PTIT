@@ -110,8 +110,8 @@ void Loading(int& x, int& y)
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
 				delay(150);
 
-				DrawLoading(906.5, 420, 985, 450, 100);
-				delay(500);
+				DrawLoading(906.5, 420, 985, 450, 50);
+				delay(200);
 			}
 			else
 				goto batdau;
