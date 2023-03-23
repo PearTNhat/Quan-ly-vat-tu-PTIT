@@ -42,6 +42,9 @@ int main() {
 	//copy_to_arr(ds_vt, arrGoods);
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
+	cleardevice();
+	Loading(x,y);
+	delay(100);
 	setbkcolor(bk_screen);
 	cleardevice();
 	createHeader(header_title);
@@ -54,6 +57,7 @@ int main() {
 			cout << "table";
 			//------------------------
 			//code
+			
 		sf_start:
 		start:
 			//Nhat
@@ -100,12 +104,11 @@ int main() {
 				delete_after_header();
 			}
 			if (b_page) {
-				Loading();
-				/*demoPhu();
+				//demoPhu();
 				b_create_menu_title();
 				b_ktVT(x, y);
 				b_page = false;
-				goto batdau;*/
+				goto batdau;
 
 
 			}
