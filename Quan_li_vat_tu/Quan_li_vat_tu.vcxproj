@@ -148,6 +148,7 @@
     <ClInclude Include="Goods_tree.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Loading.h" />
     <ClInclude Include="Staff_Func.h" />
     <ClInclude Include="Goods_Struct.h" />
     <ClInclude Include="Staff_Struct.h" />

@@ -6,6 +6,8 @@
 #include "Bill_Func.h"
 #include "Ss_page.h"
 #include "Goods_tree.h"
+#include "Loading.h"
+
 // nếu mã trùng thì k cho nhập tiếp ở THêm
 int main() {
 	DS_NhanVien ds_nv;
@@ -21,6 +23,9 @@ int main() {
 	}
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
+	cleardevice();
+	Loading(x,y);
+	delay(100);
 	setbkcolor(bk_screen);
 	cleardevice();
 	createHeader(header_title);
@@ -31,6 +36,7 @@ int main() {
 			line(x, y, x + 20, y);
 			//------------------------
 			//code
+			
 		sf_start:
 		start:
 			//Nhat
@@ -77,7 +83,7 @@ int main() {
 				delete_after_header();
 			}
 			if (b_page) {
-				demoPhu();
+				//demoPhu();
 				b_create_menu_title();
 				b_ktVT(x, y);
 				b_page = false;
