@@ -101,14 +101,7 @@ int main() {
 				ss_page = true;
 				delete_after_header();
 			}
-			if (ss_page) {
-				string day_b = "";
-				string month_b = "";
-				string year_b = "";
-				string day_e = "";
-				string month_e = "";
-				string year_e = "";
-				string year = "";
+			if (ss_page) 
 				bool is_error = false;
 				bool thong_ke_hd_pg = false;
 				bool thong_ke_doanh_thu_pg = false;

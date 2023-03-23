@@ -11,6 +11,31 @@
 
 char title[5][MAXTITLE] = { "Top", "Ma VT", "Ten Vat Tu", "Don Vi Tinh", "Doanh Thu" };
 
+// Default value for day/month/year
+string day_b = "";
+string month_b = "";
+string year_b = "";
+string day_e = "";
+string month_e = "";
+string year_e = "";
+string year = "";
+
+// kiểm tra năm nhuận
+bool isLeapYear(int year) {
+	if (year % 4 != 0) {
+		return false;
+	}
+	else if (year % 100 != 0) {
+		return true;
+	}
+	else if (year % 400 != 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
 // Xu li input
 bool ktra_loi_input(
 	string input,
@@ -18,20 +43,54 @@ bool ktra_loi_input(
 	string input_field,
 	int input_result,
 	int e_kcl, int e_kct,
-	int i_error_color, int i_bg, int i_highlight, int i_color
+	int i_error_color, int i_bg, int i_highlight, int i_color,
+	string day_b, string month_b, string year_b, string day_e, string month_e, string year_e
 ) {
 	string error = "";
 	if (input_result == 0) cout << "Kiem tra input_result == 0" << endl;
+
 	if (input_field == "year") {
-		if (input_result > 2024) error = "Vui long dien nam < 2024";
-		else if (input_result == 0) error = "Nam khong hop le!";
+		if (input_result < 2003 || input_result > 2023) error = "Nam khong hop le!";
 	}
-	else if (input_field == "day") {
-		if (input_result > 31 || input_result == 0) error = "Ngay khong hop le!";
+	else if (input_field == "month")
+		if (input_result > 12 || input_result < 1) error = "Thang khong hop le!";
+
+	if (input_field == "day_b" || input_field == "day_e") { // check day leap year
+		// check day BEGIN
+		if (input_field == "day_b" && month_b != "" && year_b != "") {
+			if (stoi(month_b) == 2) {
+				if (!isLeapYear(stoi(year_b)) && input_result > 28) {
+					error = "Ngay khong hop le! (Nam " + year_b + " co 28 ngay)";
+				}
+			}
+			else if (stoi(month_b) == 4 || stoi(month_b) == 6 || stoi(month_b) == 9 || stoi(month_b) == 11) {
+				if (input_result > 30) {
+					error = "Ngay khong hop le! (Thang " + month_b + " co 30 ngay)";
+				}
+			}
+			else {
+				if (input_result > 31) error = "Ngay khong hop le!";
+			}
+		}
+		// check day END
+		if (input_field == "day_e" && month_e != "" && year_e != "") {
+			if (stoi(month_e) == 2) {
+				if (!isLeapYear(stoi(year_e)) && input_result > 28) {
+					error = "Ngay khong hop le! (Nam " + year_e + " co 28 ngay)";
+				}
+			}
+			else if (stoi(month_e) == 4 || stoi(month_e) == 6 || stoi(month_e) == 9 || stoi(month_e) == 11) {
+				if (input_result > 30) {
+					error = "Ngay khong hop le! (Thang " + month_e + " co 30 ngay)";
+				}
+			}
+			else {
+				if (input_result > 31) error = "Ngay khong hop le!";
+			}
+		}
 	}
-	else if (input_field == "month") {
-		if (input_result > 12 || input_result == 0) error = "Thang khong hop le!";
-	}
+
+	// Thong bao loi
 	char m[255];
 	strcpy_s(m, error.c_str());
 	cout << "Vi tri chu bao loi: " << e_kcl << endl;
@@ -99,7 +158,7 @@ string ss_page_input(
 				}
 				else {
 					int input_result = stoi(input);
-					is_error = ktra_loi_input(input, max_value, input_field, input_result, e_kcl, e_kct, i_error_color, i_bg, i_highlight, i_color);
+					is_error = ktra_loi_input(input, max_value, input_field, input_result, e_kcl, e_kct, i_error_color, i_bg, i_highlight, i_color, day_b, month_b, year_b, day_e, month_e, year_e);
 					int color = COLOR(0, 0, 0);
 					if (is_error) {
 						is_all_valid = false;
@@ -171,27 +230,40 @@ string ss_page_input(
 				//-- ghi chữ lại
 				outtextxy(l + kcl, t + kct, result);
 				cout << "input: " << input << endl;
+				cout << "input_length(): " << input.length() << endl;
 				if (key == 13) {
 					//enter để break					
 					key_enter = true;
 					error_check:
 					x = NULL; y = NULL;
 					input.erase(input.end() - 1);
+					cout << "input after erase: " << input << endl;
+					cout << "input_lenght(): " << input.length() << endl;
+					if (input == "") cout << "input == ''" << endl;
 					strcpy_s(result, input.c_str());
-					int input_result = std::stoi(input);
+					cout << "continue running" << endl;
+					cout << "result (type string): " << result << endl;
+					int input_result;
+					if (input != "") input_result = std::stoi(input);
+					else {
+						cout << "go into this condition checking" << endl;
+						input_result = NULL;
+					}
 					cout << "result:" << input_result << endl;
 					// enter xong vẫn để lại chữ
 					setfillstyle(1, 15);
 					bar3d(l, t, r, b, 0, 0);
 					// tiến hành ktra lỗi -------------
-					is_error = ktra_loi_input(input, max_value, input_field, (int)input_result, e_kcl, e_kct, i_error_color, i_bg, i_highlight, i_color);
-					int color = COLOR(0, 0, 0);
-					if (is_error) {
-						is_all_valid = false;
-						color = COLOR(255, 0, 0); // set color red khi input lỗi
+					if (input != "") { // Tiến hành kiểm tra lỗi chỉ khi input != ""
+						is_error = ktra_loi_input(input, max_value, input_field, (int)input_result, e_kcl, e_kct, i_error_color, i_bg, i_highlight, i_color, day_b, month_b, year_b, day_e, month_e, year_e);
+						int color = COLOR(0, 0, 0);
+						if (is_error) {
+							is_all_valid = false;
+							color = COLOR(255, 0, 0); // set color red khi input lỗi
+						}
+						else is_all_valid = true;
+						writeText(l + kcl, t + kct, result, 1, color, f_medium, 15);
 					}
-					else is_all_valid = true;
-					writeText(l + kcl, t + kct, result, 1, color, f_medium, 15);
 				}
 			}
 			else {
@@ -259,9 +331,9 @@ void get_current_date(string &day_e, string &month_e, string &year_e) {
 	string curr_month = to_string(1 + ltm->tm_mon);
 	string curr_year = to_string(1900 + ltm->tm_year);
 	// =================================
-	day_e = ss_page_input(is_all_valid, is_error, x_daye, y_daye, 400, 360, 500, 395, 40, 10, 510, 445, 50, curr_date, 2, 1, "day", true, COLOR_INFOR_SG);
-	day_e = ss_page_input(is_all_valid, is_error, x_monthe, y_monthe, 610, 360, 710, 395, 40, 10, 510, 445, 50, curr_month, 2, 1, "month", true, COLOR_INFOR_SG);
-	day_e = ss_page_input(is_all_valid, is_error, x_yeare, y_yeare, 800, 360, 900, 395, 30, 10, 510, 445, 50, curr_year, 2, 1, "year", true, COLOR_INFOR_SG);
+	day_e = ss_page_input(is_all_valid, is_error, x_daye, y_daye, 400, 360, 500, 395, 40, 10, 510, 445, 50, curr_date, 2, 1, "day_e", true, COLOR_INFOR_SG);
+	day_e = ss_page_input(is_all_valid, is_error, x_monthe, y_monthe, 610, 360, 710, 395, 40, 10, 510, 445, 50, curr_month, 2, 1, "month_e", true, COLOR_INFOR_SG);
+	day_e = ss_page_input(is_all_valid, is_error, x_yeare, y_yeare, 800, 360, 900, 395, 30, 10, 510, 445, 50, curr_year, 2, 1, "year_e", true, COLOR_INFOR_SG);
 	// update variable 
 	day_e = curr_date;
 	month_e = curr_month;
@@ -270,53 +342,66 @@ void get_current_date(string &day_e, string &month_e, string &year_e) {
 
 void xu_li_button_tim_kiem(
 	bool is_all_valid,
-	string day_b, string month_b, string year_b, string day_e, string month_e, string year_e
+	string dayb, string monthb, string yearb, string daye, string monthe, string yeare
 ) {
 	// check empty
-	if (day_b == "" || day_e == "" || month_e == "" || month_b == "" || year_b == "" || year_e == "") {
-		if (day_b == "") text_box(400, 250, 500, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (month_b == "") text_box(610, 250, 710, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (year_b == "") text_box(800, 250, 900, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (day_e == "") text_box(400, 360, 500, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (month_e == "") text_box(610, 360, 710, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (year_e == "") text_box(800, 360, 900, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+	if (dayb == "" || daye == "" || monthe == "" || monthb == "" || yearb == "" || yeare == "") {
+		if (dayb == "") text_box(400, 250, 500, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (monthb == "") text_box(610, 250, 710, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (yearb == "") text_box(800, 250, 900, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (daye == "") text_box(400, 360, 500, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (monthe == "") text_box(610, 360, 710, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (yeare == "") text_box(800, 360, 900, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
 		return;
 	}
 
 	// date string to int
-	day_b = stoi(day_b);
-	month_b = stoi(month_b);
-	year_b = stoi(year_b);
-	day_e = stoi(day_e);
-	month_e = stoi(month_e);
-	year_e = stoi(year_e);
-
+	int day_b = stoi(dayb);
+	int month_b = stoi(monthb);
+	int year_b = stoi(yearb);
+	int day_e = stoi(daye);
+	int month_e = stoi(monthe);
+	int year_e = stoi(yeare);
+		
+	// Kiểm tra định dạng ngày/tháng/năm
 	// cout << "day_b = " << day_b << ", month_b = " << month_b << ", year_b =  " << year_b << ", day_e = " << day_e << ", month_e = " << month_e << ", year_e = " << year_e << endl;
 	if (!is_all_valid) return; // Ngay/thang/nam không đúng định dạng -> return
-	bool is_error = false;	
+	bool is_error_normal = false;	
 	if (year_e < year_b) {
-		is_error = true;
+		is_error_normal = true;
 		cout << "year_e = " << year_e << " < year_b = " << year_b << endl;
 	}
 	else if (year_e == year_b) {
 		if (month_e < month_b) {
-			is_error = true;
+			is_error_normal = true;
 			cout << "month_e = " << month_e << " < month_b = " << month_b << endl;
 		}
 		else if (month_e == month_b) {
 			if (day_e < day_b) {
-				is_error = true;
+				is_error_normal = true;
 				cout << "day_e = " << day_e << " < day_b = " << day_b << endl;
 			}
 		}
 	}
 
+	//// checking leap year 
+	//string leap_year_error = ""
+	//if (month_b == 2) {
+	//	if (!isLeapYear(year_b) && day_b > 28) {
+	//		leap_year_error = "Ngay khong hop le"
+	//	}
+	//}
+	//else if ((month_b == 4 || month_b == 6 || month_b == 9 || month_b == 11) && day_b > 30) {
+	//	leap_year_error = true;
+	//}
+
 	// print message
-	if (is_error) {
+	if (is_error_normal) {
 		string error = "Ngay/thang/nam BEGIN > END";
 		char m[255];
 		strcpy_s(m, error.c_str());
 		writeText(470, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SG);
+		return;
 	}
 }
 
@@ -361,7 +446,7 @@ void  xu_li_thong_ke_hd(
 		cout << "Tien hanh nhap input -ngay\n" << endl;
 		cout << "is_all_valid: " << is_all_valid << endl;
 		cout << "is_error: " << error_dayb << endl;
-		day_b = ss_page_input(is_all_valid, error_dayb, x, y, 400, 250, 500, 285, 40, 10, 510, 445, 50, day_b, 2, 1, "day", false, COLOR_INFOR_SG);
+		day_b = ss_page_input(is_all_valid, error_dayb, x, y, 400, 250, 500, 285, 40, 10, 510, 445, 50, day_b, 2, 1, "day_b", false, COLOR_INFOR_SG);
 		goto start_input;
 	}
 	// input month
@@ -369,7 +454,7 @@ void  xu_li_thong_ke_hd(
 		cout << "Tien hanh nhap input -thang\n";
 		cout << "is_all_valid: " << is_all_valid << endl;
 		cout << "is_error: " << error_monthb << endl;
-		month_b = ss_page_input(is_all_valid, error_monthb, x, y, 610, 250, 710, 285, 40, 10, 510, 445, 50, month_b, 2, 1, "month", false, COLOR_INFOR_SG);
+		month_b = ss_page_input(is_all_valid, error_monthb, x, y, 610, 250, 710, 285, 40, 10, 510, 445, 50, month_b, 2, 1, "month_b", false, COLOR_INFOR_SG);
 		goto start_input;
 	}
 	// input year 
@@ -377,7 +462,7 @@ void  xu_li_thong_ke_hd(
 		cout << "Tien hanh nhap input -nam\n";
 		cout << "is_all_valid: " << is_all_valid << endl;
 		cout << "is_error: " << error_yearb << endl;
-		year_b = ss_page_input(is_all_valid, error_yearb, x, y, 800, 250, 900, 285, 30, 10, 510, 445, 50, year_b, 4, 1, "year", false, COLOR_INFOR_SG);
+		year_b = ss_page_input(is_all_valid, error_yearb, x, y, 800, 250, 900, 285, 30, 10, 510, 445, 50, year_b, 4, 1, "year_b", false, COLOR_INFOR_SG);
 		goto start_input;
 	}
 
@@ -390,18 +475,18 @@ void  xu_li_thong_ke_hd(
 	// End ======================================
 	if (ktVT(400, 360, 500, 395, x, y) && page) {
 		cout << "Tien hanh nhap input -ngay\n";
-		day_e = ss_page_input(is_all_valid, error_daye, x, y, 400, 360, 500, 395, 40, 10, 510, 445, 50, day_e, 2, 1, "day", false, COLOR_INFOR_SG);
+		day_e = ss_page_input(is_all_valid, error_daye, x, y, 400, 360, 500, 395, 40, 10, 510, 445, 50, day_e, 2, 1, "day_e", false, COLOR_INFOR_SG);
 		goto start_input;
 	}
 	if (ktVT(610, 360, 710, 395, x, y) && page) {
 		cout << "Tien hanh nhap input -thang\n";
-		month_e = ss_page_input(is_all_valid, error_monthe, x, y, 610, 360, 710, 395, 40, 10, 510, 445, 50, month_e, 2, 1, "month", false, COLOR_INFOR_SG);
+		month_e = ss_page_input(is_all_valid, error_monthe, x, y, 610, 360, 710, 395, 40, 10, 510, 445, 50, month_e, 2, 1, "month_e", false, COLOR_INFOR_SG);
 		goto start_input;
 	}
 
 	if (ktVT(800, 360, 900, 395, x, y) && page) {
 		cout << "Tien hanh nhap input -nam\n";
-		year_e = ss_page_input(is_all_valid, error_yeare, x, y, 800, 360, 900, 395, 30, 10, 510, 445, 50, year_e, 4, 1, "year", false, COLOR_INFOR_SG);
+		year_e = ss_page_input(is_all_valid, error_yeare, x, y, 800, 360, 900, 395, 30, 10, 510, 445, 50, year_e, 4, 1, "year_e", false, COLOR_INFOR_SG);
 		goto start_input;
 	}
 
