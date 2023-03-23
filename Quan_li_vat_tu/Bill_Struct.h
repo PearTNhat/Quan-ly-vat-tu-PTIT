@@ -172,6 +172,7 @@ void Initialize(PTRHD& First)
 PTRHD Newnode(void)
 {
 	PTRHD p = new DS_HoaDon;
+
 	return p;
 }
 PTRHD p = Newnode();
