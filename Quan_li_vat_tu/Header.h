@@ -10,4 +10,7 @@
 #include <typeinfo>
 #include <windows.h>
 
+#include <fstream>
+#include <cctype>
 using namespace std;
+
