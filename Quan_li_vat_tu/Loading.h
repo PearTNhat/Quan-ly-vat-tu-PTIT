@@ -113,7 +113,7 @@ void Loading(int& x, int& y)
 
 				DrawLoading(906.5, 420, 985, 450, 50);
 				delay(200);
-				//setlinestyle(0, 0, 1);
+				setlinestyle(0, 0, 1);
 			}
 			else
 				goto batdau;
