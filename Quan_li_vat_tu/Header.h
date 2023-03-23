@@ -8,5 +8,6 @@
 #include <string>
 #include <ctime>
 #include <typeinfo>
+#include <windows.h>
 
 using namespace std;

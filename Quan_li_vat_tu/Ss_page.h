@@ -282,7 +282,6 @@ void xu_li_button_tim_kiem(
 		if (year_e == "") text_box(800, 360, 900, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
 		return;
 	}
-	cout << "typeof(day_b) : " << typeid(day_b).name() << endl;
 
 	// date string to int
 	day_b = stoi(day_b);
