@@ -2,7 +2,7 @@
 #include "Header.h"
 #include "Common.h"
 #include "Constant.h"
-#define CLL COLOR(240, 163, 223)
+#define CLL COLOR(42, 193, 219)
 
 void DrawRecTangle(int x1, int y1, int x2, int y2, int mau, int size) {
 	setcolor(mau);
@@ -16,7 +16,7 @@ void DrawBar(int x1, int y1, int x2, int y2, int maunen) {
 }
 
 void DrawLoading(int x1, int y1, int x2, int y2,int t) {
-	//DrawRecTangle(x1, y1, x2, y2, RED, 2);
+	
 	int kc = 20;
 	int i = 1;
 	int j = x1;
@@ -35,6 +35,7 @@ void Loading(int& x, int& y)
 	text_box_no_border(200, 280, 300, 380, (char*)"HO VAN PHU", 4, 2, 0, 0, CLL, 0);
 	text_box_no_border(600, 350, 900, 390, (char*)"GV: LUU NGUYEN KY THU", 4, 2, 0, 8, CLL, 0);
 	text_box(480, 470, 700, 510, (char*)"BAT DAU", 4, 4, 5, 8, COLOR(240, 89, 179), 0);
+	//text_box(480, 470, 700, 510, (char*)"BAT DAU", 4, 4, 5, 8, COLOR(33, 97, 145), 0);
 	while (1)
 	{
 		batdau:
@@ -112,6 +113,7 @@ void Loading(int& x, int& y)
 
 				DrawLoading(906.5, 420, 985, 450, 50);
 				delay(200);
+				//setlinestyle(0, 0, 1);
 			}
 			else
 				goto batdau;
