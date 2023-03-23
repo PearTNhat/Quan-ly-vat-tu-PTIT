@@ -10,7 +10,7 @@
 #define COLOR_INFOR_SG COLOR(186, 245, 223)
 
 // input
-#define I_BG COLOR(51, 73, 96) // màu nền  khi enter nhập xong
+#define I_BG COLOR(51, 73, 96) // màu nền khi enter nhập xong
 #define I_HIGHLIGHT COLOR(226, 205, 247) // highlight khi click vào
 #define I_COLOR 0 // màu chữ
 #define I_ERROR_COLOR COLOR(255,0,0) // màu của chữ khi báo lỗi

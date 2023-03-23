@@ -249,7 +249,7 @@ string input(
 			if (check_key) {
 				if (key == 8) {// <- backspace xoa
 					if (input.length() == 1) {
-
+						
 					}
 					else {
 						input.erase(input.end() - 2);
@@ -323,6 +323,8 @@ string input(
 					input.erase(input.end() - 1);
 					strcpy_s(result, trim(input).c_str());
 					cout << "result:" << result << endl;
+
+					// enter xong vẫn để lại chữ
 					// enter  xong vẫn để lại chữ
 					setfillstyle(1, 15);
 					bar3d(l, t, r, b, 0, 0);
