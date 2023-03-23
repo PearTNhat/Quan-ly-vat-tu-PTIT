@@ -47,77 +47,70 @@ void Loading(int& x, int& y)
 				DrawRecTangle(200, 420, 985, 450, RED, 2);
 				text_box_no_border(480, 470, 700, 510, (char*)"", 4, 5, 0, 8, CLL, 0);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				DrawLoading(200, 420, 278.5, 450, 10);
-				delay(200);
+				DrawLoading(200, 420, 278.5, 450, 15);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 
 				// lan 2
 				
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, CLL);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				DrawLoading(278.5, 420, 592.5, 450, 15);
 				
 				//lan 3
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, CLL);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, CLL);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 
 				DrawLoading(592.5, 420, 906.5, 450, 15);
 
 				//lan 4
+			
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, CLL);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, CLL);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, CLL);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
-				delay(200);
+				delay(150);
 
-				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, CLL);
-				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				delay(200);
-				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
-				delay(200);
-				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
-				delay(200);
-
-				DrawLoading(906.5, 420, 985, 450, 15);
+				DrawLoading(906.5, 420, 985, 450, 100);
 				delay(500);
 			}
 			else
