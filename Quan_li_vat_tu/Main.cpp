@@ -25,7 +25,6 @@ int main() {
 	initwindow(1200, 620, "Quan li vat tu");
 	cleardevice();
 	Loading(x,y);
-	delay(100);
 	setbkcolor(bk_screen);
 	cleardevice();
 	createHeader(header_title);
