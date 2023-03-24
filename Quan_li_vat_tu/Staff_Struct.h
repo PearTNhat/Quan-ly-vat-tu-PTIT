@@ -7,7 +7,7 @@ struct NhanVien {
 	char ho[9];
 	char ten[21];
 	char phai[4];
-	DS_HoaDon ds_hoadon;
+	DS_HoaDon *ds_hoadon;
 };
 struct DS_NhanVien {
 	NhanVien *nhan_vien[MAX_NV];

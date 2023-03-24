@@ -2,8 +2,8 @@
 #include "Header.h"
 #include "Common.h"
 #include "Constant.h"
-#include "Staff_Struct.h"
-//#include "./Data/list_staff.txt";
+#include "Bill_Struct.h"
+#include "Staff_Struct.h";
 check_CURD delete_sf[ROW_STAFF];
 check_CURD edit_sf[ROW_STAFF];
 view_page vp_m_sf;
@@ -16,20 +16,60 @@ void staff_infor(string mnv = "", string ho = "", string ten = "", string gender
 void delete_staff(DS_NhanVien& ds_nv, int index);
 int checkSubmitEditStaff(int arr[], int n);
 //--------------
-//void read_file(DS_NhanVien &ds_nv) {
-//	ifstream read_file;
-//	read_file.open("./Data/list_staff.txt", ios_base::in);
-//	NhanVien temp;
-//	cout << "++++++++++ " << endl;
-//	//while (!read_file.eof()) {
-//		read_file.getline(temp.maNV, 10, ',');
-//		read_file.getline(temp.ho, 10, ',');
-//		read_file.getline(temp.ten, 10, ',');
-//		read_file.getline(temp.phai, 10,',');
-//		read_file.ignore();
-//
-//	//}
-//}
+void read_file_staff(DS_NhanVien &ds_nv) {
+	ifstream read_file;
+	read_file.open("./Data/list_staff.txt", ios_base::in);
+	NhanVien* temp;
+	HoaDon hoadon = {};
+	PTRHD ds_hoadon;
+	while (!read_file.eof()) {
+		temp =new NhanVien;
+		ds_hoadon = NULL;
+		/*ds_nv.nhan_vien[ds_nv.length] = new NhanVien;
+		ds_nv.nhan_vien[ds_nv.length]->ds_hoadon = NULL;*/
+		read_file.getline(temp->maNV, 11, ',');
+		read_file.getline(temp->ho, 9, ',');
+		read_file.getline(temp->ten, 21, ',');
+		read_file.getline(temp->phai, 4,',');
+		read_file.ignore();
+		string sl_hd;	
+		getline(read_file, sl_hd, '\n');
+		//cout << "sl:  "<< stoi(sl_hd) << endl;
+		if (stoi(sl_hd)>0) {
+
+			for (int i = 0; i <stoi(sl_hd); i++)
+			{
+				read_file.getline(hoadon.SoHD, 21, ',');
+				//cout << hoadon.SoHD << ",";
+				string tempDate;
+				getline(read_file, tempDate, '/');
+				hoadon.date.ngay = stoi(tempDate);
+				//cout << hoadon.date.ngay << "/";
+				getline(read_file, tempDate, '/');
+				hoadon.date.thang = stoi(tempDate);
+				//cout << hoadon.date.thang << "/";
+				getline(read_file, tempDate, ',');
+				hoadon.date.nam = stoi(tempDate);
+				//cout << hoadon.date.nam << ",";
+				if (i == stoi(sl_hd)-1) {
+					read_file.getline(hoadon.Loai, 2, '\n');
+				}
+				else {
+					read_file.getline(hoadon.Loai, 2, ',');
+					read_file.ignore();
+
+				}
+				//cout << hoadon.Loai<<endl ;
+				Insert_after(ds_hoadon, hoadon);
+			
+			}
+		}
+		temp->ds_hoadon = ds_hoadon;
+		ds_nv.nhan_vien[ds_nv.length++] = temp;
+		
+	}
+	
+}
 void create_sf_header() {
 	setfillstyle(1, bk_screen);
 	setcolor(0);
@@ -47,19 +87,20 @@ void staff_table(
 	view_page& view_page,
 	check_CURD edit[],//// k can co the xoa
 	check_CURD _delete[],// k can co the xoa
-	int num_cols
+	int num_rows
 ) {
+	cout << ds.length;
 	delete_after_header();
 	create_sf_header();
 	// tnh so page co trong trang
 	setcolor(0);
 	int n = ds.length;
-	int page = n / num_cols;
-	int du = n % num_cols;
+	int page = n / num_rows;
+	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
-	int max_page = n > (num_cols * view_page.current) ? (num_cols * view_page.current) : n;
+	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
 	// reder page
-	int i = num_cols * (view_page.current - 1);
+	int i = num_rows * (view_page.current - 1);
 	//header
 	int bar_top = 120, bar_bottom = 150;
 	int text_top = 125;
@@ -78,7 +119,7 @@ void staff_table(
 	int e = 0;//edit
 	for (; i < max_page; i++)
 	{
-		if (i % num_cols == 0) {
+		if (i % num_rows == 0) {
 			bar_top += 30;
 			bar_bottom += 40;
 			text_top += 35;
@@ -111,16 +152,19 @@ void staff_table(
 		strcpy_s(stt, to_string(i + 1).c_str());
 		writeText(55, text_top, stt, 1, 0, 3, 15);
 		writeText(95, text_top, ds.nhan_vien[i]->maNV, 1, 0, 3, 15);
-
+		cout << ds.nhan_vien[i]->ho << endl;
 		string fullName = ds.nhan_vien[i]->ho;
+
 		fullName += " ";
 		fullName += ds.nhan_vien[i]->ten;
+
 		char ten[30];
 		strcpy_s(ten, fullName.c_str());
+		cout << ten << endl;
 		writeText(230, text_top, ten, 1, 0, 3, 15);
 		writeText(650, text_top, ds.nhan_vien[i]->phai, 1, 0, 3, 15);
 
-		//------------- k can cos the xoa
+		//------------- k can co the xoa
 		text_box(900, text_top, 978, text_top + 22, curd_o[0], f_small, 1, 1);
 		text_box(995, text_top, 1038, text_top + 22, curd_o[1], f_small, 1, 1);
 		setfillstyle(1, 15);
