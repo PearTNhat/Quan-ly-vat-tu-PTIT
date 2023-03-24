@@ -78,7 +78,6 @@ void delete_after_header() {
 void page_transition(view_page& view_page) {
 	int l_arrow_l = 495, t_arrow_l = 565, r_arrow_l = 530, b_arrow_l = 600;
 	int l_arrow_r = 650, t_arrow_r = 565, r_arrow_r = 685, b_arrow_r = 600;
-	
 	string s = to_string(view_page.current) + " / " + to_string(view_page.page);
 	char num_p[10];
 	strcpy_s(num_p, s.c_str());
@@ -87,7 +86,10 @@ void page_transition(view_page& view_page) {
 	outtextxy(575, 570, num_p);
 	char arrow_left[] = "<";
 	char arrow_right[] = ">";
-	if (view_page.current == 1) {
+	if (view_page.page == 1) {
+
+	}
+	else if (view_page.current == 1) {
 		//>
 		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5,10);
 
@@ -257,9 +259,9 @@ string input(
 				}
 				else if (key != 13) {
 					if (input.length() == (max_value + 1) ) {
-						string s = "Toi da la ";
+						string s = "Toi da ";
 						s += to_string(max_value);
-						s += " ki tu.";
+						s += " ki tu. Ban da nhap du.";
 						warning_msg(s, l + e_kcl, t + e_kct, i_bg, i_error_color);
 						// reset lai mau
 						setbkcolor(i_highlight);

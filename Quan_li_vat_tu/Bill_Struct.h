@@ -169,34 +169,34 @@ void Initialize(PTRHD& First)
 }
 
 
-PTRHD Newnode(void)
+PTRHD Newnode(HoaDon x = {})
 {
 	PTRHD p = new DS_HoaDon;
-
+	p->hoadon = x;
+	p->next = NULL;
 	return p;
 }
-PTRHD p = Newnode();
-
+PTRHD p= Newnode();
 void Insert_First(PTRHD& First, HoaDon x)
 {
-	PTRHD p;
-	p = new DS_HoaDon;
-	p->hoadon = x;
+	PTRHD p=Newnode(x);
 	p->next = First;
 	First = p;
 }
 
-void Insert_after(PTRHD p, HoaDon x)
+void Insert_after(PTRHD &p, HoaDon x)
 {
-	PTRHD q;
-	if (p == NULL)
-		cout << "Khong the them phan tu vao danh sach";
+	PTRHD q=p;
+	if (p == NULL) {
+		Insert_First(p,x);
+	}
 	else
 	{
-		q = new DS_HoaDon;
-		q->hoadon = x;
-		q->next = p->next;
-		p->next = q;
+		while (q->next != NULL) {
+			q = q->next;
+		}
+		PTRHD temp=Newnode(x);
+		q->next = temp;
 	}
 }
 
@@ -281,6 +281,29 @@ void Clearlist(PTRHD& First)
 	PTRHD p;
 	while (First != NULL) Delete_First(First);
 }
+void display_dsHD(PTRHD First) {
+	if (First!=NULL) {
+		PTRHD p= First;
+		while (p!=NULL) {
+			cout << p->hoadon.SoHD << ",";
+			cout << p->hoadon.Loai;
+			p = p->next;
+			cout << endl;
+		}
+		
+	}
+	else {
+		cout << "Node is NULL";
+	}
+}
+int getNums_dsHD(PTRHD First) {
+	int count = 0;
+	while (First !=NULL) {
+		count++;
+		First = First->next;
+	}
+	return count;
+}
 
 int Empty(dscthd dautien)
 {
@@ -301,7 +324,6 @@ int Delete_First(dscthd& dautien)
 
 void Clearlist(dscthd& First)
 {
-	dscthd p;
 	while (First != NULL) Delete_First(First);
 }
 
