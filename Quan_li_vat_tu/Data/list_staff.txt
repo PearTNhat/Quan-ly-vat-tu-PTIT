@@ -1,11 +1,7 @@
-NV001,Ho,Tuan Kiet,Nam,
-2
-VT004,20/10/2022,N,
-VT006,10/10/2023,X
+NV123,Ho,Tuan Kiet,Nam,
+0
 NV002,Han,Bang Tuyet,Nu,
-2
-VT008,20/10/2012,N,
-VT009,10/10/2033,X
+0
 NV003,Chu,Tu Mach,Nu,
 0
 NV004,My,Do Toa,Nu,
@@ -13,9 +9,7 @@ NV004,My,Do Toa,Nu,
 NV005,Bach,Tieu Thuan,Nam,
 0
 NV006,Ly,Mac Sau,Nu,
-2
-VT035,20/10/2012,N,
-VT019,10/10/2033,X
+0
 NV007,Lenh,Ho Sung,Nam,
 0
 NV008,Tieu,Viem,Nam,
@@ -25,4 +19,12 @@ NV009,Ly,Thanh Hau,Nam,
 NV010,Ly,Thanh Hoang Hau,Nam,
 0
 NV011,Ly,Thanh Hoang,Nam,
+0
+NV035,Anh,Khong Phai Anh Hung,Nam,
+0
+GKJFDPSGJP,Bui,Xuan Huan,Nam,
+0
+4454856,45787433,45787,Nu,
+0
+F,F,Hvghv,Nam,
 0

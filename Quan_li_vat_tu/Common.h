@@ -22,7 +22,7 @@ struct arrString {
 string trim(string& s);
 void warning_msg(string text, int l, int t, int bg, int color, int font = f_medium);
 void split(string s, arrString& arrS);
-
+bool checkLowcase(char s);
 //
 bool ktVT(int l, int t, int r, int b, int x, int y) {
 	/*cout << l << " " << x << " " << r << "|" << t << " " << y << " " << b << " ";*/
@@ -161,6 +161,7 @@ bool decimal_number(char x) {
 	return false;
 }
 bool kt_KTu(char x) {
+	
 	if (x >= 'a' && x <= 'z') {
 		return true;
 	}
@@ -176,14 +177,15 @@ bool kt_KTu(char x) {
 	return false;
 }
 string input(
-	int &x,int &y,
+	int& x, int& y,
 	int l, int t, int r, int b,
 	int kcl, int kct,// can chinh vi tri input
 	int e_kcl, int e_kct, int e_length = 50, // can chinh bao loi
 	string value = "", int max_value = 255, string type = "",
-	string function="", // upcase abc -> ABC
+	string function = "", // upcase abc -> ABC
 						// camelCase nguyen van a -> Nguyen Van A
 	int i_bg = I_BG,
+	int setX = NULL, int setY = NULL,
 	int i_highlight = I_HIGHLIGHT,
 	int i_color = I_COLOR,
 	int i_error_color= I_ERROR_COLOR
@@ -193,7 +195,7 @@ string input(
 	}
 	bool key_enter = false;
 	string input = value;
-	input += "_";
+	input += "|";
 	char result[255] = {""};
 	if (input.length() != 0) {
 		strcpy_s(result, input.c_str());
@@ -230,8 +232,26 @@ string input(
 
 			}
 		}
+
+		input.erase(input.length() - 1);
+		settextstyle(f_medium, 0, 1);
+		setfillstyle(1, i_highlight);
+		bar3d(l, t, r, b, 0, 0);
+		outtextxy(l + kcl, t + kct, (char*)input.c_str());
+		delay(1);
+		input += "|";
+		setfillstyle(1, i_highlight);
+		bar3d(l, t, r, b, 0, 0);
+		outtextxy(l + kcl, t + kct, (char*)input.c_str());
+		delay(1);
+
 		if (kbhit()) {
-			char key = (char)getch(); // nhận key từ bàn phím
+			char key = getch(); // nhận key từ bàn phím
+			if ((int)key == 0) // chặn F1, F2 , ect....
+			{
+				key = getch();
+				continue;
+			}
 			bool check_key;
 			cout << "key "<<endl;
 			if (type == "number") {
@@ -298,7 +318,7 @@ string input(
 						}
 						input[0] = toupper(input[0]);
 					}
-					input += "_";
+					input += "|";
 				}
 				
 				
@@ -321,12 +341,11 @@ string input(
 						setcolor(i_color);
 					}
 					key_enter = true;
-					x = NULL; y = NULL;
+					x = setX ; y = setY ;
 					input.erase(input.end() - 1);
 					strcpy_s(result, trim(input).c_str());
 					cout << "result:" << result << endl;
 
-					// enter xong vẫn để lại chữ
 					// enter  xong vẫn để lại chữ
 					setfillstyle(1, 15);
 					bar3d(l, t, r, b, 0, 0);
@@ -376,7 +395,7 @@ string trim(string &s) {
 
 void split(string s,arrString &arrS ) {
 	string temp = "";
-	for (int i = 0; i < s.length(); i++)
+	for (size_t  i = 0; i < s.length(); i++)
 	{
 		if (s[i]==' ') {
 			arrS.s[arrS.length++] = temp;
@@ -391,6 +410,101 @@ bool checkLowcase(char s) {
 	if (s >= 'a' && s <= 's') return true;
 	return false;
 }
-void camelCase(string &s) {
-	if (checkLowcase(s[0])) s[0] -= 32;
-}
+//void staff_table(
+//	char sf_table_header[][20],
+//	DS_NhanVien ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
+//	char curd_o[][20], // "them sua xoa" // k can co the xoa
+//	view_page& view_page,
+//	check_CURD edit[],//// k can co the xoa
+//	check_CURD _delete[],// k can co the xoa
+//	int num_rows,
+//	string value = ""
+//) {
+//	delete_after_header();
+//	create_sf_header(value);
+//	// tnh so page co trong trang
+//	setcolor(0);
+//	int n = ds.length;
+//	int page = n / num_rows;
+//	int du = n % num_rows;
+//	view_page.page = du ? page + 1 : page;
+//	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
+//	// reder page
+//	int i = num_rows * (view_page.current - 1);
+//	//header
+//	int bar_top = 120, bar_bottom = 150;
+//	int text_top = 125;
+//	setfillstyle(1, 6);
+//	setbkcolor(6);
+//	settextstyle(f_small, 0, 1);
+//	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
+//	outtextxy(55, text_top, (char*)"STT");
+//	outtextxy(95, text_top, sf_table_header[0]);
+//	outtextxy(230, text_top, sf_table_header[1]);
+//	outtextxy(650, text_top, sf_table_header[2]);
+//	outtextxy(900, text_top, sf_table_header[3]);
+//	setfillstyle(1, 15);
+//	setbkcolor(15);
+//	int d = 0;//delete
+//	int e = 0;//edit
+//	for (; i < max_page; i++)
+//	{
+//		if (i % num_rows == 0) {
+//			bar_top += 30;
+//			bar_bottom += 40;
+//			text_top += 35;
+//		}
+//		else {
+//			bar_top += 40;
+//			bar_bottom += 40;
+//			text_top += 40;
+//		}
+//		// Neu k su dung thi xoa tu day xuong
+//		//vi tri edit
+//		edit[e].l = 900;
+//		edit[e].t = text_top;
+//		edit[e].r = 978;
+//		edit[e].b = text_top + 22;
+//		e++;
+//		// vi tri delete
+//		_delete[d].l = 990;
+//		_delete[d].t = text_top;
+//		_delete[d].r = 1038;
+//		_delete[d].b = text_top + 22;
+//		d++;
+//		// --------------------------------- xuong day
+//
+//		// row
+//		setcolor(0);
+//		bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
+//		// title header
+//		char stt[10];
+//		strcpy_s(stt, to_string(i + 1).c_str());
+//		writeText(55, text_top, stt, 1, 0, 3, 15);
+//		writeText(95, text_top, ds.nhan_vien[i]->maNV, 1, 0, 3, 15);
+//		cout << ds.nhan_vien[i]->ho << endl;
+//		string fullName = ds.nhan_vien[i]->ho;
+//
+//		fullName += " ";
+//		fullName += ds.nhan_vien[i]->ten;
+//
+//		char ten[30];
+//		strcpy_s(ten, fullName.c_str());
+//		cout << ten << endl;
+//		writeText(230, text_top, ten, 1, 0, 3, 15);
+//		writeText(650, text_top, ds.nhan_vien[i]->phai, 1, 0, 3, 15);
+//
+//		//------------- k can co the xoa
+//		text_box(900, text_top, 978, text_top + 22, curd_o[0], f_small, 1, 1);
+//		text_box(995, text_top, 1038, text_top + 22, curd_o[1], f_small, 1, 1);
+//		setfillstyle(1, 15);
+//		setbkcolor(15);
+//	}
+//	//------------- k can cos the xoa
+//	_delete[0].n = d;
+//	edit[0].n = e;
+//
+//	// < >
+//	page_transition(view_page);
+//
+//}
