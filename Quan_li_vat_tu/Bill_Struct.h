@@ -296,9 +296,10 @@ void display_dsHD(PTRHD First) {
 		cout << "Node is NULL";
 	}
 }
-int getNums_dsHD(PTRHD First) {
+int getNumOfBill(PTRHD First) {
 	int count = 0;
 	while (First !=NULL) {
+	cout << First->hoadon.SoHD << endl;
 		count++;
 		First = First->next;
 	}

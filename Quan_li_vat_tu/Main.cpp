@@ -8,37 +8,14 @@
 #include "Goods_tree.h"
 #include "Loading.h"
 
-// nếu mã trùng thì k cho nhập tiếp ở THêm
 int main() {
 	DS_NhanVien ds_nv;
 	read_file_staff(ds_nv);
-	for (int i = 0; i < ds_nv.length; i++)
-	{
-		cout << ds_nv.nhan_vien[i]->maNV << ",";
-		cout << ds_nv.nhan_vien[i]->ho << ",";
-		cout << ds_nv.nhan_vien[i]->ten << ",";
-		cout << ds_nv.nhan_vien[i]->phai<<endl;
-		int nums = getNums_dsHD(ds_nv.nhan_vien[i]->ds_hoadon);
-		cout << nums<<endl;
-		if (nums>0) {
-			display_dsHD(ds_nv.nhan_vien[i]->ds_hoadon);
-
-		}
-
-	}
-	//for (int i = 0; i < 28; i++)
-	//{
-	//	ds_nv.nhan_vien[i] = new NhanVien;
-	//	strcpy_s(ds_nv.nhan_vien[i]->maNV, "hello");
-	//	strcpy_s(ds_nv.nhan_vien[i]->ho, "hello");
-	//	strcpy_s(ds_nv.nhan_vien[i]->ten, ("hello"+to_string(i)).c_str());
-	//	strcpy_s(ds_nv.nhan_vien[i]->phai, "Nam");
-	//	ds_nv.length++;
-	//}
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	cleardevice();
 	//Loading(x,y);
+	setlinestyle(0, 0, 2);
 	setbkcolor(bk_screen);
 	cleardevice();
 	createHeader(header_title);

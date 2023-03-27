@@ -174,7 +174,6 @@ string ss_page_input(
 				if (key == 13) {
 					//enter để break					
 					key_enter = true;
-					error_check:
 					x = NULL; y = NULL;
 					input.erase(input.end() - 1);
 					strcpy_s(result, input.c_str());
