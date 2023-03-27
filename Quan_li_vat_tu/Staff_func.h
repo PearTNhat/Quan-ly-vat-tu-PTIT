@@ -4,6 +4,7 @@
 #include "Constant.h"
 #include "Bill_Struct.h"
 #include "Staff_Struct.h";
+#include "input_staff_good.h"
 check_CURD delete_sf[ROW_STAFF];
 check_CURD edit_sf[ROW_STAFF];
 view_page vp_m_sf;
@@ -238,7 +239,6 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 				while (1) {
 					t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "","upcase", COLOR_INFOR_SG,430,225);
 					if (search_ID_Staff(ds_nv,(string)t_mnv)==-1) {
-
 						break;
 					}
 					else if (i_CRUD != ds_nv.length  && ds_nv.nhan_vien[i_CRUD]->maNV== t_mnv ) {

@@ -56,5 +56,8 @@
     <ClInclude Include="Loading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="input_staff_good.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
