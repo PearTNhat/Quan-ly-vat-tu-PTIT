@@ -36,6 +36,7 @@ void Loading(int& x, int& y)
 	text_box_no_border(600, 350, 900, 390, (char*)"GV: LUU NGUYEN KY THU", 4, 2, 0, 8, CLL, 0);
 	text_box(480, 470, 700, 510, (char*)"BAT DAU", 4, 4, 5, 8, COLOR(240, 89, 179), 0);
 	//text_box(480, 470, 700, 510, (char*)"BAT DAU", 4, 4, 5, 8, COLOR(33, 97, 145), 0);
+	text_box_no_border(480, 450, 700, 490, (char*)"BAT DAU", 4, 4, 3, 8, COLOR(240, 89, 179), 0);
 	while (1)
 	{
 		batdau:

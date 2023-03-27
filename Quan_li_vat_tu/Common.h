@@ -386,13 +386,13 @@ string trim(string &s) {
 		if (s[0]==' ') {
 			s.erase(0,1);
 		}
-		if (s.length() > 0 && s[s.length()-1]==' '  ) {
+		if (s.length() > 0 && s[s.length()-1]== ' ') {
 			s.pop_back();
 		}
 	}
-	
 	return s;
 }
+
 void split(string s,arrString &arrS ) {
 	string temp = "";
 	for (size_t  i = 0; i < s.length(); i++)

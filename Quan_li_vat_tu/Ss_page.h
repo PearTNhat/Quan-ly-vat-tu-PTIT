@@ -11,6 +11,31 @@
 
 char title[5][MAXTITLE] = { "Top", "Ma VT", "Ten Vat Tu", "Don Vi Tinh", "Doanh Thu" };
 
+// Default value for day/month/year
+string day_b = "";
+string month_b = "";
+string year_b = "";
+string day_e = "";
+string month_e = "";
+string year_e = "";
+string year = "";
+
+// kiểm tra năm nhuận
+bool isLeapYear(int year) {
+	if (year % 4 != 0) {
+		return false;
+	}
+	else if (year % 100 != 0) {
+		return true;
+	}
+	else if (year % 400 != 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
 // Xu li input
 bool ktra_loi_input(
 	string input,
@@ -21,21 +46,24 @@ bool ktra_loi_input(
 	int i_error_color, int i_bg, int i_highlight, int i_color
 ) {
 	string error = "";
-	if (input_result == 0) cout << "Kiem tra input_result == 0" << endl;
-	if (input_field == "year") {
-		if (input_result > 2024) error = "Vui long dien nam < 2024";
-		else if (input_result == 0) error = "Nam khong hop le!";
-	}
-	else if (input_field == "day") {
-		if (input_result > 31 || input_result == 0) error = "Ngay khong hop le!";
+	
+	if (input_field == "day") {
+		if (input_result < 1 || input_result > 31) error = "Ngay khong hop le!";
 	}
 	else if (input_field == "month") {
-		if (input_result > 12 || input_result == 0) error = "Thang khong hop le!";
+		if (input_result < 1 || input_result > 12) error = "Thang khong hop le";
 	}
+	else if (input_field == "year" || input_field == "year_search_doanh_thu") {
+		if (input_result < 2003 || input_result > 2023) error = "Nam khong hop le";
+	}
+
+	// Thong bao loi
 	char m[255];
 	strcpy_s(m, error.c_str());
-	cout << "Vi tri chu bao loi: " << e_kcl << endl;
-	writeText(e_kcl, e_kct, m, 2, i_error_color, 8, i_bg);
+	cout << "Loi input! : " << error << endl;
+	int error_padding = 0;
+	if (input_field == "year_search_doanh_thu") error_padding += 30;
+ 	writeText(e_kcl + error_padding, e_kct, m, 2, i_error_color, 8, i_bg);
 	// reset lai mau
 	setbkcolor(i_highlight);
 	setcolor(i_color);
@@ -177,20 +205,24 @@ string ss_page_input(
 					x = NULL; y = NULL;
 					input.erase(input.end() - 1);
 					strcpy_s(result, input.c_str());
-					int input_result = std::stoi(input);
+					int input_result;
+					if (input != "") input_result = std::stoi(input);
+					else input_result = NULL;
 					cout << "result:" << input_result << endl;
 					// enter xong vẫn để lại chữ
 					setfillstyle(1, 15);
 					bar3d(l, t, r, b, 0, 0);
 					// tiến hành ktra lỗi -------------
-					is_error = ktra_loi_input(input, max_value, input_field, (int)input_result, e_kcl, e_kct, i_error_color, i_bg, i_highlight, i_color);
-					int color = COLOR(0, 0, 0);
-					if (is_error) {
-						is_all_valid = false;
-						color = COLOR(255, 0, 0); // set color red khi input lỗi
+					if (input != "") { // Tiến hành kiểm tra lỗi chỉ khi input != ""
+						is_error = ktra_loi_input(input, max_value, input_field, (int)input_result, e_kcl, e_kct, i_error_color, i_bg, i_highlight, i_color);
+						int color = COLOR(0, 0, 0);
+						if (is_error) {
+							is_all_valid = false;
+							color = COLOR(255, 0, 0); // set color red khi input lỗi
+						}
+						else is_all_valid = true;
+						writeText(l + kcl, t + kct, result, 1, color, f_medium, 15);
 					}
-					else is_all_valid = true;
-					writeText(l + kcl, t + kct, result, 1, color, f_medium, 15);
 				}
 			}
 			else {
@@ -258,66 +290,126 @@ void get_current_date(string &day_e, string &month_e, string &year_e) {
 	string curr_month = to_string(1 + ltm->tm_mon);
 	string curr_year = to_string(1900 + ltm->tm_year);
 	// =================================
-	day_e = ss_page_input(is_all_valid, is_error, x_daye, y_daye, 400, 360, 500, 395, 40, 10, 510, 445, 50, curr_date, 2, 1, "day", true, COLOR_INFOR_SG);
-	day_e = ss_page_input(is_all_valid, is_error, x_monthe, y_monthe, 610, 360, 710, 395, 40, 10, 510, 445, 50, curr_month, 2, 1, "month", true, COLOR_INFOR_SG);
-	day_e = ss_page_input(is_all_valid, is_error, x_yeare, y_yeare, 800, 360, 900, 395, 30, 10, 510, 445, 50, curr_year, 2, 1, "year", true, COLOR_INFOR_SG);
-	// update variable 
-	day_e = curr_date;
-	month_e = curr_month;
-	year_e = curr_year;
+	// Xoa báo lỗi
+	setfillstyle(1, COLOR_INFOR_SG);
+	bar(510 - 50, 445, 510 + 290, 445 + 20); 
+	day_e = ss_page_input(is_all_valid, is_error, x_daye, y_daye, 400, 360, 500, 395, 40, 10, 510, 445, 50, curr_date, 2, 1, "day_e", true, COLOR_INFOR_SG);
+	month_e = ss_page_input(is_all_valid, is_error, x_monthe, y_monthe, 610, 360, 710, 395, 40, 10, 510, 445, 50, curr_month, 2, 1, "month_e", true, COLOR_INFOR_SG);
+	year_e = ss_page_input(is_all_valid, is_error, x_yeare, y_yeare, 800, 360, 900, 395, 30, 10, 510, 445, 50, curr_year, 2, 1, "year_e", true, COLOR_INFOR_SG);
+}
+
+bool xu_li_nam_nhuan(int day, int month, int year, string &error_leap_year) {
+
+	if (month == 2) {
+		if (isLeapYear(year) && day > 29) {
+			//error_leap_year = "Nam " + to_string(year) + " khong co ngay " + to_string(day);
+			cout << "year: " << year << endl;
+			error_leap_year = "Ngay " + to_string(day) + " khong ton tai";
+			return true;
+		}
+		else if (!isLeapYear(year) && day > 28) {
+			//error_leap_year = "Nam " + to_string(year) + " khong co ngay " + to_string(day);
+			cout << "year: " << year << endl;
+			error_leap_year = "Ngay " + to_string(day) + " khong ton tai";
+			return true;
+		}
+	}
+	else if (month == 4 || month == 6 || month == 9 || month == 11) {
+		if (day > 30) {
+			cout << "truong hop 3" << endl;
+			error_leap_year = "Ngay " + to_string(day) + " khong ton tai";
+			return true;
+		}
+	}
+	return false;
 }
 
 void xu_li_button_tim_kiem(
 	bool is_all_valid,
-	string day_b, string month_b, string year_b, string day_e, string month_e, string year_e
+	string dayb, string monthb, string yearb, string daye, string monthe, string yeare
 ) {
 	// check empty
-	if (day_b == "" || day_e == "" || month_e == "" || month_b == "" || year_b == "" || year_e == "") {
-		if (day_b == "") text_box(400, 250, 500, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (month_b == "") text_box(610, 250, 710, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (year_b == "") text_box(800, 250, 900, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (day_e == "") text_box(400, 360, 500, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (month_e == "") text_box(610, 360, 710, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
-		if (year_e == "") text_box(800, 360, 900, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+	if (dayb == "" || daye == "" || monthe == "" || monthb == "" || yearb == "" || yeare == "") {
+		if (dayb == "") text_box(400, 250, 500, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (monthb == "") text_box(610, 250, 710, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (yearb == "") text_box(800, 250, 900, 285, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (daye == "") text_box(400, 360, 500, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (monthe == "") text_box(610, 360, 710, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
+		if (yeare == "") text_box(800, 360, 900, 395, (char*)"Trong!", f_medium, 2, 8, 20, 15, COLOR(255, 0, 0));
 		return;
 	}
-	cout << "typeof(day_b) : " << typeid(day_b).name() << endl;
 
 	// date string to int
-	day_b = stoi(day_b);
-	month_b = stoi(month_b);
-	year_b = stoi(year_b);
-	day_e = stoi(day_e);
-	month_e = stoi(month_e);
-	year_e = stoi(year_e);
-
-	// cout << "day_b = " << day_b << ", month_b = " << month_b << ", year_b =  " << year_b << ", day_e = " << day_e << ", month_e = " << month_e << ", year_e = " << year_e << endl;
+	int day_b = stoi(dayb);
+	int month_b = stoi(monthb);
+	int year_b = stoi(yearb);
+	int day_e = stoi(daye);
+	int month_e = stoi(monthe);
+	int year_e = stoi(yeare);
+		
+	// Kiểm tra định dạng ngày/tháng/năm
+	cout << "day_b = " << day_b << ", month_b = " << month_b << ", year_b =  " << year_b << ", day_e = " << day_e << ", month_e = " << month_e << ", year_e = " << year_e << endl;
 	if (!is_all_valid) return; // Ngay/thang/nam không đúng định dạng -> return
-	bool is_error = false;	
+	bool error_begin_end = false;	// kiểm tra begin > end
 	if (year_e < year_b) {
-		is_error = true;
+		error_begin_end = true;
 		cout << "year_e = " << year_e << " < year_b = " << year_b << endl;
 	}
 	else if (year_e == year_b) {
 		if (month_e < month_b) {
-			is_error = true;
+			error_begin_end = true;
 			cout << "month_e = " << month_e << " < month_b = " << month_b << endl;
 		}
 		else if (month_e == month_b) {
 			if (day_e < day_b) {
-				is_error = true;
+				error_begin_end = true;
 				cout << "day_e = " << day_e << " < day_b = " << day_b << endl;
 			}
 		}
 	}
 
+	// Kiểm tra năm nhuân
+	bool is_error_leap_year_begin;
+	bool is_error_leap_year_end;
+	string error_leap_year = "";
+	is_error_leap_year_begin = xu_li_nam_nhuan(day_b, month_b, year_b, error_leap_year);
+	is_error_leap_year_end = xu_li_nam_nhuan(day_e, month_e, year_e, error_leap_year);
+
+	if (is_error_leap_year_begin) {
+		char result[255] = { "" };
+		strcpy_s(result, to_string(day_b).c_str());
+		writeText(400 + 40, 250 + 10, result, 1, COLOR(255, 0, 0), f_medium, 15);
+	}
+	else { // Trả chữ về màu đen khi không còn lỗi
+		char result[255] = { "" };
+		strcpy_s(result, to_string(day_b).c_str());
+		writeText(400 + 40, 250 + 10, result, 1, 0, f_medium, 15);
+	}
+	if (is_error_leap_year_end) {
+		char result[255] = { "" };
+		strcpy_s(result, to_string(day_e).c_str());
+		writeText(400 + 40, 360 + 10, result, 1, COLOR(255, 0, 0), f_medium, 15);
+	}
+	else { // Trả chữ về màu đen khi không còn lỗi
+		char result[255] = { "" };
+		strcpy_s(result, to_string(day_e).c_str());
+		writeText(400 + 40, 360 + 10, result, 1, 0, f_medium, 15);
+	}
+
 	// print message
-	if (is_error) {
+	if (error_leap_year != "") {
+		char m[255];
+		strcpy_s(m, error_leap_year.c_str());
+		writeText(490, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SG);
+		return;
+	}
+	else if (error_begin_end) {
 		string error = "Ngay/thang/nam BEGIN > END";
 		char m[255];
 		strcpy_s(m, error.c_str());
 		writeText(470, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SG);
-	}
+		return;
+	} 
 }
 
 void do_hoa_search_doanh_thu() {
@@ -343,7 +435,7 @@ void xu_li_tra_cuu_doanh_thu(int &x, int &y, string &year, bool page) {
 	bool is_error = false;
 	if (ktVT(670, 285, 835, 320, x, y) && page) {
 		cout << "Tien hanh nhap input --nam";
-		year = ss_page_input(is_all_valid, is_error, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year", false, COLOR_INFOR_SG);
+		year = ss_page_input(is_all_valid, is_error, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year_search_doanh_thu", false, COLOR_INFOR_SG);
 	}
 }
 
