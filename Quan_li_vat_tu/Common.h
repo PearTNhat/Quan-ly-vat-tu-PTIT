@@ -129,7 +129,7 @@ void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 		delay( _delay);
 	}
 }bool only_number(char x) {
-
+	if (x == 9)return true;
 	if (x >= '0' && x <= '9') {
 		return true;
 	}
@@ -139,6 +139,7 @@ void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 	return false;
 }
 bool only_letter(char x) {
+	if (x == 9)return true;
 	if (x >= 'a' && x <= 'z') {
 		return true;
 	}
@@ -151,6 +152,7 @@ bool only_letter(char x) {
 	return false;
 }
 bool decimal_number(char x) {
+	if (x == 9)return true;
 
 	if (x >= '0' && x <= '9') {
 		return true;
@@ -161,7 +163,8 @@ bool decimal_number(char x) {
 	return false;
 }
 bool kt_KTu(char x) {
-	
+	if (x == 9)return true;
+
 	if (x >= 'a' && x <= 'z') {
 		return true;
 	}
@@ -253,7 +256,7 @@ string input(
 				continue;
 			}
 			bool check_key;
-			cout << "key "<<endl;
+			//cout << "key "<< (int)key <<endl;
 			if (type == "number") {
 				check_key = only_number(key);
 			}
@@ -278,7 +281,7 @@ string input(
 					}
 				}
 				else if (key != 13) {
-					if (input.length() == (max_value + 1) ) {
+					if (input.length() == (max_value + 1)) {
 						string s = "Toi da ";
 						s += to_string(max_value);
 						s += " ki tu. Ban da nhap du.";
@@ -296,7 +299,10 @@ string input(
 						key = toupper(key);
 					}
 					// noi chu vao
-					input += key;
+					if (key != 9) { // khac tab
+						input += key;
+
+					};
 					
 					if (input.length() == 1 && input[0] == ' ') { // dau cach o dau thi xoa
 						input.erase(0, 1);
@@ -332,8 +338,9 @@ string input(
 				//-- ghi chữ lại
 				outtextxy(l + kcl, t + kct, result);
 				cout << "input: " << input << endl;
-				if (key == 13 ) {
-					//enter để break		'
+				if (key == 13 || key == 9) {
+					//enter để break	'
+					cout << input.length()<<"_____________________";
 					if(input.length()==1){
 						warning_msg("Khong duoc de trong", l + e_kcl, t + e_kct, i_bg, i_error_color);
 						// reset lai mau
@@ -351,6 +358,7 @@ string input(
 					bar3d(l, t, r, b, 0, 0);
 					writeText(l + kcl, t + kct, result,1, i_color,f_medium,15);
 				}
+				
 			}
 			else {
 				cout << "ki tu k hop le" << endl;
