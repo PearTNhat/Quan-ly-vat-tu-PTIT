@@ -16,7 +16,7 @@ struct check_CURD {
 };
 struct arrString {
 	string s[100];
-	int length=0;
+	int length = 0;
 };
 //
 string trim(string& s);
@@ -29,7 +29,7 @@ bool ktVT(int l, int t, int r, int b, int x, int y) {
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }
-void text_box (int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8,int bg=XANH_DUONG_NHAT, int tColor = 15) {
+void text_box(int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = XANH_DUONG_NHAT, int tColor = 15) {
 	setcolor(tColor);
 	settextstyle(font, 0, f_size);
 	setfillstyle(1, bg);
@@ -50,14 +50,14 @@ void text_box_no_border(int l, int t, int r, int b, char s[], int font, int f_si
 void createHeader(char x[][maxTHeader]) {
 	setfillstyle(1, HEADER_BACKGROUND);
 	setcolor(HEADER_TEXT_COLOR);
-	bar3d(-1, 0, 1200, 60,0,0);
-	
+	bar3d(-1, 0, 1200, 60, 0, 0);
+
 	text_box(50, 10, 250, 50, x[0], f_medium, 3, 10, 56);
-	text_box(350, 10,550 , 50, x[1], f_medium, 3, 10, 43);
+	text_box(350, 10, 550, 50, x[1], f_medium, 3, 10, 43);
 	text_box(650, 10, 850, 50, x[2], f_medium, 3, 10, 35);
 	text_box(950, 10, 1150, 50, x[3], f_medium, 3, 10, 45);
 }
-void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,int kct, int kcl,int bg= HIGHLIGHT_BACKGROUND, int color=0) {
+void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {
 	setcolor(color);
 	settextstyle(font, 0, f_size);
 	setfillstyle(1, bg);
@@ -65,7 +65,7 @@ void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size,in
 	setbkcolor(bg);
 	outtextxy(l + kcl, t + kct, s);
 }
-void writeText(int x, int y, char text[], int size=1,int tColor=0,int font = f_small,int bg=bk_screen) {
+void writeText(int x, int y, char text[], int size = 1, int tColor = 0, int font = f_small, int bg = bk_screen) {
 	setcolor(tColor);
 	setbkcolor(bg);
 	settextstyle(font, 0, size);
@@ -91,43 +91,45 @@ void page_transition(view_page& view_page) {
 	}
 	else if (view_page.current == 1) {
 		//>
-		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5,10);
+		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10);
 
 	}
 	else if (view_page.current == view_page.page) {
 		//<
-		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5,10);
+		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10);
 	}
-	else  {
+	else {
 		//<  >
 		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10);
 		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10);
 
 	}
 }
-void next_page(int l, int t, int r, int b, view_page& check_page,int _delay=200 ,int d_t=5,int d_l=10 ,int bg = HEADER_BACKGROUND, int color = 10) {
+void next_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200, int d_t = 5, int d_l = 10, int bg = HEADER_BACKGROUND, int color = 10) {
 	int current = check_page.current;
 	int total_page = check_page.page;
 	if (current >= total_page) {
-		cout<<"K the next page";
+		cout << "K the next page";
 	}
 	else {
 		check_page.current++;
-		highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l,bg,color );
+		highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l, bg, color);
 		delay(_delay);
 	}
 }
-void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200,int d_t = 5, int d_l = 10,int bg = HEADER_BACKGROUND, int color = 10) {
+void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200, int d_t = 5, int d_l = 10, int bg = HEADER_BACKGROUND, int color = 10) {
 	int current = check_page.current;
 	int total_page = check_page.page;
-	if (current <=1) {
+	if (current <= 1) {
 		cout << "K the prev page";
 	}
 	else {
 		check_page.current--;
-		highlight_box(l, t, r, b, (char*)"<", f_medium, 3,d_t,d_l,bg,color);
-		delay( _delay);
+		highlight_box(l, t, r, b, (char*)"<", f_medium, 3, d_t, d_l, bg, color);
+		delay(_delay);
 	}
+}
+void warning_msg(string text, int l, int t, int bg, int color, int font) {
 }bool only_number(char x) {
 
 	if (x >= '0' && x <= '9') {
@@ -367,37 +369,37 @@ string input(
 void warning_msg(string text,int l,int t,int bg,int color,int font) {
 	char m[255];
 	strcpy_s(m, text.c_str());
-	writeText(l , t , m, 1, color, f_medium, bg);
+	writeText(l, t, m, 1, color, f_medium, bg);
 }
-bool announce_board(int kcl=0, int kct=0,int bg= COLOR(232, 246, 250)) { // 200 //400 
+bool announce_board(int kcl = 0, int kct = 0, int bg = COLOR(232, 246, 250)) { // 200 //400 
 
 	setfillstyle(1, bg);
 	bar3d(420, 210, 780, 410, 0, 0);
-	writeText(450+kcl, 280+kct, (char*)"Ban co muon xoa khong?", 1, 0,f_medium, bg);
+	writeText(450 + kcl, 280 + kct, (char*)"Ban co muon xoa khong?", 1, 0, f_medium, bg);
 	text_box(500, 345, 570, 370, (char*)"Co", f_medium, 1, 5, 20, bg, 0);
 	text_box(610, 345, 680, 370, (char*)"Khong", f_medium, 1, 5, 6, bg, 0);
-	text_box(750, 210, 780, 240,(char*)"X",f_medium,1,7,9,COLOR(255, 21, 0), 0);
+	text_box(750, 210, 780, 240, (char*)"X", f_medium, 1, 7, 9, COLOR(255, 21, 0), 0);
 
 	return 0;
 }
-string trim(string &s) {
+string trim(string& s) {
 	for (int i = 0; i < s.length(); i++)
 	{
-		if (s[0]==' ') {
-			s.erase(0,1);
+		if (s[0] == ' ') {
+			s.erase(0, 1);
 		}
-		if (s.length() > 0 && s[s.length()-1]== ' ') {
+		if (s.length() > 0 && s[s.length() - 1] == ' ') {
 			s.pop_back();
 		}
 	}
 	return s;
 }
 
-void split(string s,arrString &arrS ) {
+void split(string s, arrString& arrS) {
 	string temp = "";
-	for (size_t  i = 0; i < s.length(); i++)
+	for (size_t i = 0; i < s.length(); i++)
 	{
-		if (s[i]==' ') {
+		if (s[i] == ' ') {
 			arrS.s[arrS.length++] = temp;
 			temp = "";
 			continue;

@@ -2,7 +2,7 @@
 #include "Header.h"
 #include "Common.h"
 #include "Constant.h"
-
+#include "input_staff_good.h"
 
 
 string b_input(
