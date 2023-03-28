@@ -4,8 +4,8 @@
 #define MAX_NV 500
 struct NhanVien {
 	char maNV[11];
-	char ho[9];
-	char ten[21];
+	char ho[23];
+	char ten[9];
 	char phai[4];
 	DS_HoaDon *ds_hoadon;
 };

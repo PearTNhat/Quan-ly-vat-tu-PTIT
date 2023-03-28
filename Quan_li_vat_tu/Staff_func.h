@@ -8,8 +8,9 @@
 check_CURD delete_sf[ROW_STAFF];
 check_CURD edit_sf[ROW_STAFF];
 view_page vp_m_sf;
-// nếu mã trùng thì k cho nhập tiếp ở THêm
-// khi bam luu neu cai nao trong thi hien len dung de trong
+// then chuc nang tim kiem maNV
+// khi luu hien message loi
+// luu thanh cong hien luu thanh cong
 bool sf_isEdit = false, sf_isAdd = false;
 
 //-------------
@@ -237,7 +238,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 		headInfor:;
 			if (ktVT(430, 165, 800, 195, x, y)) { // MNV
 				while (1) {
-					t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "","upcase", COLOR_INFOR_SG,430,225);
+					t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "textNumberNoSpace","upcase", COLOR_INFOR_SG,430,225);
 					if (search_ID_Staff(ds_nv,(string)t_mnv)==-1) {
 						break;
 					}
@@ -269,7 +270,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 				goto headInfor;
 			}
 			if (ktVT(430, 225, 800, 255, x, y)) { // ho
-				t_ho = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_ho, 8, "text", "camelCase", COLOR_INFOR_SG,430,285);
+				t_ho = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_ho, 22, "text", "camelCase", COLOR_INFOR_SG,430,285);
 				if (func == "add") {
 					if (t_ho.length() > 0) {
 						checkSubmit[1] = 1;
@@ -290,7 +291,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 
 			}
 			if (ktVT(430, 285, 800, 315, x, y)) { // ten
-				t_ten = input(x, y, 430, 285, 800, 315, 5, 6, 5, 35, 50, t_ten, 20, "text", "camelCase", COLOR_INFOR_SG,430,345);
+				t_ten = input(x, y, 430, 285, 800, 315, 5, 6, 5, 35, 50, t_ten, 8, "textNoSpace", "camelCase", COLOR_INFOR_SG,430,345);
 				if (func == "add") {
 					if (t_ten.length() > 0) {
 						checkSubmit[2] = 1;
