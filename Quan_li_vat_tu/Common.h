@@ -238,12 +238,12 @@ string input(
 		setfillstyle(1, i_highlight);
 		bar3d(l, t, r, b, 0, 0);
 		outtextxy(l + kcl, t + kct, (char*)input.c_str());
-		delay(1);
+		delay(5);
 		input += "|";
 		setfillstyle(1, i_highlight);
 		bar3d(l, t, r, b, 0, 0);
 		outtextxy(l + kcl, t + kct, (char*)input.c_str());
-		delay(1);
+		delay(5);
 
 		if (kbhit()) {
 			char key = getch(); // nhận key từ bàn phím

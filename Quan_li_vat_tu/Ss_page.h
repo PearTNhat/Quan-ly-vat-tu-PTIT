@@ -20,6 +20,10 @@ string month_e = "";
 string year_e = "";
 string year = "";
 
+// DANH SÁCH FUNCTION
+bool isLeapYear(int);
+bool ktra_loi_input(string, int, string, int, int, int, int, int, int, int);
+
 // kiểm tra năm nhuận
 bool isLeapYear(int year) {
 	if (year % 4 != 0) {
@@ -350,6 +354,30 @@ void xu_li_button_tim_kiem(
 	// Kiểm tra định dạng ngày/tháng/năm
 	cout << "day_b = " << day_b << ", month_b = " << month_b << ", year_b =  " << year_b << ", day_e = " << day_e << ", month_e = " << month_e << ", year_e = " << year_e << endl;
 	if (!is_all_valid) return; // Ngay/thang/nam không đúng định dạng -> return
+	bool error_end = false;	// kiểm tra begin > current
+	// get current day
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+	int curr_date = ltm->tm_mday;
+	int curr_month = 1 + ltm->tm_mon;
+	int curr_year = 1900 + ltm->tm_year;
+	if (curr_year < year_e) {
+		error_end = true;
+		cout << "year_e = " << year_e << " curr_year = " << curr_year << endl;
+	}
+	else if (curr_year == year_e) {
+		if (month_e > curr_month) {
+			error_end = true;
+			cout << "month_e = " << month_e << " month_b = " << month_b << endl;
+		}
+		else if (month_e == curr_month) {
+			if (curr_date < day_e) {
+				error_end = true;
+				cout << "day_e = " << day_e << " curr_date = " << curr_date << endl;
+			}
+		}
+	}
+
 	bool error_begin_end = false;	// kiểm tra begin > end
 	if (year_e < year_b) {
 		error_begin_end = true;
@@ -402,6 +430,12 @@ void xu_li_button_tim_kiem(
 		strcpy_s(m, error_leap_year.c_str());
 		writeText(490, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SG);
 		return;
+	}
+	else if (error_end) {
+		string error = "Ngay/thang/nam o tuong lai";
+		char m[255];
+		strcpy_s(m, error.c_str());
+		writeText(470, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SG);
 	}
 	else if (error_begin_end) {
 		string error = "Ngay/thang/nam BEGIN > END";
