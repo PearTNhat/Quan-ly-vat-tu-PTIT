@@ -11,16 +11,7 @@
 int main() {
 	DS_NhanVien ds_nv;
 	read_file_staff(ds_nv);
-	//	strcpy_s(ds_nv.nhan_vien[i]->ho, "hello");
-	//	strcpy_s(ds_nv.nhan_vien[i]->ten, ("hello"+to_string(i)).c_str());
-	//	strcpy_s(ds_nv.nhan_vien[i]->phai, "Nam");
-	//	ds_nv.length++;
-	//}
-	//	strcpy_s(ds_nv.nhan_vien[i]->ho, "hello");
-	//	strcpy_s(ds_nv.nhan_vien[i]->ten, ("hello"+to_string(i)).c_str());
-	//	strcpy_s(ds_nv.nhan_vien[i]->phai, "Nam");
-	//	ds_nv.length++;
-	//}
+	sort_staff(ds_nv);
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	cleardevice();

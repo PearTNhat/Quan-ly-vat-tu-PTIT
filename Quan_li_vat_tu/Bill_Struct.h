@@ -298,11 +298,13 @@ void display_dsHD(PTRHD First) {
 }
 int getNumOfBill(PTRHD First) {
 	int count = 0;
-	while (First !=NULL) {
-	cout << First->hoadon.SoHD << endl;
+	PTRHD temp=First;
+	while (temp !=NULL) {
 		count++;
-		First = First->next;
+		temp = temp->next;
 	}
+	temp = NULL;
+	delete temp;
 	return count;
 }
 

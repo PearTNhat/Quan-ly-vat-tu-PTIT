@@ -8,9 +8,8 @@
 check_CURD delete_sf[ROW_STAFF];
 check_CURD edit_sf[ROW_STAFF];
 view_page vp_m_sf;
+
 // then chuc nang tim kiem maNV
-// khi luu hien message loi
-// luu thanh cong hien luu thanh cong
 bool sf_isEdit = false, sf_isAdd = false;
 
 //-------------
@@ -20,25 +19,25 @@ void delete_staff(DS_NhanVien& ds_nv, int index);
 int checkSubmitEditStaff(int arr[], int n);
 int search_ID_Staff(DS_NhanVien ds_nv, string ID);
 //--------------
-void read_file_staff(DS_NhanVien &ds_nv) {
+void read_file_staff(DS_NhanVien& ds_nv) {
 	ifstream read_file;
 	read_file.open("./Data/list_staff.txt", ios_base::in);
 	NhanVien* temp;
 	HoaDon hoadon = {};
 	PTRHD ds_hoadon;
 	while (!read_file.eof()) {
-		temp =new NhanVien;
+		temp = new NhanVien;
 		ds_hoadon = NULL;
 		read_file.getline(temp->maNV, 11, ',');
-		read_file.getline(temp->ho, 9, ',');
-		read_file.getline(temp->ten, 21, ',');
-		read_file.getline(temp->phai, 4,',');
+		read_file.getline(temp->ho, 23, ',');
+		read_file.getline(temp->ten, 9, ',');
+		read_file.getline(temp->phai, 4, ',');
 		read_file.ignore();
-		string sl_hd;	
+		string sl_hd;
 		getline(read_file, sl_hd, '\n');
-		if (stoi(sl_hd)>0) {
+		if (stoi(sl_hd) > 0) {
 
-			for (int i = 0; i <stoi(sl_hd); i++)
+			for (int i = 0; i < stoi(sl_hd); i++)
 			{
 				read_file.getline(hoadon.SoHD, 21, ',');
 				string tempDate;
@@ -48,7 +47,7 @@ void read_file_staff(DS_NhanVien &ds_nv) {
 				hoadon.date.thang = stoi(tempDate);
 				getline(read_file, tempDate, ',');
 				hoadon.date.nam = stoi(tempDate);
-				if (i == stoi(sl_hd)-1) {
+				if (i == stoi(sl_hd) - 1) {
 					read_file.getline(hoadon.Loai, 2, '\n');
 				}
 				else {
@@ -56,23 +55,23 @@ void read_file_staff(DS_NhanVien &ds_nv) {
 					read_file.ignore();
 
 				}
-				//cout << hoadon.Loai<<endl ;
 				Insert_after(ds_hoadon, hoadon);
-			
+
 			}
 		}
 		temp->ds_hoadon = ds_hoadon;
 		ds_nv.nhan_vien[ds_nv.length++] = temp;
-		
+
 	}
 	temp = NULL;
 	delete temp;
 	read_file.close();
-	
+
 }
 void write_file_staff(DS_NhanVien ds_nv) {
 	ofstream write_file;
-	int numOfBill=0;
+	int numOfBill = 0;
+	DS_HoaDon* dshd_temp;
 	write_file.open("./Data/list_staff.txt");
 	for (int i = 0; i < ds_nv.length; i++)
 	{
@@ -80,36 +79,39 @@ void write_file_staff(DS_NhanVien ds_nv) {
 		write_file << ds_nv.nhan_vien[i]->ho << ",";
 		write_file << ds_nv.nhan_vien[i]->ten << ",";
 		write_file << ds_nv.nhan_vien[i]->phai << ",";
-		
+
 		write_file << endl;
 		numOfBill = getNumOfBill(ds_nv.nhan_vien[i]->ds_hoadon);
-		if (i==ds_nv.length-1) {
-			write_file << numOfBill;
+		cout << "number:  " << numOfBill << endl;
+		if (ds_nv.nhan_vien[0]->ds_hoadon == NULL) {
+			cout << "______NULL_____" << endl;
 
+		}
+		if (i == ds_nv.length - 1) {
+			write_file << numOfBill;
 		}
 		else {
 			write_file << numOfBill << endl;
-
 		}
-		for (int z = 0; z < numOfBill;z++){
-			write_file << ds_nv.nhan_vien[i]->ds_hoadon->hoadon.SoHD << ",";
-			write_file << ds_nv.nhan_vien[i]->ds_hoadon->hoadon.date.ngay << "/";
-			write_file << ds_nv.nhan_vien[i]->ds_hoadon->hoadon.date.thang << "/";
-			write_file << ds_nv.nhan_vien[i]->ds_hoadon->hoadon.date.nam << ",";
+		for (int z = 0; z < numOfBill; z++) {
+			dshd_temp = ds_nv.nhan_vien[i]->ds_hoadon;
+			write_file << dshd_temp->hoadon.SoHD << ",";
+			write_file << dshd_temp->hoadon.date.ngay << "/";
+			write_file << dshd_temp->hoadon.date.thang << "/";
+			write_file << dshd_temp->hoadon.date.nam << ",";
 			if (z == numOfBill - 1) {
-				write_file << ds_nv.nhan_vien[i]->ds_hoadon->hoadon.Loai << "\n";
+				write_file << dshd_temp->hoadon.Loai << "\n";
 
 			}
 			else {
-				write_file << ds_nv.nhan_vien[i]->ds_hoadon->hoadon.Loai << ","<<endl;
+				write_file << dshd_temp->hoadon.Loai << "," << endl;
 
 			}
-			ds_nv.nhan_vien[i]->ds_hoadon = ds_nv.nhan_vien[i]->ds_hoadon->next;
-
+			dshd_temp = dshd_temp->next;
 		}
 	}
 	write_file.close();
-	
+
 }
 void create_sf_header() {
 	setfillstyle(1, bk_screen);
@@ -192,7 +194,6 @@ void staff_table(
 		strcpy_s(stt, to_string(i + 1).c_str());
 		writeText(55, text_top, stt, 1, 0, 3, 15);
 		writeText(95, text_top, ds.nhan_vien[i]->maNV, 1, 0, 3, 15);
-		cout << ds.nhan_vien[i]->ho << endl;
 		string fullName = ds.nhan_vien[i]->ho;
 
 		fullName += " ";
@@ -200,7 +201,6 @@ void staff_table(
 
 		char ten[30];
 		strcpy_s(ten, fullName.c_str());
-		cout << ten << endl;
 		writeText(230, text_top, ten, 1, 0, 3, 15);
 		writeText(650, text_top, ds.nhan_vien[i]->phai, 1, 0, 3, 15);
 
@@ -232,17 +232,18 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 			checkSubmit[i] = 1;
 		}
 	}
+	bool checkCancle = true;
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 		headInfor:;
 			if (ktVT(430, 165, 800, 195, x, y)) { // MNV
 				while (1) {
-					t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "textNumberNoSpace","upcase", COLOR_INFOR_SG,430,225);
-					if (search_ID_Staff(ds_nv,(string)t_mnv)==-1) {
+					t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
+					if (search_ID_Staff(ds_nv, (string)t_mnv) == -1) {
 						break;
 					}
-					else if (i_CRUD != ds_nv.length  && ds_nv.nhan_vien[i_CRUD]->maNV== t_mnv ) {
+					else if (i_CRUD != ds_nv.length && ds_nv.nhan_vien[i_CRUD]->maNV == t_mnv) {
 						break;
 
 					}
@@ -250,7 +251,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 						warning_msg((char*)"Ma nhan vien da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
 				}
-				
+
 				if (func == "add") {
 					if (t_mnv.length() > 0) {
 						checkSubmit[0] = 1;
@@ -270,7 +271,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 				goto headInfor;
 			}
 			if (ktVT(430, 225, 800, 255, x, y)) { // ho
-				t_ho = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_ho, 22, "text", "camelCase", COLOR_INFOR_SG,430,285);
+				t_ho = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_ho, 22, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
 				if (func == "add") {
 					if (t_ho.length() > 0) {
 						checkSubmit[1] = 1;
@@ -291,7 +292,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 
 			}
 			if (ktVT(430, 285, 800, 315, x, y)) { // ten
-				t_ten = input(x, y, 430, 285, 800, 315, 5, 6, 5, 35, 50, t_ten, 8, "textNoSpace", "camelCase", COLOR_INFOR_SG,430,345);
+				t_ten = input(x, y, 430, 285, 800, 315, 5, 6, 5, 35, 50, t_ten, 8, "textNoSpace", "camelCase", COLOR_INFOR_SG, 430, 345);
 				if (func == "add") {
 					if (t_ten.length() > 0) {
 						checkSubmit[2] = 1;
@@ -311,6 +312,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 				goto headInfor;
 
 			}
+			// nam
 			if (ktVT(430, 345, 530, 375, x, y)) {
 				setfillstyle(1, COLOR_INFOR_SG);
 				bar(435, 385, 850, 385 + 25);
@@ -320,6 +322,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 				text_box(560, 345, 660, 375, (char*)"Nu", f_medium, 2, 5, 35, 15, 0);
 
 			}
+			// nu
 			if (ktVT(560, 345, 660, 375, x, y)) {
 				setfillstyle(1, COLOR_INFOR_SG);
 				bar(435, 385, 850, 385 + 25);
@@ -330,54 +333,69 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 			}
 			//HUY
 			if (ktVT(750, 420, 820, 450, x, y)) {
-				sf_isEdit = false;
-				sf_isAdd = false;
-				goto sf_end;
+				text_box(750, 420, 820, 450, (char*)"Huy", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
+				if (checkSubmitEditStaff(checkSubmit, 4) < 4) {
+					checkCancle = announce_board(x, y, 50, 0, "Ban co muon huy.", "");
+				}
+				if (checkCancle) {
+					sf_isEdit = false;
+					sf_isAdd = false;
+					delay(200);
+					goto sf_end;
+				}
+				else {
+					staff_infor(t_mnv, t_ho, t_ten, t_gender);
+					x = NULL, y = NULL;
+					goto headInfor;
+				}
+
 			}
 			//LUU
 			if (ktVT(840, 420, 910, 450, x, y)) {
 				if (checkSubmitEditStaff(checkSubmit, 4) == 0) {
-					if (increase) {
-						ds_nv.nhan_vien[i_CRUD] = new NhanVien;
-						ds_nv.nhan_vien[i_CRUD]->ds_hoadon = NULL;
-					}
-					strcpy_s(ds_nv.nhan_vien[i_CRUD]->maNV, t_mnv.c_str());
-					strcpy_s(ds_nv.nhan_vien[i_CRUD]->ho, t_ho.c_str());
-					strcpy_s(ds_nv.nhan_vien[i_CRUD]->ten, t_ten.c_str());
-					strcpy_s(ds_nv.nhan_vien[i_CRUD]->phai, t_gender.c_str());
-					if (increase) {
+					if (increase) { //add
+						
+						NhanVien* nv_temp = new NhanVien;
+						nv_temp->ds_hoadon = NULL;
+						strcpy_s(nv_temp->maNV, t_mnv.c_str());
+						strcpy_s(nv_temp->ho, t_ho.c_str());
+						strcpy_s(nv_temp->ten, t_ten.c_str());
+						strcpy_s(nv_temp->phai, t_gender.c_str());
+						insertOrderd_Staff(ds_nv, nv_temp);
 						ds_nv.length++;
+					}
+					else { // edit
+						strcpy_s(ds_nv.nhan_vien[i_CRUD]->maNV, t_mnv.c_str());
+						strcpy_s(ds_nv.nhan_vien[i_CRUD]->ho, t_ho.c_str());
+						strcpy_s(ds_nv.nhan_vien[i_CRUD]->ten, t_ten.c_str());
+						strcpy_s(ds_nv.nhan_vien[i_CRUD]->phai, t_gender.c_str());
 					}
 					sf_isEdit = false;
 					sf_isAdd = false;
+
+					text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
+					announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
+					delay(500);
 					write_file_staff(ds_nv);
 					goto sf_end;
 				}
 				else {
-					string out_error = "Ban chua nhap ";
 					int left_error = 630;
-					text_box(630, 460, 940, 480, (char*)"", 3, 1, 0, 0, COLOR_INFOR_SG, COLOR_INFOR_SG);
 					if (checkSubmit[0] == -1) {
-						warning_msg("Khong duoc de trong", 430 + 5, 165 + 35, COLOR_INFOR_SG,I_ERROR_COLOR);
-						out_error += "MNV, ";
+						warning_msg("Khong duoc de trong", 430 + 5, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
-					
+
 					if (checkSubmit[1] == -1) {
 						warning_msg("Khong duoc de trong", 430 + 5, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
-						out_error += "Ho, ";
 					}
-					
+
 					if (checkSubmit[2] == -1) {
 						warning_msg("Khong duoc de trong", 430 + 5, 285 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
-						out_error += "Ten, ";
-
 					}
-					
+
 					if (checkSubmit[3] == -1) {
-						out_error += "Phai, ";
 						warning_msg("Khong duoc de trong", 430 + 5, 350 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
-					
 
 				}
 			}
@@ -390,10 +408,12 @@ sf_end:;
 void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[]) {
 	bool break_all = false;
 	int i_CRUD = 0;
+	bool check_D_staff = true;
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// them nhan vien moi
+		start_handle_staff:
 			if (ktVT(950, 70, 1150, 110, x, y)) {
 				staff_infor();
 				sf_isAdd = true;
@@ -412,9 +432,17 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[]) 
 			for (int i = 0; i < delete_sf[0].n; i++)
 			{
 				if (ktVT(delete_sf[i].l, delete_sf[i].t, delete_sf[i].r, delete_sf[i].b, x, y)) {
-					i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
-					delete_staff(ds_nv, i_CRUD);
-					goto sf_out;
+					check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
+					if (check_D_staff) {
+						i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
+						delete_staff(ds_nv, i_CRUD);
+						goto sf_out;
+					}
+					else {
+						goto sf_out;
+
+					}
+
 				}
 			}
 			// transition page
@@ -451,7 +479,6 @@ sf_out:;
 		handleInfor_staff(x, y, ds_nv, i_CRUD, t_mnv, t_ho, t_ten, t_gender, "edit");
 	}
 	if (sf_isAdd) {
-
 		string t_add_mnv = "";
 		string t_add_ho = "";
 		string t_add_ten = "";
@@ -511,14 +538,31 @@ void delete_staff(DS_NhanVien& ds_nv, int index) {
 	}
 	ds_nv.nhan_vien[ds_nv.length - 1] = new NhanVien;
 	ds_nv.length--;
+	write_file_staff(ds_nv);
 }
-int search_ID_Staff(DS_NhanVien ds_nv,string ID) {
+int search_ID_Staff(DS_NhanVien ds_nv, string ID) {
 
 	for (int i = 0; i < ds_nv.length; i++)
 	{
-		if (ID==ds_nv.nhan_vien[i]->maNV) {
+		if (ID == ds_nv.nhan_vien[i]->maNV) {
 			return i;
 		}
 	}
 	return -1;
+}
+void sort_staff(DS_NhanVien& ds_nv) {
+	string p1, p2;
+	for (int i = 0; i < ds_nv.length - 1; i++)
+	{
+		for (int j = i + 1; j < ds_nv.length; j++)
+		{
+			p1 = (string)ds_nv.nhan_vien[i]->ten + (string)ds_nv.nhan_vien[i]->ho;
+			p2 = (string)ds_nv.nhan_vien[j]->ten + (string)ds_nv.nhan_vien[j]->ho;
+			if (p2 < p1) {
+				NhanVien* temp = ds_nv.nhan_vien[j];
+				ds_nv.nhan_vien[j] = ds_nv.nhan_vien[i];
+				ds_nv.nhan_vien[i] = temp;
+			}
+		}
+	}
 }
