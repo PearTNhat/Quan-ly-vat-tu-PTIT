@@ -55,7 +55,7 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 					read_file.ignore();
 
 				}
-				Insert_after(ds_hoadon, hoadon);
+				Insert_last(ds_hoadon, hoadon);
 
 			}
 		}
