@@ -29,11 +29,12 @@ bool ktVT(int l, int t, int r, int b, int x, int y) {
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }
-void text_box(int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = XANH_DUONG_NHAT, int tColor = 15) {
-	setcolor(tColor);
-	settextstyle(font, 0, f_size);
+void text_box(int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = XANH_DUONG_NHAT, int tColor = 15,int cBoder=0) {
+	setcolor(cBoder);
 	setfillstyle(1, bg);
+	settextstyle(font, 0, f_size);
 	bar3d(l, t, r, b, 0, 0);
+	setcolor(tColor);
 	setbkcolor(bg);
 	outtextxy(l + d_l, t + d_t, s);
 }
@@ -130,22 +131,51 @@ void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 		delay(_delay);
 	}
 }
-
 void warning_msg(string text,int l,int t,int bg,int color,int font) {
 	char m[255];
 	strcpy_s(m, text.c_str());
 	writeText(l, t, m, 1, color, f_medium, bg);
 }
-bool announce_board(int kcl = 0, int kct = 0, int bg = COLOR(232, 246, 250)) { // 200 //400 
+bool announce_board( int x,int y,int kcl = 0, int kct = 0, string value = "",string type = "noClose", int bg = COLOR(232, 246, 250)) { // 200 //400 
 
 	setfillstyle(1, bg);
+	setcolor(I_ERROR_COLOR);
 	bar3d(420, 210, 780, 410, 0, 0);
-	writeText(450 + kcl, 280 + kct, (char*)"Ban co muon xoa khong?", 1, 0, f_medium, bg);
-	text_box(500, 345, 570, 370, (char*)"Co", f_medium, 1, 5, 20, bg, 0);
-	text_box(610, 345, 680, 370, (char*)"Khong", f_medium, 1, 5, 6, bg, 0);
-	text_box(750, 210, 780, 240, (char*)"X", f_medium, 1, 7, 9, COLOR(255, 21, 0), 0);
+	writeText(450 + kcl, 280 + kct, (char*)value.c_str(), 1, 0, f_medium, bg);
+	if (type!= "noClose") {
+		text_box(500, 345, 570, 370, (char*)"Co", f_medium, 1, 5, 20, bg, 0);
+		text_box(610, 345, 680, 370, (char*)"Khong", f_medium, 1, 5, 6, bg, 0);
+		text_box(750, 210, 780, 240, (char*)"X", f_medium, 1, 7, 9, COLOR(255, 97, 100),0, I_ERROR_COLOR);
+		while (1) {
+			if (ismouseclick(WM_LBUTTONDOWN)) {
+				getmouseclick(WM_LBUTTONDOWN, x, y);
+				if (ktVT(500, 345, 570, 370, x,y)) {
+					x = NULL;
+					y = NULL;
 
-	return 0;
+					text_box(500, 345, 570, 370, (char*)"Co", f_medium, 1, 5, 20, XANH_LA_CAY, 0);
+					delay(200);
+					return 1;
+				}
+				if (ktVT(610, 345, 680, 370, x, y)) {
+					text_box(610, 345, 680, 370, (char*)"Khong", f_medium, 1, 5, 6, XANH_LA_CAY, 0);
+					delay(200);
+					x = NULL;
+					y = NULL;
+					return 0;
+				}
+				if ( ktVT(750, 210, 780, 240, x, y)) {
+					x = NULL;
+					y = NULL;
+					text_box(750, 210, 780, 240, (char*)"X", f_medium, 1, 7, 9, COLOR(250, 0, 4), 0,I_ERROR_COLOR);
+					delay(200);
+					return 0;
+				}
+			}
+		}
+	}
+
+	return 1;
 }
 string trim(string& s) {
 	for (int i = 0; i < s.length(); i++)

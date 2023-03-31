@@ -13,14 +13,13 @@ bool only_number(char x) {
 	return false;
 }
 bool only_letter(char x) {
-	if (x == 9)return true;
 	if (x >= 'a' && x <= 'z') {
 		return true;
 	}
 	if (x >= 'A' && x <= 'Z') {
 		return true;
 	}
-	else if (x == 8 || x == 13 || x == ' ') {
+	else if (x == 8 || x == 13 || x == 9|| x == ' ') {
 		return true;
 	}
 	return false;
@@ -49,6 +48,35 @@ bool kt_KTu(char x) {
 		return true;
 	}
 	else if (x == '/' || x == '\\' || x == 8 || x == 13 || x == ' ' || x == '.') {
+		return true;
+	}
+	return false;
+} // text and number
+bool text_no_space(char x) {
+	if (x >= 'a' && x <= 'z') {
+		return true;
+	}
+	if (x >= 'A' && x <= 'Z') {
+		return true;
+	}
+	else if (x == 8 || x == 13 || x == 9) {
+		return true;
+	}
+	return false;
+};
+bool text_number_nospace(char x) {
+	if (x == 9)return true;
+
+	if (x >= 'a' && x <= 'z') {
+		return true;
+	}
+	if (x >= 'A' && x <= 'Z') {
+		return true;
+	}
+	else if (x >= '0' && x <= '9') {
+		return true;
+	}
+	else if ( x == 8 || x == 13 ) {
 		return true;
 	}
 	return false;
@@ -140,7 +168,13 @@ string input(
 			else if (type == "text") {
 				check_key = only_letter(key);
 			}
-			else {
+			else if (type == "textNoSpace") {
+				check_key = text_no_space(key);
+			}
+			else if (type == "textNumberNoSpace") {
+				check_key= text_number_nospace(key);
+			}
+			else{
 				// all number and text
 				check_key = kt_KTu(key);
 			}
@@ -175,9 +209,7 @@ string input(
 					// noi chu vao
 					if (key != 9) { // khac tab
 						input += key;
-
 					};
-
 					if (input.length() == 1 && input[0] == ' ') { // dau cach o dau thi xoa
 						input.erase(0, 1);
 					}
