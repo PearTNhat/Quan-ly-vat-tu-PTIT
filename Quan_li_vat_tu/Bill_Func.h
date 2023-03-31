@@ -4,6 +4,8 @@
 #include "Constant.h"
 #include "input_staff_good.h"
 
+view_page vp_m_ss;
+
 
 string b_input(
 	int l, int t, int r, int b,

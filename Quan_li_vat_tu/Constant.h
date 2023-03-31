@@ -6,6 +6,7 @@
 #define HEADER_TEXT_COLOR 15
 //
 #define ROW_STAFF 10
+#define ROWS_PER_PG_SS 7
 //color infor staff good
 #define COLOR_INFOR_SG COLOR(186, 245, 223)
 
@@ -29,3 +30,6 @@ const int textColor = 0;
 
 const int f_medium = 10; //ma BOLD_FONT settextstyle() trong box chuc nang kc l? 1
 const int f_small = 3;// kc l? 1
+
+//Statistic
+char ss_table_header[5][20] = { "So HD", "Ngay lap", "Loai HD", "Ho ten NV lap", "Tri gia HD" };

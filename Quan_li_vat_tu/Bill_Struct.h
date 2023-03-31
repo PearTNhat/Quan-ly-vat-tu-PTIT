@@ -32,9 +32,11 @@ void Initialize(dscthd& dautien)
 	dautien = NULL;
 }
 
-dscthd dNewnode(void)
+dscthd dNewnode(CT_HoaDon ct = {})
 {
 	dscthd d = new DS_CT_HoaDon;
+	d->ct_hoadon = ct;
+	d->next = NULL;
 	return d;
 }
 dscthd d = dNewnode();
@@ -75,6 +77,17 @@ void Insert_after(dscthd d, CT_HoaDon x)
 	}
 }
 
+void Insert_last(dscthd first, CT_HoaDon x) {
+	if (first == NULL) Insert_First(first, x);
+	else {
+		dscthd nodeIt = first;
+		while (nodeIt->next != NULL) nodeIt = nodeIt->next;
+		dscthd temp = dNewnode(x);
+		nodeIt->next = temp;
+	}
+}
+
+
 //hoa don
 
 struct Date
@@ -100,7 +113,7 @@ struct HoaDon
 	char SoHD[21];
 	Date date;
 	char Loai[2];
-
+	dscthd first_cthd = NULL;
 	bool operator==(HoaDon& other)
 	{
 		if (strcmp(this->SoHD, other.SoHD) == 0 &&
@@ -184,19 +197,32 @@ void Insert_First(PTRHD& First, HoaDon x)
 	First = p;
 }
 
-void Insert_after(PTRHD &p, HoaDon x)
+void Insert_after(PTRHD p, HoaDon x)
 {
-	PTRHD q=p;
+	PTRHD e;
+	if (p = NULL)
+		cout << "Khong the them phan tu vao danh sach";
+	else
+	{
+		e = new DS_HoaDon;
+		e->hoadon = x;
+		e->next = p->next;
+		p->next = e;
+	}
+
+}
+
+void Insert_last(PTRHD &p, HoaDon x)
+{
+	PTRHD nodeIt = p; // tao node chạy
 	if (p == NULL) {
 		Insert_First(p,x);
 	}
 	else
 	{
-		while (q->next != NULL) {
-			q = q->next;
-		}
-		PTRHD temp=Newnode(x);
-		q->next = temp;
+		while (nodeIt->next != NULL) nodeIt = nodeIt->next;
+		PTRHD temp = Newnode(x);
+		nodeIt->next = temp;
 	}
 }
 
@@ -226,7 +252,7 @@ int Delete_First(PTRHD& First)
 	return 1;
 }
 
-int Delete_after(PTRHD p)
+int Delete_last(PTRHD p)
 {
 	PTRHD q;
 	if ((p == NULL) || (p->next == NULL))
@@ -237,43 +263,43 @@ int Delete_after(PTRHD p)
 	return 1;
 }
 
-int Delete_Info(PTRHD& First, HoaDon x)
-{
-	PTRHD p = First;
-	if (First = NULL)
-		return 0;
-	if (First->hoadon == x)
-	{
-		Delete_First(First);return 1;
-	}
-
-	for (p = First;p->next != NULL && p->next->hoadon != x;p = p->next);
-	if (p->next != NULL)
-	{
-		Delete_after(p); return 1;
-	}
-	return 0;
-}
-
-int Delete_ALl_Info(PTRHD& First, HoaDon x)
-{
-	int count = 0;
-	if (First == NULL) return 0;
-	for (PTRHD p = First; p->next != NULL;)
-	{
-		if (p->next->hoadon == x)
-		{
-			Delete_after(p); count++;
-		}
-		else
-			p = p->next;
-	}
-	if (First->hoadon == x)
-	{
-		Delete_First(First); count++;
-	}
-	//return count;
-}
+//int Delete_Info(PTRHD& First, HoaDon x)
+//{
+//	PTRHD p = First;
+//	if (First = NULL)
+//		return 0;
+//	if (First->hoadon == x)
+//	{
+//		Delete_First(First);return 1;
+//	}
+//
+//	for (p = First;p->next != NULL && p->next->hoadon != x;p = p->next);
+//	if (p->next != NULL)
+//	{
+//		Delete_after(p); return 1;
+//	}
+//	return 0;
+//}
+//
+//int Delete_ALl_Info(PTRHD& First, HoaDon x)
+//{
+//	int count = 0;
+//	if (First == NULL) return 0;
+//	for (PTRHD p = First; p->next != NULL;)
+//	{
+//		if (p->next->hoadon == x)
+//		{
+//			Delete_after(p); count++;
+//		}
+//		else
+//			p = p->next;
+//	}
+//	if (First->hoadon == x)
+//	{
+//		Delete_First(First); count++;
+//	}
+//	//return count;
+//}
 
 
 void Clearlist(PTRHD& First)
