@@ -8,7 +8,7 @@
 check_CURD delete_sf[ROW_STAFF];
 check_CURD edit_sf[ROW_STAFF];
 view_page vp_m_sf;
-
+// lam xong delete mang
 // then chuc nang tim kiem maNV
 bool sf_isEdit = false, sf_isAdd = false;
 
@@ -25,43 +25,51 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 	NhanVien* temp;
 	HoaDon hoadon = {};
 	PTRHD ds_hoadon;
-	while (!read_file.eof()) {
-		temp = new NhanVien;
-		ds_hoadon = NULL;
-		read_file.getline(temp->maNV, 11, ',');
-		read_file.getline(temp->ho, 23, ',');
-		read_file.getline(temp->ten, 9, ',');
-		read_file.getline(temp->phai, 4, ',');
-		read_file.ignore();
-		string sl_hd;
-		getline(read_file, sl_hd, '\n');
-		if (stoi(sl_hd) > 0) {
+	if (read_file.is_open() && read_file.peek() == std::ifstream::traits_type::eof()) {
+		std::cout << "File is empty." << std::endl;
+	}
+	else {
+		while (!read_file.eof()) {
+			cout << "Dsd ";
+			temp = new NhanVien;
+			ds_hoadon = NULL;
+			read_file.getline(temp->maNV, 11, ',');
+			read_file.getline(temp->ho, 23, ',');
+			read_file.getline(temp->ten, 9, ',');
+			read_file.getline(temp->phai, 4, ',');
+			read_file.ignore();
+			string sl_hd;
+			getline(read_file, sl_hd, '\n');
+			if (stoi(sl_hd) > 0) {
 
-			for (int i = 0; i < stoi(sl_hd); i++)
-			{
-				read_file.getline(hoadon.SoHD, 21, ',');
-				string tempDate;
-				getline(read_file, tempDate, '/');
-				hoadon.date.ngay = stoi(tempDate);
-				getline(read_file, tempDate, '/');
-				hoadon.date.thang = stoi(tempDate);
-				getline(read_file, tempDate, ',');
-				hoadon.date.nam = stoi(tempDate);
-				if (i == stoi(sl_hd) - 1) {
-					read_file.getline(hoadon.Loai, 2, '\n');
-				}
-				else {
-					read_file.getline(hoadon.Loai, 2, ',');
-					read_file.ignore();
+				for (int i = 0; i < stoi(sl_hd); i++)
+				{
+					read_file.getline(hoadon.SoHD, 21, ',');
+					string tempDate;
+					getline(read_file, tempDate, '/');
+					hoadon.date.ngay = stoi(tempDate);
+					getline(read_file, tempDate, '/');
+					hoadon.date.thang = stoi(tempDate);
+					getline(read_file, tempDate, ',');
+					hoadon.date.nam = stoi(tempDate);
+					if (i == stoi(sl_hd) - 1) {
+						read_file.getline(hoadon.Loai, 2, '\n');
+					}
+					else {
+						read_file.getline(hoadon.Loai, 2, ',');
+						read_file.ignore();
 
+					}
+					Insert_after(ds_hoadon, hoadon);
 				}
 				Insert_last(ds_hoadon, hoadon);
 
+				}
 			}
-		}
-		temp->ds_hoadon = ds_hoadon;
-		ds_nv.nhan_vien[ds_nv.length++] = temp;
+			temp->ds_hoadon = ds_hoadon;
+			ds_nv.nhan_vien[ds_nv.length++] = temp;
 
+		}
 	}
 	temp = NULL;
 	delete temp;
@@ -73,6 +81,7 @@ void write_file_staff(DS_NhanVien ds_nv) {
 	int numOfBill = 0;
 	DS_HoaDon* dshd_temp;
 	write_file.open("./Data/list_staff.txt");
+	
 	for (int i = 0; i < ds_nv.length; i++)
 	{
 		write_file << ds_nv.nhan_vien[i]->maNV << ",";

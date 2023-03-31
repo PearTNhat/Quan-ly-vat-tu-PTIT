@@ -16,6 +16,8 @@ NV003,Chu Tu,Mach,Nu,
 0
 ABC,Khuong Tu,Nha,Nam,
 0
+NV014,Huan,Nhi,Nu,
+0
 NV006,Ly Mac,Sau,Nu,
 2
 VT035,20/10/2012,N,
@@ -28,7 +30,7 @@ NV004,My Do,Toa,Nu,
 0
 NV002,Han Bang,Tuyet,Nu,
 2
-VT008,20/10/2012,N,
+HD008,20/10/2012,N,
 VT008,20/10/2012,N
 NV008,Tieu,Viem,Nam,
 0
