@@ -100,7 +100,7 @@ struct HoaDon
 	char SoHD[21];
 	Date date;
 	char Loai[2];
-
+	//dscthd ds_cthd=NULL;
 	bool operator==(HoaDon& other)
 	{
 		if (strcmp(this->SoHD, other.SoHD) == 0 &&
@@ -131,7 +131,6 @@ struct DS_HoaDon
 };
 typedef DS_HoaDon* PTRHD;
 PTRHD First = NULL;
-
 /* Tac vu nodepointer: xac dinh con tro cua nut i trong danh sach lien ket
    (i = 2, ...) */
 PTRHD nodepointer(PTRHD First, int i)

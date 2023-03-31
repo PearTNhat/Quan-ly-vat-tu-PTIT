@@ -89,11 +89,6 @@ void write_file_staff(DS_NhanVien ds_nv) {
 
 		write_file << endl;
 		numOfBill = getNumOfBill(ds_nv.nhan_vien[i]->ds_hoadon);
-		cout << "number:  " << numOfBill << endl;
-		if (ds_nv.nhan_vien[0]->ds_hoadon == NULL) {
-			cout << "______NULL_____" << endl;
-
-		}
 		if (i == ds_nv.length - 1) {
 			write_file << numOfBill;
 		}
@@ -539,13 +534,19 @@ void staff_infor(string mnv, string ho, string ten, string gender) {
 
 }
 void delete_staff(DS_NhanVien& ds_nv, int index) {
-	for (int i = index; i < ds_nv.length - 1; i++)
-	{
-		ds_nv.nhan_vien[i] = ds_nv.nhan_vien[i + 1];
+	if (ds_nv.nhan_vien[index]->ds_hoadon==NULL) {
+		for (int i = index; i < ds_nv.length - 1; i++)
+		{
+			ds_nv.nhan_vien[i] = ds_nv.nhan_vien[i + 1];
+		}
+		ds_nv.nhan_vien[ds_nv.length - 1] = new NhanVien;
+		ds_nv.length--;
+		write_file_staff(ds_nv);
 	}
-	ds_nv.nhan_vien[ds_nv.length - 1] = new NhanVien;
-	ds_nv.length--;
-	write_file_staff(ds_nv);
+	else {
+		announce_board(0,0,0,0,"Khong the xoa.");
+		delay(1000);
+	}
 }
 int search_ID_Staff(DS_NhanVien ds_nv, string ID) {
 
