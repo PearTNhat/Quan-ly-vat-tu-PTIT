@@ -58,13 +58,9 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 					else {
 						read_file.getline(hoadon.Loai, 2, ',');
 						read_file.ignore();
-
 					}
-					Insert_after(ds_hoadon, hoadon);
 				}
 				Insert_last(ds_hoadon, hoadon);
-
-				}
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;
