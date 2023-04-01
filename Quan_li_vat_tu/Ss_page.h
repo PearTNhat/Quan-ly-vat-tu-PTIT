@@ -711,7 +711,7 @@ void read_file_DSHD(PTRHD& ds_hd) {
 					inputFile >> cthd.TrangThai; inputFile.ignore();
 					inputFile.ignore();
 				}
-				Insert_last(ds_cthd, cthd);
+				Insert_last_d(ds_cthd, cthd);
 			}
 		}
 		hd_tmp.first_cthd = ds_cthd;
