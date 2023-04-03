@@ -58,11 +58,9 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 					else {
 						read_file.getline(hoadon.Loai, 2, ',');
 						read_file.ignore();
-
 					}
-					Insert_after(ds_hoadon, hoadon);
-
 				}
+				Insert_last(ds_hoadon, hoadon);
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;
@@ -142,7 +140,7 @@ void staff_table(
 	int page = n / num_rows;
 	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
-	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
+	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n; 
 	// reder page
 	int i = num_rows * (view_page.current - 1);
 	//header
@@ -218,7 +216,6 @@ void staff_table(
 
 	// < >
 	page_transition(view_page);
-
 }
 void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& t_mnv, string& t_ho, string& t_ten, string& t_gender, string func, bool increase = false) {
 	int checkSubmit[4];

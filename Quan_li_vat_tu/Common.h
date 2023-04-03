@@ -2,7 +2,7 @@
 #include "Header.h"
 #include "Constant.h"
 
-bool g_page = false, sf_page = false, b_page = false, ss_page = false;
+bool g_page = false, sf_page = false, b_page = false, ss_page = false, out_table = false;
 struct view_page {
 	int current = 1;
 	int page = 1;
@@ -84,6 +84,7 @@ void page_transition(view_page& view_page) {
 	strcpy_s(num_p, s.c_str());
 	setbkcolor(bk_screen);
 	settextstyle(f_small, 0, 2);
+	setcolor(15);
 	outtextxy(575, 570, num_p);
 	char arrow_left[] = "<";
 	char arrow_right[] = ">";
@@ -110,7 +111,7 @@ void next_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 	int current = check_page.current;
 	int total_page = check_page.page;
 	if (current >= total_page) {
-		cout << "K the next page";
+		cout << "Het";
 	}
 	else {
 		check_page.current++;
@@ -122,7 +123,7 @@ void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 	int current = check_page.current;
 	int total_page = check_page.page;
 	if (current <= 1) {
-		cout << "K the prev page";
+		cout << "Het";
 	}
 	else {
 		check_page.current--;
