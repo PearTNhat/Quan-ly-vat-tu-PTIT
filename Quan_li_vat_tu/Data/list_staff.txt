@@ -22,6 +22,8 @@ NV006,Ly Mac,Sau,Nu,
 2
 VT035,20/10/2012,N,
 VT035,20/10/2012,N
+FDFDS,Sdfdsfds,Sdf,Nu,
+0
 NV007,Lenh Ho,Sung,Nam,
 0
 NV005,Bach Tieu,Thuan,Nam,
@@ -31,6 +33,6 @@ NV004,My Do,Toa,Nu,
 NV002,Han Bang,Tuyet,Nu,
 2
 HD008,20/10/2012,N,
-VT008,20/10/2012,N
+HD008,20/10/2012,N
 NV008,Tieu,Viem,Nam,
 0

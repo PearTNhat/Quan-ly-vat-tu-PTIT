@@ -1,6 +1,7 @@
 #pragma once
 #include "Header.h"
 #include "Goods_Struct.h"
+#include "Stack.h"
 void initNode(DS_VatTu*& root)
 {
     root = NULL;
@@ -52,7 +53,7 @@ void insertNode(DS_VatTu*& root, VatTu x)
         }
     }
 }
-int searchNode(DS_VatTu* root, char x[])
+int searchNode(DS_VatTu* root, string x)
 {
     DS_VatTu* p = root;
     while (p != NULL && string(p->vat_tu.maVT) != string(x))
@@ -72,7 +73,7 @@ int searchNode(DS_VatTu* root, char x[])
     }
     return 1;
 }
-void deleteNode(DS_VatTu*& root, char x[])
+void deleteNode(DS_VatTu*& root, string x)
 {
     if (root != NULL)
     {
@@ -134,23 +135,37 @@ void deleteNode(DS_VatTu*& root, char x[])
         }
     }
 }
-int getSizeTree(DS_VatTu* root) {
+int getSizeGoods(DS_VatTu* root) {
     if (root == NULL) {
         return 0;
     }
-    return getSizeTree(root->left) + getSizeTree(root->right) + 1;
+    return getSizeGoods(root->left) + getSizeGoods(root->right) + 1;
 }
-void copy_to_arr(DS_VatTu* root, TempArr& arr) {
-    if (root != NULL) {
-        copy_to_arr(root->left, arr);
-        //arr.vat_tu[arr.n] = new VatTu;
-        strcpy_s(arr.vat_tu[arr.n].maVT, root->vat_tu.maVT);
-        strcpy_s(arr.vat_tu[arr.n].tenVT, root->vat_tu.tenVT);
-        strcpy_s(arr.vat_tu[arr.n].DVT, root->vat_tu.DVT);
-        arr.vat_tu[arr.n].SLT = root->vat_tu.SLT;
-        arr.n++;
-        copy_to_arr(root->right, arr);
+DS_VatTu *getIndexGoods(DS_VatTu *&root, int index) {
+    DS_VatTu *temp=root;
+    DS_VatTu* res;
+    Stack s(getSizeGoods(root));
+    int k = 0;
+    while (1) {
+        while (temp!=NULL) {
+            push(s, temp);
+            temp = temp->left;
+        }
+        if (!isEmpty(s)) {
+            res = pop(s);
+            index--;
+            if (index==0) {
+                return res;
+            }
+            if (res->right!=NULL) {
+                temp = res->right;
+            }
+        }
+        else {
+            break;
+        }
     }
+    return NULL;
 }
 void lnr(DS_VatTu* root)
 {
