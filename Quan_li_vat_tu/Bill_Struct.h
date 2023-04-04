@@ -574,7 +574,7 @@ void Creart_List(PTRHD& First, dscthd& first_cthd)
 				if (first_cthd == NULL) first_cthd = d;
 				else cuoicung->next = d;
 				cuoicung = d;
-				p->next = NULL;
+				d->next = NULL;
 
 				cout << "\nNhap ma vat tu moi:"; cin >> ct_hoadon.MAVT;
 			}
