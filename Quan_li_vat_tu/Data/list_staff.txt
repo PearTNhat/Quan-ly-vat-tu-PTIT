@@ -22,8 +22,6 @@ NV006,Ly Mac,Sau,Nu,
 2
 VT035,20/10/2012,N,
 VT035,20/10/2012,N
-FDFDS,Sdfdsfds,Sdf,Nu,
-0
 NV007,Lenh Ho,Sung,Nam,
 0
 NV005,Bach Tieu,Thuan,Nam,

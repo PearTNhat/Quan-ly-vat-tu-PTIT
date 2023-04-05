@@ -537,21 +537,19 @@ char menu()
 void Creart_List(PTRHD& First, dscthd& first_cthd)
 {
 	HoaDon hoadon;
-	PTRHD Last = nullptr, p = nullptr;
+	PTRHD Last = nullptr, p=nullptr;
 
-	dscthd cuoicung = nullptr, d = nullptr;
+	dscthd cuoicung = nullptr, d=nullptr;
 	CT_HoaDon ct_hoadon;
-
 	Clearlist(First);
 	cout << "So hoa don (nhap 0 de thoat): "; cin >> hoadon.SoHD;
-
 	while (hoadon.SoHD[0] != '0')
 	{
+		hoadon = {};
 		cout << "Ngay: "; cin >> hoadon.date.ngay;
 		cout << "Thang: "; cin >> hoadon.date.thang;
 		cout << "Nam: "; cin >> hoadon.date.nam;
 		cout << "Loai: "; cin >> hoadon.Loai;
-
 		if (hoadon.Loai[0] == 'N')
 		{
 			cout << "Nhap ma vat tu: "; cin >> ct_hoadon.MAVT;
@@ -563,51 +561,47 @@ void Creart_List(PTRHD& First, dscthd& first_cthd)
 				cout << "Nhap trang thai ( 1: khach mua, 0: khach da tra hang) : "; cin >> ct_hoadon.TrangThai;
 
 
-				d = new DS_CT_HoaDon;
-				d->ct_hoadon = ct_hoadon;
-				if (first_cthd == NULL) first_cthd = d;
+				Insert_last_d(first_cthd, ct_hoadon);
+				/*if (first_cthd == NULL) first_cthd = d;
 				else cuoicung->next = d;
-				cuoicung = d;
-				d->next = NULL;
+				cuoicung = d;*/
 
 				cout << "\nNhap ma vat tu moi:"; cin >> ct_hoadon.MAVT;
 			}
-
-			p = new DS_HoaDon;
-			p->hoadon = hoadon;
-			if (First == NULL) First = p;
+			hoadon.first_cthd = d;
+			Insert_last(First,hoadon);
+			/*if (First == NULL) First = p;
 			else Last->next = p;
-			Last = p;
-			p->next = NULL;
+			Last = p;*/
 		}
 
-		if (hoadon.Loai[0] == 'X')
-		{
-			cout << "Nhap ma vat tu: "; cin >> ct_hoadon.MAVT;
-			while (ct_hoadon.MAVT[0] != '0')
-			{
-				cout << "Nhap so luong: "; cin >> ct_hoadon.Soluong;
-				cout << "Nhap don gia: "; cin >> ct_hoadon.Dongia;
-				cout << "Nhap %VAT: "; cin >> ct_hoadon.VAT;
-				cout << "Nhap trang thai ( 1: khach mua, 0: khach da tra hang) : "; cin >> ct_hoadon.TrangThai;
+		//if (hoadon.Loai[0] == 'X')
+		//{
+		//	cout << "Nhap ma vat tu: "; cin >> ct_hoadon.MAVT;
+		//	while (ct_hoadon.MAVT[0] != '0')
+		//	{
+		//		cout << "Nhap so luong: "; cin >> ct_hoadon.Soluong;
+		//		cout << "Nhap don gia: "; cin >> ct_hoadon.Dongia;
+		//		cout << "Nhap %VAT: "; cin >> ct_hoadon.VAT;
+		//		cout << "Nhap trang thai ( 1: khach mua, 0: khach da tra hang) : "; cin >> ct_hoadon.TrangThai;
 
 
-				d = new DS_CT_HoaDon;
-				d->ct_hoadon = ct_hoadon;
-				if (first_cthd == NULL) first_cthd = d;
-				else cuoicung->next = d;
-				cuoicung = d;
-				d->next = NULL;
+		//		d = new DS_CT_HoaDon;
+		//		d->ct_hoadon = ct_hoadon;
+		//		if (first_cthd == NULL) first_cthd = d;
+		//		else cuoicung->next = d;
+		//		cuoicung = d;
+		//		d->next = NULL;
 
-				cout << "\nNhap ma vat tu moi(nhap 0 de thoat):"; cin >> ct_hoadon.MAVT;
-			}
-			p = new DS_HoaDon;
-			p->hoadon = hoadon;
-			if (First == NULL) First = p;
-			else Last->next = p;
-			Last = p;
-			p->next = NULL;
-		}
+		//		cout << "\nNhap ma vat tu moi(nhap 0 de thoat):"; cin >> ct_hoadon.MAVT;
+		//	}
+		//	p = new DS_HoaDon;
+		//	p->hoadon = hoadon;
+		//	if (First == NULL) First = p;
+		//	else Last->next = p;
+		//	Last = p;
+		//	p->next = NULL;
+		//}
 
 
 
