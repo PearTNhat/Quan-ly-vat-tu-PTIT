@@ -9,8 +9,7 @@ NV010,Ly Thanh Hoang,Hau,Nam,
 NV011,Ly Thanh,Hoang,Nam,
 0
 NV001,Ho Tuan,Kiet,Nam,
-2
-VT004,20/10/2022,N,
+1
 VT004,20/10/2022,N
 NV003,Chu Tu,Mach,Nu,
 0
@@ -19,8 +18,7 @@ ABC,Khuong Tu,Nha,Nam,
 NV014,Huan,Nhi,Nu,
 0
 NV006,Ly Mac,Sau,Nu,
-2
-VT035,20/10/2012,N,
+1
 VT035,20/10/2012,N
 NV007,Lenh Ho,Sung,Nam,
 0
@@ -29,8 +27,7 @@ NV005,Bach Tieu,Thuan,Nam,
 NV004,My Do,Toa,Nu,
 0
 NV002,Han Bang,Tuyet,Nu,
-2
-HD008,20/10/2012,N,
+1
 VT008,20/10/2012,N
 NV008,Tieu,Viem,Nam,
 0
