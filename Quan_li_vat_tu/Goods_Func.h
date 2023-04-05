@@ -1,16 +1,13 @@
 #pragma once
 
 #define COLS_G 10
-
-// xoá root là lôix
-// KHI O CO PHAN TU NAO TABLE BI LOI
+// them vaof hoa don k dc xoa vat tu
 //--variable
 char g_table_header[][20] = { "MaVT","TenVT","So luong ton","Don vi" };
 
 //
 void create_g_header();
-void goods_infor(string mvt="", string tvt="", string dvt="", int slt=-1); // edit insert
-//
+void goods_infor(string mvt="", string tvt="", string dvt="", string slt="");
 void create_g_header() {
 	setfillstyle(1, 15);
 	setcolor(0);
@@ -19,26 +16,29 @@ void create_g_header() {
 	text_box(15, 70, 310, 110, (char*)"", f_medium, 3, 10, 40, bk_screen);
 	text_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 10, 40, bk_screen);
 }
-void goods_infor(string mvt, string tvt,string dvt,int slt) {
+//
+void read_file_goods(DS_VatTu &ds_vt) {
+	ifstream readFile("./Data/goods.txt");
+}
+void goods_infor(string mvt, string tvt,string dvt,string slt) {
 	delete_after_header();
 	text_box(430, 90, 800, 130, (char*)"Chinh sua thong tin vat tu", f_medium, 2, 10, 10, 11, 0);
 	//
 	setfillstyle(1, COLOR_INFOR_SG);
 	//
 	bar3d(250, 130, 950, 500, 0, 0);
-	text_box(430, 165, 800, 195, (char*)"", f_medium, 2, 0, 0, 15, 0); // chu cao 20
-	writeText(260, 170, (char*)"Ma nhan vien", 2, 0, f_medium, COLOR_INFOR_SG);
+	text_box(430, 165, 800, 195, (char*)mvt.c_str(), f_medium, 1, 6, 5, 15, 0); // chu cao 20
+	writeText(260, 170, (char*)"Ma vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
 
-	text_box(430, 225, 800, 255, (char*)"", f_medium, 2, 0, 0, 15, 0);
+	text_box(430, 225, 800, 255, (char*)tvt.c_str(), f_medium, 1, 6, 5, 15, 0);
 	writeText(260, 230, (char*)"Ten vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
 
-	text_box(430, 285, 800, 315, (char*)"", f_medium, 2, 0, 0, 15, 0);
+	text_box(430, 285, 800, 315, (char*)dvt.c_str(), f_medium, 1, 6, 5, 15, 0);
 	writeText(260, 290, (char*)"Don vi tinh", 2, 0, f_medium, COLOR_INFOR_SG);
 
 	bar3d(430, 345, 530, 375, 0, 0);
-	bar3d(430, 345, 530, 375, 0, 0);
 	writeText(260, 350, (char*)"So luong ton", 2, 0, f_medium, COLOR_INFOR_SG);
-	text_box(430, 345, 800, 375, (char*)"", f_medium, 2, 5, 30, 15, 0);
+	text_box(430, 345, 800, 375, (char*)slt.c_str(), f_medium, 1, 6, 5, 15, 0);
 
 	text_box(750, 420, 820, 450, (char*)"Huy", f_medium, 2, 5, 15, 11, 0);
 	text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, 11, 0);
@@ -135,48 +135,53 @@ void goods_table(
 	page_transition(view_page);
 
 }
-void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string& t_tvt, string& t_dvt, int& t_slt, int i_CRUD , bool& isEdit, bool& isAdd) {
+void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string& t_tvt, string& t_dvt, string& t_slt, int i_CRUD , bool& isEdit, bool& isAdd) {
 	int checkSubmit[4];
 	if (isAdd) {
 		for (int i = 0; i < 4; i++)
 		{
 			checkSubmit[i] = -1;
 		}
+
 	}
 	if (isEdit) {
 		for (int i = 0; i < 4; i++)
 		{
 			checkSubmit[i] = 1;
 		}
+		text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, GRAY,0); // chu cao 20
+		writeText(260, 170, (char*)"Ma vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
 	}
 	bool checkCancle = true;
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 		headInfor:;
-			if (ktVT(430, 165, 800, 195, x, y)) { // MNV
-				while (1) {
-					t_mvt = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mvt, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
-					if (searchNode(ds_vt, t_mvt) == -1) {
-						break; 
+			if (isAdd) {
+				if (ktVT(430, 165, 800, 195, x, y)) { // MNV
+					while (1) {
+						t_mvt = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mvt, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
+						if (searchNode(ds_vt, t_mvt) == -1) {
+							break; 
+						}
+						else {
+							warning_msg((char*)"Ma nhan vien da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+						}
 					}
-					else {
-						warning_msg((char*)"Ma nhan vien da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
-					}
-				}
 
-				if (isAdd) {
-					if (t_mvt.length() > 0) {
-						checkSubmit[0] = 1;
+					if (isAdd) {
+						if (t_mvt.length() > 0) {
+							checkSubmit[0] = 1;
+						}
+						else {
+							checkSubmit[0] = -1;
+						}
 					}
-					else {
-						checkSubmit[0] = -1;
-					}
+					goto headInfor;
 				}
-				goto headInfor;
 			}
-			if (ktVT(430, 225, 800, 255, x, y)) { // ho
-				t_tvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_tvt, 22, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
+			if (ktVT(430, 225, 800, 255, x, y)) { // ten vat tu
+				t_tvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_tvt, 25, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
 				if (isAdd) {
 					if (t_tvt.length() > 0) {
 						checkSubmit[1] = 1;
@@ -196,8 +201,8 @@ void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string&
 				goto headInfor;
 
 			}
-			if (ktVT(430, 285, 800, 315, x, y)) { // ten
-				t_dvt = input(x, y, 430, 285, 800, 315, 5, 6, 5, 35, 50, t_dvt, 8, "textNoSpace", "camelCase", COLOR_INFOR_SG, 430, 345);
+			if (ktVT(430, 285, 800, 315, x, y)) { // dvt
+				t_dvt = input(x, y, 430, 285, 800, 315, 5, 6, 5, 35, 50, t_dvt, 6, "textNoSpace", "camelCase", COLOR_INFOR_SG, 430, 345);
 				if (isAdd) {
 					if (t_dvt.length() > 0) {
 						checkSubmit[2] = 1;
@@ -218,11 +223,30 @@ void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string&
 
 			}
 			// slt
-			
+			if (ktVT(430, 345, 800, 375, x,y)) {
+				t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt,8, "number", "camelCase", COLOR_INFOR_SG, NULL, NULL);
+				if (isAdd) {
+					if (t_dvt.length() > 0) {
+						checkSubmit[3] = 1;
+					}
+					else {
+						checkSubmit[3] = -1;
+					}
+				}
+				if (isEdit) {
+					if (t_dvt.length() == 0) {
+						checkSubmit[3] = -1;
+					}
+					else {
+						checkSubmit[3] = 1;
+					}
+				}
+				goto headInfor;
+			}
 			//HUY
 			if (ktVT(750, 420, 820, 450, x, y)) {
 				text_box(750, 420, 820, 450, (char*)"Huy", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
-				if (checkSubmitEditStaff(checkSubmit, 4) < 4) {
+				if (checkSubmitEditAdd(checkSubmit, 4) < 4) {
 					checkCancle = announce_board(x, y, 50, 0, "Ban co muon huy.", "");
 				}
 				if (checkCancle) {
@@ -240,19 +264,23 @@ void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string&
 			}
 			//LUU
 			if (ktVT(840, 420, 910, 450, x, y)) {
-				if (checkSubmitEditStaff(checkSubmit, 4) == 0) {
+				if (checkSubmitEditAdd(checkSubmit, 4) == 0) { // sua lai ten cho hop le
 					VatTu vt_temp;
 					if (isAdd) {
 						vt_temp = {};
 						strcpy_s(vt_temp.maVT, t_mvt.c_str());
 						strcpy_s(vt_temp.tenVT, t_tvt.c_str());
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
-						vt_temp.SLT = t_slt;
+						vt_temp.SLT =stoi(t_slt);
 						insertNode(ds_vt,vt_temp);
 					}
 					if (isEdit) {
 						vt_temp = {};
-
+						strcpy_s(vt_temp.maVT, t_mvt.c_str());
+						strcpy_s(vt_temp.tenVT, t_tvt.c_str());
+						strcpy_s(vt_temp.DVT, t_dvt.c_str());
+						vt_temp.SLT = stoi(t_slt);
+						getIndexGoods(ds_vt, i_CRUD)->vat_tu = vt_temp;
 
 					}
 
@@ -313,7 +341,7 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 					i_CRUD += 1;
 					DS_VatTu *temp;
 					temp = getIndexGoods(ds_vt,i_CRUD);
-					goods_infor(temp->vat_tu.maVT, temp->vat_tu.tenVT, temp->vat_tu.DVT, temp->vat_tu.SLT);
+					goods_infor(temp->vat_tu.maVT, temp->vat_tu.tenVT, temp->vat_tu.DVT, to_string(temp->vat_tu.SLT));
 					g_isEdit = true;
 					goto sf_out;
 				}
@@ -326,8 +354,8 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 					if (check_D_staff) {
 						i_CRUD = (vp_g_table.current - 1) * ROW_STAFF + i;
 						i_CRUD += 1;
-						string mvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.maVT;
-						deleteNode(ds_vt, mvt);
+						string tvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.tenVT;
+						deleteNode(ds_vt, tvt);
 						goto sf_out;
 					}
 					else {
@@ -367,14 +395,15 @@ sf_out:;
 		string t_mvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.maVT;
 		string t_tvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.tenVT;
 		string t_dvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.DVT;
-		int t_slt = getIndexGoods(ds_vt,i_CRUD)->vat_tu.SLT;
+		int slt = getIndexGoods(ds_vt,i_CRUD)->vat_tu.SLT;
+		string t_slt = to_string(slt);
 		handleInfor_goods(x, y, ds_vt, t_mvt, t_tvt, t_dvt, t_slt, i_CRUD, g_isEdit, g_isAdd);
 	}
 	if (g_isAdd) {
 		string t_add_mnt = "";
 		string t_add_ho = "";
 		string t_add_ten = "";
-		int t_add_slt = 0;
+		string t_add_slt = "";
 		handleInfor_goods(x, y, ds_vt, t_add_mnt, t_add_ho, t_add_ten, t_add_slt,-1, g_isEdit, g_isAdd);
 	}
 

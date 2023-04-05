@@ -78,7 +78,7 @@ struct HoaDon
 	char SoHD[21];
 	Date date;
 	char Loai[2];
-	//CT_HoaDon ct_hoadon;
+	DS_CT_HoaDon* dscthd;
 	// nap chong toan tu 
 	bool operator==(HoaDon& other)
 	{

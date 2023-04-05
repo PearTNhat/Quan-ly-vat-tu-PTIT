@@ -27,10 +27,10 @@ void insertNode(DS_VatTu*& root, VatTu x)
 	{
 		DS_VatTu* p = root;
 		DS_VatTu* prev = p;
-		while (p != NULL && string(p->vat_tu.maVT) != string(x.maVT))
+		while (p != NULL && string(p->vat_tu.tenVT) != string(x.tenVT))
 		{
 			prev = p;
-			if (string(x.maVT) > string(p->vat_tu.maVT))
+			if (string(x.tenVT) > string(p->vat_tu.tenVT))
 			{
 				p = p->right;
 			}
@@ -42,7 +42,7 @@ void insertNode(DS_VatTu*& root, VatTu x)
 		if (p == NULL)
 		{
 			DS_VatTu* temp = createNode(x);
-			if ((string)(x.maVT) > (string)(prev->vat_tu.maVT))
+			if ((string)(x.tenVT) > (string)(prev->vat_tu.tenVT))
 			{
 				prev->right = temp;
 			}
@@ -56,9 +56,9 @@ void insertNode(DS_VatTu*& root, VatTu x)
 int searchNode(DS_VatTu* root, string x)
 {
 	DS_VatTu* p = root;
-	while (p != NULL && string(p->vat_tu.maVT) != string(x))
+	while (p != NULL && string(p->vat_tu.tenVT) != string(x))
 	{
-		if (string(x) > string(p->vat_tu.maVT))
+		if (string(x) > string(p->vat_tu.tenVT))
 		{
 			p = p->right;
 		}
@@ -84,11 +84,11 @@ void deleteNode(DS_VatTu*& root, string x)
 			root = NULL;
 		}
 		else {
-			while (p != NULL && string(p->vat_tu.maVT) != string(x))
+			while (p != NULL && string(p->vat_tu.tenVT) != x)
 			{
 				isRoot = false;
 				prev = p;
-				if (string(x) > string(p->vat_tu.maVT))
+				if (x > string(p->vat_tu.tenVT))
 				{
 					p = p->right;
 				}
@@ -131,13 +131,13 @@ void deleteNode(DS_VatTu*& root, string x)
 				{
 					t = t->left;
 				}
-				if ((string)(prev->vat_tu.maVT) > (string)(p->vat_tu.maVT))
+				if ((string)(prev->vat_tu.tenVT) > (string)(p->vat_tu.tenVT))
 				{
-					
+
 					prev->left = t;
 				}
-				else if ((string)(prev->vat_tu.maVT) ==(string)(p->vat_tu.maVT)) {
-					if (prev->left!=NULL) {
+				else if ((string)(prev->vat_tu.tenVT) == (string)(p->vat_tu.tenVT)) {
+					if (prev->left != NULL) {
 						prev->left = t;
 					}
 					else {
@@ -146,7 +146,7 @@ void deleteNode(DS_VatTu*& root, string x)
 				}
 				else
 				{
-					
+
 					prev->right = t;
 				}
 				delete p, t, prev;

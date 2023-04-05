@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\goods.txt" />
+    <Text Include="Data\gooods.txt" />
     <Text Include="Data\list_staff.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

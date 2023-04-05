@@ -26,24 +26,24 @@ int main() {
 	view_page vp_g_table;
 	bool g_isEdit = false, g_isAdd = false;
 	initNode(ds_vt);
-	strcpy_s(vatu.tenVT, "MEW MEO");
+	strcpy_s(vatu.maVT, "VTA");
 	strcpy_s(vatu.DVT, "kg");
 	vatu.SLT = 1234;
-	strcpy_s(vatu.maVT, "VT060");
+	strcpy_s(vatu.tenVT, "VT060");
 	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.maVT, "VT080");
+	strcpy_s(vatu.tenVT, "VT080");
 	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.maVT, "VT090");
+	strcpy_s(vatu.tenVT, "VT090");
 	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.maVT, "VT0100");
+	strcpy_s(vatu.tenVT, "VT0100");
 	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.maVT, "VT085");
+	strcpy_s(vatu.tenVT, "VT085");
 	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.maVT, "VT065");
+	strcpy_s(vatu.tenVT, "VT065");
 	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.maVT, "VT0120");
+	strcpy_s(vatu.tenVT, "VT0120");
 	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.maVT, "VT063");
+	strcpy_s(vatu.tenVT, "VT063");
 	insertNode(ds_vt, vatu);
 	/*strcpy_s(vatu.maVT, "VT080");
 	insertNode(ds_vt, vatu);*/
@@ -116,7 +116,7 @@ int main() {
 				delete_after_header();
 			}
 			if (b_page) {
-				demoPhu();
+				//demoPhu();
 				b_create_menu_title();
 				b_ktVT(x, y);
 				b_page = false;

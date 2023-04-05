@@ -16,12 +16,9 @@
 void create_sf_header(string title = "Danh sach nhan vien", string subTitle = "Them nhan vien");
 void staff_infor(string mnv = "", string ho = "", string ten = "", string gender = "");
 void delete_staff(DS_NhanVien& ds_nv, int index);
-int checkSubmitEditStaff(int arr[], int n);
+int checkSubmitEditAdd(int arr[], int n);
 int search_ID_Staff(DS_NhanVien ds_nv, string ID);
 //--------------
-void b() {
-	cout << "dsdsdsdd ";
-}
 void read_file_staff(DS_NhanVien& ds_nv) {
 	ifstream read_file;
 	read_file.open("./Data/list_staff.txt", ios_base::in);
@@ -45,7 +42,7 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 			if (stoi(sl_hd) > 0) {
 
 				for (int i = 0; i < stoi(sl_hd); i++)
-				{
+				{ // doc tung hoá đơn
 					read_file.getline(hoadon.SoHD, 21, ',');
 					string tempDate;
 					getline(read_file, tempDate, '/');
@@ -61,11 +58,23 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 						read_file.getline(hoadon.Loai, 2, ',');
 						read_file.ignore();
 					}
+				/*	tempppp=hoadon.dscthd 
+					for (int i = 0; i < length; i++)
+					{
+						CT hoa don = temp_cthd;
+						temp_cthd.maVt = 'LLA';
+						tempppp = temp_cthd;
+						temp=temp->next
+					}*/
+					//
+						// viết code demo đi rồi thêm đọc chi tiết các hoá đơn trong này
+						// rồi thêm vào ds
+					//
 					Insert_last(ds_hoadon, hoadon);
 				}
 			}
-			temp->ds_hoadon = ds_hoadon;
-			ds_nv.nhan_vien[ds_nv.length++] = temp;
+			temp->ds_hoadon = ds_hoadon; // them vào dshd
+			ds_nv.nhan_vien[ds_nv.length++] = temp;// them vào nhân viên i
 
 		}
 	}
@@ -334,7 +343,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 			//HUY
 			if (ktVT(750, 420, 820, 450, x, y)) {
 				text_box(750, 420, 820, 450, (char*)"Huy", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
-				if (checkSubmitEditStaff(checkSubmit, 4) < 4) {
+				if (checkSubmitEditAdd(checkSubmit, 4) < 4) {
 					checkCancle = announce_board(x, y, 50, 0, "Ban co muon huy.", "");
 				}
 				if (checkCancle) {
@@ -352,7 +361,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 			}
 			//LUU
 			if (ktVT(840, 420, 910, 450, x, y)) {
-				if (checkSubmitEditStaff(checkSubmit, 4) == 0) {
+				if (checkSubmitEditAdd(checkSubmit, 4) == 0) {
 					if (sf_isAdd) { //add
 						
 						NhanVien* nv_temp = new NhanVien;
@@ -491,7 +500,7 @@ sf_out:;
 
 sf_end:;
 }
-int checkSubmitEditStaff(int arr[], int n) {
+int checkSubmitEditAdd(int arr[], int n) {
 	int count = 0;
 	for (int i = 0; i < n; i++)
 	{
