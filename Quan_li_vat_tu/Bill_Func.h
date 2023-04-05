@@ -2,111 +2,112 @@
 #include "Header.h"
 #include "Common.h"
 #include "Constant.h"
-#include "input_staff_good.h"
+#include "Bill_Struct.h"
+#include "input_bill.h"
 
 view_page vp_m_ss;
 
 
-string b_input(
-	int l, int t, int r, int b,
-	int kcl, int kct,// can chinh vi tri input
-	int e_kcl, int e_kct, int e_length = 50, // can chinh bao loi
-	string value = "", int max_value = 255, int type = NULL
-) {
-	bool key_enter = false;
-	string input = value;
-	input += "_";
-	char result[255] = {};
-	strcpy_s(result, input.c_str());
-	settextstyle(f_medium, 0, 1);
-	setfillstyle(1, 0);
-	setcolor(14);
-	setbkcolor(0);
-	bar3d(l, t, r, b, 0, 0);
-	outtextxy(l + kcl, t + kct, result);
-	while (!key_enter) {
-		while (kbhit()) {
-			char key = (char)getch();
-			bool check_key;
-			if (type == 1) {
-				check_key = only_number(key);
-			}
-			else if (type == 2) {
-				check_key = decimal_number(key);
-			}
-			else if (type == 3) {
-				check_key = only_letter(key);
-			}
-			else {
-				check_key = kt_KTu(key);
-			}
-			if (check_key) {
-				if (key == 8) {// <- backspace xoa
-					if (input.length() == 1) {
-
-					}
-					else {
-						input.erase(input.end() - 2);
-					}
-				}
-				else if (key != 13) {
-					if (input.length() == (max_value + 1)) {
-						/*string s = "Toi da la ";
-						s += to_string(max_value);
-						s += " ki tu.";
-						char m[30];
-						strcpy_s(m, s.c_str());
-						setcolor(I_ERROR_COLOR);
-						setbkcolor(I_BG);
-						settextstyle(f_medium, 0, 1);
-						outtextxy(l + e_kcl, t + e_kct, m);
-						settextstyle(f_medium, 0, 1);
-						setbkcolor(I_HIGHLIGHT);
-						setcolor(0);
-						continue;*/
-					}
-					input.erase(input.end() - 1);
-					input += key;
-					input += "_";
-				}
-				if (input.length() > 2) {
-					// kiem tra 2 dau cách, .  thi xoa
-					int n = input.length();
-					if ((input[n - 2] == input[n - 3]) && (input[n - 2] == ' ' || input[n - 2] == '.')) {
-						input.erase(input.end() - 2);
-					}
-				}
-				strcpy_s(result, input.c_str());
-				/*setfillstyle(1, I_BG);
-				bar(l + e_kcl, t+e_kct ,r+ e_length, b + 10);*/// xoa canh bao
-				setfillstyle(1, 0);
-
-				bar3d(l, t, r, b, 0, 0);
-				outtextxy(l + kcl, t + kct, result);
-				cout << "input: " << input << endl;
-				if (key == 13) {
-					//enter để break
-					key_enter = true;
-					input.erase(input.end() - 1);
-					strcpy_s(result, input.c_str());
-					cout << "result:" << result << endl;
-					setfillstyle(1, 15);
-					setbkcolor(15);
-					bar(l, t, r, b);
-					outtextxy(l + kcl, t + kct, result);
-				}
-			}
-			else {
-				cout << "ki tu k hop le" << endl;
-			}
-		}
-		delay(1);
-	}
-	return input;
-}
-
-
-
+//string b_input(
+//	int l, int t, int r, int b,
+//	int kcl, int kct,// can chinh vi tri input
+//	int e_kcl, int e_kct, int e_length = 50, // can chinh bao loi
+//	string value = "", int max_value = 255, int type = NULL
+//) {
+//	bool key_enter = false;
+//	string input = value;
+//	input += "_";
+//	char result[255] = {};
+//	strcpy_s(result, input.c_str());
+//	settextstyle(f_medium, 0, 1);
+//	setfillstyle(1, 0);
+//	setcolor(14);
+//	setbkcolor(0);
+//	bar3d(l, t, r, b, 0, 0);
+//	outtextxy(l + kcl, t + kct, result);
+//	while (!key_enter) {
+//		while (kbhit()) {
+//			char key = (char)getch();
+//			bool check_key;
+//			if (type == 1) {
+//				check_key = only_number(key);
+//			}
+//			else if (type == 2) {
+//				check_key = decimal_number(key);
+//			}
+//			else if (type == 3) {
+//				check_key = only_letter(key);
+//			}
+//			else {
+//				check_key = kt_KTu(key);
+//			}
+//			if (check_key) {
+//				if (key == 8) {// <- backspace xoa
+//					if (input.length() == 1) {
+//
+//					}
+//					else {
+//						input.erase(input.end() - 2);
+//					}
+//				}
+//				else if (key != 13) {
+//					if (input.length() == (max_value + 1)) {
+//						/*string s = "Toi da la ";
+//						s += to_string(max_value);
+//						s += " ki tu.";
+//						char m[30];
+//						strcpy_s(m, s.c_str());
+//						setcolor(I_ERROR_COLOR);
+//						setbkcolor(I_BG);
+//						settextstyle(f_medium, 0, 1);
+//						outtextxy(l + e_kcl, t + e_kct, m);
+//						settextstyle(f_medium, 0, 1);
+//						setbkcolor(I_HIGHLIGHT);
+//						setcolor(0);
+//						continue;*/
+//					}
+//					input.erase(input.end() - 1);
+//					input += key;
+//					input += "_";
+//				}
+//				if (input.length() > 2) {
+//					// kiem tra 2 dau cách, .  thi xoa
+//					int n = input.length();
+//					if ((input[n - 2] == input[n - 3]) && (input[n - 2] == ' ' || input[n - 2] == '.')) {
+//						input.erase(input.end() - 2);
+//					}
+//				}
+//				strcpy_s(result, input.c_str());
+//				/*setfillstyle(1, I_BG);
+//				bar(l + e_kcl, t+e_kct ,r+ e_length, b + 10);*/// xoa canh bao
+//				setfillstyle(1, 0);
+//
+//				bar3d(l, t, r, b, 0, 0);
+//				outtextxy(l + kcl, t + kct, result);
+//				cout << "input: " << input << endl;
+//				if (key == 13) {
+//					//enter để break
+//					key_enter = true;
+//					input.erase(input.end() - 1);
+//					strcpy_s(result, input.c_str());
+//					cout << "result:" << result << endl;
+//					setfillstyle(1, 15);
+//					setbkcolor(15);
+//					bar(l, t, r, b);
+//					outtextxy(l + kcl, t + kct, result);
+//				}
+//			}
+//			else {
+//				cout << "ki tu k hop le" << endl;
+//			}
+//		}
+//		delay(1);
+//	}
+//	return input;
+//}
+//
+//
+//
 
 
 
@@ -177,7 +178,7 @@ void b_create_info()
 	text_box(430, 170, 590, 195, (char*)"%VAT: ", f_medium, 2, 1, 5, 9, 0);
 	text_box(620, 165, 770, 190, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
 	text_box(800, 165, 950, 190, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);
-	text_box(985, 125, 1175, 215, (char*)"", f_medium, 2, 1, 5, 14, 0);
+	text_box_no_border(985, 125, 1175, 215, (char*)"", f_medium, 2, 1, 5, 14, 0);
 	
 	b_taokhungxanhla(10, 120, 110, 220);
 	b_taokhungxanhla(110, 120, 980, 220);
@@ -198,8 +199,9 @@ void b_giaodiennhd(int& x, int& y)
 				//highlight_box(110, 120, 590, 145, (char*)"So hoa don:", f_medium, 2, 1, 5, 0, 14);
 				
 				string shd=  "So hoa don: ";
-				string s = b_input(110, 120, 590, 145, 5, 5, 1, 5, 5 , shd);
-				shd = s;
+			
+				string d = input_bill(x, y, 250, 121, 588, 143, 5, 3, 985, 125, 1175, 215, "", 20, "text", "upcase");
+				shd = d;
 			}
 			if (ktVT(110, 145, 270, 170, x, y))
 			{
@@ -286,7 +288,7 @@ void b_hlNX(int& x, int& y)
 			if (ktVT(20, 130, 100, 170, x, y))
 			{
 				b_create_NX();
-				highlight_box(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 0, 14);
+				highlight_box(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 15, 0);
 				b_create_info();
 				b_giaodiennhd(x, y);
 			}
