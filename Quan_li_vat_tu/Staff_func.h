@@ -93,6 +93,7 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 					}
 				}
 				Insert_last_HD(ds_hoadon, hoadon);
+				
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;
@@ -105,8 +106,13 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 
 void write_file_staff(DS_NhanVien ds_nv) {
 	ofstream write_file;
-	int numOfBill;
-	int numOfCTHD;
+	int numOfBill = 0;
+	int numOFCTHD = 0;
+	DS_HoaDon* dshd_temp;
+	//DS_CT_HoaDon* dscthoadon;
+
+
+	CT_HoaDon dscthd_temp;
 	write_file.open("./Data/list_staff.txt");
 
 	for (int i = 0; i < ds_nv.length; i++)
@@ -126,29 +132,28 @@ void write_file_staff(DS_NhanVien ds_nv) {
 		if (i == ds_nv.length - 1 && numOfBill == 0) write_file << numOfBill;
 		else write_file << numOfBill << endl;
 
-		if (numOfBill > 0) {
-			DS_HoaDon* nodeIt_HD = ds_nv.nhan_vien[i]->ds_hoadon;
-			while (nodeIt_HD != NULL) {
-				write_file << nodeIt_HD->hoadon.SoHD << ",";
-				write_file << nodeIt_HD->hoadon.date.ngay << "/" << nodeIt_HD->hoadon.date.thang << "/" << nodeIt_HD->hoadon.date.nam << ",";
-				write_file << nodeIt_HD->hoadon.Loai << endl;
-				if (nodeIt_HD->hoadon.first_cthd != NULL) {
-					DS_CT_HoaDon* nodeIt_CT = nodeIt_HD->hoadon.first_cthd;
-					write_file << getNumOfCTHD(nodeIt_CT) << endl;
-					while (nodeIt_CT != NULL) {
-						write_file << nodeIt_CT->ct_hoadon.MAVT << ",";
-						write_file << nodeIt_CT->ct_hoadon.Soluong << ",";
-						write_file << nodeIt_CT->ct_hoadon.Dongia << ",";
-						write_file << nodeIt_CT->ct_hoadon.VAT << ",";
-						if (nodeIt_CT->next != NULL) {
-							write_file << nodeIt_CT->ct_hoadon.TrangThai << "," << endl;
-						}
-						else write_file << nodeIt_CT->ct_hoadon.TrangThai << endl;
-						nodeIt_CT = nodeIt_CT->next;
-					}
+			}
+			numOFCTHD = getNumOfCTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
+			if (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd = NULL) {
+				cout << "______NULL_____" << endl;
+			}
+			else {
+				write_file << numOFCTHD << "\n";
+			}
+			for (int x = 1; x < numOFCTHD; x++) {
+				
+				dscthd_temp = {};
+				write_file << dscthd_temp.MAVT << ',';
+				write_file << dscthd_temp.Soluong << ',';
+				write_file << dscthd_temp.Dongia << ',';
+				write_file << dscthd_temp.VAT << ',';
+				if (x == numOFCTHD - 1) {
+					write_file << dscthd_temp.TrangThai << "\n";
 				}
-				else write_file << "0" << endl;
-				nodeIt_HD = nodeIt_HD->next;
+				else {
+					write_file << dscthd_temp.TrangThai << "," << endl;
+				}
+				dscthd_temp = dscthd_temp;
 			}
 		}
 	}
