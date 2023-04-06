@@ -106,13 +106,8 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 
 void write_file_staff(DS_NhanVien ds_nv) {
 	ofstream write_file;
-	int numOfBill = 0;
-	int numOFCTHD = 0;
-	DS_HoaDon* dshd_temp;
-	//DS_CT_HoaDon* dscthoadon;
-
-
-	CT_HoaDon dscthd_temp;
+	int numOfBill;
+	int numOfCTHD;
 	write_file.open("./Data/list_staff.txt");
 
 	for (int i = 0; i < ds_nv.length; i++)
@@ -123,55 +118,45 @@ void write_file_staff(DS_NhanVien ds_nv) {
 		write_file << ds_nv.nhan_vien[i]->phai << ",";
 
 		write_file << endl;
-		numOfBill = getNumOfBill(ds_nv.nhan_vien[i]->ds_hoadon);
-		if (i == ds_nv.length - 1) {
-			write_file << numOfBill;
+
+		if (ds_nv.nhan_vien[i]->ds_hoadon != NULL) {
+			numOfBill = getNumOfBill(ds_nv.nhan_vien[i]->ds_hoadon);
 		}
-		else {
-			write_file << numOfBill << endl;
-		}
-		for (int z = 0; z < numOfBill; z++) {
-			dshd_temp = ds_nv.nhan_vien[i]->ds_hoadon;
-			write_file << dshd_temp->hoadon.SoHD << ",";
-			write_file << dshd_temp->hoadon.date.ngay << "/";
-			write_file << dshd_temp->hoadon.date.thang << "/";
-			write_file << dshd_temp->hoadon.date.nam << ",";
-			if (z == numOfBill - 1) {
-				write_file << dshd_temp->hoadon.Loai << "\n";
+		else numOfBill = 0;
 
-			}
-			else {
-				write_file << dshd_temp->hoadon.Loai << "," << endl;
+		if (i == ds_nv.length - 1 && numOfBill == 0) write_file << numOfBill;
+		else write_file << numOfBill << endl;
 
-			}
-			numOFCTHD = getNumOfCTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
-			if (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd = NULL) {
-				cout << "______NULL_____" << endl;
-			}
-			else {
-				write_file << numOFCTHD << "\n";
-			}
-			for (int x = 1; x < numOFCTHD; x++) {
-				
-				dscthd_temp = {};
-				write_file << dscthd_temp.MAVT << ',';
-				write_file << dscthd_temp.Soluong << ',';
-				write_file << dscthd_temp.Dongia << ',';
-				write_file << dscthd_temp.VAT << ',';
-				if (x == numOFCTHD - 1) {
-					write_file << dscthd_temp.TrangThai << "\n";
+		if (numOfBill > 0) {
+			DS_HoaDon* nodeIt_HD = ds_nv.nhan_vien[i]->ds_hoadon;
+			while (nodeIt_HD != NULL) {
+				write_file << nodeIt_HD->hoadon.SoHD << ",";
+				write_file << nodeIt_HD->hoadon.date.ngay << "/" << nodeIt_HD->hoadon.date.thang << "/" << nodeIt_HD->hoadon.date.nam << ",";
+				write_file << nodeIt_HD->hoadon.Loai << endl;
+				if (nodeIt_HD->hoadon.first_cthd != NULL) {
+					DS_CT_HoaDon* nodeIt_CT = nodeIt_HD->hoadon.first_cthd;
+					write_file << getNumOfCTHD(nodeIt_CT) << endl;
+					while (nodeIt_CT != NULL) {
+						write_file << nodeIt_CT->ct_hoadon.MAVT << ",";
+						write_file << nodeIt_CT->ct_hoadon.Soluong << ",";
+						write_file << nodeIt_CT->ct_hoadon.Dongia << ",";
+						write_file << nodeIt_CT->ct_hoadon.VAT << ",";
+						if (nodeIt_CT->next != NULL) {
+							write_file << nodeIt_CT->ct_hoadon.TrangThai << "," << endl;
+						}
+						else {
+							if (i == ds_nv.length - 1) write_file << nodeIt_CT->ct_hoadon.TrangThai;
+							else write_file << nodeIt_CT->ct_hoadon.TrangThai << endl;
+						}
+						nodeIt_CT = nodeIt_CT->next;
+					}
 				}
-				else {
-					write_file << dscthd_temp.TrangThai << "," << endl;
-				}
-				dscthd_temp = dscthd_temp;
+				else write_file << "0" << endl;
+				nodeIt_HD = nodeIt_HD->next;
 			}
-
-			dshd_temp = dshd_temp->next;
 		}
 	}
 	write_file.close();
-
 }
 void create_sf_header(string title, string subTitle) {
 	setfillstyle(1, bk_screen);

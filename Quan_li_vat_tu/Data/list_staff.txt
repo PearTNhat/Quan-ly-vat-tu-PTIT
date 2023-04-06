@@ -1,5 +1,3 @@
-NV035,Dinh Cong Hau,Due,Nam,
-0
 NV009,Ly Thanh,Hau,Nam,
 0
 NV010,Ly Thanh Hoang,Hau,Nam,
