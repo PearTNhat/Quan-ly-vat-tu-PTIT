@@ -53,14 +53,14 @@ struct DS_CT_HoaDon
 typedef DS_CT_HoaDon* dscthd;
 
 // Initialize khoi dong danh sach lien ket chi tiet hoadon
-void Initialize(dscthd &first_cthd)
+void Initialize_CTHD(dscthd &first_cthd)
 {
 	first_cthd = NULL;
 }
 
 /* Tac vu nodepointer: xac dinh con tro cua nut i trong danh sach lien ket chi tiet hoadon
    (i = 2, ...) */
-dscthd nodepointerd(dscthd &first_cthd, int i)
+dscthd nodepointer_CTHD(dscthd &first_cthd, int i)
 {
 	dscthd d;
 	int vitri = 1;
@@ -74,7 +74,7 @@ dscthd nodepointerd(dscthd &first_cthd, int i)
 }
 
 // Tac vu position: xac dinh vi tri cua nut p trong danh sach lien ket chi tiet hoadon
-int position(dscthd first_cthd, dscthd d)
+int position_CTHD(dscthd first_cthd, dscthd d)
 {
 	int vitri = 1;
 	dscthd q = first_cthd;
@@ -87,7 +87,7 @@ int position(dscthd first_cthd, dscthd d)
 }
 
 // Newnode chi tiet hoadon
-dscthd dNewnode(CT_HoaDon x = {})
+dscthd Newnode_CTHD(CT_HoaDon x = {})
 {
 	dscthd d = new DS_CT_HoaDon;
 	d->ct_hoadon = x;
@@ -95,39 +95,39 @@ dscthd dNewnode(CT_HoaDon x = {})
 	/*d->dscthd = nullptr;*/
 	return d;
 }
-dscthd d = dNewnode();
+dscthd d = Newnode_CTHD();
 
 // them vao dau chi tiet hoadon
-void Insert_First(dscthd& first_cthd, CT_HoaDon x)
+void Insert_First_CTHD(dscthd& first_cthd, CT_HoaDon x)
 {
-	dscthd d = dNewnode(x);
+	dscthd d = Newnode_CTHD(x);
 	d->next = first_cthd;
 	first_cthd = d;
 }
 
 //them vao sau cung chi tiet hoadon
-void Insert_last_d(dscthd& d, CT_HoaDon x)
+void Insert_last_CTHD(dscthd& d, CT_HoaDon x)
 {
 	dscthd q = d;
 	if (d == NULL) {
-		Insert_First(d, x);
+		Insert_First_CTHD(d, x);
 	}
 	else
 	{
 		while (q->next != NULL) {
 			q = q->next;
 		}
-		dscthd temp = dNewnode(x);
+		dscthd temp = Newnode_CTHD(x);
 		q->next = temp;
 	}
 }
 
 //them vao sau d cua chi tiet hoadon
-void Insert_after_d(dscthd d, CT_HoaDon x)
+void Insert_after_CTHD(dscthd d, CT_HoaDon x)
 {
 	dscthd q;
 	if (d == NULL)
-		Insert_First(d, x);
+		Insert_First_CTHD(d, x);
 	else
 	{
 		q = new DS_CT_HoaDon;
@@ -139,16 +139,16 @@ void Insert_after_d(dscthd d, CT_HoaDon x)
 }
 
 // kiem tra rong chi tiet hoadon
-int Empty(dscthd first_cthd)
+int Empty_CTHD(dscthd first_cthd)
 {
 	return(first_cthd == NULL);
 }
 
 // xoa dau chi tiet hoadon
-int Delete_First(dscthd& first_cthd)
+int Delete_First_CTHD(dscthd& first_cthd)
 {
 	dscthd p;
-	if (Empty(first_cthd))
+	if (Empty_CTHD(first_cthd))
 		return 0;
 	p = first_cthd;
 	first_cthd = p->next;
@@ -157,7 +157,7 @@ int Delete_First(dscthd& first_cthd)
 }
 
 // xoa sau chi tiet hoa don
-int Delete_after(dscthd d)
+int Delete_after_CTHD(dscthd d)
 {
 	dscthd q;
 	if ((d == NULL) || (d->next == NULL))
@@ -169,10 +169,10 @@ int Delete_after(dscthd d)
 }
 
 // xoa danh sach lien ket chi tiet hoadon
-void Clearlist(dscthd& first_cthd)
+void Clearlist_CTHD(dscthd& first_cthd)
 {
 	//PTRHD p;
-	while (first_cthd != NULL) Delete_First(first_cthd);
+	while (first_cthd != NULL) Delete_First_CTHD(first_cthd);
 }
 
 //hoa don
@@ -339,14 +339,14 @@ typedef DS_HoaDon* PTRHD;
 //}
 
 //Initialize khoi dong danh sach lien ket hoadon
-void Initialize(PTRHD& First)
+void Initialize_HD(PTRHD& First)
 {
 	First = NULL;
 }
 
 /* Tac vu nodepointer: xac dinh con tro cua nut i trong danh sach lien ket hoadon
    (i = 2, ...) */
-PTRHD nodepointer(PTRHD First, int i)
+PTRHD nodepointer_HD(PTRHD First, int i)
 {
 	PTRHD p;
 	int vitri = 1;
@@ -360,7 +360,7 @@ PTRHD nodepointer(PTRHD First, int i)
 }
 
 // Tac vu position: xac dinh vi tri cua nut p trong danh sach lien ket hoadon
-int position(PTRHD First, PTRHD p)
+int position_HD(PTRHD First, PTRHD p)
 {
 	int vitri = 1;
 	PTRHD q = First;
@@ -374,7 +374,7 @@ int position(PTRHD First, PTRHD p)
 
 
 // Newnode hoadon
-PTRHD Newnode(HoaDon x = {})
+PTRHD Newnode_HD(HoaDon x = {})
 {
 	PTRHD p = new DS_HoaDon;
 	p->hoadon = x;
@@ -382,41 +382,41 @@ PTRHD Newnode(HoaDon x = {})
 	/*p->dscthd = nullptr;*/
 	return p;
 }
-PTRHD p = Newnode();
+PTRHD p = Newnode_HD();
 
 
 
 // them vao dau hoadon
-void Insert_First(PTRHD& First, HoaDon x)
+void Insert_First_HD(PTRHD& First, HoaDon x)
 {
-	PTRHD p = Newnode(x);
+	PTRHD p = Newnode_HD(x);
 	p->next = First;
 	First = p;
 }
 
 //them vao sau cung hoadon
-void Insert_last(PTRHD& p, HoaDon x)
+void Insert_last_HD(PTRHD& p, HoaDon x)
 {
 	PTRHD q = p;
 	if (p == NULL) {
-		Insert_First(p, x);
+		Insert_First_HD(p, x);
 	}
 	else
 	{
 		while (q->next != NULL) {
 			q = q->next;
 		}
-		PTRHD temp = Newnode(x);
+		PTRHD temp = Newnode_HD(x);
 		q->next = temp;
 	}
 }
 
 //them vao sau p cua hoadon
-void Insert_after_p(PTRHD p, HoaDon x)
+void Insert_after_HD(PTRHD p, HoaDon x)
 {
 	PTRHD q;
 	if (p == NULL)
-		Insert_First(p, x);
+		Insert_First_HD(p, x);
 	else
 	{
 		q = new DS_HoaDon;
@@ -428,7 +428,7 @@ void Insert_after_p(PTRHD p, HoaDon x)
 }
 
 //tim thong tin hoadon 
-PTRHD Search_info(PTRHD First, HoaDon x)
+PTRHD Search_info_HD(PTRHD First, HoaDon x)
 {
 	PTRHD p;
 	for (p = First; p != NULL; p = p->next)
@@ -440,16 +440,16 @@ PTRHD Search_info(PTRHD First, HoaDon x)
 }
 
 // kiem tra rong hoadon
-int Empty(PTRHD First)
+int Empty_HD(PTRHD First)
 {
 	return(First == NULL);
 }
 
 // xoa dau hoadon
-int Delete_First(PTRHD& First)
+int Delete_First_HD(PTRHD& First)
 {
 	PTRHD p;
-	if (Empty(First))
+	if (Empty_HD(First))
 		return 0;
 	p = First;
 	First = p->next;
@@ -458,7 +458,7 @@ int Delete_First(PTRHD& First)
 }
 
 // xoa sau (hoa don)
-int Delete_after(PTRHD p)
+int Delete_after_HD(PTRHD p)
 {
 	PTRHD q;
 	if ((p == NULL) || (p->next == NULL))
@@ -470,26 +470,26 @@ int Delete_after(PTRHD p)
 }
 
 // xoa theo thong tin ( hoadon)
-int Delete_Info(PTRHD& First, HoaDon x)
+int Delete_Info_HD(PTRHD& First, HoaDon x)
 {
 	PTRHD p = First;
 	if (First = NULL)
 		return 0;
 	if (First->hoadon == x)
 	{
-		Delete_First(First);return 1;
+		Delete_First_HD(First);return 1;
 	}
 
 	for (p = First;p->next != NULL && p->next->hoadon != x;p = p->next);
 	if (p->next != NULL)
 	{
-		Delete_after(p); return 1;
+		Delete_after_HD(p); return 1;
 	}
 	return 0;
 }
 
 // xoa tat ca theo thong tin ( hoadon)
-int Delete_ALl_Info(PTRHD& First, HoaDon x)
+int Delete_ALl_Info_HD(PTRHD& First, HoaDon x)
 {
 	int count = 0;
 	if (First == NULL) return 0;
@@ -497,23 +497,23 @@ int Delete_ALl_Info(PTRHD& First, HoaDon x)
 	{
 		if (p->next->hoadon == x)
 		{
-			Delete_after(p); count++;
+			Delete_after_HD(p); count++;
 		}
 		else
 			p = p->next;
 	}
 	if (First->hoadon == x)
 	{
-		Delete_First(First); count++;
+		Delete_First_HD(First); count++;
 	}
 	return count;
 }
 
 // xoa danh sach lien ket hoadon
-void Clearlist(PTRHD& First)
+void Clearlist_HD(PTRHD& First)
 {
 	//PTRHD p;
-	while (First != NULL) Delete_First(First);
+	while (First != NULL) Delete_First_HD(First);
 }
 void display_dsHD(PTRHD First) {
 	if (First != NULL) {
@@ -580,7 +580,7 @@ void demoPhu()
 	
 	char chucnang;
 	PTRHD First;
-	Initialize(First);
+	Initialize_HD(First);
 	do 
 	{
 		chucnang = menu();
@@ -602,6 +602,6 @@ void demoPhu()
 		}
 	} while (chucnang != '0');
 
-	Clearlist(First);
+	Clearlist_HD(First);
 	//return 0;
 }
