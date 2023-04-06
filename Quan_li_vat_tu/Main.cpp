@@ -21,34 +21,12 @@ int main() {
 	sort_staff(ds_nv);
 	// vật tư
 	DS_VatTu* ds_vt;
-	VatTu vatu;
+	initNode(ds_vt);
 	check_CURD delete_table_g[COLS_G];
 	check_CURD edit_table_g[COLS_G];
 	view_page vp_g_table;
 	bool g_isEdit = false, g_isAdd = false;
-	initNode(ds_vt);
-	strcpy_s(vatu.maVT, "VTA");
-	strcpy_s(vatu.DVT, "kg");
-	vatu.SLT = 1234;
-	strcpy_s(vatu.tenVT, "VT060");
-	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.tenVT, "VT080");
-	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.tenVT, "VT090");
-	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.tenVT, "VT0100");
-	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.tenVT, "VT085");
-	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.tenVT, "VT065");
-	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.tenVT, "VT0120");
-	insertNode(ds_vt, vatu);
-	strcpy_s(vatu.tenVT, "VT063");
-	insertNode(ds_vt, vatu);
-	/*strcpy_s(vatu.maVT, "VT080");
-	insertNode(ds_vt, vatu);*/
-	lnr(ds_vt);
+	read_file_goods(ds_vt);
 	PTRHD ds_hd = NULL;
 	//read_file_DSHD(ds_hd);
 	//ds_tmp arr_temp = build_dshd_array(ds_hd);
