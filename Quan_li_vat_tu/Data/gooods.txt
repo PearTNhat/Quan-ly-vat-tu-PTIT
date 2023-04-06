@@ -1,6 +1,0 @@
-VT035,Bua,Cai,15
-VT060,Sat,Kg,145
-VT012,Cat,Khoi,145
-VT003,Da,Khoi,345
-VT025,Gach,Vien,12345
-VT015,Xi Mang,Bao,1345

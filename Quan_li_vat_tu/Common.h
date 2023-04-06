@@ -142,7 +142,22 @@ bool announce_board( int x,int y,int kcl = 0, int kct = 0, string value = "",str
 	setfillstyle(1, bg);
 	setcolor(I_ERROR_COLOR);
 	bar3d(420, 210, 780, 410, 0, 0);
-	writeText(450 + kcl, 280 + kct, (char*)value.c_str(), 1, 0, f_medium, bg);
+	string temp_value;
+	temp_value = "";
+	int text_length = value.length() <= 27 ? value.length() : 27;
+	for (int i = 0; i < text_length; i++)
+	{
+		temp_value += value[i];
+	}
+	writeText(450 + kcl, 280 + kct, (char*)temp_value.c_str(), 1, 0, f_medium, bg);
+	if(value.length() > 26) {
+		temp_value = "";
+		for (int i = 27; i < value.length(); i++)
+		{
+			temp_value += value[i];
+		}
+		writeText(450 + kcl, 300 + kct, (char*)temp_value.c_str(), 1, 0, f_medium, bg);
+	}
 	if (type!= "noClose") {
 		text_box(500, 345, 570, 370, (char*)"Co", f_medium, 1, 5, 20, bg, 0);
 		text_box(610, 345, 680, 370, (char*)"Khong", f_medium, 1, 5, 6, bg, 0);

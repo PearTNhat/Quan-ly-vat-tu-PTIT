@@ -259,8 +259,8 @@ void staff_table(
 		writeText(650, text_top, ds.nhan_vien[i]->phai, 1, 0, 3, 15);
 
 		//------------- k can co the xoa
-		text_box(900, text_top, 978, text_top + 22, curd_o[0], f_small, 1, 1);
-		text_box(995, text_top, 1038, text_top + 22, curd_o[1], f_small, 1, 1);
+		text_box(900, text_top, 978, text_top + 23, curd_o[0], f_small, 1, 1,2);
+		text_box(995, text_top, 1038, text_top + 23, curd_o[1], f_small, 1, 1,6);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
@@ -486,15 +486,21 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], 
 			for (int i = 0; i < delete_sf[0].n; i++)
 			{
 				if (ktVT(delete_sf[i].l, delete_sf[i].t, delete_sf[i].r, delete_sf[i].b, x, y)) {
-					check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
-					if (check_D_staff) {
-						i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
-						delete_staff(ds_nv, i_CRUD);
-						goto sf_out;
+					i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
+					if (ds_nv.nhan_vien[i_CRUD]->ds_hoadon == NULL) {
+						check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
+						if (check_D_staff) {
+							delete_staff(ds_nv, i_CRUD);
+							goto sf_out;
+						}
+						else {
+							goto sf_out;
+						}
 					}
 					else {
+						announce_board(0, 0, 0, 0, "Nhan vien dang quan li hoa don khong the xoa.");
+						delay(1500); 
 						goto sf_out;
-
 					}
 
 				}
@@ -532,7 +538,6 @@ sf_out:;
 		string t_gender = ds_nv.nhan_vien[i_CRUD]->phai;
 		handleInfor_staff(x, y, ds_nv, i_CRUD, t_mnv, t_ho, t_ten, t_gender, "edit", sf_isEdit, sf_isAdd);
 	}
-	cout << "______ " << sf_isAdd << endl;
 	if (sf_isAdd) {
 		string t_add_mnv = "";
 		string t_add_ho = "";
@@ -587,19 +592,13 @@ void staff_infor(string mnv, string ho, string ten, string gender) {
 
 }
 void delete_staff(DS_NhanVien& ds_nv, int index) {
-	if (ds_nv.nhan_vien[index]->ds_hoadon == NULL) {
-		for (int i = index; i < ds_nv.length - 1; i++)
-		{
-			ds_nv.nhan_vien[i] = ds_nv.nhan_vien[i + 1];
-		}
-		ds_nv.nhan_vien[ds_nv.length - 1] = new NhanVien;
-		ds_nv.length--;
-		write_file_staff(ds_nv);
+	for (int i = index; i < ds_nv.length - 1; i++)
+	{
+		ds_nv.nhan_vien[i] = ds_nv.nhan_vien[i + 1];
 	}
-	else {
-		announce_board(0, 0, 0, 0, "Khong the xoa.");
-		delay(1000);
-	}
+	ds_nv.nhan_vien[ds_nv.length - 1] = new NhanVien;
+	ds_nv.length--;
+	write_file_staff(ds_nv);
 }
 int search_ID_Staff(DS_NhanVien ds_nv, string ID) {
 

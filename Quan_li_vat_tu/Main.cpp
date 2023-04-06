@@ -62,7 +62,7 @@ int main() {
 			}
 			if (g_page) {
 				create_sf_header("Danh sach vat tu","Quan li vat tu");
-				goods_table(sf_table_header, ds_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g,10);
+				goods_table(g_table_header, ds_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g,10);
 				g_handleTable( x,  y,  ds_vt,  delete_table_g,  edit_table_g,  vp_g_table,  g_isEdit,  g_isAdd);
 				goto sf_start;
 

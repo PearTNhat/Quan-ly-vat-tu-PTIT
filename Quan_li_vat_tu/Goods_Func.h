@@ -2,9 +2,7 @@
 
 #define COLS_G 10
 // them vaof hoa don k dc xoa vat tu
-//--variable
-char g_table_header[][20] = { "MaVT","TenVT","So luong ton","Don vi" };
-
+// xem lai cach viet hoa cua ten vt
 //
 void create_g_header();
 void goods_infor(string mvt="", string tvt="", string dvt="", string slt="");
@@ -93,8 +91,9 @@ void goods_table(
 	outtextxy(55, text_top, (char*)"STT");
 	outtextxy(95, text_top, sf_table_header[0]);
 	outtextxy(230, text_top, sf_table_header[1]);
-	outtextxy(650, text_top, sf_table_header[2]);
-	outtextxy(900, text_top, sf_table_header[3]);
+	outtextxy(450, text_top, sf_table_header[2]);
+	outtextxy(650, text_top, sf_table_header[3]);
+	outtextxy(900, text_top, sf_table_header[4]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	int d = 0;//delete
@@ -137,6 +136,7 @@ void goods_table(
 		writeText(55, text_top, stt,1,0,3,15);
 		writeText(95, text_top, temp->vat_tu.maVT, 1, 0, 3, 15);
 		writeText(230, text_top, temp->vat_tu.tenVT, 1, 0, 3, 15);
+		writeText(450, text_top, temp->vat_tu.DVT, 1, 0, 3, 15);
 	
 		writeText(650, text_top, (char*)to_string(temp->vat_tu.SLT).c_str(), 1, 0, 3, 15);
 
@@ -428,3 +428,15 @@ sf_out:;
 
 sf_end:;
 }
+//bool checkIsDeleteGoods(DS_NhanVien ds_nv,string value) {
+//	for (int i = 0; i < ds_nv.length; i++)
+//	{
+//		while () {
+//
+//		}
+//		string mvt = ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd->ct_hoadon.MAVT;
+//		if (mvt == value) {
+//			
+//		}
+//	}
+//}
