@@ -19,12 +19,16 @@ void delete_staff(DS_NhanVien& ds_nv, int index);
 int checkSubmitEditStaff(int arr[], int n);
 int search_ID_Staff(DS_NhanVien ds_nv, string ID);
 //--------------
-void read_file_staff(DS_NhanVien& ds_nv) {
+void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hd) {
 	ifstream read_file;
 	read_file.open("./Data/list_staff.txt", ios_base::in);
 	NhanVien* temp;
+	HoaDon* tempcthd;
+
 	HoaDon hoadon = {};
 	PTRHD ds_hoadon;
+	//
+	CT_HoaDon temp_cthd;
 	if (read_file.is_open() && read_file.peek() == std::ifstream::traits_type::eof()) {
 		std::cout << "File is empty." << std::endl;
 	}
@@ -32,6 +36,7 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 		while (!read_file.eof()) {
 			cout << "Dsd ";
 			temp = new NhanVien;
+
 			ds_hoadon = NULL;
 			read_file.getline(temp->maNV, 11, ',');
 			read_file.getline(temp->ho, 23, ',');
@@ -39,6 +44,7 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 			read_file.getline(temp->phai, 4, ',');
 			read_file.ignore();
 			string sl_hd;
+			
 			getline(read_file, sl_hd, '\n');
 			if (stoi(sl_hd) > 0) {
 
@@ -59,6 +65,36 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 						read_file.getline(hoadon.Loai, 2, ',');
 						read_file.ignore();
 					}
+					string sl_cthd;
+					getline(read_file, sl_cthd, '\n');
+					if (stoi(sl_cthd)>0) {
+						hoadon.ct_hoadon = NULL;
+						temp_cthd = {};
+						for (int j = 0; j < stoi(sl_cthd); j++) {
+							string tempct;
+							read_file.getline(temp_cthd.MAVT, 11, ',');
+							
+							getline(read_file, tempct, ',');
+							temp_cthd.Soluong = stoi(tempct);
+							getline(read_file, tempct, ',');
+							temp_cthd.Dongia = stoi(tempct);
+							getline(read_file, tempct, ',');
+							temp_cthd.VAT = stoi(tempct);
+							if (j == stoi(sl_cthd) - 1) {
+								getline(read_file, tempct, '\n');
+								temp_cthd.TrangThai = stoi(tempct);
+							}
+							else {
+								getline(read_file, tempct, ',');
+								temp_cthd.TrangThai = stoi(tempct);
+								read_file.ignore();
+							}
+						Insert_last_d(hoadon.ct_hoadon, temp_cthd);
+						}
+
+					}
+					
+
 				}
 				Insert_last(ds_hoadon, hoadon);
 			}
@@ -75,7 +111,10 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 void write_file_staff(DS_NhanVien ds_nv) {
 	ofstream write_file;
 	int numOfBill = 0;
+	int numOFCTHD = 0;
 	DS_HoaDon* dshd_temp;
+
+	dscthd dscthd_temp;
 	write_file.open("./Data/list_staff.txt");
 	
 	for (int i = 0; i < ds_nv.length; i++)
@@ -84,7 +123,7 @@ void write_file_staff(DS_NhanVien ds_nv) {
 		write_file << ds_nv.nhan_vien[i]->ho << ",";
 		write_file << ds_nv.nhan_vien[i]->ten << ",";
 		write_file << ds_nv.nhan_vien[i]->phai << ",";
-
+		
 		write_file << endl;
 		numOfBill = getNumOfBill(ds_nv.nhan_vien[i]->ds_hoadon);
 		cout << "number:  " << numOfBill << endl;
@@ -112,6 +151,14 @@ void write_file_staff(DS_NhanVien ds_nv) {
 				write_file << dshd_temp->hoadon.Loai << "," << endl;
 
 			}
+			numOFCTHD = getNumOfCTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.ct_hoadon);
+			if (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.ct_hoadon = NULL) {
+				cout <<"______NULL_____" << endl;
+			}
+			else {
+				write_file << numOFCTHD << "\n";
+			}
+
 			dshd_temp = dshd_temp->next;
 		}
 	}

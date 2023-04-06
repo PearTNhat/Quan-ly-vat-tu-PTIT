@@ -10,11 +10,15 @@
 
 int main() {
 	DS_NhanVien ds_nv;
-	read_file_staff(ds_nv);
+	DS_HoaDon ds_hd;
+	read_file_staff(ds_nv,ds_hd);
 	sort_staff(ds_nv);
-	PTRHD ds_hd = NULL;
-	//read_file_DSHD(ds_hd);
-	//ds_tmp arr_temp = build_dshd_array(ds_hd);
+	//PTRHD ds_hd = NULL;
+	/*read_file_DSHD(ds_hd);
+	ds_tmp arr_temp = build_dshd_array(ds_hd);*/
+
+	DS_HoaDon ds_hoadon;
+	
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	cleardevice();
