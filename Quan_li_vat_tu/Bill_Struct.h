@@ -5,8 +5,8 @@
 //#include <conio.h>
 //#include <alloc.h>
 #include <ctype.h>
-#undef max
-#include <limits> // thêm thư viện này để sử dụng numeric_limits
+
+#define MAX_HD 500
 #define TRUE 1
 #define FALSE 0
 
@@ -50,8 +50,130 @@ struct DS_CT_HoaDon
 	CT_HoaDon ct_hoadon;
 	DS_CT_HoaDon* next;
 };
-typedef DS_CT_HoaDon* PTRCT;
+typedef DS_CT_HoaDon* dscthd;
 
+// Initialize khoi dong danh sach lien ket chi tiet hoadon
+void Initialize(dscthd &first_cthd)
+{
+	first_cthd = NULL;
+}
+
+/* Tac vu nodepointer: xac dinh con tro cua nut i trong danh sach lien ket chi tiet hoadon
+   (i = 2, ...) */
+dscthd nodepointerd(dscthd &first_cthd, int i)
+{
+	dscthd d;
+	int vitri = 1;
+	d = first_cthd;
+	while (d != NULL && vitri < i)
+	{
+		d = d->next;
+		vitri++;
+	}
+	return(d);
+}
+
+// Tac vu position: xac dinh vi tri cua nut p trong danh sach lien ket chi tiet hoadon
+int position(dscthd first_cthd, dscthd d)
+{
+	int vitri = 1;
+	dscthd q = first_cthd;
+	while (q != NULL && q != d)
+	{
+		q = q->next; 	vitri++;
+	}
+	if (q == NULL)     return (-1);
+	return(vitri);
+}
+
+// Newnode chi tiet hoadon
+dscthd dNewnode(CT_HoaDon x = {})
+{
+	dscthd d = new DS_CT_HoaDon;
+	d->ct_hoadon = x;
+	d->next = NULL;
+	/*d->dscthd = nullptr;*/
+	return d;
+}
+dscthd d = dNewnode();
+
+// them vao dau chi tiet hoadon
+void Insert_First(dscthd& first_cthd, CT_HoaDon x)
+{
+	dscthd d = dNewnode(x);
+	d->next = first_cthd;
+	first_cthd = d;
+}
+
+//them vao sau cung chi tiet hoadon
+void Insert_last_d(dscthd& d, CT_HoaDon x)
+{
+	dscthd q = d;
+	if (d == NULL) {
+		Insert_First(d, x);
+	}
+	else
+	{
+		while (q->next != NULL) {
+			q = q->next;
+		}
+		dscthd temp = dNewnode(x);
+		q->next = temp;
+	}
+}
+
+//them vao sau d cua chi tiet hoadon
+void Insert_after_d(dscthd d, CT_HoaDon x)
+{
+	dscthd q;
+	if (d == NULL)
+		Insert_First(d, x);
+	else
+	{
+		q = new DS_CT_HoaDon;
+		q->ct_hoadon = x;
+		q->next = d->next;
+		d->next = q;
+	}
+
+}
+
+// kiem tra rong chi tiet hoadon
+int Empty(dscthd first_cthd)
+{
+	return(first_cthd == NULL);
+}
+
+// xoa dau chi tiet hoadon
+int Delete_First(dscthd& first_cthd)
+{
+	dscthd p;
+	if (Empty(first_cthd))
+		return 0;
+	p = first_cthd;
+	first_cthd = p->next;
+	delete p;
+	return 1;
+}
+
+// xoa sau chi tiet hoa don
+int Delete_after(dscthd d)
+{
+	dscthd q;
+	if ((d == NULL) || (d->next == NULL))
+		return 0;
+	q = d->next;
+	d->next = q->next;
+	delete q;
+	return 1;
+}
+
+// xoa danh sach lien ket chi tiet hoadon
+void Clearlist(dscthd& first_cthd)
+{
+	//PTRHD p;
+	while (first_cthd != NULL) Delete_First(first_cthd);
+}
 
 //hoa don
 
@@ -78,7 +200,7 @@ struct HoaDon
 	char SoHD[21];
 	Date date;
 	char Loai[2];
-	DS_CT_HoaDon* dscthd;
+	dscthd ct_hoadon;
 	// nap chong toan tu 
 	bool operator==(HoaDon& other)
 	{
@@ -107,112 +229,114 @@ struct DS_HoaDon
 {
 	HoaDon hoadon;
 	DS_HoaDon* next;
-	DS_CT_HoaDon* dscthd;
+	//DS_CT_HoaDon* dscthd;
+	/*HoaDon* hoa_don[MAX_HD];
+	int b_length = 0;*/
 };
 typedef DS_HoaDon* PTRHD;
 
-void NhapDSHoaDon(DS_HoaDon*& ds_hd)
-{
-	// Khởi tạo danh sách liên kết đơn DS_HoaDon
-	ds_hd = new DS_HoaDon;
-	PTRHD p = ds_hd;
-	p->next = nullptr;
-
-	// Nhập thông tin hóa đơn
-	cout << "Nhap so hoa don: ";
-	cin.ignore();
-	cin.getline(p->hoadon.SoHD, 21);
-
-	while (strcmp(p->hoadon.SoHD,"0") != 0)
-	{
-
-		cout << "Nhap ngay: "; cin >> p->hoadon.date.ngay;
-		cout << "Nhap thang: "; cin >> p->hoadon.date.thang;
-		cout << "Nhap nam: "; cin >> p->hoadon.date.nam;
-		cout << "Nhap loai: "; 
-		cin.ignore();
-		cin.getline(p->hoadon.Loai, 2);
-
-		// Khởi tạo danh sách liên kết đơn DS_CT_HoaDon
-		p->dscthd = new DS_CT_HoaDon;
-		PTRCT q = p->dscthd;
-		q->next = nullptr;
-
-		//nhap thong tin ct_hoadon
-		cout << "Nhap ma vat tu: ";
-		//cin.ignore();
-		cin.getline(q->ct_hoadon.MAVT, 11);
-
-		while (strcmp(q->ct_hoadon.MAVT,"0")!= 0)
-		{
-			cout << "Nhap so luong: ";
-			cin >> q->ct_hoadon.Soluong;
-			cout << "Nhap don gia: ";
-			cin >> q->ct_hoadon.Dongia;
-			cout << "Nhap VAT: ";
-			cin >> q->ct_hoadon.VAT;
-			cout << "Nhap trang thai: ";
-			cin >> q->ct_hoadon.TrangThai;
-			
-			
-
-			// Tạo một node mới của danh sách liên kết đơn DS_CT_HoaDon
-			q->next = new DS_CT_HoaDon;
-			q = q->next;
-			q->next = nullptr;
-
-			//nhap thong tin ct_hoadon tiep theo
-			cout << "Nhap ma vat tu (nhap 0 de dung lai): ";
-			//cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cin.ignore();
-			cin.getline(q->ct_hoadon.MAVT, 11);
-
-		}
-
-		// Tạo một node mới của danh sách liên kết đơn DS_HoaDon
-		p->next = new DS_HoaDon;
-		p = p->next;
-		p->next = nullptr;
-
-		// Nhập thông tin hóa đơn tiếp theo
-		cout << "Nhap so hoa don (nhap 0 de dung lai): ";
-		//cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cin.getline(p->hoadon.SoHD, 21);
-	}
-}
-
-void XuatDSHoaDon(PTRHD ds) {
-	if (ds == NULL) {
-		cout << "Danh sach rong!" << endl;
-		return;
-	}
-	PTRHD p = ds;
-	while (p != NULL) {
-		if (p->next == NULL) break;
-		cout << "So hoa don: " << p->hoadon.SoHD << endl;
-		cout << "Ngay lap: " << p->hoadon.date.ngay << "/"
-			                 << p->hoadon.date.thang << "/"
-			                 << p->hoadon.date.nam << endl;
-		cout << "Loai hoa don: " << p->hoadon.Loai << endl;
-		cout << "Danh sach chi tiet hoa don: " << endl;
-		if (p->dscthd == NULL) {
-			cout << "\tDanh sach chi tiet hoa don rong!" << endl;
-		}
-		else {
-			PTRCT q = p->dscthd;
-			while (q != NULL) {
-				if (q->next == NULL) break;
-				cout << "\tMa vat tu: " << q->ct_hoadon.MAVT << endl;
-				cout << "\tSo luong: " << q->ct_hoadon.Soluong << endl;
-				cout << "\tDon gia: " << q->ct_hoadon.Dongia << endl;
-				cout << "\tVAT: " << q->ct_hoadon.VAT << endl;
-				cout << "\tTrang thai: " << (q->ct_hoadon.TrangThai ? "Khach mua" : "Khach tra") << endl << endl;
-				q = q->next;
-			}
-		}
-		p = p->next;
-	}
-}
+//void NhapDSHoaDon(DS_HoaDon*& ds_hoadonPhu)
+//{
+//	// Khởi tạo danh sách liên kết đơn DS_HoaDon
+//	ds_hoadonPhu = new DS_HoaDon;
+//	PTRHD p = ds_hoadonPhu;
+//	p->next = nullptr;
+//
+//	// Nhập thông tin hóa đơn
+//	cout << "Nhap so hoa don: ";
+//	cin.ignore();
+//	cin.getline(p->hoadon.SoHD, 21);
+//
+//	while (strcmp(p->hoadon.SoHD,"0") != 0)
+//	{
+//
+//		cout << "Nhap ngay: "; cin >> p->hoadon.date.ngay;
+//		cout << "Nhap thang: "; cin >> p->hoadon.date.thang;
+//		cout << "Nhap nam: "; cin >> p->hoadon.date.nam;
+//		cout << "Nhap loai: "; 
+//		cin.ignore();
+//		cin.getline(p->hoadon.Loai, 2);
+//
+//		// Khởi tạo danh sách liên kết đơn DS_CT_HoaDon
+//		p->dscthd = new DS_CT_HoaDon;
+//		PTRCT q = p->dscthd;
+//		q->next = nullptr;
+//
+//		//nhap thong tin ct_hoadon
+//		cout << "Nhap ma vat tu: ";
+//		//cin.ignore();
+//		cin.getline(q->ct_hoadon.MAVT, 11);
+//
+//		while (strcmp(q->ct_hoadon.MAVT,"0")!= 0)
+//		{
+//			cout << "Nhap so luong: ";
+//			cin >> q->ct_hoadon.Soluong;
+//			cout << "Nhap don gia: ";
+//			cin >> q->ct_hoadon.Dongia;
+//			cout << "Nhap VAT: ";
+//			cin >> q->ct_hoadon.VAT;
+//			cout << "Nhap trang thai: ";
+//			cin >> q->ct_hoadon.TrangThai;
+//			
+//			
+//
+//			// Tạo một node mới của danh sách liên kết đơn DS_CT_HoaDon
+//			q->next = new DS_CT_HoaDon;
+//			q = q->next;
+//			q->next = nullptr;
+//
+//			//nhap thong tin ct_hoadon tiep theo
+//			cout << "Nhap ma vat tu (nhap 0 de dung lai): ";
+//			//cin.ignore(numeric_limits<streamsize>::max(), '\n');
+//			cin.ignore();
+//			cin.getline(q->ct_hoadon.MAVT, 11);
+//
+//		}
+//
+//		// Tạo một node mới của danh sách liên kết đơn DS_HoaDon
+//		p->next = new DS_HoaDon;
+//		p = p->next;
+//		p->next = nullptr;
+//
+//		// Nhập thông tin hóa đơn tiếp theo
+//		cout << "Nhap so hoa don (nhap 0 de dung lai): ";
+//		//cin.ignore(numeric_limits<streamsize>::max(), '\n');
+//		cin.getline(p->hoadon.SoHD, 21);
+//	}
+//}
+//
+//void XuatDSHoaDon(PTRHD ds) {
+//	if (ds == NULL) {
+//		cout << "Danh sach rong!" << endl;
+//		return;
+//	}
+//	PTRHD p = ds;
+//	while (p != NULL) {
+//		if (p->next == NULL) break;
+//		cout << "So hoa don: " << p->hoadon.SoHD << endl;
+//		cout << "Ngay lap: " << p->hoadon.date.ngay << "/"
+//			                 << p->hoadon.date.thang << "/"
+//			                 << p->hoadon.date.nam << endl;
+//		cout << "Loai hoa don: " << p->hoadon.Loai << endl;
+//		cout << "Danh sach chi tiet hoa don: " << endl;
+//		if (p->dscthd == NULL) {
+//			cout << "\tDanh sach chi tiet hoa don rong!" << endl;
+//		}
+//		else {
+//			PTRCT q = p->dscthd;
+//			while (q != NULL) {
+//				if (q->next == NULL) break;
+//				cout << "\tMa vat tu: " << q->ct_hoadon.MAVT << endl;
+//				cout << "\tSo luong: " << q->ct_hoadon.Soluong << endl;
+//				cout << "\tDon gia: " << q->ct_hoadon.Dongia << endl;
+//				cout << "\tVAT: " << q->ct_hoadon.VAT << endl;
+//				cout << "\tTrang thai: " << (q->ct_hoadon.TrangThai ? "Khach mua" : "Khach tra") << endl << endl;
+//				q = q->next;
+//			}
+//		}
+//		p = p->next;
+//	}
+//}
 
 //Initialize khoi dong danh sach lien ket hoadon
 void Initialize(PTRHD& First)
@@ -255,7 +379,7 @@ PTRHD Newnode(HoaDon x = {})
 	PTRHD p = new DS_HoaDon;
 	p->hoadon = x;
 	p->next = NULL;
-	p->dscthd = nullptr;
+	/*p->dscthd = nullptr;*/
 	return p;
 }
 PTRHD p = Newnode();
@@ -420,7 +544,17 @@ int getNumOfBill(PTRHD First) {
 	return count;
 }
 
-
+int getNumOfCTHD(dscthd first_cthd) {
+	int count = 0;
+	dscthd temp = first_cthd;
+	while (temp != NULL) {
+		count++;
+		temp = temp->next;
+	}
+	temp = NULL;
+	delete temp;
+	return count;
+}
 
 
 char menu()
@@ -443,6 +577,7 @@ char menu()
 
 void demoPhu()
 {
+	
 	char chucnang;
 	PTRHD First;
 	Initialize(First);
@@ -454,13 +589,13 @@ void demoPhu()
 		case'1':
 		{
 			system("cls");
-			NhapDSHoaDon(First);
+			
 			break;
 		}
 		case'3':
 		{
 			system("cls");
-			XuatDSHoaDon(First);
+			//XuatDSHoaDon(First);
 			system("pause");
 			break;
 		}

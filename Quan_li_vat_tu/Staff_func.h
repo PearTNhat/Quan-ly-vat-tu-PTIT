@@ -19,18 +19,23 @@ void delete_staff(DS_NhanVien& ds_nv, int index);
 int checkSubmitEditAdd(int arr[], int n);
 int search_ID_Staff(DS_NhanVien ds_nv, string ID);
 //--------------
-void read_file_staff(DS_NhanVien& ds_nv) {
+void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 	ifstream read_file;
 	read_file.open("./Data/list_staff.txt", ios_base::in);
 	NhanVien* temp;
+	HoaDon* tempcthd;
+
 	HoaDon hoadon = {};
 	PTRHD ds_hoadon;
+	//
+	CT_HoaDon temp_cthd;
 	if (read_file.is_open() && read_file.peek() == std::ifstream::traits_type::eof()) {
 		std::cout << "File is empty." << std::endl;
 	}
 	else {
 		while (!read_file.eof()) {
 			temp = new NhanVien;
+
 			ds_hoadon = NULL;
 			read_file.getline(temp->maNV, 11, ',');
 			read_file.getline(temp->ho, 23, ',');
@@ -38,6 +43,7 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 			read_file.getline(temp->phai, 4, ',');
 			read_file.ignore();
 			string sl_hd;
+
 			getline(read_file, sl_hd, '\n');
 			if (stoi(sl_hd) > 0) {
 
@@ -58,8 +64,39 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 						read_file.getline(hoadon.Loai, 2, ',');
 						read_file.ignore();
 					}
-					Insert_last(ds_hoadon, hoadon);
+					string sl_cthd;
+					getline(read_file, sl_cthd, '\n');
+					if (stoi(sl_cthd) > 0) {
+						hoadon.ct_hoadon = NULL;
+						temp_cthd = {};
+						for (int j = 0; j < stoi(sl_cthd); j++) {
+							string tempct;
+							read_file.getline(temp_cthd.MAVT, 11, ',');
+
+							getline(read_file, tempct, ',');
+							temp_cthd.Soluong = stoi(tempct);
+							getline(read_file, tempct, ',');
+							temp_cthd.Dongia = stoi(tempct);
+							getline(read_file, tempct, ',');
+							temp_cthd.VAT = stoi(tempct);
+							if (j == stoi(sl_cthd) - 1) {
+								getline(read_file, tempct, '\n');
+								temp_cthd.TrangThai = stoi(tempct);
+							}
+							else {
+								getline(read_file, tempct, ',');
+								temp_cthd.TrangThai = stoi(tempct);
+								read_file.ignore();
+							}
+							Insert_last_d(hoadon.ct_hoadon, temp_cthd);
+						}
+
+					}
 				}
+				temp->ds_hoadon = ds_hoadon; // them vào dshd
+				ds_nv.nhan_vien[ds_nv.length++] = temp;// them vào nhân viên i
+				Insert_last(ds_hoadon, hoadon);
+				
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;
@@ -71,12 +108,16 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 	read_file.close();
 
 }
+
 void write_file_staff(DS_NhanVien ds_nv) {
 	ofstream write_file;
 	int numOfBill = 0;
+	int numOFCTHD = 0;
 	DS_HoaDon* dshd_temp;
+
+	dscthd dscthd_temp;
 	write_file.open("./Data/list_staff.txt");
-	
+
 	for (int i = 0; i < ds_nv.length; i++)
 	{
 		write_file << ds_nv.nhan_vien[i]->maNV << ",";
@@ -106,13 +147,21 @@ void write_file_staff(DS_NhanVien ds_nv) {
 				write_file << dshd_temp->hoadon.Loai << "," << endl;
 
 			}
+			numOFCTHD = getNumOfCTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.ct_hoadon);
+			if (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.ct_hoadon = NULL) {
+				cout << "______NULL_____" << endl;
+			}
+			else {
+				write_file << numOFCTHD << "\n";
+			}
+
 			dshd_temp = dshd_temp->next;
 		}
 	}
 	write_file.close();
 
 }
-void create_sf_header(string title,string subTitle) {
+void create_sf_header(string title, string subTitle) {
 	setfillstyle(1, bk_screen);
 	setcolor(0);
 	text_box(950, 70, 1150, 110, (char*)subTitle.c_str(), f_medium, 2, 10, 20, 11);
@@ -138,7 +187,7 @@ void staff_table(
 	int page = n / num_rows;
 	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
-	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n; 
+	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
 	// reder page
 	int i = num_rows * (view_page.current - 1);
 	//header
@@ -215,7 +264,7 @@ void staff_table(
 	// < >
 	page_transition(view_page);
 }
-void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& t_mnv, string& t_ho, string& t_ten, string& t_gender, string func, bool & sf_isEdit , bool & sf_isAdd ) {
+void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& t_mnv, string& t_ho, string& t_ten, string& t_gender, string func, bool& sf_isEdit, bool& sf_isAdd) {
 	int checkSubmit[4];
 	if (func == "add") {
 		for (int i = 0; i < 4; i++)
@@ -351,7 +400,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 			if (ktVT(840, 420, 910, 450, x, y)) {
 				if (checkSubmitEditAdd(checkSubmit, 4) == 0) {
 					if (sf_isAdd) { //add
-						
+
 						NhanVien* nv_temp = new NhanVien;
 						nv_temp->ds_hoadon = NULL;
 						strcpy_s(nv_temp->maNV, t_mnv.c_str());
@@ -402,7 +451,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 	}
 sf_end:;
 }
-void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], check_CURD edit_sf[], view_page vp_m_sf, bool &sf_isEdit,bool &sf_isAdd) {
+void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], check_CURD edit_sf[], view_page vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_D_staff = true;
@@ -474,9 +523,9 @@ sf_out:;
 		string t_ho = ds_nv.nhan_vien[i_CRUD]->ho;
 		string t_ten = ds_nv.nhan_vien[i_CRUD]->ten;
 		string t_gender = ds_nv.nhan_vien[i_CRUD]->phai;
-		handleInfor_staff(x, y, ds_nv, i_CRUD, t_mnv, t_ho, t_ten, t_gender,"edit", sf_isEdit, sf_isAdd);
+		handleInfor_staff(x, y, ds_nv, i_CRUD, t_mnv, t_ho, t_ten, t_gender, "edit", sf_isEdit, sf_isAdd);
 	}
-	cout <<"______ " <<sf_isAdd << endl;
+	cout << "______ " << sf_isAdd << endl;
 	if (sf_isAdd) {
 		string t_add_mnv = "";
 		string t_add_ho = "";
@@ -531,7 +580,7 @@ void staff_infor(string mnv, string ho, string ten, string gender) {
 
 }
 void delete_staff(DS_NhanVien& ds_nv, int index) {
-	if (ds_nv.nhan_vien[index]->ds_hoadon==NULL) {
+	if (ds_nv.nhan_vien[index]->ds_hoadon == NULL) {
 		for (int i = index; i < ds_nv.length - 1; i++)
 		{
 			ds_nv.nhan_vien[i] = ds_nv.nhan_vien[i + 1];
@@ -541,7 +590,7 @@ void delete_staff(DS_NhanVien& ds_nv, int index) {
 		write_file_staff(ds_nv);
 	}
 	else {
-		announce_board(0,0,0,0,"Khong the xoa.");
+		announce_board(0, 0, 0, 0, "Khong the xoa.");
 		delay(1000);
 	}
 }

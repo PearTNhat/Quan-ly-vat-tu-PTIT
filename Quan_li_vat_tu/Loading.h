@@ -49,7 +49,7 @@ void Loading(int& x, int& y)
 				DrawRecTangle(200, 420, 985, 450, RED, 2);
 				text_box_no_border(480, 470, 700, 510, (char*)"", 4, 5, 0, 8, CLL, 0);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading.", 4, 1, 0, 8, CLL, 0);
-				DrawLoading(200, 420, 278.5, 450, 15);
+				DrawLoading(200, 420, 279, 450, 15);
 				delay(50);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading..", 4, 1, 0, 8, CLL, 0);
 				delay(50);
@@ -65,7 +65,7 @@ void Loading(int& x, int& y)
 				delay(50);
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
 				delay(50);
-				DrawLoading(278.5, 420, 592.5, 450, 15);
+				DrawLoading(279, 420, 593, 450, 15);
 				
 				//lan 3
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, CLL);
@@ -84,7 +84,7 @@ void Loading(int& x, int& y)
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
 				delay(50);
 
-				DrawLoading(592.5, 420, 906.5, 450, 15);
+				DrawLoading(593, 420, 907, 450, 15);
 
 				//lan 4
 			
@@ -112,7 +112,7 @@ void Loading(int& x, int& y)
 				text_box_no_border(250, 390, 300, 410, (char*)"Loading...", 4, 1, 0, 8, CLL, 0);
 				delay(50);
 
-				DrawLoading(906.5, 420, 985, 450, 35);
+				DrawLoading(907, 420, 985, 450, 35);
 				delay(200);
 				setlinestyle(0, 0, 1);
 			}
