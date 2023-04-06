@@ -180,7 +180,6 @@ string input_bill(
 				cout << "input: " << input << endl;
 				if (key == 13 || key == 9) {
 					//enter để break	'
-					cout << input.length() << "_____________________";
 					if (input.length() == 1) {
 						warning_msg_bill("Khong duoc trong", e_l+2, e_t+30, 4,0,0);
 						// reset lai mau
@@ -209,7 +208,6 @@ string input_bill(
 
 		delay(1);
 	}
-	cout << "out";
 	return input;
 }
 

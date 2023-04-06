@@ -19,6 +19,7 @@
 #define ss_page_header_box_color COLOR(157, 238, 157)
 #define XANH_DUONG_NHAT COLOR(157, 238, 157)//COLOR(144, 238, 144)//COLOR(11, 172, 173)
 #define XANH_LA_CAY COLOR(0, 255, 0)
+#define GRAY COLOR(226, 227, 225)
 char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","THANH TOAN","THONG KE" };
 char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};
 

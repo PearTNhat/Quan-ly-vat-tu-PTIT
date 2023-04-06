@@ -2,6 +2,7 @@
 #include "Common.h"
 #include "Constant.h"
 #include "Staff_func.h"
+#include "Goods_tree.h"
 #include "Goods_Func.h"
 #include "Bill_Func.h"
 #include "Ss_page.h"
@@ -9,9 +10,44 @@
 #include "Loading.h"
 
 int main() {
+	// nhân viên
 	DS_NhanVien ds_nv;
+	check_CURD delete_sf[ROW_STAFF];
+	check_CURD edit_sf[ROW_STAFF];
+	view_page vp_m_sf;
+	bool sf_isEdit = false, sf_isAdd = false;
 	read_file_staff(ds_nv);
 	sort_staff(ds_nv);
+	// vật tư
+	DS_VatTu *ds_vt;
+	VatTu vatu;
+	check_CURD delete_table_g[COLS_G];
+	check_CURD edit_table_g[COLS_G];
+	view_page vp_g_table;
+	bool g_isEdit = false, g_isAdd = false;
+	initNode(ds_vt);
+	strcpy_s(vatu.maVT, "VTA");
+	strcpy_s(vatu.DVT, "kg");
+	vatu.SLT = 1234;
+	strcpy_s(vatu.tenVT, "VT060");
+	insertNode(ds_vt, vatu);
+	strcpy_s(vatu.tenVT, "VT080");
+	insertNode(ds_vt, vatu);
+	strcpy_s(vatu.tenVT, "VT090");
+	insertNode(ds_vt, vatu);
+	strcpy_s(vatu.tenVT, "VT0100");
+	insertNode(ds_vt, vatu);
+	strcpy_s(vatu.tenVT, "VT085");
+	insertNode(ds_vt, vatu);
+	strcpy_s(vatu.tenVT, "VT065");
+	insertNode(ds_vt, vatu);
+	strcpy_s(vatu.tenVT, "VT0120");
+	insertNode(ds_vt, vatu);
+	strcpy_s(vatu.tenVT, "VT063");
+	insertNode(ds_vt, vatu);
+	/*strcpy_s(vatu.maVT, "VT080");
+	insertNode(ds_vt, vatu);*/
+	lnr(ds_vt);
 	PTRHD ds_hd = NULL;
 	//read_file_DSHD(ds_hd);
 	//ds_tmp arr_temp = build_dshd_array(ds_hd);
@@ -46,7 +82,10 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-				create_g_header();
+				create_sf_header("Danh sach vat tu","Quan li vat tu");
+				goods_table(sf_table_header, ds_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g,10);
+				g_handleTable( x,  y,  ds_vt,  delete_table_g,  edit_table_g,  vp_g_table,  g_isEdit,  g_isAdd);
+				goto sf_start;
 
 			}
 			// nhan vien
@@ -63,7 +102,7 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
-				sf_handleTable(x, y, ds_nv, delete_sf);
+				sf_handleTable(x, y, ds_nv, delete_sf,edit_sf,vp_m_sf, sf_isEdit, sf_isAdd);
 				goto sf_start;
 			}
 			//Phu
@@ -77,7 +116,7 @@ int main() {
 				delete_after_header();
 			}
 			if (b_page) {
-				demoPhu();
+				//demoPhu();
 				b_create_menu_title();
 				b_ktVT(x, y);
 				b_page = false;

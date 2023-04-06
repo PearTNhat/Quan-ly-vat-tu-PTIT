@@ -15,3 +15,6 @@
 #include "graphics.h"
 using namespace std;
 
+//void a() {
+//	b();
+//}

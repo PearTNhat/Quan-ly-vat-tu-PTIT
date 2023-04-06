@@ -151,6 +151,7 @@
     <ClInclude Include="input_bill.h" />
     <ClInclude Include="input_staff_good.h" />
     <ClInclude Include="Loading.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Staff_Func.h" />
     <ClInclude Include="Goods_Struct.h" />
     <ClInclude Include="Staff_Struct.h" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\goods.txt" />
+    <Text Include="Data\gooods.txt" />
     <Text Include="Data\list_staff.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
