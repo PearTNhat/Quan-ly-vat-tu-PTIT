@@ -23,12 +23,10 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 	ifstream read_file;
 	read_file.open("./Data/list_staff.txt", ios_base::in);
 	NhanVien* temp;
-	HoaDon* tempcthd;
-
 	HoaDon hoadon = {};
 	PTRHD ds_hoadon;
-	//
 	CT_HoaDon temp_cthd;
+	//
 	if (read_file.is_open() && read_file.peek() == std::ifstream::traits_type::eof()) {
 		std::cout << "File is empty." << std::endl;
 	}
@@ -67,7 +65,7 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 					string sl_cthd;
 					getline(read_file, sl_cthd, '\n');
 					if (stoi(sl_cthd) > 0) {
-						hoadon.ct_hoadon = NULL;
+						hoadon.first_cthd = NULL;
 						temp_cthd = {};
 						for (int j = 0; j < stoi(sl_cthd); j++) {
 							string tempct;
@@ -90,9 +88,8 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 								temp_cthd.TrangThai = myInt !=0;
 								read_file.ignore();
 							}
-							Insert_last_CTHD(hoadon.ct_hoadon, temp_cthd);
+							Insert_last_CTHD(hoadon.first_cthd, temp_cthd);
 						}
-
 					}
 				}
 				Insert_last_HD(ds_hoadon, hoadon);
@@ -100,13 +97,11 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;
-
 		}
 	}
 	temp = NULL;
 	delete temp;
 	read_file.close();
-
 }
 
 void write_file_staff(DS_NhanVien ds_nv) {
@@ -149,8 +144,8 @@ void write_file_staff(DS_NhanVien ds_nv) {
 				write_file << dshd_temp->hoadon.Loai << "," << endl;
 
 			}
-			numOFCTHD = getNumOfCTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.ct_hoadon);
-			if (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.ct_hoadon = NULL) {
+			numOFCTHD = getNumOfCTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
+			if (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd = NULL) {
 				cout << "______NULL_____" << endl;
 			}
 			else {

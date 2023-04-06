@@ -8,7 +8,7 @@
 #define ROW_STAFF 10
 #define ROWS_PER_PG_SS 7
 //color infor staff good
-#define COLOR_INFOR_SG COLOR(221, 221, 221)//COLOR(186, 245, 223)
+#define COLOR_INFOR_SG COLOR(186, 245, 223)
 
 // input
 #define I_BG COLOR(51, 73, 96) // màu nền khi enter nhập xong
@@ -19,7 +19,8 @@
 #define ss_page_header_box_color COLOR(157, 238, 157)
 #define XANH_DUONG_NHAT COLOR(157, 238, 157)//COLOR(144, 238, 144)//COLOR(11, 172, 173)
 #define XANH_LA_CAY COLOR(0, 255, 0)
-#define GRAY COLOR(226, 227, 225)
+#define PROHIBIT COLOR(200, 200, 190)
+
 char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","THANH TOAN","THONG KE" };
 char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};
 

@@ -168,7 +168,7 @@ void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string&
 		{
 			checkSubmit[i] = 1;
 		}
-		text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, GRAY,0); // chu cao 20
+		text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT,0); // chu cao 20
 		writeText(260, 170, (char*)"Ma vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
 	}
 	bool checkCancle = true;
