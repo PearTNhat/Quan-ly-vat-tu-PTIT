@@ -58,23 +58,6 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 						read_file.getline(hoadon.Loai, 2, ',');
 						read_file.ignore();
 					}
-				/*	tempppp=hoadon.dscthd 
-					for (int i = 0; i < length; i++)
-					{
-						CT hoa don = temp_cthd;
-						temp_cthd.maVt = 'LLA';
-						tempppp = temp_cthd;
-						temp=temp->next
-					}*/
-					//
-						// viết code demo đi rồi thêm đọc chi tiết các hoá đơn trong này
-						// rồi thêm vào ds
-					//
-					Insert_last(ds_hoadon, hoadon);
-				}
-			}
-			temp->ds_hoadon = ds_hoadon; // them vào dshd
-			ds_nv.nhan_vien[ds_nv.length++] = temp;// them vào nhân viên i
 					Insert_last(ds_hoadon, hoadon);
 				}
 			}
