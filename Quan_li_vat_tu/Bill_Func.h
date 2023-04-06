@@ -8,71 +8,6 @@
 
 view_page vp_m_ss;
 
-//void read_file_ds_hoadon(DS_HoaDon& ds_hoadon)
-//{
-//	ifstream read_file;
-//	read_file.open("./Data/ds_hoadonPhu.txt", ios_base::in);
-//	HoaDon* temp1;
-//	HoaDon hoadon = {};
-//	CT_HoaDon* temp2;
-//	CT_HoaDon ct_hoadon = {};
-//	if (read_file.is_open() && read_file.peek() == std::ifstream::traits_type::eof()) 
-//	{
-//		std::cout << "File is empty." << std::endl;
-//	}
-//	else 
-//	{
-//		while (!read_file.eof())
-//		{
-//			cout << "DSPHU";
-//			temp1 = new HoaDon;
-//			string tempdate;
-//			read_file.getline(temp1->SoHD, 21, ',');
-//			
-//			getline(read_file,tempdate , ',');
-//			hoadon.date.ngay = stoi(tempdate);
-//			getline(read_file, tempdate, ',');
-//			hoadon.date.thang = stoi(tempdate);
-//			getline(read_file, tempdate, ',');
-//			hoadon.date.thang = stoi(tempdate);
-//			read_file.ignore();
-//			string sl_cthd;
-//			getline(read_file, sl_cthd, '\n');
-//			if (stoi(sl_cthd) > 0)
-//			{
-//				for (int i = 0; i < stoi(sl_cthd); i++)
-//				{
-//					read_file.getline(temp2->MAVT,11, ',');
-//					string tempct;
-//					getline(read_file, tempct, ',');
-//					ct_hoadon.Soluong = stoi(tempct);
-//					getline(read_file, tempct, ',');
-//					ct_hoadon.Dongia = stoi(tempct);
-//					getline(read_file, tempct, ',');
-//					ct_hoadon.VAT = stoi(tempct);
-//					if (i == stoi(sl_cthd) - 1) {
-//						getline(read_file,tempct,'\n');
-//						ct_hoadon.TrangThai = stoi(tempct);
-//					}
-//					else {
-//						getline(read_file, tempct, ',');
-//						ct_hoadon.TrangThai = stoi(tempct);
-//						read_file.ignore();
-//					}
-//				}
-//				//Insert_last(ds_hoadonPhu, hoadon);
-//			}
-//			temp1->ds_ct_hoadon = ds_hoadonPhu;
-//			ds_nv.nhan_vien[ds_nv.length++] = temp;
-//		}
-//	}
-//	temp1 = NULL;
-//	temp2 = NULL;
-//	delete temp1;
-//	delete temp2;
-//	read_file.close();
-//}
-
 void b_taokhungxanhla(int l, int t, int r, int b)
 {
 	setcolor(10);
@@ -293,7 +228,10 @@ void HIGHTLIGHT_ADD_HD(int& x, int& y)
 
 
 
-//void create_bill_tabble_
+//void create_bill_tabble()
+//{
+//
+//}
 
 
 

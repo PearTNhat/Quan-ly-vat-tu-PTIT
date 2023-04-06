@@ -114,8 +114,7 @@ void write_file_staff(DS_NhanVien ds_nv) {
 	int numOfBill = 0;
 	int numOFCTHD = 0;
 	DS_HoaDon* dshd_temp;
-
-	dscthd dscthd_temp;
+	DS_CT_HoaDon* dscthd_temp;
 	write_file.open("./Data/list_staff.txt");
 
 	for (int i = 0; i < ds_nv.length; i++)
@@ -153,6 +152,20 @@ void write_file_staff(DS_NhanVien ds_nv) {
 			}
 			else {
 				write_file << numOFCTHD << "\n";
+			}
+			for (int x = 0; x < numOFCTHD; x++) {
+				dscthd_temp = dshd_temp->hoadon.ct_hoadon;
+				write_file << dscthd_temp->ct_hoadon.MAVT << ',';
+				write_file << dscthd_temp->ct_hoadon.Soluong << ',';
+				write_file << dscthd_temp->ct_hoadon.Dongia << ',';
+				write_file << dscthd_temp->ct_hoadon.VAT << ',';
+				if (x == numOFCTHD - 1) {
+					write_file << dscthd_temp->ct_hoadon.TrangThai << "\n";
+				}
+				else {
+					write_file << dscthd_temp->ct_hoadon.TrangThai << "," << endl;
+				}
+				dscthd_temp = dscthd_temp->next;
 			}
 
 			dshd_temp = dshd_temp->next;
