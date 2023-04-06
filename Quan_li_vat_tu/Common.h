@@ -29,7 +29,7 @@ bool ktVT(int l, int t, int r, int b, int x, int y) {
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }
-void text_box(int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = XANH_DUONG_NHAT, int tColor = 15,int cBoder=0) {
+void text_box(int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = XANH_DUONG_NHAT, int tColor = COLOR(0, 0, 0), int cBoder = 0) {
 	setcolor(cBoder);
 	setfillstyle(1, bg);
 	settextstyle(font, 0, f_size);
@@ -59,11 +59,12 @@ void createHeader(char x[][maxTHeader]) {
 	text_box(950, 10, 1150, 50, x[3], f_medium, 3, 10, 45);
 }
 void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {
-	setcolor(color);
+	setcolor(0);
 	settextstyle(font, 0, f_size);
 	setfillstyle(1, bg);
 	bar3d(l, t, r, b, 0, 0);
 	setbkcolor(bg);
+	setcolor(color);
 	outtextxy(l + kcl, t + kct, s);
 }
 void writeText(int x, int y, char text[], int size = 1, int tColor = 0, int font = f_small, int bg = bk_screen) {

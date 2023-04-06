@@ -16,6 +16,12 @@
     <Filter Include="Data">
       <UniqueIdentifier>{82ea529f-1473-4444-a8e9-8973ea57447a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Goods">
+      <UniqueIdentifier>{39a78c59-f6d1-49c0-a368-d7ce0de2aee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Staff">
+      <UniqueIdentifier>{dc833f64-b0ea-4c9b-a608-886e7a8c58d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -32,18 +38,6 @@
     <ClInclude Include="Constant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Goods_Struct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Staff_Struct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Goods_Func.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Staff_Func.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Bill_Func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -53,13 +47,28 @@
     <ClInclude Include="Ss_page.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Goods_tree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Loading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="input_staff_good.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Goods_tree.h">
+      <Filter>Header Files\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="Goods_Struct.h">
+      <Filter>Header Files\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="Goods_Func.h">
+      <Filter>Header Files\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff_Func.h">
+      <Filter>Header Files\Staff</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff_Struct.h">
+      <Filter>Header Files\Staff</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="input_bill.h">
@@ -71,6 +80,9 @@
       <Filter>Data</Filter>
     </Text>
     <Text Include="Data\goods.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="Data\gooods.txt">
       <Filter>Data</Filter>
     </Text>
   </ItemGroup>

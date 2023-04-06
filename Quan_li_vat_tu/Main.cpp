@@ -2,6 +2,7 @@
 #include "Common.h"
 #include "Constant.h"
 #include "Staff_func.h"
+#include "Goods_tree.h"
 #include "Goods_Func.h"
 #include "Bill_Func.h"
 #include "Ss_page.h"
@@ -9,6 +10,7 @@
 #include "Loading.h"
 
 int main() {
+	// nhân viên
 	DS_NhanVien ds_nv;
 	DS_HoaDon ds_hd;
 	read_file_staff(ds_nv,ds_hd);
@@ -50,7 +52,10 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-				create_g_header();
+				create_sf_header("Danh sach vat tu","Quan li vat tu");
+				goods_table(sf_table_header, ds_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g,10);
+				g_handleTable( x,  y,  ds_vt,  delete_table_g,  edit_table_g,  vp_g_table,  g_isEdit,  g_isAdd);
+				goto sf_start;
 
 			}
 			// nhan vien
@@ -67,7 +72,7 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
-				sf_handleTable(x, y, ds_nv, delete_sf);
+				sf_handleTable(x, y, ds_nv, delete_sf,edit_sf,vp_m_sf, sf_isEdit, sf_isAdd);
 				goto sf_start;
 			}
 			//Phu
@@ -114,6 +119,7 @@ int main() {
 					start_again:
 						out_table = false;
 						if (ktVT(15, 70, 310, 110, x, y)) {
+							setlinestyle(0, 0, 3);
 							delete_after_header();
 							create_ss_header();
 							highlight_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
@@ -128,6 +134,7 @@ int main() {
 							year_e = "";
 						}
 						if (ktVT(320, 70, 640, 110, x, y)) {
+							setlinestyle(0, 0, 3);
 							delete_after_header();
 							create_ss_header();
 							highlight_box(320, 70, 640, 110, (char*)"Thong ke doanh thu", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
