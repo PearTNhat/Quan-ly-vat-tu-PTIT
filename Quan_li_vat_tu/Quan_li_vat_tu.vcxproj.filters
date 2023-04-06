@@ -82,8 +82,5 @@
     <Text Include="Data\goods.txt">
       <Filter>Data</Filter>
     </Text>
-    <Text Include="Data\gooods.txt">
-      <Filter>Data</Filter>
-    </Text>
   </ItemGroup>
 </Project>

@@ -100,6 +100,13 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hd) {
 		}
 		temp->ds_hoadon = ds_hoadon;
 		ds_nv.nhan_vien[ds_nv.length++] = temp;
+					Insert_last(ds_hoadon, hoadon);
+				}
+			}
+			temp->ds_hoadon = ds_hoadon;
+			ds_nv.nhan_vien[ds_nv.length++] = temp;
+
+		}
 	}
 	temp = NULL;
 	delete temp;

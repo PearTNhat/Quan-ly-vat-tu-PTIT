@@ -15,6 +15,19 @@ int main() {
 	DS_HoaDon ds_hd;
 	read_file_staff(ds_nv,ds_hd);
 	sort_staff(ds_nv);
+	// vật tư
+	DS_VatTu *ds_vt;
+	initNode(ds_vt);
+	VatTu vatu;
+	check_CURD delete_table_g[COLS_G];
+	check_CURD edit_table_g[COLS_G];
+	view_page vp_g_table;
+	bool g_isEdit = false, g_isAdd = false;
+	read_file_goods(ds_vt);
+	lnr(ds_vt);
+	PTRHD ds_hd = NULL;
+	//read_file_DSHD(ds_hd);
+	//ds_tmp arr_temp = build_dshd_array(ds_hd);
 	//PTRHD ds_hd = NULL;
 	/*read_file_DSHD(ds_hd);
 	ds_tmp arr_temp = build_dshd_array(ds_hd);*/
