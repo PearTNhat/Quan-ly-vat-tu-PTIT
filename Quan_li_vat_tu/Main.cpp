@@ -110,6 +110,7 @@ int main() {
 					start_again:
 						out_table = false;
 						if (ktVT(15, 70, 310, 110, x, y)) {
+							setlinestyle(0, 0, 3);
 							delete_after_header();
 							create_ss_header();
 							highlight_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
@@ -124,6 +125,7 @@ int main() {
 							year_e = "";
 						}
 						if (ktVT(320, 70, 640, 110, x, y)) {
+							setlinestyle(0, 0, 3);
 							delete_after_header();
 							create_ss_header();
 							highlight_box(320, 70, 640, 110, (char*)"Thong ke doanh thu", f_medium, 3, 10, 40, 0, XANH_LA_CAY);

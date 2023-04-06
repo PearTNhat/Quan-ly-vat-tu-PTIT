@@ -29,7 +29,7 @@ struct CT_HoaDon
 			this->TrangThai == other.TrangThai)
 			return true;
 
-		return  false;
+		return false;
 	}
 
 	bool operator!=(CT_HoaDon& other)
@@ -83,8 +83,8 @@ struct HoaDon
 	bool operator==(HoaDon& other)
 	{
 		if (strcmp(this->SoHD, other.SoHD) == 0 &&
-			strcmp(this->Loai, other.Loai) == 0 &&
-			this->date == other.date)
+			strcmp(this->Loai, other.Loai) == 0 && 
+			this->date == other.date) 
 			return true;
 
 		return false;
