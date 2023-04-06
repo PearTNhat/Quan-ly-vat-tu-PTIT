@@ -19,7 +19,7 @@ void delete_staff(DS_NhanVien& ds_nv, int index);
 int checkSubmitEditAdd(int arr[], int n);
 int search_ID_Staff(DS_NhanVien ds_nv, string ID);
 //--------------
-void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hd) {
+void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 	ifstream read_file;
 	read_file.open("./Data/list_staff.txt", ios_base::in);
 	NhanVien* temp;
@@ -96,12 +96,7 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hd) {
 				temp->ds_hoadon = ds_hoadon; // them vào dshd
 				ds_nv.nhan_vien[ds_nv.length++] = temp;// them vào nhân viên i
 				Insert_last(ds_hoadon, hoadon);
-			}
-		}
-		temp->ds_hoadon = ds_hoadon;
-		ds_nv.nhan_vien[ds_nv.length++] = temp;
-					Insert_last(ds_hoadon, hoadon);
-				}
+				
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;
@@ -113,6 +108,7 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hd) {
 	read_file.close();
 
 }
+
 void write_file_staff(DS_NhanVien ds_nv) {
 	ofstream write_file;
 	int numOfBill = 0;
