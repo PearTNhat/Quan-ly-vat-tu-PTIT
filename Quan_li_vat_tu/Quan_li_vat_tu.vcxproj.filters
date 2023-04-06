@@ -25,6 +25,9 @@
     <Filter Include="Header Files\Bill">
       <UniqueIdentifier>{b3361912-0602-41d8-a464-243b19148878}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Statistic">
+      <UniqueIdentifier>{9e074338-8559-4d64-a1ec-cb119d350799}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -39,9 +42,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Constant.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ss_page.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Loading.h">
@@ -76,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="input_bill.h">
       <Filter>Header Files\Bill</Filter>
+    </ClInclude>
+    <ClInclude Include="Ss_page.h">
+      <Filter>Header Files\Statistic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

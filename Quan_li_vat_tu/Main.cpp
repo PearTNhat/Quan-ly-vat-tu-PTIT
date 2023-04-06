@@ -13,6 +13,7 @@ int main() {
 	// nhân viên
 	DS_NhanVien ds_nv;
 	DS_HoaDon ds_hdP;
+	DS_HoaDon* dshd_tk = NULL;
 	check_CURD delete_sf[ROW_STAFF];
 	check_CURD edit_sf[ROW_STAFF];
 	view_page vp_m_sf;

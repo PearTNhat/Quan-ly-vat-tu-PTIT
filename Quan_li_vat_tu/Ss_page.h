@@ -720,7 +720,7 @@ void test_data(DS_NhanVien ds_nv) {
 			int stt_hd = 1;
 			DS_HoaDon* nodeIt = ds_nv.nhan_vien[i]->ds_hoadon;
 			while (nodeIt != NULL) {
-				std::cout << "------- Hoa don " << stt_hd << " -------"<< std::endl;
+				std::cout << "------- Hoa don " << stt_hd++ << " -------"<< std::endl;
 				std::cout << "SoHD: " << nodeIt->hoadon.SoHD << std::endl;
 				std::cout << "Ngay lap: " << nodeIt->hoadon.date.ngay << "/" << nodeIt->hoadon.date.thang << "/" << nodeIt->hoadon.date.nam << std::endl;
 				if (strcmp(nodeIt->hoadon.Loai, "N")) std::cout << "Loai: nhap" << std::endl;
