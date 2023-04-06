@@ -78,17 +78,19 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 							getline(read_file, tempct, ',');
 							temp_cthd.Dongia = stoi(tempct);
 							getline(read_file, tempct, ',');
-							temp_cthd.VAT = stoi(tempct);
+							temp_cthd.VAT = stof(tempct);
 							if (j == stoi(sl_cthd) - 1) {
 								getline(read_file, tempct, '\n');
-								temp_cthd.TrangThai = stoi(tempct);
+								int	myInt = stoi(tempct);
+								temp_cthd.TrangThai = myInt !=0 ;
 							}
 							else {
 								getline(read_file, tempct, ',');
-								temp_cthd.TrangThai = stoi(tempct);
+								int myInt = stoi(tempct);
+								temp_cthd.TrangThai = myInt !=0;
 								read_file.ignore();
 							}
-							Insert_last_d(hoadon.ct_hoadon, temp_cthd);
+							Insert_last_CTHD(hoadon.ct_hoadon, temp_cthd);
 						}
 
 					}
