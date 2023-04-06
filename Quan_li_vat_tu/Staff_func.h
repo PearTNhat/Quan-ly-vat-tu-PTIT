@@ -23,12 +23,10 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 	ifstream read_file;
 	read_file.open("./Data/list_staff.txt", ios_base::in);
 	NhanVien* temp;
-	HoaDon* tempcthd;
-
 	HoaDon hoadon = {};
 	PTRHD ds_hoadon;
-	//
 	CT_HoaDon temp_cthd;
+	//
 	if (read_file.is_open() && read_file.peek() == std::ifstream::traits_type::eof()) {
 		std::cout << "File is empty." << std::endl;
 	}
@@ -90,23 +88,17 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 							}
 							Insert_last_d(hoadon.ct_hoadon, temp_cthd);
 						}
-
 					}
 				}
-				temp->ds_hoadon = ds_hoadon; // them vào dshd
-				ds_nv.nhan_vien[ds_nv.length++] = temp;// them vào nhân viên i
 				Insert_last(ds_hoadon, hoadon);
-				
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;
-
 		}
 	}
 	temp = NULL;
 	delete temp;
 	read_file.close();
-
 }
 
 void write_file_staff(DS_NhanVien ds_nv) {
