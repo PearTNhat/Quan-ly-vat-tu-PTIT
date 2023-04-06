@@ -8,7 +8,7 @@ NV011,Ly Thanh,Hoang,Nam,
 0
 NV001,Ho Tuan,Kiet,Nam,
 1
-VT004,20/10/2022,N
+HD004,20/10/2022,N
 2
 FE,10,50000,5,1,
 CU,15,70000,8,0
@@ -20,7 +20,7 @@ NV014,Huan,Nhi,Nu,
 0
 NV006,Ly Mac,Sau,Nu,
 1
-VT035,20/10/2012,N
+HD035,20/10/2012,N
 1
 AU,10,20000,10,1
 NV007,Lenh Ho,Sung,Nam,
@@ -31,7 +31,7 @@ NV004,My Do,Toa,Nu,
 0
 NV002,Han Bang,Tuyet,Nu,
 1
-VT008,20/10/2012,N
+HD008,20/10/2012,N
 1
 AG,20,30000,15,0
 NV008,Tieu,Viem,Nam,

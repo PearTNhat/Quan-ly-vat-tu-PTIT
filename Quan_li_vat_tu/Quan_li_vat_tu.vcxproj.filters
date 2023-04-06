@@ -22,6 +22,9 @@
     <Filter Include="Header Files\Staff">
       <UniqueIdentifier>{dc833f64-b0ea-4c9b-a608-886e7a8c58d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Bill">
+      <UniqueIdentifier>{b3361912-0602-41d8-a464-243b19148878}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -36,12 +39,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Constant.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bill_Func.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bill_Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ss_page.h">
@@ -71,8 +68,14 @@
     <ClInclude Include="Stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Bill_Struct.h">
+      <Filter>Header Files\Bill</Filter>
+    </ClInclude>
+    <ClInclude Include="Bill_Func.h">
+      <Filter>Header Files\Bill</Filter>
+    </ClInclude>
     <ClInclude Include="input_bill.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Bill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
