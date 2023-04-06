@@ -17,8 +17,27 @@ void create_g_header() {
 	text_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 10, 40, bk_screen);
 }
 //
-void read_file_goods(DS_VatTu &ds_vt) {
+void read_file_goods(DS_VatTu *&ds_vt) {
+	VatTu temp_vt;
 	ifstream readFile("./Data/goods.txt");
+	if (readFile.is_open() && readFile.peek() == std::ifstream::traits_type::eof()) {
+		std::cout << "File is empty." << std::endl;
+	}
+	else {
+		while (!readFile.eof()) {
+			readFile.getline(temp_vt.maVT, 11, ',');
+			readFile.getline(temp_vt.tenVT, 11, ',');
+			readFile.getline(temp_vt.DVT, 11, ',');
+			readFile >> temp_vt.SLT;
+			readFile.ignore();
+			insertNode(ds_vt, temp_vt);
+		}
+	}
+	readFile.close();
+}
+void write_file_goods(DS_VatTu *ds_vt) {
+	ofstream writeFile("./Data/goods.txt");
+	writeFile.close();
 }
 void goods_infor(string mvt, string tvt,string dvt,string slt) {
 	delete_after_header();
