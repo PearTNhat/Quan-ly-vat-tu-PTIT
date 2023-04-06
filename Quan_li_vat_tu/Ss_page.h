@@ -689,47 +689,6 @@ void  xu_li_thong_ke_hd(
 	}
 }
 
-//void read_file_DSHD(PTRHD& ds_hd) {
-//	ifstream inputFile;
-//	inputFile.open("./Data/ds_hoadon.txt", ios_base::in);
-//	HoaDon hd_tmp;
-//	CT_HoaDon cthd = {};
-//	dscthd ds_cthd = NULL;
-//	while (!inputFile.eof()) {
-//		hd_tmp = {};
-//		ds_cthd = NULL;
-//		inputFile.getline(hd_tmp.SoHD, 21, ',');
-//		inputFile >> hd_tmp.date.ngay; inputFile.ignore();
-//		inputFile >> hd_tmp.date.thang; inputFile.ignore();
-//		inputFile >> hd_tmp.date.nam; inputFile.ignore();
-//		inputFile.getline(hd_tmp.Loai, 2, ',');
-//		inputFile.ignore();
-//		std::string sl_cthd;
-//		getline(inputFile, sl_cthd, '\n');
-//		if (stoi(sl_cthd) > 0) {
-//			for (int i = 0; i < stoi(sl_cthd); i++)
-//			{
-//				inputFile.getline(cthd.MAVT, 1, ',');
-//				inputFile >> cthd.Soluong; inputFile.ignore();
-//				inputFile >> cthd.Dongia; inputFile.ignore();
-//				inputFile >> cthd.VAT; inputFile.ignore();
-//				if (i == stoi(sl_cthd) - 1) {
-//					inputFile >> cthd.TrangThai; inputFile.ignore();
-//				}
-//				else {
-//					inputFile >> cthd.TrangThai; inputFile.ignore();
-//					inputFile.ignore();
-//				}
-//				Insert_last_d(ds_cthd, cthd);
-//			}
-//		}
-//		hd_tmp.first_cthd = ds_cthd;
-//		Insert_last(ds_hd, hd_tmp);
-//	}
-//	cout << "Hoan thanh doc file DSHD" << endl;
-//	inputFile.close();
-//}
-
 // convert linked list dshd -> pointer arr
 //ds_tmp build_dshd_array(PTRHD dshd) {
 //	ds_tmp temp_arr;
@@ -751,23 +710,30 @@ void  xu_li_thong_ke_hd(
 //	return temp_arr;
 //}
 
-//void print_dshd(PTRHD ds_hd) 
-//{
-//	if (ds_hd == NULL) cout << "Danh sach hd trong!" << endl;
-//	else {
-//		PTRHD nodeIt = ds_hd;
-//		cout << "========== PRINT DSHD =========" << endl;
-//		int i = 1;
-//		while (nodeIt != NULL) {
-//			cout << "--------- " << i++ << " ---------" << endl;
-//			cout << "So HD: " << nodeIt->hoadon.SoHD << endl;
-//			cout << "Ngay tao: " << nodeIt->hoadon.date.ngay << "/" << nodeIt->hoadon.date.thang << "/" << nodeIt->hoadon.date.nam << endl;
-//			cout << "Loai: " << nodeIt->hoadon.Loai << endl;
-//			if (nodeIt->hoadon.first_cthd == NULL) cout << "Danh sach cthd: NULL" << endl;
-//			nodeIt = nodeIt->next;
-//		}
-//		cout << "===========================" << endl;
-//	}
-//}
-
+void test_data(DS_NhanVien ds_nv) {
+	for (int i = 0; i < ds_nv.length; i++) {
+		std::cout << "=================== NHAN VIEN " << i + 1 << " ===================" << std::endl;
+		std::cout << "MaNV: " << ds_nv.nhan_vien[i]->maNV << " - Ten: " << ds_nv.nhan_vien[i]->ho << " " << ds_nv.nhan_vien[i]->ten << std::endl;
+		std::cout << "Gioi tinh: " << ds_nv.nhan_vien[i]->phai << std::endl;
+		if (ds_nv.nhan_vien[i]->ds_hoadon == NULL) std::cout << "DSHD: null" << std::endl;
+		else {
+			int stt_hd = 1;
+			DS_HoaDon* nodeIt = ds_nv.nhan_vien[i]->ds_hoadon;
+			while (nodeIt != NULL) {
+				std::cout << "------- Hoa don " << stt_hd << " -------"<< std::endl;
+				std::cout << "SoHD: " << nodeIt->hoadon.SoHD << std::endl;
+				std::cout << "Ngay lap: " << nodeIt->hoadon.date.ngay << "/" << nodeIt->hoadon.date.thang << "/" << nodeIt->hoadon.date.nam << std::endl;
+				if (strcmp(nodeIt->hoadon.Loai, "N")) std::cout << "Loai: nhap" << std::endl;
+				else std::cout << "Loai: xuat" << std::endl;
+				std::cout << "Chi tiet HD: " << std::endl;
+				DS_CT_HoaDon* nodeItCTHD = nodeIt->hoadon.first_cthd;
+				while (nodeItCTHD != NULL) {
+					std::cout << " - Vat tu: " << nodeItCTHD->ct_hoadon.MAVT << ", so luong: " << nodeItCTHD->ct_hoadon.Soluong << ", don gia: " << nodeItCTHD->ct_hoadon.Dongia << ", VAT: " << nodeItCTHD->ct_hoadon.VAT << ", loai: " << nodeItCTHD->ct_hoadon.TrangThai << std::endl;
+					nodeItCTHD = nodeItCTHD->next;
+				}
+				nodeIt = nodeIt->next;
+			}
+		}
+	}
+}
 
