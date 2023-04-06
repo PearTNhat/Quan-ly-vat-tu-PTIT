@@ -200,7 +200,7 @@ struct HoaDon
 	char SoHD[21];
 	Date date;
 	char Loai[2];
-	dscthd ct_hoadon;
+	dscthd first_cthd;
 	// nap chong toan tu 
 	bool operator==(HoaDon& other)
 	{

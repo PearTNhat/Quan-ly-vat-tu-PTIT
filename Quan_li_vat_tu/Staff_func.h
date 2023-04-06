@@ -65,7 +65,7 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 					string sl_cthd;
 					getline(read_file, sl_cthd, '\n');
 					if (stoi(sl_cthd) > 0) {
-						hoadon.ct_hoadon = NULL;
+						hoadon.first_cthd = NULL;
 						temp_cthd = {};
 						for (int j = 0; j < stoi(sl_cthd); j++) {
 							string tempct;
@@ -88,11 +88,11 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 								temp_cthd.TrangThai = myInt !=0;
 								read_file.ignore();
 							}
-							Insert_last_CTHD(hoadon.ct_hoadon, temp_cthd);
+							Insert_last_CTHD(hoadon.first_cthd, temp_cthd);
 						}
 					}
 				}
-				Insert_last(ds_hoadon, hoadon);
+				Insert_last_HD(ds_hoadon, hoadon);
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;
@@ -140,15 +140,15 @@ void write_file_staff(DS_NhanVien ds_nv) {
 				write_file << dshd_temp->hoadon.Loai << "," << endl;
 
 			}
-			numOFCTHD = getNumOfCTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.ct_hoadon);
-			if (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.ct_hoadon = NULL) {
+			numOFCTHD = getNumOfCTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
+			if (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd = NULL) {
 				cout << "______NULL_____" << endl;
 			}
 			else {
 				write_file << numOFCTHD << "\n";
 			}
 			for (int x = 0; x < numOFCTHD; x++) {
-				dscthd_temp = dshd_temp->hoadon.ct_hoadon;
+				dscthd_temp = dshd_temp->hoadon.first_cthd;
 				write_file << dscthd_temp->ct_hoadon.MAVT << ',';
 				write_file << dscthd_temp->ct_hoadon.Soluong << ',';
 				write_file << dscthd_temp->ct_hoadon.Dongia << ',';
