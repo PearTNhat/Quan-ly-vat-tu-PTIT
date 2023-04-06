@@ -1,5 +1,3 @@
-NV069,Tran Dieu,Anh,Nu,
-0
 NV035,Dinh Cong Hau,Due,Nam,
 0
 NV009,Ly Thanh,Hau,Nam,

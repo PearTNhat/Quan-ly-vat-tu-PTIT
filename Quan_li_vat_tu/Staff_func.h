@@ -75,6 +75,11 @@ void read_file_staff(DS_NhanVien& ds_nv) {
 			}
 			temp->ds_hoadon = ds_hoadon; // them vào dshd
 			ds_nv.nhan_vien[ds_nv.length++] = temp;// them vào nhân viên i
+					Insert_last(ds_hoadon, hoadon);
+				}
+			}
+			temp->ds_hoadon = ds_hoadon;
+			ds_nv.nhan_vien[ds_nv.length++] = temp;
 
 		}
 	}

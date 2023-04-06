@@ -20,15 +20,20 @@ string month_e = "";
 string year_e = "";
 string year = "";
 
-// DANH SÁCH FUNCTION
-bool isLeapYear(int);
-bool ktra_loi_input(string, int, string, int, int, int, int, int, int, int);
-
 // TEMP STRUCT
 struct ds_tmp {
 	HoaDon* hoadon[1000];
 	int length = 0;
 };
+
+// DANH SÁCH FUNCTION
+void create_ss_header();
+bool ktra_loi_input(string input, int max_value, string input_field, int input_result, int e_kcl, int e_kct, int i_error_color, int i_bg, int i_highlight, int i_color);
+void get_current_date(string& day_e, string& month_e, string& year_e);
+void ss_handleTable(int& x, int& y, ds_tmp arr_temp);
+void get_current_date(string& day_e, string& month_e, string& year_e);
+bool xu_li_nam_nhuan(int day, int month, int year, string& error_leap_year);
+void xu_li_button_tim_kiem(int& x, int& y, bool is_all_valid, string dayb, string monthb, string yearb, string daye, string monthe, string yeare, ds_tmp arr_temp);
 
 //void check_temp_arr_info(ds_tmp ds) {
 //	cout << "========= CHECK TEMP ARR =========" << endl;
@@ -46,9 +51,9 @@ struct ds_tmp {
 void create_ss_header() {
 	setfillstyle(1, HEADER_BACKGROUND);
 	setcolor(0);
-	bar3d(10, 65, 1180, 115, 0, 0);
-	text_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
-	text_box(320, 70, 640, 110, (char*)"Thong ke doanh thu", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
+	//bar3d(10, 65, 1180, 115, 0, 0);
+	text_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, ss_page_header_box_color);
+	text_box(320, 70, 640, 110, (char*)"Thong ke doanh thu", f_medium, 3, 10, 40, ss_page_header_box_color);
 }
 
 void ss_table(
@@ -388,13 +393,15 @@ void do_hoa_search_hd() {
 	setcolor(0);
 	bar3d(280, 180, 920, 530, 0, 0);
 
+	setlinestyle(0, 0, 1);
 	// Thanh tieu de
 	const char* title = "Tim Kiem Hoa Don";
-	text_box(440, 140, 750, 181, (char*)title, 8, 3, 10, 40, 11, 0); // font 8
+	text_box(440, 140, 750, 181, (char*)title, 10, 3, 10, 40, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiem
-	text_box(310, 480, 890, 520, (char*)"Tim kiem", f_medium, 3, 10, 230, COLOR(255, 153, 51), 0);
+	text_box(310, 480, 890, 520, (char*)"Tim kiem", f_medium, 3, 10, 230, COLOR(252, 186, 3), 0);
 	// Begin
-	text_box(290, 190, 520, 230, (char*)"Tu ngay (begin)", f_medium, 3, 10, 10, 11, 0);
+	text_box(290, 190, 520, 230, (char*)"Tu ngay (begin)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
+	setcolor(0);
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SG);
 	outtextxy(320, 260, (char*)"Ngay");
@@ -404,7 +411,8 @@ void do_hoa_search_hd() {
 	outtextxy(740, 260, (char*)"Nam");
 	bar3d(800, 250, 900, 285, 0, 0);
 	// End
-	text_box(290, 300, 520, 340, (char*)"Den ngay (end)", f_medium, 3, 10, 10, 11, 0);
+	text_box(290, 300, 520, 340, (char*)"Den ngay (end)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
+	setcolor(0);
 	text_box(540, 300, 650, 340, (char*)"TODAY", f_medium, 3, 10, 20, COLOR(252, 186, 3), 0);
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SG);
@@ -593,8 +601,9 @@ void do_hoa_search_doanh_thu() {
 	bar3d(280, 180, 920, 490, 0, 0);
 
 	// Thanh tieu de
+	setlinestyle(0, 0, 1);
 	const char* title = "Tra cuu doanh thu";
-	text_box(440, 140, 750, 181, (char*)title, 8, 3, 10, 40, 11, 0); // font 8
+	text_box(440, 140, 750, 181, (char*)title, 10, 3, 10, 40, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiemi
 	text_box(450, 410, 750, 450, (char*)"Tra cuu", f_medium, 3, 10, 100, COLOR(255, 153, 51), 0);
 	// User input 
