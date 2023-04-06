@@ -13,6 +13,7 @@ int main() {
 	// nhân viên
 	DS_NhanVien ds_nv;
 	DS_HoaDon ds_hdP;
+	DS_HoaDon* dshd_tk = NULL;
 	check_CURD delete_sf[ROW_STAFF];
 	check_CURD edit_sf[ROW_STAFF];
 	view_page vp_m_sf;
@@ -80,6 +81,7 @@ int main() {
 
 			if (sf_page) {
 				create_sf_header();
+				// sf_table_header -> mảng 
 				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 				sf_handleTable(x, y, ds_nv, delete_sf,edit_sf,vp_m_sf, sf_isEdit, sf_isAdd);
 				goto sf_start;
@@ -114,6 +116,7 @@ int main() {
 				delete_after_header();
 			}
 			if (ss_page) {
+				test_data(ds_nv);
 				//print_dshd(ds_hd);
 				//check_temp_arr_info(arr_temp);
 				bool is_error = false;

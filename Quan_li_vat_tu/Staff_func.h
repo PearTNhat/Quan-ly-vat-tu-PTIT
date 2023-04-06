@@ -80,20 +80,19 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 							if (j == stoi(sl_cthd) - 1) {
 								getline(read_file, tempct, '\n');
 								int	myInt = stoi(tempct);
-								temp_cthd.TrangThai = myInt !=0 ;
+								temp_cthd.TrangThai = myInt != 0;
 							}
 							else {
 								getline(read_file, tempct, ',');
 								int myInt = stoi(tempct);
-								temp_cthd.TrangThai = myInt !=0;
+								temp_cthd.TrangThai = myInt != 0;
 								read_file.ignore();
 							}
 							Insert_last_CTHD(hoadon.first_cthd, temp_cthd);
 						}
 					}
+					Insert_last_HD(ds_hoadon, hoadon);
 				}
-				Insert_last_HD(ds_hoadon, hoadon);
-				
 			}
 			temp->ds_hoadon = ds_hoadon;
 			ds_nv.nhan_vien[ds_nv.length++] = temp;

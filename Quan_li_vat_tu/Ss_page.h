@@ -389,7 +389,7 @@ string ss_page_input(
 }
 
 void do_hoa_search_hd() {
-	setfillstyle(1, COLOR_INFOR_SG);
+	setfillstyle(1, COLOR_INFOR_SS);
 	setcolor(0);
 	bar3d(280, 180, 920, 530, 0, 0);
 
@@ -403,7 +403,7 @@ void do_hoa_search_hd() {
 	text_box(290, 190, 520, 230, (char*)"Tu ngay (begin)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
 	setcolor(0);
 	setfillstyle(1, 15);
-	setbkcolor(COLOR_INFOR_SG);
+	setbkcolor(COLOR_INFOR_SS);
 	outtextxy(320, 260, (char*)"Ngay");
 	bar3d(400, 250, 500, 285, 0, 0);
 	outtextxy(530, 260, (char*)"Thang");
@@ -415,7 +415,7 @@ void do_hoa_search_hd() {
 	setcolor(0);
 	text_box(540, 300, 650, 340, (char*)"TODAY", f_medium, 3, 10, 20, COLOR(252, 186, 3), 0);
 	setfillstyle(1, 15);
-	setbkcolor(COLOR_INFOR_SG);
+	setbkcolor(COLOR_INFOR_SS);
 	outtextxy(320, 370, (char*)"Ngay");
 	bar3d(400, 360, 500, 395, 0, 0);
 	outtextxy(530, 370, (char*)"Thang");
@@ -438,11 +438,11 @@ void get_current_date(string &day_e, string &month_e, string &year_e) {
 	string curr_year = to_string(1900 + ltm->tm_year);
 	// =================================
 	// Xoa báo lỗi
-	setfillstyle(1, COLOR_INFOR_SG);
+	setfillstyle(1, COLOR_INFOR_SS);
 	bar(510 - 50, 445, 510 + 290, 445 + 20); 
-	day_e = ss_page_input(is_all_valid, is_error, x_daye, y_daye, 400, 360, 500, 395, 40, 10, 510, 445, 50, curr_date, 2, 1, "day_e", true, COLOR_INFOR_SG);
-	month_e = ss_page_input(is_all_valid, is_error, x_monthe, y_monthe, 610, 360, 710, 395, 40, 10, 510, 445, 50, curr_month, 2, 1, "month_e", true, COLOR_INFOR_SG);
-	year_e = ss_page_input(is_all_valid, is_error, x_yeare, y_yeare, 800, 360, 900, 395, 30, 10, 510, 445, 50, curr_year, 2, 1, "year_e", true, COLOR_INFOR_SG);
+	day_e = ss_page_input(is_all_valid, is_error, x_daye, y_daye, 400, 360, 500, 395, 40, 10, 510, 445, 50, curr_date, 2, 1, "day_e", true, COLOR_INFOR_SS);
+	month_e = ss_page_input(is_all_valid, is_error, x_monthe, y_monthe, 610, 360, 710, 395, 40, 10, 510, 445, 50, curr_month, 2, 1, "month_e", true, COLOR_INFOR_SS);
+	year_e = ss_page_input(is_all_valid, is_error, x_yeare, y_yeare, 800, 360, 900, 395, 30, 10, 510, 445, 50, curr_year, 2, 1, "year_e", true, COLOR_INFOR_SS);
 }
 
 bool xu_li_nam_nhuan(int day, int month, int year, string &error_leap_year) {
@@ -573,20 +573,20 @@ void xu_li_button_tim_kiem(
 	if (error_leap_year != "") { 
 		char m[255];
 		strcpy_s(m, error_leap_year.c_str());
-		writeText(490, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SG);
+		writeText(490, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
 		return;
 	}
 	else if (error_end) {
 		string error = "Ngay/thang/nam o tuong lai";
 		char m[255];
 		strcpy_s(m, error.c_str());
-		writeText(470, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SG);
+		writeText(470, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
 	}
 	else if (error_begin_end) {
 		string error = "Ngay/thang/nam BEGIN > END";
 		char m[255];
 		strcpy_s(m, error.c_str());
-		writeText(470, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SG);
+		writeText(470, 445, m, 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
 		return;
 	}
 	else if (error_leap_year == "" && !error_end && !error_begin_end) {
@@ -596,7 +596,7 @@ void xu_li_button_tim_kiem(
 }
 
 void do_hoa_search_doanh_thu() {
-	setfillstyle(1, COLOR_INFOR_SG);
+	setfillstyle(1, COLOR_INFOR_SS);
 	setcolor(0);
 	bar3d(280, 180, 920, 490, 0, 0);
 
@@ -608,7 +608,7 @@ void do_hoa_search_doanh_thu() {
 	text_box(450, 410, 750, 450, (char*)"Tra cuu", f_medium, 3, 10, 100, COLOR(255, 153, 51), 0);
 	// User input 
 	setfillstyle(1, 15);
-	setbkcolor(COLOR_INFOR_SG);
+	setbkcolor(COLOR_INFOR_SS);
 	outtextxy(350, 290, (char*)"Nhap nam can tra cuu:");
 	bar3d(670, 285, 835, 320, 0, 0);
 }
@@ -619,7 +619,7 @@ void xu_li_tra_cuu_doanh_thu(int &x, int &y, string &year, bool page) {
 	bool is_error = false;
 	if (ktVT(670, 285, 835, 320, x, y) && page) {
 		cout << "Tien hanh nhap input --nam";
-		year = ss_page_input(is_all_valid, is_error, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year_search_doanh_thu", false, COLOR_INFOR_SG);
+		year = ss_page_input(is_all_valid, is_error, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year_search_doanh_thu", false, COLOR_INFOR_SS);
 	}
 }
 
@@ -638,7 +638,7 @@ void  xu_li_thong_ke_hd(
 		cout << "Tien hanh nhap input -ngay\n" << endl;
 		cout << "is_all_valid: " << is_all_valid << endl;
 		cout << "is_error: " << error_dayb << endl;
-		day_b = ss_page_input(is_all_valid, error_dayb, x, y, 400, 250, 500, 285, 40, 10, 510, 445, 50, day_b, 2, 1, "day", false, COLOR_INFOR_SG);
+		day_b = ss_page_input(is_all_valid, error_dayb, x, y, 400, 250, 500, 285, 40, 10, 510, 445, 50, day_b, 2, 1, "day", false, COLOR_INFOR_SS);
 		goto start_input;
 	}
 	// input month
@@ -646,7 +646,7 @@ void  xu_li_thong_ke_hd(
 		cout << "Tien hanh nhap input -thang\n";
 		cout << "is_all_valid: " << is_all_valid << endl;
 		cout << "is_error: " << error_monthb << endl;
-		month_b = ss_page_input(is_all_valid, error_monthb, x, y, 610, 250, 710, 285, 40, 10, 510, 445, 50, month_b, 2, 1, "month", false, COLOR_INFOR_SG);
+		month_b = ss_page_input(is_all_valid, error_monthb, x, y, 610, 250, 710, 285, 40, 10, 510, 445, 50, month_b, 2, 1, "month", false, COLOR_INFOR_SS);
 		goto start_input;
 	}
 	// input year 
@@ -654,7 +654,7 @@ void  xu_li_thong_ke_hd(
 		cout << "Tien hanh nhap input -nam\n";
 		cout << "is_all_valid: " << is_all_valid << endl;
 		cout << "is_error: " << error_yearb << endl;
-		year_b = ss_page_input(is_all_valid, error_yearb, x, y, 800, 250, 900, 285, 30, 10, 510, 445, 50, year_b, 4, 1, "year", false, COLOR_INFOR_SG);
+		year_b = ss_page_input(is_all_valid, error_yearb, x, y, 800, 250, 900, 285, 30, 10, 510, 445, 50, year_b, 4, 1, "year", false, COLOR_INFOR_SS);
 		goto start_input;
 	}
 
@@ -667,18 +667,18 @@ void  xu_li_thong_ke_hd(
 	// End ======================================
 	if (ktVT(400, 360, 500, 395, x, y) && page) {
 		cout << "Tien hanh nhap input -ngay\n";
-		day_e = ss_page_input(is_all_valid, error_daye, x, y, 400, 360, 500, 395, 40, 10, 510, 445, 50, day_e, 2, 1, "day", false, COLOR_INFOR_SG);
+		day_e = ss_page_input(is_all_valid, error_daye, x, y, 400, 360, 500, 395, 40, 10, 510, 445, 50, day_e, 2, 1, "day", false, COLOR_INFOR_SS);
 		goto start_input;
 	}
 	if (ktVT(610, 360, 710, 395, x, y) && page) {
 		cout << "Tien hanh nhap input -thang\n";
-		month_e = ss_page_input(is_all_valid, error_monthe, x, y, 610, 360, 710, 395, 40, 10, 510, 445, 50, month_e, 2, 1, "month", false, COLOR_INFOR_SG);
+		month_e = ss_page_input(is_all_valid, error_monthe, x, y, 610, 360, 710, 395, 40, 10, 510, 445, 50, month_e, 2, 1, "month", false, COLOR_INFOR_SS);
 		goto start_input;
 	}
 
 	if (ktVT(800, 360, 900, 395, x, y) && page) {
 		cout << "Tien hanh nhap input -nam\n";
-		year_e = ss_page_input(is_all_valid, error_yeare, x, y, 800, 360, 900, 395, 30, 10, 510, 445, 50, year_e, 4, 1, "year", false, COLOR_INFOR_SG);
+		year_e = ss_page_input(is_all_valid, error_yeare, x, y, 800, 360, 900, 395, 30, 10, 510, 445, 50, year_e, 4, 1, "year", false, COLOR_INFOR_SS);
 		goto start_input;
 	}
 
@@ -688,47 +688,6 @@ void  xu_li_thong_ke_hd(
 		xu_li_button_tim_kiem(x, y, is_all_valid, day_b, month_b, year_b, day_e, month_e, year_e, arr_temp);
 	}
 }
-
-//void read_file_DSHD(PTRHD& ds_hd) {
-//	ifstream inputFile;
-//	inputFile.open("./Data/ds_hoadon.txt", ios_base::in);
-//	HoaDon hd_tmp;
-//	CT_HoaDon cthd = {};
-//	dscthd ds_cthd = NULL;
-//	while (!inputFile.eof()) {
-//		hd_tmp = {};
-//		ds_cthd = NULL;
-//		inputFile.getline(hd_tmp.SoHD, 21, ',');
-//		inputFile >> hd_tmp.date.ngay; inputFile.ignore();
-//		inputFile >> hd_tmp.date.thang; inputFile.ignore();
-//		inputFile >> hd_tmp.date.nam; inputFile.ignore();
-//		inputFile.getline(hd_tmp.Loai, 2, ',');
-//		inputFile.ignore();
-//		std::string sl_cthd;
-//		getline(inputFile, sl_cthd, '\n');
-//		if (stoi(sl_cthd) > 0) {
-//			for (int i = 0; i < stoi(sl_cthd); i++)
-//			{
-//				inputFile.getline(cthd.MAVT, 1, ',');
-//				inputFile >> cthd.Soluong; inputFile.ignore();
-//				inputFile >> cthd.Dongia; inputFile.ignore();
-//				inputFile >> cthd.VAT; inputFile.ignore();
-//				if (i == stoi(sl_cthd) - 1) {
-//					inputFile >> cthd.TrangThai; inputFile.ignore();
-//				}
-//				else {
-//					inputFile >> cthd.TrangThai; inputFile.ignore();
-//					inputFile.ignore();
-//				}
-//				Insert_last_d(ds_cthd, cthd);
-//			}
-//		}
-//		hd_tmp.first_cthd = ds_cthd;
-//		Insert_last(ds_hd, hd_tmp);
-//	}
-//	cout << "Hoan thanh doc file DSHD" << endl;
-//	inputFile.close();
-//}
 
 // convert linked list dshd -> pointer arr
 //ds_tmp build_dshd_array(PTRHD dshd) {
@@ -751,23 +710,30 @@ void  xu_li_thong_ke_hd(
 //	return temp_arr;
 //}
 
-//void print_dshd(PTRHD ds_hd) 
-//{
-//	if (ds_hd == NULL) cout << "Danh sach hd trong!" << endl;
-//	else {
-//		PTRHD nodeIt = ds_hd;
-//		cout << "========== PRINT DSHD =========" << endl;
-//		int i = 1;
-//		while (nodeIt != NULL) {
-//			cout << "--------- " << i++ << " ---------" << endl;
-//			cout << "So HD: " << nodeIt->hoadon.SoHD << endl;
-//			cout << "Ngay tao: " << nodeIt->hoadon.date.ngay << "/" << nodeIt->hoadon.date.thang << "/" << nodeIt->hoadon.date.nam << endl;
-//			cout << "Loai: " << nodeIt->hoadon.Loai << endl;
-//			if (nodeIt->hoadon.first_cthd == NULL) cout << "Danh sach cthd: NULL" << endl;
-//			nodeIt = nodeIt->next;
-//		}
-//		cout << "===========================" << endl;
-//	}
-//}
-
+void test_data(DS_NhanVien ds_nv) {
+	for (int i = 0; i < ds_nv.length; i++) {
+		std::cout << "=================== NHAN VIEN " << i + 1 << " ===================" << std::endl;
+		std::cout << "MaNV: " << ds_nv.nhan_vien[i]->maNV << " - Ten: " << ds_nv.nhan_vien[i]->ho << " " << ds_nv.nhan_vien[i]->ten << std::endl;
+		std::cout << "Gioi tinh: " << ds_nv.nhan_vien[i]->phai << std::endl;
+		if (ds_nv.nhan_vien[i]->ds_hoadon == NULL) std::cout << "DSHD: null" << std::endl;
+		else {
+			int stt_hd = 1;
+			DS_HoaDon* nodeIt = ds_nv.nhan_vien[i]->ds_hoadon;
+			while (nodeIt != NULL) {
+				std::cout << "------- Hoa don " << stt_hd++ << " -------"<< std::endl;
+				std::cout << "SoHD: " << nodeIt->hoadon.SoHD << std::endl;
+				std::cout << "Ngay lap: " << nodeIt->hoadon.date.ngay << "/" << nodeIt->hoadon.date.thang << "/" << nodeIt->hoadon.date.nam << std::endl;
+				if (strcmp(nodeIt->hoadon.Loai, "N")) std::cout << "Loai: nhap" << std::endl;
+				else std::cout << "Loai: xuat" << std::endl;
+				std::cout << "Chi tiet HD: " << std::endl;
+				DS_CT_HoaDon* nodeItCTHD = nodeIt->hoadon.first_cthd;
+				while (nodeItCTHD != NULL) {
+					std::cout << " - Vat tu: " << nodeItCTHD->ct_hoadon.MAVT << ", so luong: " << nodeItCTHD->ct_hoadon.Soluong << ", don gia: " << nodeItCTHD->ct_hoadon.Dongia << ", VAT: " << nodeItCTHD->ct_hoadon.VAT << ", loai: " << nodeItCTHD->ct_hoadon.TrangThai << std::endl;
+					nodeItCTHD = nodeItCTHD->next;
+				}
+				nodeIt = nodeIt->next;
+			}
+		}
+	}
+}
 

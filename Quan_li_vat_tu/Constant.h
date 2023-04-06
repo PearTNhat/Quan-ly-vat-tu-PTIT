@@ -9,6 +9,7 @@
 #define ROWS_PER_PG_SS 7
 //color infor staff good
 #define COLOR_INFOR_SG COLOR(186, 245, 223)
+#define COLOR_INFOR_SS COLOR(221, 221, 221)
 
 // input
 #define I_BG COLOR(51, 73, 96) // màu nền khi enter nhập xong
