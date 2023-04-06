@@ -13,8 +13,8 @@ int main() {
 	read_file_staff(ds_nv);
 	sort_staff(ds_nv);
 	PTRHD ds_hd = NULL;
-	read_file_DSHD(ds_hd);
-	ds_tmp arr_temp = build_dshd_array(ds_hd);
+	//read_file_DSHD(ds_hd);
+	//ds_tmp arr_temp = build_dshd_array(ds_hd);
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	cleardevice();
@@ -97,7 +97,7 @@ int main() {
 			}
 			if (ss_page) {
 				//print_dshd(ds_hd);
-				check_temp_arr_info(arr_temp);
+				//check_temp_arr_info(arr_temp);
 				bool is_error = false;
 				bool thong_ke_hd_pg = false;
 				bool thong_ke_doanh_thu_pg = false;
@@ -133,7 +133,7 @@ int main() {
 							year = "";
 						}
 						xu_li_tra_cuu_doanh_thu(x, y, year, thong_ke_doanh_thu_pg);
-						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, arr_temp);
+						//xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, arr_temp);
 						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y))
 							goto start;
 						if (out_table) goto start_again;
