@@ -88,10 +88,10 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 								temp_cthd.TrangThai = myInt != 0;
 								read_file.ignore();
 							}
-							Insert_after_CTHD_thutu(hoadon.first_cthd, temp_cthd);
+							Insert_last_CTHD(hoadon.first_cthd, temp_cthd);
 						}
 					}
-					Insert_after_HD_Thutu(ds_hoadon, hoadon);
+					Insert_last_HD(ds_hoadon, hoadon);
 				}
 			}
 			temp->ds_hoadon = ds_hoadon;
