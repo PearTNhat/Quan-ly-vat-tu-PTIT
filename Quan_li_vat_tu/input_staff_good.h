@@ -174,7 +174,7 @@ string input(
 			else if (type == "textNumberNoSpace") {
 				check_key= text_number_nospace(key);
 			}
-			else{
+			else {
 				// all number and text
 				check_key = kt_KTu(key);
 			}
@@ -188,7 +188,7 @@ string input(
 						input.erase(input.end() - 2);
 					}
 				}
-				else if (key != 13) {
+				else if (key != 13 && key!=9) {
 					if (input.length() == (max_value + 1)) {
 						string s = "Toi da ";
 						s += to_string(max_value);
@@ -207,9 +207,7 @@ string input(
 						key = toupper(key);
 					}
 					// noi chu vao
-					if (key != 9) { // khac tab
-						input += key;
-					};
+					input += key;
 					if (input.length() == 1 && input[0] == ' ') { // dau cach o dau thi xoa
 						input.erase(0, 1);
 					}
@@ -245,8 +243,7 @@ string input(
 				outtextxy(l + kcl, t + kct, result);
 				cout << "input: " << input << endl;
 				if (key == 13 || key == 9) {
-					//enter để break	'
-					cout << input.length() << "_____________________";
+					//enter để break
 					if (input.length() == 1) {
 						warning_msg("Khong duoc de trong", l + e_kcl, t + e_kct, i_bg, i_error_color);
 						// reset lai mau
@@ -275,7 +272,6 @@ string input(
 
 		delay(1);
 	}
-	cout << "out";
 	return input;
 }
 

@@ -131,7 +131,10 @@ void write_file_staff(DS_NhanVien ds_nv) {
 			while (nodeIt_HD != NULL) {
 				write_file << nodeIt_HD->hoadon.SoHD << ",";
 				write_file << nodeIt_HD->hoadon.date.ngay << "/" << nodeIt_HD->hoadon.date.thang << "/" << nodeIt_HD->hoadon.date.nam << ",";
-				write_file << nodeIt_HD->hoadon.Loai << endl;
+				if (nodeIt_HD->next != NULL) {
+					write_file << nodeIt_HD->hoadon.Loai << "," << endl;
+				}
+				else write_file << nodeIt_HD->hoadon.Loai << endl;
 				if (nodeIt_HD->hoadon.first_cthd != NULL) {
 					DS_CT_HoaDon* nodeIt_CT = nodeIt_HD->hoadon.first_cthd;
 					write_file << getNumOfCTHD(nodeIt_CT) << endl;
@@ -261,6 +264,7 @@ void staff_table(
 	page_transition(view_page);
 }
 void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& t_mnv, string& t_ho, string& t_ten, string& t_gender, string func, bool& sf_isEdit, bool& sf_isAdd) {
+start:;
 	int checkSubmit[4];
 	if (func == "add") {
 		for (int i = 0; i < 4; i++)
@@ -412,14 +416,15 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 						strcpy_s(ds_nv.nhan_vien[i_CRUD]->ten, t_ten.c_str());
 						strcpy_s(ds_nv.nhan_vien[i_CRUD]->phai, t_gender.c_str());
 					}
-					sf_isEdit = false;
-					sf_isAdd = false;
 
 					text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
 					announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
 					delay(500);
+					x = NULL, y = NULL;
+					staff_infor();
+					t_gender = t_ho = t_mnv = t_ten = "";
 					write_file_staff(ds_nv);
-					goto sf_end;
+					goto start;
 				}
 				else {
 					int left_error = 630;
@@ -447,7 +452,7 @@ void handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& 
 	}
 sf_end:;
 }
-void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], check_CURD edit_sf[], view_page vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
+void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], check_CURD edit_sf[], view_page& vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_D_staff = true;
@@ -487,6 +492,7 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], 
 						}
 					}
 					else {
+					
 						announce_board(0, 0, 0, 0, "Nhan vien dang quan li hoa don khong the xoa.");
 						delay(1500); 
 						goto sf_out;

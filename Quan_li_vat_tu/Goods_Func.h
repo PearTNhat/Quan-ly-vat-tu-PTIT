@@ -155,21 +155,27 @@ void goods_table(
 
 }
 void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string& t_tvt, string& t_dvt, string& t_slt, int i_CRUD , bool& isEdit, bool& isAdd) {
+start:;
 	int checkSubmit[4];
+	cout << "\n dasdsa";
 	if (isAdd) {
 		for (int i = 0; i < 4; i++)
 		{
 			checkSubmit[i] = -1;
 		}
-
+		
+		cout << "\n add ";
 	}
 	if (isEdit) {
-		for (int i = 0; i < 4; i++)
+		cout << "\n edit ";
+
+		for (int i = 0; i < 3; i++)
 		{
 			checkSubmit[i] = 1;
 		}
-		text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT,0); // chu cao 20
-		writeText(260, 170, (char*)"Ma vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
+		text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT,0); // mvt
+
+		text_box(430, 345, 800, 375, (char*)t_slt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); //slt
 	}
 	bool checkCancle = true;
 	while (1) { // chong rerender k can thiet
@@ -242,25 +248,18 @@ void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string&
 
 			}
 			// slt
-			if (ktVT(430, 345, 800, 375, x,y)) {
-				t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt,8, "number", "camelCase", COLOR_INFOR_SG, NULL, NULL);
-				if (isAdd) {
+			if (isAdd) {
+				if (ktVT(430, 345, 800, 375, x,y)) {
+					t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt,8, "number", "camelCase", COLOR_INFOR_SG, NULL, NULL);
 					if (t_dvt.length() > 0) {
 						checkSubmit[3] = 1;
 					}
 					else {
 						checkSubmit[3] = -1;
 					}
+					goto headInfor;
 				}
-				if (isEdit) {
-					if (t_dvt.length() == 0) {
-						checkSubmit[3] = -1;
-					}
-					else {
-						checkSubmit[3] = 1;
-					}
-				}
-				goto headInfor;
+
 			}
 			//HUY
 			if (ktVT(750, 420, 820, 450, x, y)) {
@@ -300,33 +299,31 @@ void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string&
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT = stoi(t_slt);
 						getIndexGoods(ds_vt, i_CRUD)->vat_tu = vt_temp;
-
 					}
-
-					isEdit = false;
-					isAdd = false;
-
 					text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
 					announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
 					delay(500);
-					goto sf_end;
+					goods_infor();
+					x = NULL, y = NULL;
+					t_mvt = t_dvt = t_slt = t_tvt = "";
+					goto start;
 				}
 				else {
 					int left_error = 630;
 					if (checkSubmit[0] == -1) {
-						warning_msg("Khong duoc de trong", 430 + 5, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+						warning_msg("Khong duoc de trong", 430 + 5, 165 + 34, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
 
 					if (checkSubmit[1] == -1) {
-						warning_msg("Khong duoc de trong", 430 + 5, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+						warning_msg("Khong duoc de trong", 430 + 5, 225 + 34, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
 
 					if (checkSubmit[2] == -1) {
-						warning_msg("Khong duoc de trong", 430 + 5, 285 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+						warning_msg("Khong duoc de trong", 430 + 5, 285 + 34, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
 
 					if (checkSubmit[3] == -1) {
-						warning_msg("Khong duoc de trong", 430 + 5, 350 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+						warning_msg("Khong duoc de trong", 430 + 5, 350 + 34, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
 
 				}
@@ -337,7 +334,7 @@ void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string&
 	}
 sf_end:;
 }
-void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[], check_CURD edit_table_g[], view_page vp_g_table, bool& g_isEdit, bool& g_isAdd) {
+void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[], check_CURD edit_table_g[], view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd) {
 
 	bool break_all = false;
 	int i_CRUD = 0;
@@ -439,4 +436,13 @@ sf_end:;
 //			
 //		}
 //	}
+//}
+//int searchBinaryStaff(DS_NhanVien ds_nv,int l, int r, string value) {
+//	if (l<=r) {
+//		int mid = l + (r - l) / 2;
+//		if () {
+//
+//		}
+//	}
+//	return -1
 //}
