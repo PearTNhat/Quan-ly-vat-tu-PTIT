@@ -88,10 +88,10 @@ void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
 								temp_cthd.TrangThai = myInt != 0;
 								read_file.ignore();
 							}
-							Insert_last_CTHD(hoadon.first_cthd, temp_cthd);
+							Insert_after_CTHD_thutu(hoadon.first_cthd, temp_cthd);
 						}
 					}
-					Insert_last_HD(ds_hoadon, hoadon);
+					Insert_after_HD_Thutu(ds_hoadon, hoadon);
 				}
 			}
 			temp->ds_hoadon = ds_hoadon;
@@ -143,7 +143,7 @@ void write_file_staff(DS_NhanVien ds_nv) {
 						write_file << nodeIt_CT->ct_hoadon.Soluong << ",";
 						write_file << nodeIt_CT->ct_hoadon.Dongia << ",";
 						write_file << nodeIt_CT->ct_hoadon.VAT << ",";
-						if (nodeIt_CT->next != NULL) {
+						if (nodeIt_CT->next != NULL) {	
 							write_file << nodeIt_CT->ct_hoadon.TrangThai << "," << endl;
 						}
 						else {
