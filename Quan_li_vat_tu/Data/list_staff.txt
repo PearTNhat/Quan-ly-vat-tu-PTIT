@@ -1,49 +1,49 @@
-NV009,Ly Thanh,Hau,Nam,
+NV9,Ly Thanh,Hau,Nam,
 0
-NV010,Ly Thanh Hoang,Hau,Nam,
+NV10,Ly Thanh Hoang,Hau,Nam,
 0
-NV011,Ly Thanh,Hoang,Nam,
+NV11,Ly Thanh,Hoang,Nam,
 0
-NV001,Ho Tuan,Kiet,Nam,
+NV1,Ho Tuan,Kiet,Nam,
 1
-HD004,20/10/2022,N
+HD4,20/10/2022,N
 2
-FE,10,50000,5,1,
-CU,15,70000,8,0
-NV003,Chu Tu,Mach,Nu,
+VT3,10,50000,5,1,
+VT2,15,70000,8,0
+NV3,Chu Tu,Mach,Nu,
 0
-ABC,Khuong Tu,Nha,Nam,
+NV25,Khuong Tu,Nha,Nam,
 0
-NV014,Huan,Nhi,Nu,
+NV14,Huan,Nhi,Nu,
 0
-NV006,Ly Mac,Sau,Nu,
+NV6,Ly Mac,Sau,Nu,
 1
-HD035,20/10/2012,N
+HD35,20/10/2012,N
 1
-AU,10,20000,10,1
-NV007,Lenh Ho,Sung,Nam,
+VT7,10,20000,10,1
+NV7,Lenh Ho,Sung,Nam,
 0
-NV005,Bach Tieu,Thuan,Nam,
+NV5,Bach Tieu,Thuan,Nam,
 3
-HD005,2/9/2021,N,
+HD5,2/9/2021,N,
 4
-FE,10,50000,5,1,
-CU,15,70000,8,0,
-FE,10,50000,5,1,
-AL,10,100000,1,1
-HDGAO,1/4/2023,N,
+VT2,10,50000,5,1,
+VT3,15,70000,8,0,
+VT1,10,50000,5,1,
+VT4,10,100000,1,1
+HD3,1/4/2023,N,
 1
-GAO,2,100000,1,1
-HD010,6/4/2023,N
+VT9,2,100000,1,1
+HD7,6/4/2023,N
 2
-VANG,1,1000000,2,1,
-KIMCUONG,1,9999999,1,1
-NV004,My Do,Toa,Nu,
+VT6,1,1000000,2,1,
+VT1,1,9999999,1,1
+NV4,My Do,Toa,Nu,
 0
-NV002,Han Bang,Tuyet,Nu,
+NV2,Han Bang,Tuyet,Nu,
 1
-HD008,20/10/2012,N
+HD8,20/10/2012,N
 1
-AG,20,30000,15,0
-NV008,Tieu,Viem,Nam,
+VT6,20,30000,15,0
+NV8,Tieu,Viem,Nam,
 0
