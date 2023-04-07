@@ -39,4 +39,5 @@ const int f_medium = 10; //ma BOLD_FONT settextstyle() trong box chuc nang kc l?
 const int f_small = 3;// kc l? 1
 
 //Statistic
-char ss_table_header[5][20] = { "So HD", "Ngay lap", "Loai HD", "Ho ten NV lap", "Tri gia HD" };
+char ss_table_header[5][20] = { "So HD", "Ngay lap", "Loai HD", "Ho ten NV lap", "Tri gia HD (VND)" };
+char table_doanhThu_header[2][20] = { "Thang", "Doanh thu (VND)" };

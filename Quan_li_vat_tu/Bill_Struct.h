@@ -5,6 +5,7 @@
 //#include <conio.h>
 //#include <alloc.h>
 #include <ctype.h>
+#include <string>
 
 #define MAX_HD 500
 #define TRUE 1
@@ -229,114 +230,9 @@ struct DS_HoaDon
 {
 	HoaDon hoadon;
 	DS_HoaDon* next;
-	//DS_CT_HoaDon* dscthd;
-	/*HoaDon* hoa_don[MAX_HD];
-	int b_length = 0;*/
 };
 typedef DS_HoaDon* PTRHD;
 
-//void NhapDSHoaDon(DS_HoaDon*& ds_hoadonPhu)
-//{
-//	// Khởi tạo danh sách liên kết đơn DS_HoaDon
-//	ds_hoadonPhu = new DS_HoaDon;
-//	PTRHD p = ds_hoadonPhu;
-//	p->next = nullptr;
-//
-//	// Nhập thông tin hóa đơn
-//	cout << "Nhap so hoa don: ";
-//	cin.ignore();
-//	cin.getline(p->hoadon.SoHD, 21);
-//
-//	while (strcmp(p->hoadon.SoHD,"0") != 0)
-//	{
-//
-//		cout << "Nhap ngay: "; cin >> p->hoadon.date.ngay;
-//		cout << "Nhap thang: "; cin >> p->hoadon.date.thang;
-//		cout << "Nhap nam: "; cin >> p->hoadon.date.nam;
-//		cout << "Nhap loai: "; 
-//		cin.ignore();
-//		cin.getline(p->hoadon.Loai, 2);
-//
-//		// Khởi tạo danh sách liên kết đơn DS_CT_HoaDon
-//		p->dscthd = new DS_CT_HoaDon;
-//		PTRCT q = p->dscthd;
-//		q->next = nullptr;
-//
-//		//nhap thong tin ct_hoadon
-//		cout << "Nhap ma vat tu: ";
-//		//cin.ignore();
-//		cin.getline(q->ct_hoadon.MAVT, 11);
-//
-//		while (strcmp(q->ct_hoadon.MAVT,"0")!= 0)
-//		{
-//			cout << "Nhap so luong: ";
-//			cin >> q->ct_hoadon.Soluong;
-//			cout << "Nhap don gia: ";
-//			cin >> q->ct_hoadon.Dongia;
-//			cout << "Nhap VAT: ";
-//			cin >> q->ct_hoadon.VAT;
-//			cout << "Nhap trang thai: ";
-//			cin >> q->ct_hoadon.TrangThai;
-//			
-//			
-//
-//			// Tạo một node mới của danh sách liên kết đơn DS_CT_HoaDon
-//			q->next = new DS_CT_HoaDon;
-//			q = q->next;
-//			q->next = nullptr;
-//
-//			//nhap thong tin ct_hoadon tiep theo
-//			cout << "Nhap ma vat tu (nhap 0 de dung lai): ";
-//			//cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//			cin.ignore();
-//			cin.getline(q->ct_hoadon.MAVT, 11);
-//
-//		}
-//
-//		// Tạo một node mới của danh sách liên kết đơn DS_HoaDon
-//		p->next = new DS_HoaDon;
-//		p = p->next;
-//		p->next = nullptr;
-//
-//		// Nhập thông tin hóa đơn tiếp theo
-//		cout << "Nhap so hoa don (nhap 0 de dung lai): ";
-//		//cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//		cin.getline(p->hoadon.SoHD, 21);
-//	}
-//}
-//
-//void XuatDSHoaDon(PTRHD ds) {
-//	if (ds == NULL) {
-//		cout << "Danh sach rong!" << endl;
-//		return;
-//	}
-//	PTRHD p = ds;
-//	while (p != NULL) {
-//		if (p->next == NULL) break;
-//		cout << "So hoa don: " << p->hoadon.SoHD << endl;
-//		cout << "Ngay lap: " << p->hoadon.date.ngay << "/"
-//			                 << p->hoadon.date.thang << "/"
-//			                 << p->hoadon.date.nam << endl;
-//		cout << "Loai hoa don: " << p->hoadon.Loai << endl;
-//		cout << "Danh sach chi tiet hoa don: " << endl;
-//		if (p->dscthd == NULL) {
-//			cout << "\tDanh sach chi tiet hoa don rong!" << endl;
-//		}
-//		else {
-//			PTRCT q = p->dscthd;
-//			while (q != NULL) {
-//				if (q->next == NULL) break;
-//				cout << "\tMa vat tu: " << q->ct_hoadon.MAVT << endl;
-//				cout << "\tSo luong: " << q->ct_hoadon.Soluong << endl;
-//				cout << "\tDon gia: " << q->ct_hoadon.Dongia << endl;
-//				cout << "\tVAT: " << q->ct_hoadon.VAT << endl;
-//				cout << "\tTrang thai: " << (q->ct_hoadon.TrangThai ? "Khach mua" : "Khach tra") << endl << endl;
-//				q = q->next;
-//			}
-//		}
-//		p = p->next;
-//	}
-//}
 
 //Initialize khoi dong danh sach lien ket hoadon
 void Initialize_HD(PTRHD& First)
@@ -384,7 +280,11 @@ PTRHD Newnode_HD(HoaDon x = {})
 }
 PTRHD p = Newnode_HD();
 
-
+PTRHD getLastNodeHD(PTRHD first) {
+	PTRHD nodeIt = first;
+	while (nodeIt->next != NULL) nodeIt = nodeIt->next;
+	return nodeIt;
+}
 
 // them vao dau hoadon
 void Insert_First_HD(PTRHD& First, HoaDon x)
@@ -554,6 +454,49 @@ int getNumOfCTHD(dscthd first_cthd) {
 	temp = NULL;
 	delete temp;
 	return count;
+}
+
+void Insert_after_HD_Thutu(PTRHD p, HoaDon x) {
+	PTRHD q;
+	if (p == NULL) {
+		Insert_First_HD(p, x);
+	}
+	else {
+		while (stoi(string(p->next->hoadon.SoHD).substr(2)) < stoi(string(x.SoHD).substr(2)) && p->next->next != NULL) {
+			p = p->next;
+		}
+		if (stoi(string(x.SoHD)) > stoi(string(p->next->hoadon.SoHD))) {
+			Insert_last_HD(p, x);
+		}
+		else {
+			q = new DS_HoaDon;
+			q->hoadon = x;
+			q->next = p->next;
+			p->next = q;
+		}
+	}
+	
+}
+
+void Insert_after_CTHD_thutu(dscthd p, CT_HoaDon x) {
+	dscthd q;
+	if (p == NULL) {
+		Insert_First_CTHD(p, x);
+	}
+	else {
+		while (stoi(string(p->next->ct_hoadon.MAVT).substr(2)) < stoi(string(x.MAVT).substr(2)) && p->next->next != NULL) {
+			p = p->next;
+		}
+		if (stoi(string(x.MAVT).substr(2)) > stoi(string(p->next->ct_hoadon.MAVT).substr(2))) {
+			Insert_last_CTHD(p, x);
+		}
+		else {
+			q = new DS_CT_HoaDon;
+			q->ct_hoadon = x;
+			q->next = p->next;
+			p->next = q;
+		}
+	}
 }
 
 

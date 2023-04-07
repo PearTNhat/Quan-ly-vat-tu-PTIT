@@ -223,6 +223,22 @@ bool checkLowcase(char s) {
 	if (s >= 'a' && s <= 's') return true;
 	return false;
 }
+
+std::string formatNumber(int num) {
+	std::ostringstream ss;
+	ss << num;
+	std::string numStr = ss.str();
+
+	int numDigits = numStr.size();
+	int numCommas = (numDigits - 1) / 3;
+
+	for (int i = 1; i <= numCommas; i++) {
+		int commaPos = numDigits - i * 3;
+		numStr.insert(commaPos, ",");
+	}
+
+	return numStr;
+}
 //void staff_table(
 //	char sf_table_header[][20],
 //	DS_NhanVien ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop

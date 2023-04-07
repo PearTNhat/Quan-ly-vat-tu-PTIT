@@ -143,7 +143,7 @@ void write_file_staff(DS_NhanVien ds_nv) {
 						write_file << nodeIt_CT->ct_hoadon.Soluong << ",";
 						write_file << nodeIt_CT->ct_hoadon.Dongia << ",";
 						write_file << nodeIt_CT->ct_hoadon.VAT << ",";
-						if (nodeIt_CT->next != NULL) {
+						if (nodeIt_CT->next != NULL) {	
 							write_file << nodeIt_CT->ct_hoadon.TrangThai << "," << endl;
 						}
 						else {

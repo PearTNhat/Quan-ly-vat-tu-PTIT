@@ -13,6 +13,7 @@
 #include <fstream>
 #include <cctype>
 #include "graphics.h"
+#include <sstream>
 using namespace std;
 
 //void a() {

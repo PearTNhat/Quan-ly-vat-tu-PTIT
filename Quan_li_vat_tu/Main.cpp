@@ -13,7 +13,6 @@ int main() {
 	// nhân viên
 	DS_NhanVien ds_nv;
 	DS_HoaDon ds_hdP;
-	DS_HoaDon* dshd_tk = NULL;
 	check_CURD delete_sf[ROW_STAFF];
 	check_CURD edit_sf[ROW_STAFF];
 	view_page vp_m_sf;
@@ -153,10 +152,10 @@ int main() {
 							do_hoa_search_doanh_thu();
 							thong_ke_doanh_thu_pg = true;
 							thong_ke_hd_pg = false;
-							year = "";
+							year_dt = "";
 						}
-						xu_li_tra_cuu_doanh_thu(x, y, year, thong_ke_doanh_thu_pg);
-						//xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, arr_temp);
+						xu_li_tra_cuu_doanh_thu(x, y, year_dt, thong_ke_doanh_thu_pg, ds_nv);
+						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, ds_nv);
 						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y))
 							goto start;
 						if (out_table) goto start_again;
