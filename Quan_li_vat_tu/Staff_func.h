@@ -131,7 +131,10 @@ void write_file_staff(DS_NhanVien ds_nv) {
 			while (nodeIt_HD != NULL) {
 				write_file << nodeIt_HD->hoadon.SoHD << ",";
 				write_file << nodeIt_HD->hoadon.date.ngay << "/" << nodeIt_HD->hoadon.date.thang << "/" << nodeIt_HD->hoadon.date.nam << ",";
-				write_file << nodeIt_HD->hoadon.Loai << endl;
+				if (nodeIt_HD->next != NULL) {
+					write_file << nodeIt_HD->hoadon.Loai << "," << endl;
+				}
+				else write_file << nodeIt_HD->hoadon.Loai << endl;
 				if (nodeIt_HD->hoadon.first_cthd != NULL) {
 					DS_CT_HoaDon* nodeIt_CT = nodeIt_HD->hoadon.first_cthd;
 					write_file << getNumOfCTHD(nodeIt_CT) << endl;

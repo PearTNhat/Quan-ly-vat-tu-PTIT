@@ -384,7 +384,11 @@ PTRHD Newnode_HD(HoaDon x = {})
 }
 PTRHD p = Newnode_HD();
 
-
+PTRHD getLastNodeHD(PTRHD first) {
+	PTRHD nodeIt = first;
+	while (nodeIt->next != NULL) nodeIt = nodeIt->next;
+	return nodeIt;
+}
 
 // them vao dau hoadon
 void Insert_First_HD(PTRHD& First, HoaDon x)
