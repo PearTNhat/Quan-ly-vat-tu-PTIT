@@ -452,11 +452,10 @@ int getNumOfCTHD(dscthd first_cthd) {
 	return count;
 }
 
-void Insert_after_HD_Thutu(PTRHD &First, HoaDon x) {
-	PTRHD p = First;
+void Insert_after_HD_Thutu(PTRHD p, HoaDon x) {
 	PTRHD q;
-	if (First == NULL) {
-		Insert_First_HD(First, x);
+	if (p == NULL) {
+		Insert_First_HD(p, x);
 	}
 	else {
 		while (stoi(string(p->next->hoadon.SoHD).substr(2)) < stoi(string(x.SoHD).substr(2)) && p->next->next != NULL) {
@@ -475,11 +474,10 @@ void Insert_after_HD_Thutu(PTRHD &First, HoaDon x) {
 	
 }
 
-void Insert_after_CTHD_thutu(dscthd &first_cthd, CT_HoaDon x) {
-	dscthd p = first_cthd;
+void Insert_after_CTHD_thutu(dscthd p, CT_HoaDon x) {
 	dscthd q;
-	if (first_cthd == NULL) {
-		Insert_First_CTHD(first_cthd, x);
+	if (p == NULL) {
+		Insert_First_CTHD(p, x);
 	}
 	else {
 		while (stoi(string(p->next->ct_hoadon.MAVT).substr(2)) < stoi(string(x.MAVT).substr(2)) && p->next->next != NULL) {
