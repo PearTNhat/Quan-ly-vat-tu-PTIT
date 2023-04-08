@@ -116,13 +116,11 @@ int main() {
 			}
 			if (ss_page) {
 				test_data(ds_nv);
-				//print_dshd(ds_hd);
-				//check_temp_arr_info(arr_temp);
 				bool is_error = false;
 				bool thong_ke_hd_pg = false;
 				bool thong_ke_doanh_thu_pg = false;
 				bool is_all_valid = true;
-				bool error_dayb = false, error_monthb = false, error_yearb = false, error_daye = false, error_monthe = false, error_yeare = false;
+				bool error_dayb = false, error_monthb = false, error_yearb = false, error_daye = false, error_monthe = false, error_yeare = false, error_year = false;
 				create_ss_header();
 				while (1) { 
 					if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -130,6 +128,7 @@ int main() {
 					start_again:
 						out_table = false;
 						if (ktVT(15, 70, 310, 110, x, y)) {
+							is_all_valid = true;
 							setlinestyle(0, 0, 3);
 							delete_after_header();
 							create_ss_header();
@@ -145,6 +144,7 @@ int main() {
 							year_e = "";
 						}
 						if (ktVT(320, 70, 640, 110, x, y)) {
+							is_all_valid = true;
 							setlinestyle(0, 0, 3);
 							delete_after_header();
 							create_ss_header();
@@ -154,7 +154,7 @@ int main() {
 							thong_ke_hd_pg = false;
 							year_dt = "";
 						}
-						xu_li_tra_cuu_doanh_thu(x, y, year_dt, thong_ke_doanh_thu_pg, ds_nv);
+						xu_li_tra_cuu_doanh_thu(x, y, is_all_valid, error_year, year_dt, thong_ke_doanh_thu_pg, ds_nv);
 						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, ds_nv);
 						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y))
 							goto start;

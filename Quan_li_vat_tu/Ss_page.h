@@ -107,19 +107,19 @@ void ss_table(
 	string from_date = "Tu " + day_b + "/" + month_b + "/" + year_b + " den " + day_e + "/" + month_e + "/" + year_e;
 	char m[50];
 	strcpy_s(m, from_date.c_str());
-	writeText(450, 140, (char*)"THONG KE HOA DON", 4, 15, 8, bk_screen);
+	writeText(450, 140, (char*)"THỐNG KÊ HÓA ĐƠN", 4, 15, 8, bk_screen);
 	writeText(480, 170, m, 2, 15, 8, bk_screen);
 	// header num_rows
-	int bar_top = 220, bar_bottom = 250;
+	int bar_top = 220, bar_bottom = 252;
 	int text_top = 225;
 	setcolor(0);
 	setfillstyle(1, 6);
 	setbkcolor(6);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 	setcolor(15);
-	settextstyle(f_small, 0, 1);
+	settextstyle(f_small, 0, 2);
 	outtextxy(55, text_top, (char*)"STT");
-	outtextxy(95, text_top, ss_table_header[0]);
+	outtextxy(110, text_top, ss_table_header[0]);
 	outtextxy(230, text_top, ss_table_header[1]);
 	outtextxy(480, text_top, ss_table_header[2]);
 	outtextxy(660, text_top, ss_table_header[3]);
@@ -146,9 +146,9 @@ void ss_table(
 		// title header
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
-		writeText(55, text_top, stt, 1, 0, 3, 15);
+		writeText(70, text_top, stt, 1, 0, 3, 15);
 		DS_HoaDon* tempNode = getIndexBill(ds, i);
-		writeText(95, text_top, tempNode->hoadon.SoHD, 1, 0, 3, 15);
+		writeText(114, text_top, tempNode->hoadon.SoHD, 1, 0, 3, 15);
 		string full_date = "";
 		full_date += to_string(tempNode->hoadon.date.ngay);
 		full_date += " / ";
@@ -217,31 +217,36 @@ void table_doanhThu(
 	// reder page
 	int i = 0;
 	// create table title
-	string title = "THONG KE DOANH THU ";
+	string title = "THỐNG KÊ DOANH THU NĂM ";
 	title += year_dt;
 	const char* m = title.c_str();
-	writeText(395, 120, (char*)m, 4, 15, 8, bk_screen);
+	writeText(350, 115, (char*)m, 4, 15, 8, bk_screen);
 	// header num_rows
-	int bar_top = 160;
-	int bar_bottom = 200;
-	int text_top = 165;
+	int bar_top = 147, bar_bottom = 179;
+	int text_top = 152;
 
 	setcolor(0);
 	setfillstyle(1, 6);
 	setbkcolor(6);
 	bar3d(250, bar_top, 950, bar_bottom, 0, 0);
 	setcolor(15);
-	settextstyle(f_small, 0, 1);
-	outtextxy(440, text_top, table_doanhThu_header[0]);
-	outtextxy(680, text_top, table_doanhThu_header[1]);
+	settextstyle(f_small, 0, 2);
+	outtextxy(435, text_top, table_doanhThu_header[0]);
+	outtextxy(670, text_top, table_doanhThu_header[1]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	for (; i < 12; i++)
 	{
-		bar_top += 35;
-		bar_bottom += 35;
-		text_top += 35;
-		// row
+		if (i == 0) {
+			bar_top += 30;
+			bar_bottom += 38;
+			text_top += 35;
+		}
+		else {
+			bar_top += 35;
+			bar_bottom += 35;
+			text_top += 35;
+		}
 		setcolor(0);
 		bar3d(250, bar_top, 950, bar_bottom, 0, 0);
 		// title header
@@ -262,9 +267,9 @@ void table_doanhThu(
 					DS_CT_HoaDon* nodeCT = nodeHD->hoadon.first_cthd;
 					while (nodeCT != NULL) {
 						if (nodeCT->ct_hoadon.TrangThai == 1) {
-							doanh_thu += nodeCT->ct_hoadon.Dongia;
+							doanh_thu += nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong;
 						}
-						else doanh_thu -= nodeCT->ct_hoadon.Dongia;
+						else doanh_thu -= nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong;
 						nodeCT = nodeCT->next;
 					}
 				}
@@ -276,10 +281,14 @@ void table_doanhThu(
 
 		string thang = to_string(i + 1);
 		const char* m = thang.c_str();
-		writeText(452, text_top, (char*)m, 1, 0, 3, 15);
+		int indent = 0;
+		if (strlen(m) == 2) indent += 5;
+		writeText(452 - indent, text_top, (char*)m, 1, 0, 3, 15);
 		string doanh_thu_str = formatNumber(doanh_thu);
 		m = doanh_thu_str.c_str();
-		writeText(720, text_top, (char*)m, 1, 0, 3, 15);
+		indent = 0;
+		indent += 3*(strlen(m) - 0);
+		writeText(720 - indent, text_top, (char*)m, 1, 0, 3, 15);
 	}
 }
 
@@ -495,32 +504,32 @@ void do_hoa_search_hd() {
 
 	setlinestyle(0, 0, 1);
 	// Thanh tieu de
-	const char* title = "Tim Kiem Hoa Don";
+	const char* title = "Tìm kiếm hóa đơn";
 	text_box(440, 140, 750, 181, (char*)title, 10, 3, 10, 40, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiem
-	text_box(310, 480, 890, 520, (char*)"Tim kiem", f_medium, 3, 10, 230, COLOR(252, 186, 3), 0);
+	text_box(310, 480, 890, 520, (char*)"Tìm kiếm", f_medium, 3, 10, 230, COLOR(252, 186, 3), 0);
 	// Begin
-	text_box(290, 190, 520, 230, (char*)"Tu ngay (begin)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
+	text_box(290, 190, 520, 230, (char*)"Từ ngày (begin)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
 	setcolor(0);
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SS);
-	outtextxy(320, 260, (char*)"Ngay");
+	outtextxy(320, 260, (char*)"Ngày");
 	bar3d(400, 250, 500, 285, 0, 0);
-	outtextxy(530, 260, (char*)"Thang");
+	outtextxy(530, 260, (char*)"Tháng");
 	bar3d(610, 250, 710, 285, 0, 0);
-	outtextxy(740, 260, (char*)"Nam");
+	outtextxy(740, 260, (char*)"Năm");
 	bar3d(800, 250, 900, 285, 0, 0);
 	// End
-	text_box(290, 300, 520, 340, (char*)"Den ngay (end)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
+	text_box(290, 300, 520, 340, (char*)"Đến ngày (end)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
 	setcolor(0);
 	text_box(540, 300, 650, 340, (char*)"TODAY", f_medium, 3, 10, 20, COLOR(252, 186, 3), 0);
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SS);
-	outtextxy(320, 370, (char*)"Ngay");
+	outtextxy(320, 370, (char*)"Ngày");
 	bar3d(400, 360, 500, 395, 0, 0);
-	outtextxy(530, 370, (char*)"Thang");
+	outtextxy(530, 370, (char*)"Tháng");
 	bar3d(610, 360, 710, 395, 0, 0);
-	outtextxy(740, 370, (char*)"Nam");
+	outtextxy(740, 370, (char*)"Năm");
 	bar3d(800, 360, 900, 395, 0, 0);
 }
 
@@ -751,24 +760,23 @@ void do_hoa_search_doanh_thu() {
 
 	// Thanh tieu de
 	setlinestyle(0, 0, 1);
-	const char* title = "Tra cuu doanh thu";
+	const char* title = "Tra cứu doanh thu";
 	text_box(440, 140, 750, 181, (char*)title, 10, 3, 10, 40, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiemi
-	text_box(450, 410, 750, 450, (char*)"Tra cuu", f_medium, 3, 10, 100, COLOR(255, 153, 51), 0);
+	text_box(450, 410, 750, 450, (char*)"Tra cứu", f_medium, 3, 10, 100, COLOR(255, 153, 51), 0);
 	// User input 
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SS);
-	outtextxy(350, 290, (char*)"Nhap nam can tra cuu:");
+	outtextxy(350, 290, (char*)"Nhập năm cần tra cứu:");
 	bar3d(670, 285, 835, 320, 0, 0);
 }
 
-void xu_li_tra_cuu_doanh_thu(int &x, int &y, string &year, bool page, DS_NhanVien ds_nv) {
-	bool is_all_valid = true;
-	bool is_error = false;
+void xu_li_tra_cuu_doanh_thu(int &x, int &y, bool &is_all_valid, bool &error_year, string &year, bool page, DS_NhanVien ds_nv) {
 	if (ktVT(670, 285, 835, 320, x, y) && page) {
 		cout << "Tien hanh nhap input --nam";
-		year = ss_page_input(is_all_valid, is_error, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year_search_doanh_thu", false, COLOR_INFOR_SS);
+		year = ss_page_input(is_all_valid, error_year, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year_search_doanh_thu", false, COLOR_INFOR_SS);
 	}
+	if (!is_all_valid) return;
 	if (ktVT(450, 410, 750, 450, x, y) && page) {
 		cout << "Click button tim kiem" << endl;
 		// check empty 
