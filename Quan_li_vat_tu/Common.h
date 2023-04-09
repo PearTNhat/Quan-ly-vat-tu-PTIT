@@ -224,6 +224,39 @@ std::string formatNumber(int num) {
 
 	return numStr;
 }
+
+struct DS_tempNV {
+	char hoTenNV[40];
+	DS_tempNV* next;
+};
+
+DS_tempNV* taoNodeTempNV(char hoten[40]) {
+	DS_tempNV* phanTuMoi = new DS_tempNV();
+	strcpy_s(phanTuMoi->hoTenNV, hoten);
+	phanTuMoi->next = NULL;
+	return phanTuMoi;
+}
+
+void insert_last_DS_tempNV(DS_tempNV*& first, char hoten[40]) {
+	DS_tempNV* temp = taoNodeTempNV(hoten);
+	if (first == NULL) first = temp;
+	else {
+		DS_tempNV* nodeIt = first;
+		while (nodeIt->next != NULL) nodeIt = nodeIt->next;
+		nodeIt->next = temp;
+	}
+}
+
+
+DS_tempNV* getIndexTempNV(DS_tempNV* first, int index) {
+	int i = 0;
+	DS_tempNV* nodeIt = first;
+	while (nodeIt != NULL) {
+		if (i++ == index) return nodeIt;
+		nodeIt = nodeIt->next;
+	}
+	return NULL;
+}
 //void staff_table(
 //	char sf_table_header[][20],
 //	DS_NhanVien ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
