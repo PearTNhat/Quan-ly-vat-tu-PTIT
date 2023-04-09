@@ -873,7 +873,7 @@ void  xu_li_thong_ke_hd(
 	// input year 
 	if (ktVT(800, 250, 900, 285, x, y) && page) {
 		cout << "Tien hanh nhap input -nam\n";
-		cout << "is_all_valid: " << is_all_valid << endl;
+		std::cout << "is_all_valid: " << is_all_valid << endl;
 		cout << "is_error: " << error_yearb << endl;
 		year_b = ss_page_input(is_all_valid, error_yearb, x, y, 800, 250, 900, 285, 30, 10, 510, 445, 50, year_b, 4, 1, "year", false, COLOR_INFOR_SS);
 		goto start_input;

@@ -1,6 +1,9 @@
-VT035,Bua,Cai,15
-VT060,Sat,Kg,145
+GL,Gao Lua,Kg,213123
 VT012,Cat,Khoi,145
+VT035,Bua,Cai,15
 VT003,Da,Khoi,345
 VT025,Gach,Vien,12345
+DAWSDASD,Sadasdas,Wewq,55234452
+KC,Kim Bam,Cai,2321
+VT060,Sat,Kg,145
 VT015,Xi Mang,Bao,1345

@@ -38,6 +38,7 @@ int main() {
 	setbkcolor(bk_screen);
 	cleardevice();
 	createHeader(header_title);
+	write_file_goods(ds_vt);
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);

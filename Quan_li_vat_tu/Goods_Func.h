@@ -3,9 +3,11 @@
 #define COLS_G 10
 // them vaof hoa don k dc xoa vat tu
 // xem lai cach viet hoa cua ten vt
+// chekc ten vt trung
 //
 void create_g_header();
 void goods_infor(string mvt="", string tvt="", string dvt="", string slt="");
+//
 void create_g_header() {
 	setfillstyle(1, 15);
 	setcolor(0);
@@ -33,10 +35,62 @@ void read_file_goods(DS_VatTu *&ds_vt) {
 	}
 	readFile.close();
 }
-void write_file_goods(DS_VatTu *ds_vt) {
-	ofstream writeFile("./Data/goods.txt");
-	writeFile.close();
+void asign_LNR_Goods(DS_VatTu* ds_vt, templeGoods& arrGoods, int& k) {
+	if (ds_vt != NULL) {
+		asign_LNR_Goods(ds_vt->left, arrGoods, k);
+		arrGoods.a[k++] = ds_vt;
+		asign_LNR_Goods(ds_vt->right, arrGoods, k);
+	}
 }
+void selectMiddle(templeGoods arr, int l, int r, ofstream& writeFile,string mvt) {
+	int middle = (l + r) / 2;
+	if (l <= r) {
+			writeFile << arr.a[middle]->vat_tu.maVT << ",";
+			writeFile << arr.a[middle]->vat_tu.tenVT << ",";
+			writeFile << arr.a[middle]->vat_tu.DVT << ",";
+			if (mvt== (string)arr.a[middle]->vat_tu.maVT) {
+				writeFile << arr.a[middle]->vat_tu.SLT ;
+			}
+			else {
+				writeFile << arr.a[middle]->vat_tu.SLT << endl;
+		
+				}
+		selectMiddle(arr, l, middle - 1, writeFile, mvt);
+		selectMiddle(arr, middle + 1, r, writeFile, mvt);
+	}
+}
+void write_file_goods(DS_VatTu *ds_vt) {
+	int k = 0;
+	templeGoods arrGoods(getSizeGoods(ds_vt));
+	ofstream writeFile("./Data/goods.txt");
+	asign_LNR_Goods(ds_vt, arrGoods, k);
+	string mvt = getIndexGoods(ds_vt, getSizeGoods(ds_vt))->vat_tu.maVT;
+	selectMiddle(arrGoods,0,arrGoods.capacity-1, writeFile,mvt);
+	delete[]arrGoods.a;
+}
+
+//void write_file_goods(DS_VatTu *ds_vt) {
+//	string mvt = getIndexGoods( ds_vt,getSizeGoods(ds_vt))->vat_tu.maVT;
+//	ofstream writeFile("./Data/goods.txt");
+//	write_LNR_goods(ds_vt, writeFile,mvt);
+//	writeFile.close();
+//}
+//void write_LNR_goods(DS_VatTu *ds_vt,ofstream &writeFile,string mvt) {
+//	if (ds_vt!=NULL) {
+//		write_LNR_goods(ds_vt->left, writeFile,mvt);
+//		writeFile << ds_vt->vat_tu.maVT << ",";
+//		writeFile << ds_vt->vat_tu.tenVT << ",";
+//		writeFile << ds_vt->vat_tu.DVT << ",";
+//		if (mvt== (string)ds_vt->vat_tu.maVT) {
+//			writeFile << ds_vt->vat_tu.SLT ;
+//		}
+//		else {
+//		writeFile << ds_vt->vat_tu.SLT << endl;
+//
+//		}
+//		write_LNR_goods(ds_vt->right, writeFile,mvt);
+//	}
+//}
 void goods_infor(string mvt, string tvt,string dvt,string slt) {
 	delete_after_header();
 	text_box(430, 90, 800, 130, (char*)"Chinh sua thong tin vat tu", f_medium, 2, 10, 10, 11, 0);
@@ -157,17 +211,13 @@ void goods_table(
 void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string& t_tvt, string& t_dvt, string& t_slt, int i_CRUD , bool& isEdit, bool& isAdd) {
 start:;
 	int checkSubmit[4];
-	cout << "\n dasdsa";
 	if (isAdd) {
 		for (int i = 0; i < 4; i++)
 		{
 			checkSubmit[i] = -1;
 		}
-		
-		cout << "\n add ";
 	}
 	if (isEdit) {
-		cout << "\n edit ";
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -206,7 +256,10 @@ start:;
 				}
 			}
 			if (ktVT(430, 225, 800, 255, x, y)) { // ten vat tu
-				t_tvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_tvt, 25, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
+				while (1) {
+					t_tvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_tvt, 25, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
+
+				}
 				if (isAdd) {
 					if (t_tvt.length() > 0) {
 						checkSubmit[1] = 1;
@@ -291,6 +344,14 @@ start:;
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT =stoi(t_slt);
 						insertNode(ds_vt,vt_temp);
+						write_file_goods(ds_vt);
+						text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
+						announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
+						delay(500);
+						goods_infor();
+						x = NULL, y = NULL;
+						t_mvt = t_dvt = t_slt = t_tvt = "";
+						goto start;
 					}
 					if (isEdit) {
 						vt_temp = {};
@@ -299,14 +360,14 @@ start:;
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT = stoi(t_slt);
 						getIndexGoods(ds_vt, i_CRUD)->vat_tu = vt_temp;
+						
 					}
+					write_file_goods(ds_vt);
 					text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
 					announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
 					delay(500);
-					goods_infor();
-					x = NULL, y = NULL;
-					t_mvt = t_dvt = t_slt = t_tvt = "";
-					goto start;
+					goto sf_end;
+					
 				}
 				else {
 					int left_error = 630;
@@ -372,6 +433,8 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 						i_CRUD += 1;
 						string tvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.tenVT;
 						deleteNode(ds_vt, tvt);
+						write_file_goods(ds_vt);
+
 						goto sf_out;
 					}
 					else {
@@ -414,6 +477,7 @@ sf_out:;
 		int slt = getIndexGoods(ds_vt,i_CRUD)->vat_tu.SLT;
 		string t_slt = to_string(slt);
 		handleInfor_goods(x, y, ds_vt, t_mvt, t_tvt, t_dvt, t_slt, i_CRUD, g_isEdit, g_isAdd);
+
 	}
 	if (g_isAdd) {
 		string t_add_mnt = "";

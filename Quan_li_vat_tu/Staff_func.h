@@ -400,7 +400,6 @@ start:;
 			if (ktVT(840, 420, 910, 450, x, y)) {
 				if (checkSubmitEditAdd(checkSubmit, 4) == 0) {
 					if (sf_isAdd) { //add
-
 						NhanVien* nv_temp = new NhanVien;
 						nv_temp->ds_hoadon = NULL;
 						strcpy_s(nv_temp->maNV, t_mnv.c_str());
@@ -409,6 +408,15 @@ start:;
 						strcpy_s(nv_temp->phai, t_gender.c_str());
 						insertOrderd_Staff(ds_nv, nv_temp);
 						ds_nv.length++;
+						text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
+						announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
+						write_file_staff(ds_nv);
+						delay(500);
+						x = NULL, y = NULL;
+						staff_infor();
+						t_gender = t_ho = t_mnv = t_ten = "";
+						write_file_staff(ds_nv);
+						goto start;
 					}
 					else { // edit
 						strcpy_s(ds_nv.nhan_vien[i_CRUD]->maNV, t_mnv.c_str());
@@ -419,12 +427,11 @@ start:;
 
 					text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
 					announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
-					delay(500);
-					x = NULL, y = NULL;
-					staff_infor();
-					t_gender = t_ho = t_mnv = t_ten = "";
 					write_file_staff(ds_nv);
-					goto start;
+					delay(500);
+					sf_isEdit = false;
+					sf_isAdd = false;
+					goto sf_end;
 				}
 				else {
 					int left_error = 630;
@@ -526,12 +533,12 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], 
 	}
 sf_out:;
 	if (sf_isEdit) {
-
 		string t_mnv = ds_nv.nhan_vien[i_CRUD]->maNV;
 		string t_ho = ds_nv.nhan_vien[i_CRUD]->ho;
 		string t_ten = ds_nv.nhan_vien[i_CRUD]->ten;
 		string t_gender = ds_nv.nhan_vien[i_CRUD]->phai;
 		handleInfor_staff(x, y, ds_nv, i_CRUD, t_mnv, t_ho, t_ten, t_gender, "edit", sf_isEdit, sf_isAdd);
+		
 	}
 	if (sf_isAdd) {
 		string t_add_mnv = "";
