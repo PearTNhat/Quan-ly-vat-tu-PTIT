@@ -77,15 +77,18 @@ void delete_after_header() {
 	setfillstyle(1, bk_screen);
 	bar(0, 60, 1200, 900);
 }
-void page_transition(view_page& view_page) {
+void page_transition(view_page& view_page, bool printHD = false) {
 	int l_arrow_l = 495, t_arrow_l = 565, r_arrow_l = 530, b_arrow_l = 600;
 	int l_arrow_r = 650, t_arrow_r = 565, r_arrow_r = 685, b_arrow_r = 600;
 	string s = to_string(view_page.current) + " / " + to_string(view_page.page);
 	char num_p[10];
 	strcpy_s(num_p, s.c_str());
-	setbkcolor(bk_screen);
+	if (printHD) 
+		setbkcolor(15);
+	else setbkcolor(bk_screen);
 	settextstyle(f_small, 0, 2);
-	setcolor(15);
+	if (printHD) setcolor(0);
+	else setcolor(15);
 	outtextxy(575, 570, num_p);
 	char arrow_left[] = "<";
 	char arrow_right[] = ">";

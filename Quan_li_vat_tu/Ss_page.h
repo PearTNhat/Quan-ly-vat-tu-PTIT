@@ -96,16 +96,6 @@ void create_ss_header() {
 	text_box(320, 70, 640, 110, (char*)"Thong ke doanh thu", f_medium, 3, 10, 40, ss_page_header_box_color);
 }
 
-DS_HoaDon* getIndexBill(DS_HoaDon* first, int index) {
-	int i = 0;
-	DS_HoaDon* nodeIt = first;
-	while (nodeIt != NULL) {
-		if (i++ == index) return nodeIt;
-		nodeIt = nodeIt->next;
-	}
-	return NULL;
-}
-
 void test_temp(DS_tempNV* first) {
 	if (first == NULL) std::cout << "========================== troi oi! tempNV k co phantu";
 	else {
@@ -122,8 +112,8 @@ void test_temp(DS_tempNV* first) {
 
 void ss_table(
 	char ss_table_header[][20],
-	DS_HoaDon*& ds,
-	DS_tempNV*& dstempNV,
+	DS_HoaDon* ds,
+	DS_tempNV* dstempNV,
 	view_page& view_page,
 	int num_per_pg
 ) {
@@ -257,7 +247,7 @@ ss_end:;
 
 void table_doanhThu(
 	char table_doanhThu_header[][20],
-	DS_HoaDon*& ds
+	DS_HoaDon* ds
 ) {
 	delete_after_header();
 	create_ss_header();
