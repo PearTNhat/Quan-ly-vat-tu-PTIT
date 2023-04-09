@@ -456,50 +456,6 @@ int getNumOfCTHD(dscthd first_cthd) {
 	return count;
 }
 
-void Insert_after_HD_Thutu(PTRHD p, HoaDon x) {
-	PTRHD q;
-	if (p == NULL) {
-		Insert_First_HD(p, x);
-	}
-	else {
-		while (stoi(string(p->next->hoadon.SoHD).substr(2)) < stoi(string(x.SoHD).substr(2)) && p->next->next != NULL) {
-			p = p->next;
-		}
-		if (stoi(string(x.SoHD)) > stoi(string(p->next->hoadon.SoHD))) {
-			Insert_last_HD(p, x);
-		}
-		else {
-			q = new DS_HoaDon;
-			q->hoadon = x;
-			q->next = p->next;
-			p->next = q;
-		}
-	}
-	
-}
-
-void Insert_after_CTHD_thutu(dscthd p, CT_HoaDon x) {
-	dscthd q;
-	if (p == NULL) {
-		Insert_First_CTHD(p, x);
-	}
-	else {
-		while (stoi(string(p->next->ct_hoadon.MAVT).substr(2)) < stoi(string(x.MAVT).substr(2)) && p->next->next != NULL) {
-			p = p->next;
-		}
-		if (stoi(string(x.MAVT).substr(2)) > stoi(string(p->next->ct_hoadon.MAVT).substr(2))) {
-			Insert_last_CTHD(p, x);
-		}
-		else {
-			q = new DS_CT_HoaDon;
-			q->ct_hoadon = x;
-			q->next = p->next;
-			p->next = q;
-		}
-	}
-}
-
-
 char menu()
 {
 	char chucnang;

@@ -30,13 +30,13 @@ struct ds_tmp {
 void create_ss_header();
 bool ktra_loi_input(string input, int max_value, string input_field, int input_result, int e_kcl, int e_kct, int i_error_color, int i_bg, int i_highlight, int i_color);
 void get_current_date(string& day_e, string& month_e, string& year_e);
-void ss_handleTable(int& x, int& y, DS_HoaDon*& dshd);
+void ss_handleTable(int& x, int& y, DS_HoaDon*& dshd, DS_tempNV*& dstempnv);
 void get_current_date(string& day_e, string& month_e, string& year_e);
 bool xu_li_nam_nhuan(int day, int month, int year, string& error_leap_year);
 void xu_li_button_tim_kiem(int& x, int& y, bool is_all_valid, string dayb, string monthb, string yearb, string daye, string monthe, string yeare, DS_NhanVien ds_nv);
 int compareDate(Date date1, Date date2);
 
-void insertionSortDSHD(DS_HoaDon*& ds_hd) {
+void insertionSortDSHD(DS_HoaDon*& ds_hd, DS_tempNV*& ds_nv) {
 	if (ds_hd == NULL || ds_hd->next == NULL) {
 		return; // The list is already sorted
 	}
@@ -45,28 +45,47 @@ void insertionSortDSHD(DS_HoaDon*& ds_hd) {
 	ds_hd = ds_hd->next;
 	sorted_head->next = NULL;
 
+	DS_tempNV* sorted_head_nv = ds_nv;
+	ds_nv = ds_nv->next;
+	sorted_head_nv->next = NULL;
+
 	while (ds_hd != NULL) {
 		DS_HoaDon* node = ds_hd;
 		ds_hd = ds_hd->next;
 		node->next = NULL;
 
+		DS_tempNV* node_nv = ds_nv;
+		ds_nv = ds_nv->next;
+		node_nv->next = NULL;
+
 		if (compareDate(node->hoadon.date, sorted_head->hoadon.date) < 0) {
 			node->next = sorted_head;
 			sorted_head = node;
+
+			node_nv->next = sorted_head_nv;
+			sorted_head_nv = node_nv;
 			continue;
 		}
 
 		DS_HoaDon* current = sorted_head;
+		
+		DS_tempNV* currentNV = sorted_head_nv;
+
 		while (current->next != NULL &&
 			compareDate(current->next->hoadon.date, node->hoadon.date) < 0) {
 			current = current->next;
+			currentNV = currentNV->next;
 		}
 
 		node->next = current->next;
 		current->next = node;
+
+		node_nv->next = currentNV->next;
+		currentNV->next = node_nv;
 	}
 
 	ds_hd = sorted_head;
+	ds_nv = sorted_head_nv;
 }
 
 void create_ss_header() {
@@ -87,9 +106,24 @@ DS_HoaDon* getIndexBill(DS_HoaDon* first, int index) {
 	return NULL;
 }
 
+void test_temp(DS_tempNV* first) {
+	if (first == NULL) std::cout << "========================== troi oi! tempNV k co phantu";
+	else {
+		int count = 0;
+		DS_tempNV* nodeIt = first;
+		while (nodeIt != NULL) {
+			std::cout << "Ho ten: " << nodeIt->hoTenNV << std::endl;
+			nodeIt = nodeIt->next;
+			count++;
+		}
+		cout << "DS co " << count << " phan tu" << std::endl;
+	}
+}
+
 void ss_table(
 	char ss_table_header[][20],
-	DS_HoaDon* &ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
+	DS_HoaDon*& ds,
+	DS_tempNV*& dstempNV,
 	view_page& view_page,
 	int num_per_pg
 ) {
@@ -107,19 +141,19 @@ void ss_table(
 	string from_date = "Tu " + day_b + "/" + month_b + "/" + year_b + " den " + day_e + "/" + month_e + "/" + year_e;
 	char m[50];
 	strcpy_s(m, from_date.c_str());
-	writeText(450, 140, (char*)"THONG KE HOA DON", 4, 15, 8, bk_screen);
+	writeText(450, 140, (char*)"THỐNG KÊ HÓA ĐƠN", 4, 15, 8, bk_screen);
 	writeText(480, 170, m, 2, 15, 8, bk_screen);
 	// header num_rows
-	int bar_top = 220, bar_bottom = 250;
+	int bar_top = 220, bar_bottom = 252;
 	int text_top = 225;
 	setcolor(0);
 	setfillstyle(1, 6);
 	setbkcolor(6);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 	setcolor(15);
-	settextstyle(f_small, 0, 1);
+	settextstyle(f_small, 0, 2);
 	outtextxy(55, text_top, (char*)"STT");
-	outtextxy(95, text_top, ss_table_header[0]);
+	outtextxy(110, text_top, ss_table_header[0]);
 	outtextxy(230, text_top, ss_table_header[1]);
 	outtextxy(480, text_top, ss_table_header[2]);
 	outtextxy(660, text_top, ss_table_header[3]);
@@ -128,6 +162,7 @@ void ss_table(
 	setbkcolor(15);
 	int d = 0;//delete
 	int e = 0;//edit
+	test_temp(dstempNV);
 	for (; i < max_rows; i++)
 	{
 		if (i % num_per_pg == 0) {
@@ -146,31 +181,42 @@ void ss_table(
 		// title header
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
-		writeText(55, text_top, stt, 1, 0, 3, 15);
-		DS_HoaDon* tempNode = getIndexBill(ds, i);
-		writeText(95, text_top, tempNode->hoadon.SoHD, 1, 0, 3, 15);
+		writeText(70, text_top, stt, 1, 0, 3, 15);
+		DS_HoaDon* tempNodeHD = getIndexBill(ds, i);
+		DS_tempNV* tempNodeNV = getIndexTempNV(dstempNV, i);
+		writeText(114, text_top, tempNodeHD->hoadon.SoHD, 1, 0, 3, 15);
 		string full_date = "";
-		full_date += to_string(tempNode->hoadon.date.ngay);
+		full_date += to_string(tempNodeHD->hoadon.date.ngay);
 		full_date += " / ";
-		full_date += to_string(tempNode->hoadon.date.thang);
+		full_date += to_string(tempNodeHD->hoadon.date.thang);
 		full_date += " / ";
-		full_date += to_string(tempNode->hoadon.date.nam);
+		full_date += to_string(tempNodeHD->hoadon.date.nam);
 
 		char date[30];
 		strcpy_s(date, full_date.c_str());
 		writeText(230, text_top, date, 1, 0, 3, 15);
-		if (strcmp(tempNode->hoadon.Loai, "N") == 0) {
+		if (strcmp(tempNodeHD->hoadon.Loai, "N") == 0) {
 			writeText(490, text_top, (char*)"Nhap", 1, 0, 3, 15);
 		} else writeText(490, text_top, (char*)"Xuat", 1, 0, 3, 15);
-		writeText(650, text_top, (char*)"Bach Tieu Thuan", 1, 0, 3, 15);
-		writeText(920, text_top, (char*)"100.000", 1, 0, 3, 15);
+		writeText(650, text_top, tempNodeNV->hoTenNV, 1, 0, 3, 15);
+		// Lấy trị giá hóa đơn
+		float triGia = 0;
+		DS_CT_HoaDon* nodeCT = tempNodeHD->hoadon.first_cthd;
+		while (nodeCT != NULL) {
+			if (nodeCT->ct_hoadon.TrangThai == 1) {
+				triGia += (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong) + (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong * nodeCT->ct_hoadon.VAT / 100);
+			}
+			nodeCT = nodeCT->next;
+		}
+		string triGia_str = formatNumber((int)triGia);
+		writeText(920, text_top, (char*)triGia_str.c_str(), 1, 0, 3, 15);
 	}
 
 	// < >
 	page_transition(view_page);
 }
 
-void ss_handleTable(int& x, int& y, DS_HoaDon* &ds) {
+void ss_handleTable(int& x, int& y, DS_HoaDon* &ds, DS_tempNV* &ds_tempnv) {
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -180,8 +226,9 @@ void ss_handleTable(int& x, int& y, DS_HoaDon* &ds) {
 					continue;
 				}
 				next_page(650, 565, 685, 600, vp_m_ss);
+			
 				delete_after_header();
-				ss_table(ss_table_header, ds, vp_m_ss, ROWS_PER_PG_SS);
+				ss_table(ss_table_header, ds, ds_tempnv, vp_m_ss, ROWS_PER_PG_SS);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_m_ss.current == 1) {
@@ -189,7 +236,7 @@ void ss_handleTable(int& x, int& y, DS_HoaDon* &ds) {
 				}
 				prev_page(495, 565, 530, 600, vp_m_ss);
 				delete_after_header();
-				ss_table(ss_table_header, ds, vp_m_ss, ROWS_PER_PG_SS);
+				ss_table(ss_table_header, ds, ds_tempnv, vp_m_ss, ROWS_PER_PG_SS);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				ss_page = false;
@@ -217,31 +264,36 @@ void table_doanhThu(
 	// reder page
 	int i = 0;
 	// create table title
-	string title = "THONG KE DOANH THU ";
+	string title = "THỐNG KÊ DOANH THU NĂM ";
 	title += year_dt;
 	const char* m = title.c_str();
-	writeText(395, 120, (char*)m, 4, 15, 8, bk_screen);
+	writeText(350, 115, (char*)m, 4, 15, 8, bk_screen);
 	// header num_rows
-	int bar_top = 160;
-	int bar_bottom = 200;
-	int text_top = 165;
+	int bar_top = 147, bar_bottom = 179;
+	int text_top = 152;
 
 	setcolor(0);
 	setfillstyle(1, 6);
 	setbkcolor(6);
 	bar3d(250, bar_top, 950, bar_bottom, 0, 0);
 	setcolor(15);
-	settextstyle(f_small, 0, 1);
-	outtextxy(440, text_top, table_doanhThu_header[0]);
-	outtextxy(680, text_top, table_doanhThu_header[1]);
+	settextstyle(f_small, 0, 2);
+	outtextxy(435, text_top, table_doanhThu_header[0]);
+	outtextxy(670, text_top, table_doanhThu_header[1]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	for (; i < 12; i++)
 	{
-		bar_top += 35;
-		bar_bottom += 35;
-		text_top += 35;
-		// row
+		if (i == 0) {
+			bar_top += 30;
+			bar_bottom += 38;
+			text_top += 35;
+		}
+		else {
+			bar_top += 35;
+			bar_bottom += 35;
+			text_top += 35;
+		}
 		setcolor(0);
 		bar3d(250, bar_top, 950, bar_bottom, 0, 0);
 		// title header
@@ -262,9 +314,9 @@ void table_doanhThu(
 					DS_CT_HoaDon* nodeCT = nodeHD->hoadon.first_cthd;
 					while (nodeCT != NULL) {
 						if (nodeCT->ct_hoadon.TrangThai == 1) {
-							doanh_thu += nodeCT->ct_hoadon.Dongia;
+							doanh_thu += nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong;
 						}
-						else doanh_thu -= nodeCT->ct_hoadon.Dongia;
+						else doanh_thu -= nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong;
 						nodeCT = nodeCT->next;
 					}
 				}
@@ -276,10 +328,14 @@ void table_doanhThu(
 
 		string thang = to_string(i + 1);
 		const char* m = thang.c_str();
-		writeText(452, text_top, (char*)m, 1, 0, 3, 15);
+		int indent = 0;
+		if (strlen(m) == 2) indent += 5;
+		writeText(452 - indent, text_top, (char*)m, 1, 0, 3, 15);
 		string doanh_thu_str = formatNumber(doanh_thu);
 		m = doanh_thu_str.c_str();
-		writeText(720, text_top, (char*)m, 1, 0, 3, 15);
+		indent = 0;
+		indent += 3*(strlen(m) - 0);
+		writeText(720 - indent, text_top, (char*)m, 1, 0, 3, 15);
 	}
 }
 
@@ -495,12 +551,12 @@ void do_hoa_search_hd() {
 
 	setlinestyle(0, 0, 1);
 	// Thanh tieu de
-	const char* title = "Tim Kiem Hoa Don";
+	const char* title = "Tìm kiếm hóa đơn";
 	text_box(440, 140, 750, 181, (char*)title, 10, 3, 10, 40, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiem
-	text_box(310, 480, 890, 520, (char*)"Tim kiem", f_medium, 3, 10, 230, COLOR(252, 186, 3), 0);
+	text_box(310, 480, 890, 520, (char*)"Tìm kiếm", f_medium, 3, 10, 230, COLOR(252, 186, 3), 0);
 	// Begin
-	text_box(290, 190, 520, 230, (char*)"Tu ngay (begin)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
+	text_box(290, 190, 520, 230, (char*)"Từ ngày (begin)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
 	setcolor(0);
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SS);
@@ -593,14 +649,21 @@ void getDataTKDT(DS_HoaDon*& ds, DS_NhanVien ds_nv, int year) {
 	}
 }
 
-void getDataTKHD(DS_HoaDon*& ds, DS_NhanVien ds_nv, Date date_begin, Date date_end) {
+void getDataTKHD(DS_HoaDon*& ds, DS_tempNV*& ds_tempNV, DS_NhanVien ds_nv, Date date_begin, Date date_end) {
 	int i;
 	for (i = 0; i < ds_nv.length; i++) {
-		DS_HoaDon* nodeHoaDon = ds_nv.nhan_vien[i]->ds_hoadon;
+		NhanVien* nv = ds_nv.nhan_vien[i];
+		DS_HoaDon* nodeHoaDon = nv->ds_hoadon;
 		while (nodeHoaDon != NULL) {
-			if (compareDate(date_begin, nodeHoaDon->hoadon.date) <= 0 && compareDate(date_end, nodeHoaDon->hoadon.date) >= 0)
+			if (compareDate(date_begin, nodeHoaDon->hoadon.date) <= 0 && compareDate(date_end, nodeHoaDon->hoadon.date) >= 0) {
 				Insert_last_HD(ds, nodeHoaDon->hoadon);
-			else if (compareDate(date_begin, nodeHoaDon->hoadon.date) > 0)
+				char ho_ten[40];
+				strcpy(ho_ten, nv->ho);
+				strcat(ho_ten, " ");
+				strcat(ho_ten, nv->ten);
+				insert_last_DS_tempNV(ds_tempNV, ho_ten);
+			}
+			else if (compareDate(nodeHoaDon->hoadon.date, date_end) > 0)
 				break;
 			nodeHoaDon = nodeHoaDon->next;
 		}
@@ -727,6 +790,7 @@ void xu_li_button_tim_kiem(
 	}
 	else if (error_leap_year == "" && !error_end && !error_begin_end) { // Ngày tháng năm đúng định dạng -> Tiến hành tạo table
 		DS_HoaDon* dshd_tk = NULL;
+		DS_tempNV* dstempnv = NULL;
 
 		Date date_begin;
 		date_begin.ngay = day_b;
@@ -737,10 +801,10 @@ void xu_li_button_tim_kiem(
 		date_end.thang = month_e;
 		date_end.nam = year_e;
 
-		getDataTKHD(dshd_tk, ds_nv, date_begin, date_end);
-		insertionSortDSHD(dshd_tk);
-		ss_table(ss_table_header, dshd_tk, vp_m_ss, ROWS_PER_PG_SS);
-		ss_handleTable(x, y, dshd_tk);
+		getDataTKHD(dshd_tk, dstempnv, ds_nv, date_begin, date_end);
+		insertionSortDSHD(dshd_tk, dstempnv);
+		ss_table(ss_table_header, dshd_tk, dstempnv, vp_m_ss, ROWS_PER_PG_SS);
+		ss_handleTable(x, y, dshd_tk, dstempnv);
 	}
 }
 
@@ -751,24 +815,23 @@ void do_hoa_search_doanh_thu() {
 
 	// Thanh tieu de
 	setlinestyle(0, 0, 1);
-	const char* title = "Tra cuu doanh thu";
+	const char* title = "Tra cứu doanh thu";
 	text_box(440, 140, 750, 181, (char*)title, 10, 3, 10, 40, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiemi
-	text_box(450, 410, 750, 450, (char*)"Tra cuu", f_medium, 3, 10, 100, COLOR(255, 153, 51), 0);
+	text_box(450, 410, 750, 450, (char*)"Tra cứu", f_medium, 3, 10, 100, COLOR(255, 153, 51), 0);
 	// User input 
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SS);
-	outtextxy(350, 290, (char*)"Nhap nam can tra cuu:");
+	outtextxy(350, 290, (char*)"Nhập năm cần tra cứu:");
 	bar3d(670, 285, 835, 320, 0, 0);
 }
 
-void xu_li_tra_cuu_doanh_thu(int &x, int &y, string &year, bool page, DS_NhanVien ds_nv) {
-	bool is_all_valid = true;
-	bool is_error = false;
+void xu_li_tra_cuu_doanh_thu(int &x, int &y, bool &is_all_valid, bool &error_year, string &year, bool page, DS_NhanVien ds_nv) {
 	if (ktVT(670, 285, 835, 320, x, y) && page) {
 		cout << "Tien hanh nhap input --nam";
-		year = ss_page_input(is_all_valid, is_error, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year_search_doanh_thu", false, COLOR_INFOR_SS);
+		year = ss_page_input(is_all_valid, error_year, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year_search_doanh_thu", false, COLOR_INFOR_SS);
 	}
+	if (!is_all_valid) return;
 	if (ktVT(450, 410, 750, 450, x, y) && page) {
 		cout << "Click button tim kiem" << endl;
 		// check empty 
