@@ -444,6 +444,7 @@ int getNumOfBill(PTRHD First) {
 	return count;
 }
 
+
 int getNumOfCTHD(dscthd first_cthd) {
 	int count = 0;
 	dscthd temp = first_cthd;
@@ -454,6 +455,26 @@ int getNumOfCTHD(dscthd first_cthd) {
 	temp = NULL;
 	delete temp;
 	return count;
+}
+
+DS_HoaDon* getIndexBill(DS_HoaDon* first, int index) {
+	int i = 0;
+	DS_HoaDon* nodeIt = first;
+	while (nodeIt != NULL) {
+		if (i++ == index) return nodeIt;
+		nodeIt = nodeIt->next;
+	}
+	return NULL;
+}
+
+DS_CT_HoaDon* getIndexCTHD(DS_CT_HoaDon* first, int index) {
+	int i = 0;
+	DS_CT_HoaDon* nodeIt = first;
+	while (nodeIt != NULL) {
+		if (i++ == index) return nodeIt;
+		nodeIt = nodeIt->next;
+	}
+	return NULL;
 }
 
 char menu()

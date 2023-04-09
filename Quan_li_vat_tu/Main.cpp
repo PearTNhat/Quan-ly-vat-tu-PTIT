@@ -99,7 +99,7 @@ int main() {
 			if (b_page) {
 				//demoPhu();
 				b_create_menu_title();
-				b_ktVT(x, y);
+				b_ktVT(x, y, ds_nv);
 				b_page = false;
 				goto batdau;
 
