@@ -204,7 +204,7 @@ void ss_table(
 		DS_CT_HoaDon* nodeCT = tempNodeHD->hoadon.first_cthd;
 		while (nodeCT != NULL) {
 			if (nodeCT->ct_hoadon.TrangThai == 1) {
-				triGia += nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong * nodeCT->ct_hoadon.VAT;
+				triGia += (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong) + (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong * nodeCT->ct_hoadon.VAT / 100);
 			}
 			nodeCT = nodeCT->next;
 		}
