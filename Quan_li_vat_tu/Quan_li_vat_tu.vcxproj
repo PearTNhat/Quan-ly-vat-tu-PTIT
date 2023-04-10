@@ -145,7 +145,7 @@
     <ClInclude Include="Bill_Func.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="Goods_Func.h" />
-    <ClInclude Include="Goods_tree.h" />
+    <ClInclude Include="Goods_FuncTree.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="input_bill.h" />

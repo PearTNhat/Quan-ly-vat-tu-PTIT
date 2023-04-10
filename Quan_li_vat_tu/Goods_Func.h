@@ -51,7 +51,6 @@ void selectMiddle(templeGoods arr, int l, int r, ofstream& writeFile,string mvt)
 			writeFile << arr.a[middle]->vat_tu.maVT << ",";
 			writeFile << arr.a[middle]->vat_tu.tenVT << ",";
 			writeFile << arr.a[middle]->vat_tu.DVT << ",";
-			cout << "select ";
 			writeFile << int(arr.a[middle]->vat_tu.trangThai)<< ",";
 			if (mvt== (string)arr.a[middle]->vat_tu.maVT) {
 				writeFile << arr.a[middle]->vat_tu.SLT ;
@@ -66,10 +65,14 @@ void selectMiddle(templeGoods arr, int l, int r, ofstream& writeFile,string mvt)
 }
 void write_file_goods(DS_VatTu *ds_vt) {
 	int k = 0;
-	templeGoods arrGoods(getSizeGoods(ds_vt));
+	cout << ds_vt->vat_tu.tenVT << endl;
+
+	int size = getSizeGoods(ds_vt);
+	templeGoods arrGoods(size);
 	ofstream writeFile("./Data/goods.txt");
 	asign_LNR_Goods(ds_vt, arrGoods, k);
 	string mvt = getIndexGoods(ds_vt, getSizeGoods(ds_vt))->vat_tu.maVT;
+	cout << mvt<<"++" << endl;
 	selectMiddle(arrGoods,0,arrGoods.capacity-1, writeFile,mvt);
 	delete[]arrGoods.a;
 }
@@ -220,30 +223,28 @@ start:;
 					
 					t_mvt = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mvt, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
 
-					if (isAdd) {
-						if (searchNode(ds_vt, t_mvt) == -1) {
-							checkSubmit[0] = -2;
-							warning_msg((char*)"Ma vat tu da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
-						}
-						if (t_mvt.length() > 0) {
-							checkSubmit[0] = 1;
-						}
-						else {
-							checkSubmit[0] = -1;
-						}
+					if (findMVT(ds_vt,t_mvt) ==1) {
+						checkSubmit[0] = -2;
+						warning_msg((char*)"Ma vat tu da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
+					else if (t_mvt.length() > 0) {
+						checkSubmit[0] = 1;
+					}
+					else {
+						checkSubmit[0] = -1;
+					}
+					
 					goto headInfor;
 				}
 			}
 			if (ktVT(430, 225, 800, 255, x, y)) { // ten vat tu
 				t_tvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_tvt, 25, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
 					
-				
 				if (isAdd) {
 					if (t_tvt.length() > 0) {
 						checkSubmit[1] = 1;
 					}
-					if (t_tvt.length() == 0) {
+					else if (t_tvt.length() == 0) {
 						checkSubmit[1] = -1;
 					}
 					if (searchNode(ds_vt,t_tvt)!=-1 ) {
@@ -257,7 +258,7 @@ start:;
 						warning_msg((char*)"Ten vat tu da ton tai.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 						checkSubmit[1] = -2;
 					}
-					if (t_tvt.length() == 0) {
+					else if (t_tvt.length() == 0) {
 						checkSubmit[1] = -1;
 					}
 					else {
@@ -323,7 +324,7 @@ start:;
 			}
 			//LUU
 			if (ktVT(840, 420, 910, 450, x, y)) {
-				if (checkSubmitEditAdd(checkSubmit, 4) == 0) { // sua lai ten cho hop le
+				if (checkSubmitEditAdd(checkSubmit, 4) == 0) { 
 					VatTu vt_temp;
 					if (isAdd) {
 						vt_temp = {};
@@ -418,15 +419,16 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 					i_CRUD = (vp_g_table.current - 1) * ROW_STAFF + i;
 					i_CRUD += 1;
 					VatTu x_vt = getIndexGoods(ds_vt, i_CRUD)->vat_tu;
+					cout << x_vt.trangThai << " " << x_vt.tenVT << "__";
 					if (x_vt.trangThai) {
 						announce_board(0, 0, 0, 0, "Vat tu nay dang o trong hoa don khong the xoa.");
 						delay(1200);
-						
 					}
 					else {
 						check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
 						if (check_D_staff) {
 							deleteNode(ds_vt, x_vt.tenVT);
+							cout << "zp ";
 							write_file_goods(ds_vt);
 						}
 					}
@@ -460,14 +462,12 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 	}
 sf_out:;
 	if (g_isEdit) {
-
 		string t_mvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.maVT;
 		string t_tvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.tenVT;
 		string t_dvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.DVT;
 		int slt = getIndexGoods(ds_vt,i_CRUD)->vat_tu.SLT;
 		string t_slt = to_string(slt);
 		handleInfor_goods(x, y, ds_vt, t_mvt, t_tvt, t_dvt, t_slt, i_CRUD, g_isEdit, g_isAdd);
-
 	}
 	if (g_isAdd) {
 		string t_add_mnt = "";

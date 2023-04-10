@@ -149,14 +149,14 @@ bool announce_board( int x,int y,int kcl = 0, int kct = 0, string value = "",str
 	string temp_value;
 	temp_value = "";
 	int minus =0;
-	if (value[27] != ' ' && value.length()>27) {
+	if (value.length()>=27 && value[27] != ' '  ) {
 		minus = 27;
 		while (value[minus]!=' ') {
 			minus--;
 		}
 		minus = 27 - minus;
 	}
-	int text_length = value.length() <= 27 ? value.length() : 27-minus;
+	int text_length = value.length() <= 27 ? value.length() : (27-minus);
 	for (int i = 0; i < text_length; i++)
 	{
 		temp_value += value[i];

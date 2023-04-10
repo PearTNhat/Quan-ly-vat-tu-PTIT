@@ -2,11 +2,10 @@
 #include "Common.h"
 #include "Constant.h"
 #include "Staff_func.h"
-#include "Goods_tree.h"
+#include "Goods_FuncTree.h"
 #include "Goods_Func.h"
 #include "Bill_Func.h"
 #include "Ss_page.h"
-#include "Goods_tree.h"
 #include "Loading.h"
 
 int main() {

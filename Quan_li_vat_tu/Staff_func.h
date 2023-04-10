@@ -292,7 +292,7 @@ start:;
 						checkSubmit[0] = -2;
 						warning_msg((char*)"Ma nhan vien da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
-					if (t_mnv.length() > 0) {
+					else if (t_mnv.length() > 0) {
 						checkSubmit[0] = 1;
 					}
 					else {
@@ -480,9 +480,7 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], 
 							goto sf_out;
 						}
 						goto sf_out;
-						
-						
-					}
+											}
 					else {
 						announce_board(0, 0, 0, 0, "Nhan vien dang quan li hoa don khong the xoa.");
 						delay(1500); 

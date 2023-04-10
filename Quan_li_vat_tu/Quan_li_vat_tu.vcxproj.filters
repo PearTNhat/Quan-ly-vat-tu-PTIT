@@ -50,7 +50,7 @@
     <ClInclude Include="input_staff_good.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Goods_tree.h">
+    <ClInclude Include="Goods_FuncTree.h">
       <Filter>Header Files\Goods</Filter>
     </ClInclude>
     <ClInclude Include="Goods_Struct.h">
