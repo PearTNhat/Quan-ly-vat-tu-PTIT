@@ -13,6 +13,7 @@ DS_VatTu* createNode(VatTu x)
 	strcpy_s(p->vat_tu.tenVT, x.tenVT);
 	strcpy_s(p->vat_tu.DVT, x.DVT);
 	p->vat_tu.SLT = x.SLT;
+	p->vat_tu.trangThai = x.trangThai;
 	p->left = NULL;
 	p->right = NULL;
 	return p;
