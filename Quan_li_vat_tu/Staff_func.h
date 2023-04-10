@@ -277,6 +277,7 @@ start:;
 		{
 			checkSubmit[i] = 1;
 		}
+		text_box(430, 165, 800, 195, (char*)t_mnv.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mnv
 	}
 	bool checkCancle = true;
 	while (1) { // chong rerender k can thiet
@@ -284,34 +285,18 @@ start:;
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 		headInfor:;
 			if (ktVT(430, 165, 800, 195, x, y)) { // MNV
-				while (1) {
+				
+				if (func == "add") {
 					t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
-					if (search_ID_Staff(ds_nv, (string)t_mnv) == -1) {
-						break;
-					}
-					else if (i_CRUD != ds_nv.length && ds_nv.nhan_vien[i_CRUD]->maNV == t_mnv) {
-						break;
-
-					}
-					else {
+					if (search_ID_Staff(ds_nv, (string)t_mnv) != -1) {
+						checkSubmit[0] = -2;
 						warning_msg((char*)"Ma nhan vien da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
-				}
-
-				if (func == "add") {
-					if (t_mnv.length() > 0) {
+					else if (t_mnv.length() > 0) {
 						checkSubmit[0] = 1;
 					}
 					else {
 						checkSubmit[0] = -1;
-					}
-				}
-				if (func == "edit") {
-					if (t_mnv.length() == 0) {
-						checkSubmit[0] = -1;
-					}
-					else {
-						checkSubmit[0] = 1;
 					}
 				}
 				goto headInfor;
@@ -494,12 +479,9 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], 
 							delete_staff(ds_nv, i_CRUD);
 							goto sf_out;
 						}
-						else {
-							goto sf_out;
-						}
-					}
+						goto sf_out;
+											}
 					else {
-					
 						announce_board(0, 0, 0, 0, "Nhan vien dang quan li hoa don khong the xoa.");
 						delay(1500); 
 						goto sf_out;
@@ -555,7 +537,7 @@ int checkSubmitEditAdd(int arr[], int n) {
 	int count = 0;
 	for (int i = 0; i < n; i++)
 	{
-		if (arr[i] == -1) count++; // dem so luong k hop le
+		if (arr[i] <= -1) count++; // dem so luong k hop le
 
 	}
 	return count;

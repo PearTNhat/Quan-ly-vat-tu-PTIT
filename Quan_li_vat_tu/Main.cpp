@@ -2,11 +2,10 @@
 #include "Common.h"
 #include "Constant.h"
 #include "Staff_func.h"
-#include "Goods_tree.h"
+#include "Goods_FuncTree.h"
 #include "Goods_Func.h"
 #include "Bill_Func.h"
 #include "Ss_page.h"
-#include "Goods_tree.h"
 #include "Loading.h"
 
 int main() {
@@ -37,8 +36,8 @@ int main() {
 	setlinestyle(0, 0, 2);
 	setbkcolor(bk_screen);
 	cleardevice();
+	
 	createHeader(header_title);
-	write_file_goods(ds_vt);
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);

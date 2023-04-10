@@ -148,7 +148,15 @@ bool announce_board( int x,int y,int kcl = 0, int kct = 0, string value = "",str
 	bar3d(420, 210, 780, 410, 0, 0);
 	string temp_value;
 	temp_value = "";
-	int text_length = value.length() <= 27 ? value.length() : 27;
+	int minus =0;
+	if (value.length()>=27 && value[27] != ' '  ) {
+		minus = 27;
+		while (value[minus]!=' ') {
+			minus--;
+		}
+		minus = 27 - minus;
+	}
+	int text_length = value.length() <= 27 ? value.length() : (27-minus);
 	for (int i = 0; i < text_length; i++)
 	{
 		temp_value += value[i];
@@ -160,7 +168,7 @@ bool announce_board( int x,int y,int kcl = 0, int kct = 0, string value = "",str
 		{
 			temp_value += value[i];
 		}
-		writeText(450 + kcl, 300 + kct, (char*)temp_value.c_str(), 1, 0, f_medium, bg);
+		writeText(450 + kcl, 300 + kct, (char*)trim(temp_value).c_str(), 1, 0, f_medium, bg);
 	}
 	if (type!= "noClose") {
 		text_box(500, 345, 570, 370, (char*)"Co", f_medium, 1, 5, 20, bg, 0);

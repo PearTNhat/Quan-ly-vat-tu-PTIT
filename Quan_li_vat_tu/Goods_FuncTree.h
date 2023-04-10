@@ -13,6 +13,7 @@ DS_VatTu* createNode(VatTu x)
 	strcpy_s(p->vat_tu.tenVT, x.tenVT);
 	strcpy_s(p->vat_tu.DVT, x.DVT);
 	p->vat_tu.SLT = x.SLT;
+	p->vat_tu.trangThai = x.trangThai;
 	p->left = NULL;
 	p->right = NULL;
 	return p;
@@ -185,6 +186,31 @@ DS_VatTu* getIndexGoods(DS_VatTu*& root, int index) {
 		}
 	}
 	return NULL;
+}
+bool findMVT(DS_VatTu *root,string mvt) {
+	DS_VatTu* temp = root;
+	DS_VatTu* res;
+	Stack s(getSizeGoods(root));
+	int k = 0;
+	while (1) {
+		while (temp != NULL) {
+			push(s, temp);
+			temp = temp->left;
+		}
+		if (!isEmpty(s)) {
+			res = pop(s);
+			if ((string)res->vat_tu.maVT == mvt) {
+				return true;
+			}
+			if (res->right != NULL) {
+				temp = res->right;
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return false;
 }
 void lnr(DS_VatTu* root)
 {
