@@ -99,7 +99,7 @@ void ss_table(
 	string from_date = "Tu " + day_b + "/" + month_b + "/" + year_b + " den " + day_e + "/" + month_e + "/" + year_e;
 	char m[50];
 	strcpy_s(m, from_date.c_str());
-	writeText(450, 140, (char*)"THỐNG KÊ HÓA ĐƠN", 4, 15, 8, bk_screen);
+	writeText(465, 140, (char*)"THỐNG KÊ HÓA ĐƠN", 4, 15, 8, bk_screen);
 	writeText(480, 170, m, 2, 15, 8, bk_screen);
 	// header num_rows
 	int bar_top = 220, bar_bottom = 252;
