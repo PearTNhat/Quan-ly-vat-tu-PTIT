@@ -536,7 +536,8 @@ sf_end:;
 int checkSubmitEditAdd(int arr[], int n) {
 	int count = 0;
 	for (int i = 0; i < n; i++)
-	{
+	{	
+		cout << arr[i] << " ";
 		if (arr[i] <= -1) count++; // dem so luong k hop le
 
 	}

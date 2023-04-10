@@ -190,9 +190,9 @@ string input(
 				}
 				else if (key != 13 && key!=9) {
 					if (input.length() == (max_value + 1)) {
-						string s = "Toi da ";
+						string s = "Ban da nhap dung ";
 						s += to_string(max_value);
-						s += " ki tu. Ban da nhap du.";
+						s += " roi.";
 						warning_msg(s, l + e_kcl, t + e_kct, i_bg, i_error_color);
 						// reset lai mau
 						setbkcolor(i_highlight);
