@@ -251,9 +251,9 @@ void staff_table(
 		string fullName = ds.nhan_vien[i]->ho;
 
 		fullName += " ";
-		fullName += ds.nhan_vien[i]->ten;
+		fullName += (string)ds.nhan_vien[i]->ten;
 
-		char ten[30];
+		char ten[32];
 		strcpy_s(ten, fullName.c_str());
 		writeText(230, text_top, ten, 1, 0, 3, 15);
 		writeText(650, text_top, ds.nhan_vien[i]->phai, 1, 0, 3, 15);

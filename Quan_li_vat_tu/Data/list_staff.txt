@@ -1,4 +1,4 @@
-NV45,Vuong That,Dan,Nam,
+NV4324,Hoa Thien,Do,Nam,
 0
 NV10,Tran Thu Do,Do,Nu,
 0
@@ -36,8 +36,6 @@ VT5,10,1000000,1,1
 HD12,7/4/2023,X
 1
 VT4,3,200000,1,1
-NV41231,Lenh Ho,Sung,Nam,
-0
 NV5,Bach Tieu,Thuan,Nam,
 3
 HD5,2/9/2021,X,
@@ -60,5 +58,5 @@ NV2,Han Bang,Tuyet,Nu,
 HD8,20/10/2012,N
 1
 VT6,20,30000,15,0
-NV8,Tieu,Viem,Nam,
+NV8,Tieu Hoa,Viem,Nam,
 0

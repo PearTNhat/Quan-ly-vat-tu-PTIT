@@ -1,8 +1,6 @@
 #pragma once
 
 #define COLS_G 10
-// them vaof hoa don k dc xoa vat tu
-// xem lai cach viet hoa cua ten vt
 //
 void create_g_header();
 void goods_infor(string mvt="", string tvt="", string dvt="", string slt="");
@@ -328,7 +326,7 @@ start:;
 			}
 			//LUU
 			if (ktVT(840, 420, 910, 450, x, y)) {
-				//cout << checkSubmitEditAdd(checkSubmit, 4);
+
 				if (checkSubmitEditAdd(checkSubmit, 4) == 0) { 
 					VatTu vt_temp;
 					if (isAdd) {
