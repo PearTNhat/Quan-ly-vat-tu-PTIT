@@ -5,6 +5,7 @@
 #include "Bill_Struct.h"
 #include "input_bill.h"
 #include "Staff_func.h"
+#include "Goods_Func.h"
 
 view_page vp_m_ss;
 string soHD = "";
@@ -38,7 +39,7 @@ void b_create_menu_title()
 	text_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
 	text_box(350, 70, 645, 110, (char*)"Tra hang", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
 	text_box(685, 70, 980, 110, (char*)"In hoa don", f_medium, 3, 10, 40, XANH_DUONG_NHAT);
-	
+
 	//b_taokhungden(10, 120, 1180, 600);
 }
 
@@ -162,11 +163,11 @@ void b_giaodiennhd(int& x, int& y)
 
 
 
-			if (ktVT(50, 10, 250, 50, x, y)   ||
-				ktVT(350, 10, 550, 50, x, y)  ||
-				ktVT(650, 10, 850, 50, x, y)  ||
+			if (ktVT(50, 10, 250, 50, x, y) ||
+				ktVT(350, 10, 550, 50, x, y) ||
+				ktVT(650, 10, 850, 50, x, y) ||
 				ktVT(950, 10, 1150, 50, x, y) ||
-				ktVT(15, 70, 310, 110, x, y)  ||
+				ktVT(15, 70, 310, 110, x, y) ||
 				ktVT(350, 70, 645, 110, x, y) ||
 				ktVT(685, 70, 980, 110, x, y) ||
 				ktVT(20, 130, 100, 170, x, y) ||
@@ -188,7 +189,7 @@ void HIGHTLIGHT_ADD_VT(int& x, int& y)
 			{
 				if (ktVT(620, 165, 770, 190, x, y))
 				{
-					
+
 					highlight_box(620, 165, 770, 190, (char*)"Them vat tu", f_medium, 2, 1, 5, 14, 0);
 				}
 				if (ktVT(50, 10, 250, 50, x, y) ||
@@ -261,7 +262,7 @@ void b_create_gdtrahang() {
 	setbkcolor(I_BG);
 	outtextxy(300, 325, (char*)"So hoa don:");
 
-	
+
 	b_taokhungden(250, 200, 950, 500);
 	b_taokhungden(550, 325, 900, 355);
 
@@ -288,10 +289,17 @@ bool checktrungshd(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP, string d)
 
 bool checktrungmavt(DS_VatTu* root, string x)
 {
+	// Chuyển dữ liệu vào cấu trúc dữ liệu trước khi sử dụng hàm
+	read_file_goods(root);
+
 	DS_VatTu* p = root;
-	while (p != NULL && stoi(string(p->vat_tu.maVT).substr(2)) != stoi(string(x).substr(2)))
+	while (p != NULL)
 	{
-		if (stoi(string(x).substr(2)) > stoi(string(p->vat_tu.maVT).substr(2)))
+		if (stoi(string(p->vat_tu.maVT).substr(2)) == stoi(string(x)))
+		{
+			return true;
+		}
+		else if (stoi(string(x)) > stoi(string(p->vat_tu.maVT).substr(2)))
 		{
 			p = p->right;
 		}
@@ -300,20 +308,15 @@ bool checktrungmavt(DS_VatTu* root, string x)
 			p = p->left;
 		}
 	}
-	if (p == NULL)
-	{
-		return false;
-	}
-	return true;
+	return false;
 }
-
 
 void resetbaoloi()
 {
 	text_box_no_border(985, 125, 1175, 215, (char*)"", f_medium, 2, 1, 5, 14, 0);
 }
 
-void in_hoa_don_table (
+void in_hoa_don_table(
 	char table_in_HD_header[][20],
 	DS_HoaDon* nodeHD,
 	view_page& view_page,
@@ -337,10 +340,10 @@ void in_hoa_don_table (
 	bar(0, 121, 1200, 800);
 	// create table title
 	writeText(10, 130, (char*)"CONG TY TNHH NHAT PHU PHUONG", 3, COLOR(51, 51, 51), f_medium, 15);
-	writeText(800 ,130, (char*)"HOA DON BAN HANG", 4, COLOR(51, 51, 51), BOLD_FONT, 15); // bk_screen
+	writeText(800, 130, (char*)"HOA DON BAN HANG", 4, COLOR(51, 51, 51), BOLD_FONT, 15); // bk_screen
 	// create bar	
 	//setlinestyle(0, 0, 2);
-	rectangle (-2, 160, 500, 290);
+	rectangle(-2, 160, 500, 290);
 	rectangle(500, 160, 1200, 290);
 	setfillstyle(1, COLOR(221, 221, 221));
 	setbkcolor(COLOR(221, 221, 221));
@@ -409,12 +412,12 @@ void in_hoa_don_table (
 		s << tempNodeCT->ct_hoadon.VAT;
 		string VAT = s.str();
 		writeText(680, text_top, (char*)VAT.c_str(), 1, 0, 3, 15);
-		if (tempNodeCT->ct_hoadon.TrangThai == 1) 
+		if (tempNodeCT->ct_hoadon.TrangThai == 1)
 			writeText(833, text_top, (char*)"Khach mua", 1, 0, 3, 15);
-		else 
+		else
 			writeText(833, text_top, (char*)"Khach tra", 1, 0, 3, 15);
 		cout << "VAT: " << tempNodeCT->ct_hoadon.VAT << endl;
-		int thanhtien = (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia) + (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia * tempNodeCT->ct_hoadon.VAT/100);
+		int thanhtien = (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia) + (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia * tempNodeCT->ct_hoadon.VAT / 100);
 		writeText(1010, text_top, (char*)formatNumber(thanhtien).c_str(), 1, 0, 3, 15);
 	}
 
@@ -521,12 +524,14 @@ void nhd(int& x, int& y)
 	DS_NhanVien ds_nv;
 	DS_HoaDon ds_hdP;
 	DS_VatTu* ds_vt;
+	initNode(ds_vt);
 
 	bool nhap = false, xuat = false;
 	bool sohd = false, manv = false, mavt = false, soluong = false, dongia = false, vat = false, trangthai;
 
 	read_file_staff(ds_nv, ds_hdP);
-	//read_file_goods(ds_vt);
+	read_file_goods(ds_vt);
+
 
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
@@ -575,7 +580,7 @@ void nhd(int& x, int& y)
 				resetbaoloi();
 			mavt:
 				string d = input_bill(x, y, 235, 171, 428, 193, 5, 3, 985, 125, 1175, 215, "", 10, "textNumberNoSpace", "calmCase");
-				/*if (empty(d) == true) goto mavt;
+				if (empty(d) == true) goto mavt;
 				while (checktrungmavt(ds_vt, d) == false)
 				{
 					text_box(985, 125, 1175, 215, (char*)"Ko ton tai VT!", f_medium, 2, 30, 8, RED, 0, 0);
@@ -586,7 +591,7 @@ void nhd(int& x, int& y)
 				{
 					text_box(985, 125, 1175, 215, (char*)"OK!", f_medium, 2, 30, 8, LIGHTGREEN, 0, 0);
 				}
-				strcat(mavattu, d.c_str());*/
+				strcat(mavattu, d.c_str());
 			}
 			if (ktVT(110, 195, 350, 220, x, y))
 			{
