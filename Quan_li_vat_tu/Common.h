@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Header.h"
 #include "Constant.h"
+#include "Bill_Struct.h"
 
 bool g_page = false, sf_page = false, b_page = false, ss_page = false, out_table = false;
 struct view_page {
@@ -243,37 +244,51 @@ std::string formatNumber(int num) {
 	return numStr;
 }
 
-struct DS_tempNV {
+struct DS_info {
+	HoaDon hoadon;
 	char hoTenNV[40];
-	DS_tempNV* next;
+	char maNV[11];
+	DS_info* next;
 };
 
-DS_tempNV* taoNodeTempNV(char hoten[40]) {
-	DS_tempNV* phanTuMoi = new DS_tempNV();
+DS_info* taoNodeInfo(char hoten[40], char maNV[11], HoaDon hd) {
+	DS_info* phanTuMoi = new DS_info();
+	phanTuMoi->hoadon = hd;
 	strcpy_s(phanTuMoi->hoTenNV, hoten);
-	phanTuMoi->next = NULL;
+	strcpy_s(phanTuMoi->maNV, maNV);
 	return phanTuMoi;
 }
 
-void insert_last_DS_tempNV(DS_tempNV*& first, char hoten[40]) {
-	DS_tempNV* temp = taoNodeTempNV(hoten);
+void insertLast_DS_info(DS_info*& first, char hoten[40], char maNV[11], HoaDon hd) {
+	DS_info* temp = taoNodeInfo(hoten, maNV, hd);
 	if (first == NULL) first = temp;
 	else {
-		DS_tempNV* nodeIt = first;
+		DS_info* nodeIt = first;
 		while (nodeIt->next != NULL) nodeIt = nodeIt->next;
 		nodeIt->next = temp;
 	}
 }
 
-
-DS_tempNV* getIndexTempNV(DS_tempNV* first, int index) {
+DS_info* getIndexDS_InfoTable(DS_info* first, int index) {
 	int i = 0;
-	DS_tempNV* nodeIt = first;
+	DS_info* nodeIt = first;
 	while (nodeIt != NULL) {
 		if (i++ == index) return nodeIt;
 		nodeIt = nodeIt->next;
 	}
 	return NULL;
+}
+
+int getNumOfInfo(DS_info* First) {
+	int count = 0;
+	DS_info* temp = First;
+	while (temp != NULL) {
+		count++;
+		temp = temp->next;
+	}
+	temp = NULL;
+	delete temp;
+	return count;
 }
 //void staff_table(
 //	char sf_table_header[][20],
