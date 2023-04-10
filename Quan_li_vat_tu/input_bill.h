@@ -253,10 +253,10 @@ string input_soHD(
 				outtextxy(l + kcl, t + kct, result);
 				//
 				if (input.length() == 1) {
-					warning_msg("Khong duoc de trong", l + e_kcl, t + e_kct, i_bg, i_error_color);
-					// reset lai mau
-					setbkcolor(i_highlight);
-					setcolor(i_color);
+					//warning_msg("Khong duoc de trong", l + e_kcl, t + e_kct, i_bg, i_error_color);
+					//// reset lai mau
+					//setbkcolor(i_highlight);
+					//setcolor(i_color);
 				}
 				input.erase(input.end() - 1);
 				strcpy_s(result, trim(input).c_str());
