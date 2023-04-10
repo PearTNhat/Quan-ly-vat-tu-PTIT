@@ -84,7 +84,7 @@ void page_transition(view_page& view_page, bool printHD = false) {
 	string s = to_string(view_page.current) + " / " + to_string(view_page.page);
 	char num_p[10];
 	strcpy_s(num_p, s.c_str());
-	if (printHD) 
+	if (printHD)
 		setbkcolor(15);
 	else setbkcolor(bk_screen);
 	settextstyle(f_small, 0, 2);

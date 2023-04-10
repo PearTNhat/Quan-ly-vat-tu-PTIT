@@ -319,6 +319,7 @@ void resetbaoloi()
 void in_hoa_don_table(
 	char table_in_HD_header[][20],
 	DS_info* nodeInfo,
+	DS_VatTu* root,
 	view_page& view_page,
 	int num_per_pg
 ) {
@@ -409,7 +410,11 @@ void in_hoa_don_table(
 		strcpy_s(stt, to_string(i + 1).c_str());
 		writeText(70, text_top, stt, 1, 0, 3, 15);
 		DS_CT_HoaDon* tempNodeCT = getIndexCTHD(ds, i);
-		writeText(135, text_top, tempNodeCT->ct_hoadon.MAVT, 1, 0, 3, 15);
+		string tenVT;
+		DS_VatTu* nodeVT = searchVT(root, tempNodeCT->ct_hoadon.MAVT);
+		if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
+		else tenVT = "Unknown";
+		writeText(135, text_top, (char*)tenVT.c_str(), 1, 0, 3, 15);
 		string soluong = to_string(tempNodeCT->ct_hoadon.Soluong);
 		writeText(284, text_top, (char*)soluong.c_str(), 1, 0, 3, 15);
 		string dongia = formatNumber(tempNodeCT->ct_hoadon.Dongia);
@@ -449,7 +454,7 @@ void in_hoa_don_table(
 	page_transition(view_page, true);
 }
 
-void handle_in_HD_table(int& x, int& y, DS_info* ds) {
+void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root) {
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -461,7 +466,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds) {
 				next_page(650, 565, 685, 600, vp_m_ss);
 
 				delete_after_header();
-				in_hoa_don_table(table_in_HD_header, ds, vp_m_ss, ROWS_PER_PG_SS);
+				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_ss, ROWS_PER_PG_SS);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_m_ss.current == 1) {
@@ -469,7 +474,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds) {
 				}
 				prev_page(495, 565, 530, 600, vp_m_ss);
 				delete_after_header();
-				in_hoa_don_table(table_in_HD_header, ds, vp_m_ss, ROWS_PER_PG_SS);
+				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_ss, ROWS_PER_PG_SS);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				ss_page = false;
@@ -488,7 +493,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds) {
 ss_end:;
 }
 
-void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool page, DS_NhanVien ds_nv) {
+void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool page, DS_NhanVien ds_nv, DS_VatTu* root) {
 	if (ktVT(620, 285, 845, 320, x, y) && page) {
 		cout << "Tien hanh nhap input SoHD";
 		soHD = input_soHD(error_sohd, x, y, 620, 285, 845, 320, 70, 7, 5, 45, 50, soHD, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SS, 430, 225);
@@ -526,7 +531,7 @@ void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool 
 			}
 			else {
 				writeText(490, 370, (char*)"OK! Lap bang", 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
-				in_hoa_don_table(table_in_HD_header, result_info, vp_m_ss, 5);
+				in_hoa_don_table(table_in_HD_header, result_info, root, vp_m_ss, 5);
 			}
 		}
 	}
@@ -760,7 +765,7 @@ void nhd_bill(int& x, int& y)
 
 }
 
-void bill_page(int& x, int& y, DS_NhanVien ds_nv)
+void bill_page(int& x, int& y, DS_NhanVien ds_nv, DS_VatTu* ds_vt)
 {
 	bool error_soHD = false;
 	bool in_hoa_don_page = false;
@@ -791,7 +796,7 @@ void bill_page(int& x, int& y, DS_NhanVien ds_nv)
 				in_hoa_don_page = true;
 				soHD = "";
 			}
-			xu_li_tra_cuu_hoa_don(x, y, error_soHD, soHD, in_hoa_don_page, ds_nv);
+			xu_li_tra_cuu_hoa_don(x, y, error_soHD, soHD, in_hoa_don_page, ds_nv, ds_vt);
 
 			if (ktVT(50, 10, 250, 50, x, y) ||
 				ktVT(350, 10, 550, 50, x, y) ||

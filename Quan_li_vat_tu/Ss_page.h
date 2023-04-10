@@ -92,6 +92,7 @@ void ss_table(
 	int page = n / num_per_pg;
 	int du = n % num_per_pg;
 	view_page.page = du ? page + 1 : page;
+	if (n == 0) view_page.page = 1;
 	int max_rows = n > (num_per_pg * view_page.current) ? (num_per_pg * view_page.current) : n;
 	// reder page
 	int i = num_per_pg * (view_page.current - 1);

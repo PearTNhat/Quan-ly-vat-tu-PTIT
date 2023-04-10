@@ -98,7 +98,7 @@ int main() {
 			if (b_page) {
 				//demoPhu();
 				b_create_menu_title();
-				bill_page(x, y, ds_nv);
+				bill_page(x, y, ds_nv, ds_vt);
 				b_page = false;
 				goto batdau;
 
