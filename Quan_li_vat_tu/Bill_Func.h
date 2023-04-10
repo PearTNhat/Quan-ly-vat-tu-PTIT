@@ -503,18 +503,21 @@ void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool 
 		else {
 			cout << "Tien hanh kiem tra so hoa don" << endl;
 			DS_info* result_info = new DS_info();
+			result_info = NULL;
 			char ho_ten[40];
 			for (int i = 0; i < ds_nv.length; i++) {
 				NhanVien* nv = ds_nv.nhan_vien[i];
 				DS_HoaDon* nodeHD = nv->ds_hoadon;
 				while (nodeHD != NULL && strcmp(nodeHD->hoadon.SoHD, soHD.c_str())) nodeHD = nodeHD->next;
 				if (nodeHD != NULL) {
-					result_info->hoadon = nodeHD->hoadon;
+					DS_info* temp = new DS_info();
+					temp->hoadon = nodeHD->hoadon;
 					strcpy(ho_ten, nv->ho);
 					strcat(ho_ten, " ");
 					strcat(ho_ten, nv->ten);
-					strcpy_s(result_info->hoTenNV, ho_ten);
-					strcpy_s(result_info->maNV, nv->maNV);
+					strcpy_s(temp->hoTenNV, ho_ten);
+					strcpy_s(temp->maNV, nv->maNV);
+					result_info = temp;
 					break;
 				}
 			}
