@@ -119,6 +119,9 @@ void goods_table(
 	int page = n / num_cols;
 	int du = n % num_cols;
 	view_page.page = du ? page + 1 : page;
+	if (n == 0) {
+		view_page.page = 1;
+	}
 	int max_rows = n > (num_cols * view_page.current) ? (num_cols * view_page.current) : n;
 	// reder page
 	int i = num_cols * (view_page.current - 1);

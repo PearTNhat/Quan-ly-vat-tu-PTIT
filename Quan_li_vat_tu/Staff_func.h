@@ -191,6 +191,9 @@ void staff_table(
 	int page = n / num_rows;
 	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
+	if (n==0) {
+		view_page.page = 1;
+	}
 	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
 	// reder page
 	int i = num_rows * (view_page.current - 1);
