@@ -331,12 +331,6 @@ void removeRedundantSpaces(string& sentence) {
 	sentence = result;
 }
 
-#include <string>
-#include <iostream>
-#include <ctype.h>
-
-using namespace std;
-
 string convertToText(int number) {
 	string units[] = { "", "mot", "hai", "ba", "bon", "nam", "sau", "bay", "tam", "chin" };
 	string tens[] = { "", "muoi", "hai muoi", "ba muoi", "bon muoi", "nam muoi", "sau muoi", "bay muoi", "tam muoi", "chin muoi" };
