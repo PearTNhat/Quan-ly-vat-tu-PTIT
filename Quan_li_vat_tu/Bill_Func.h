@@ -573,7 +573,23 @@ void nhd_bill(int& x, int& y)
 				{
 					break;
 				}
-				if (empty(d) == true) goto SOHD;
+				if (empty(d) == true)
+				{
+					sohd = false;
+					if (ktVT(110, 120, 590, 145, x, y) || //sohd
+						ktVT(590, 120, 980, 145, x, y) || //manv
+						ktVT(110, 170, 430, 195, x, y) || //mavt
+						ktVT(110, 195, 350, 220, x, y) || //soluong
+						ktVT(350, 195, 590, 220, x, y) || //dongia
+						ktVT(430, 170, 590, 195, x, y) || //vat
+						ktVT(620, 170, 770, 195, x, y) || // them vt
+						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(20, 130, 100, 170, x, y) || // nhap
+						ktVT(20, 170, 100, 210, x, y))  // xuat
+					{
+						goto batdau;
+					}
+				}
 				if (checktrungshd(ds_nv, d) == false)
 				{
 					sohd = false;
@@ -602,6 +618,19 @@ void nhd_bill(int& x, int& y)
 					}
 					goto MANV;
 				}
+				if (ktVT(110, 120, 590, 145, x, y) || //sohd
+					ktVT(590, 120, 980, 145, x, y) || //manv
+					ktVT(110, 170, 430, 195, x, y) || //mavt
+					ktVT(110, 195, 350, 220, x, y) || //soluong
+					ktVT(350, 195, 590, 220, x, y) || //dongia
+					ktVT(430, 170, 590, 195, x, y) || //vat
+					ktVT(620, 170, 770, 195, x, y) || // them vt
+					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(20, 130, 100, 170, x, y) || // nhap
+					ktVT(20, 170, 100, 210, x, y))  // xuat
+				{
+					goto batdau;
+				}
 			}
 			if (ktVT(590, 120, 980, 145, x, y))
 			{
@@ -627,7 +656,23 @@ void nhd_bill(int& x, int& y)
 				{
 					break;
 				}
-				if (empty(d) == true) goto MANV;
+				if (empty(d) == true)
+				{
+					manv = false;
+					if (ktVT(110, 120, 590, 145, x, y) || //sohd
+						ktVT(590, 120, 980, 145, x, y) || //manv
+						ktVT(110, 170, 430, 195, x, y) || //mavt
+						ktVT(110, 195, 350, 220, x, y) || //soluong
+						ktVT(350, 195, 590, 220, x, y) || //dongia
+						ktVT(430, 170, 590, 195, x, y) || //vat
+						ktVT(620, 170, 770, 195, x, y) || // them vt
+						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(20, 130, 100, 170, x, y) || // nhap
+						ktVT(20, 170, 100, 210, x, y))  // xuat
+					{
+						goto batdau;
+					}
+				}
 				if (checktrungmanv(ds_nv, d) == false)
 				{
 					manv = false;
@@ -656,7 +701,19 @@ void nhd_bill(int& x, int& y)
 					}
 					goto MAVT;
 				}
-
+				if (ktVT(110, 120, 590, 145, x, y) || //sohd
+					ktVT(590, 120, 980, 145, x, y) || //manv
+					ktVT(110, 170, 430, 195, x, y) || //mavt
+					ktVT(110, 195, 350, 220, x, y) || //soluong
+					ktVT(350, 195, 590, 220, x, y) || //dongia
+					ktVT(430, 170, 590, 195, x, y) || //vat
+					ktVT(620, 170, 770, 195, x, y) || // them vt
+					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(20, 130, 100, 170, x, y) || // nhap
+					ktVT(20, 170, 100, 210, x, y))  // xuat
+				{
+					goto batdau;
+				}
 			}
 			if (ktVT(110, 170, 430, 195, x, y))
 			{
@@ -705,7 +762,23 @@ void nhd_bill(int& x, int& y)
 				{
 					break;
 				}
-				if (empty(d) == true) goto MAVT;
+				if (empty(d) == true)
+				{
+					manv = false;
+					if (ktVT(110, 120, 590, 145, x, y) || //sohd
+						ktVT(590, 120, 980, 145, x, y) || //manv
+						ktVT(110, 170, 430, 195, x, y) || //mavt
+						ktVT(110, 195, 350, 220, x, y) || //soluong
+						ktVT(350, 195, 590, 220, x, y) || //dongia
+						ktVT(430, 170, 590, 195, x, y) || //vat
+						ktVT(620, 170, 770, 195, x, y) || // them vt
+						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(20, 130, 100, 170, x, y) || // nhap
+						ktVT(20, 170, 100, 210, x, y))  // xuat
+					{
+						goto batdau;
+					}
+				}
 				if (checktrungmavt(ds_vt, d) == false)
 				{
 					mavt = false;
@@ -734,7 +807,19 @@ void nhd_bill(int& x, int& y)
 					}
 					goto SL;
 				}
-				strcat(c_mavattu, d.c_str());
+				if (ktVT(110, 120, 590, 145, x, y) || //sohd
+					ktVT(590, 120, 980, 145, x, y) || //manv
+					ktVT(110, 170, 430, 195, x, y) || //mavt
+					ktVT(110, 195, 350, 220, x, y) || //soluong
+					ktVT(350, 195, 590, 220, x, y) || //dongia
+					ktVT(430, 170, 590, 195, x, y) || //vat
+					ktVT(620, 170, 770, 195, x, y) || // them vt
+					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(20, 130, 100, 170, x, y) || // nhap
+					ktVT(20, 170, 100, 210, x, y))  // xuat
+				{
+					goto batdau;
+				}
 			}
 			if (ktVT(110, 195, 350, 220, x, y))
 			{
@@ -765,7 +850,23 @@ void nhd_bill(int& x, int& y)
 				{
 					break;
 				}
-				if (empty(d) == true)  goto SL;
+				if (empty(d) == true)
+				{
+					soluong = false;
+					if (ktVT(110, 120, 590, 145, x, y) || //sohd
+						ktVT(590, 120, 980, 145, x, y) || //manv
+						ktVT(110, 170, 430, 195, x, y) || //mavt
+						ktVT(110, 195, 350, 220, x, y) || //soluong
+						ktVT(350, 195, 590, 220, x, y) || //dongia
+						ktVT(430, 170, 590, 195, x, y) || //vat
+						ktVT(620, 170, 770, 195, x, y) || // them vt
+						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(20, 130, 100, 170, x, y) || // nhap
+						ktVT(20, 170, 100, 210, x, y))  // xuat
+					{
+						goto batdau;
+					}
+				}
 				if (checksoluong(ds_vt, c_mavattu, d) == false)
 				{
 					soluong = false;
@@ -793,6 +894,19 @@ void nhd_bill(int& x, int& y)
 						goto batdau;
 					}
 					goto DG;
+				}
+				if (ktVT(110, 120, 590, 145, x, y) || //sohd
+					ktVT(590, 120, 980, 145, x, y) || //manv
+					ktVT(110, 170, 430, 195, x, y) || //mavt
+					ktVT(110, 195, 350, 220, x, y) || //soluong
+					ktVT(350, 195, 590, 220, x, y) || //dongia
+					ktVT(430, 170, 590, 195, x, y) || //vat
+					ktVT(620, 170, 770, 195, x, y) || // them vt
+					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(20, 130, 100, 170, x, y) || // nhap
+					ktVT(20, 170, 100, 210, x, y))  // xuat
+				{
+					goto batdau;
 				}
 			}
 			if (ktVT(350, 195, 590, 220, x, y))
@@ -827,7 +941,19 @@ void nhd_bill(int& x, int& y)
 				if (empty(d) == true)
 				{
 					dongia = false;
-					goto DG;
+					if (ktVT(110, 120, 590, 145, x, y) || //sohd
+						ktVT(590, 120, 980, 145, x, y) || //manv
+						ktVT(110, 170, 430, 195, x, y) || //mavt
+						ktVT(110, 195, 350, 220, x, y) || //soluong
+						ktVT(350, 195, 590, 220, x, y) || //dongia
+						ktVT(430, 170, 590, 195, x, y) || //vat
+						ktVT(620, 170, 770, 195, x, y) || // them vt
+						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(20, 130, 100, 170, x, y) || // nhap
+						ktVT(20, 170, 100, 210, x, y))  // xuat
+					{
+						goto batdau;
+					}
 				}
 				if (empty(d) == false)
 				{
@@ -848,6 +974,19 @@ void nhd_bill(int& x, int& y)
 						goto batdau;
 					}
 					goto VAT;
+				}
+				if (ktVT(110, 120, 590, 145, x, y) || //sohd
+					ktVT(590, 120, 980, 145, x, y) || //manv
+					ktVT(110, 170, 430, 195, x, y) || //mavt
+					ktVT(110, 195, 350, 220, x, y) || //soluong
+					ktVT(350, 195, 590, 220, x, y) || //dongia
+					ktVT(430, 170, 590, 195, x, y) || //vat
+					ktVT(620, 170, 770, 195, x, y) || // them vt
+					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(20, 130, 100, 170, x, y) || // nhap
+					ktVT(20, 170, 100, 210, x, y))  // xuat
+				{
+					goto batdau;
 				}
 			}
 			if (ktVT(430, 170, 590, 195, x, y))
@@ -882,7 +1021,19 @@ void nhd_bill(int& x, int& y)
 				if (empty(d) == true)
 				{
 					vat = false;
-					goto VAT;
+					if (ktVT(110, 120, 590, 145, x, y) || //sohd
+						ktVT(590, 120, 980, 145, x, y) || //manv
+						ktVT(110, 170, 430, 195, x, y) || //mavt
+						ktVT(110, 195, 350, 220, x, y) || //soluong
+						ktVT(350, 195, 590, 220, x, y) || //dongia
+						ktVT(430, 170, 590, 195, x, y) || //vat
+						ktVT(620, 170, 770, 195, x, y) || // them vt
+						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(20, 130, 100, 170, x, y) || // nhap
+						ktVT(20, 170, 100, 210, x, y))  // xuat
+					{
+						goto batdau;
+					}
 				}
 				if (empty(d) == false)
 				{
@@ -902,6 +1053,19 @@ void nhd_bill(int& x, int& y)
 					{
 						goto batdau;
 					}
+				}
+				if (ktVT(110, 120, 590, 145, x, y) || //sohd
+					ktVT(590, 120, 980, 145, x, y) || //manv
+					ktVT(110, 170, 430, 195, x, y) || //mavt
+					ktVT(110, 195, 350, 220, x, y) || //soluong
+					ktVT(350, 195, 590, 220, x, y) || //dongia
+					ktVT(430, 170, 590, 195, x, y) || //vat
+					ktVT(620, 170, 770, 195, x, y) || // them vt
+					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(20, 130, 100, 170, x, y) || // nhap
+					ktVT(20, 170, 100, 210, x, y))  // xuat
+				{
+					goto batdau;
 				}
 			}
 			//check truoc khi them vt
