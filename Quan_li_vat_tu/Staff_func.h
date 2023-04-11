@@ -19,7 +19,7 @@ void delete_staff(DS_NhanVien& ds_nv, int index);
 int checkSubmitEditAdd(int arr[], int n);
 int search_ID_Staff(DS_NhanVien ds_nv, string ID);
 //--------------
-void read_file_staff(DS_NhanVien& ds_nv, DS_HoaDon& ds_hdP) {
+void read_file_staff(DS_NhanVien& ds_nv) {
 	ifstream read_file;
 	read_file.open("./Data/list_staff.txt", ios_base::in);
 	NhanVien* temp;
