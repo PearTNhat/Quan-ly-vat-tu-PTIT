@@ -61,9 +61,9 @@ string input_bill(
 				strcpy_s(result, trim(input).c_str());
 				cout << "result:" << result << endl;
 				// enter  xong vẫn để lại chữ
-				setfillstyle(1, 15);
+				setfillstyle(1, 9);
 				bar(l, t, r, b);
-				writeText(l + kcl, t + kct, result, 1, i_color, f_medium, 15);
+				writeText(l + kcl, t + kct, result, 1, i_color, f_medium, 9);
 				break;
 
 			}
