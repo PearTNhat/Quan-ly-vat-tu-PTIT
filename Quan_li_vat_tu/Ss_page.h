@@ -257,31 +257,18 @@ void table_doanhThu(
 		DS_HoaDon* nodeHD = ds;
 		long long doanh_thu = 0;
 		while (nodeHD != NULL) {
-			if (nodeHD->hoadon.date.thang == i + 1) {
-				/*if (strcmp(nodeHD->hoadon.Loai, "N") == 0) {
-					DS_CT_HoaDon* nodeCT = nodeHD->hoadon.first_cthd;
-					while (nodeCT != NULL) {
-						std::cout << "Nct: " << nodeCT->ct_hoadon.MAVT << ", don gia: " << nodeCT->ct_hoadon.Dongia << ", trang thai: " << nodeCT->ct_hoadon.TrangThai << endl;
-						if (nodeCT->ct_hoadon.TrangThai == 1) doanh_thu -= nodeCT->ct_hoadon.Dongia;
-						else doanh_thu += nodeCT->ct_hoadon.Dongia;
-						nodeCT = nodeCT->next;
+			if (nodeHD->hoadon.date.thang == i + 1 && !strcmp(nodeHD->hoadon.Loai, "X")) {
+				DS_CT_HoaDon* nodeCT = nodeHD->hoadon.first_cthd;
+				while (nodeCT != NULL) {
+					if (nodeCT->ct_hoadon.TrangThai == 1) {
+						doanh_thu += (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong) + (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong * nodeCT->ct_hoadon.VAT / 100);
 					}
-				}
-				else*/ if (strcmp(nodeHD->hoadon.Loai, "X") == 0) {
-					DS_CT_HoaDon* nodeCT = nodeHD->hoadon.first_cthd;
-					while (nodeCT != NULL) {
-						if (nodeCT->ct_hoadon.TrangThai == 1) {
-							doanh_thu += nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong;
-						}
-						else doanh_thu -= nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong;
-						nodeCT = nodeCT->next;
-					}
+					//else doanh_thu -= (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong) + (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong * nodeCT->ct_hoadon.VAT / 100);
+					nodeCT = nodeCT->next;
 				}
 			}
 			nodeHD = nodeHD->next;
 		}
-
-		std::cout << "Thang " << i + 1 << ": " << doanh_thu << " VND" << std::endl;
 
 		string thang = to_string(i + 1);
 		const char* m = thang.c_str();

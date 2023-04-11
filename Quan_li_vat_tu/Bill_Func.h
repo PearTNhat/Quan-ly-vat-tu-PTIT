@@ -508,7 +508,7 @@ void in_hoa_don_table(
 		else tenVT = "Unknown";
 		writeText(135, text_top, (char*)tenVT.c_str(), 1, 0, 3, 15);
 		string soluong = to_string(tempNodeCT->ct_hoadon.Soluong);
-		writeText(284, text_top, (char*)soluong.c_str(), 1, 0, 3, 15);
+		writeText(290, text_top, (char*)soluong.c_str(), 1, 0, 3, 15);
 		string dongia = formatNumber(tempNodeCT->ct_hoadon.Dongia);
 		writeText(470, text_top, (char*)dongia.c_str(), 1, 0, 3, 15);
 		stringstream s;
