@@ -1,9 +1,6 @@
 #pragma once
 
 #define COLS_G 10
-// them vaof hoa don k dc xoa vat tu
-// xem lai cach viet hoa cua ten vt
-// chekc ten vt trung
 //
 void create_g_header();
 void goods_infor(string mvt="", string tvt="", string dvt="", string slt="");
@@ -65,16 +62,18 @@ void selectMiddle(templeGoods arr, int l, int r, ofstream& writeFile,string mvt)
 }
 void write_file_goods(DS_VatTu *ds_vt) {
 	int k = 0;
-	cout << ds_vt->vat_tu.tenVT << endl;
-
 	int size = getSizeGoods(ds_vt);
 	templeGoods arrGoods(size);
 	ofstream writeFile("./Data/goods.txt");
-	asign_LNR_Goods(ds_vt, arrGoods, k);
-	string mvt = getIndexGoods(ds_vt, getSizeGoods(ds_vt))->vat_tu.maVT;
-	cout << mvt<<"++" << endl;
-	selectMiddle(arrGoods,0,arrGoods.capacity-1, writeFile,mvt);
-	delete[]arrGoods.a;
+	if (size==0) {
+		writeFile << "";
+	}
+	else {
+		asign_LNR_Goods(ds_vt, arrGoods, k);
+		string mvt = getIndexGoods(ds_vt, getSizeGoods(ds_vt))->vat_tu.maVT;
+		selectMiddle(arrGoods,0,arrGoods.capacity-1, writeFile,mvt);
+		delete[]arrGoods.a;
+	}
 }
 
 void goods_infor(string mvt, string tvt,string dvt,string slt) {
@@ -118,6 +117,9 @@ void goods_table(
 	int page = n / num_cols;
 	int du = n % num_cols;
 	view_page.page = du ? page + 1 : page;
+	if (n == 0) {
+		view_page.page = 1;
+	}
 	int max_rows = n > (num_cols * view_page.current) ? (num_cols * view_page.current) : n;
 	// reder page
 	int i = num_cols * (view_page.current - 1);
@@ -205,7 +207,7 @@ start:;
 	}
 	if (isEdit) {
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			checkSubmit[i] = 1;
 		}
@@ -292,7 +294,7 @@ start:;
 			// slt
 			if (isAdd) {
 				if (ktVT(430, 345, 800, 375, x,y)) {
-					t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt,8, "number", "camelCase", COLOR_INFOR_SG, NULL, NULL);
+					t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt,4, "number", "camelCase", COLOR_INFOR_SG, NULL, NULL);
 					if (t_dvt.length() > 0) {
 						checkSubmit[3] = 1;
 					}
@@ -324,6 +326,7 @@ start:;
 			}
 			//LUU
 			if (ktVT(840, 420, 910, 450, x, y)) {
+
 				if (checkSubmitEditAdd(checkSubmit, 4) == 0) { 
 					VatTu vt_temp;
 					if (isAdd) {
@@ -332,6 +335,7 @@ start:;
 						strcpy_s(vt_temp.tenVT, t_tvt.c_str());
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT =stoi(t_slt);
+						vt_temp.trangThai = false;
 						insertNode(ds_vt,vt_temp);
 						write_file_goods(ds_vt);
 						text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
@@ -351,6 +355,8 @@ start:;
 						getIndexGoods(ds_vt, i_CRUD)->vat_tu = vt_temp;
 						
 					}
+					isEdit = false;
+					isAdd = false;
 					write_file_goods(ds_vt);
 					text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
 					announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
@@ -394,7 +400,7 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// them nhan vien moi
 		start_handle_staff:
-			if (ktVT(950, 70, 1150, 110, x, y)) {
+			if (ktVT(950, 70, 1150, 110, x, y)) { // them vat tu
 				goods_infor();
 				g_isAdd = true;
 				goto sf_out;
@@ -428,7 +434,7 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 						check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
 						if (check_D_staff) {
 							deleteNode(ds_vt, x_vt.tenVT);
-							cout << "zp ";
+						
 							write_file_goods(ds_vt);
 						}
 					}

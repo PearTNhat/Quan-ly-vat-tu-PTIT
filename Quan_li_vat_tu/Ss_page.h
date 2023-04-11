@@ -92,6 +92,7 @@ void ss_table(
 	int page = n / num_per_pg;
 	int du = n % num_per_pg;
 	view_page.page = du ? page + 1 : page;
+	if (n == 0) view_page.page = 1;
 	int max_rows = n > (num_per_pg * view_page.current) ? (num_per_pg * view_page.current) : n;
 	// reder page
 	int i = num_per_pg * (view_page.current - 1);
@@ -99,7 +100,7 @@ void ss_table(
 	string from_date = "Tu " + day_b + "/" + month_b + "/" + year_b + " den " + day_e + "/" + month_e + "/" + year_e;
 	char m[50];
 	strcpy_s(m, from_date.c_str());
-	writeText(450, 140, (char*)"THỐNG KÊ HÓA ĐƠN", 4, 15, 8, bk_screen);
+	writeText(465, 140, (char*)"THỐNG KÊ HÓA ĐƠN", 4, 15, 8, bk_screen);
 	writeText(480, 170, m, 2, 15, 8, bk_screen);
 	// header num_rows
 	int bar_top = 220, bar_bottom = 252;
@@ -501,6 +502,7 @@ string ss_page_input(
 }
 
 void do_hoa_search_hd() {
+	vp_m_ss = {};
 	setfillstyle(1, COLOR_INFOR_SS);
 	setcolor(0);
 	bar3d(280, 180, 920, 530, 0, 0);

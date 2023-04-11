@@ -108,53 +108,58 @@ void write_file_staff(DS_NhanVien ds_nv) {
 	int numOfBill;
 	int numOfCTHD;
 	write_file.open("./Data/list_staff.txt");
+	if (ds_nv.length==0) {
+		write_file << "";
+	}
+	else {
 
-	for (int i = 0; i < ds_nv.length; i++)
-	{
-		write_file << ds_nv.nhan_vien[i]->maNV << ",";
-		write_file << ds_nv.nhan_vien[i]->ho << ",";
-		write_file << ds_nv.nhan_vien[i]->ten << ",";
-		write_file << ds_nv.nhan_vien[i]->phai << ",";
+		for (int i = 0; i < ds_nv.length; i++)
+		{
+			write_file << ds_nv.nhan_vien[i]->maNV << ",";
+			write_file << ds_nv.nhan_vien[i]->ho << ",";
+			write_file << ds_nv.nhan_vien[i]->ten << ",";
+			write_file << ds_nv.nhan_vien[i]->phai << ",";
 
-		write_file << endl;
+			write_file << endl;
 
-		if (ds_nv.nhan_vien[i]->ds_hoadon != NULL) {
-			numOfBill = getNumOfBill(ds_nv.nhan_vien[i]->ds_hoadon);
-		}
-		else numOfBill = 0;
+			if (ds_nv.nhan_vien[i]->ds_hoadon != NULL) {
+				numOfBill = getNumOfBill(ds_nv.nhan_vien[i]->ds_hoadon);
+			}
+			else numOfBill = 0;
 
-		if (i == ds_nv.length - 1 && numOfBill == 0) write_file << numOfBill;
-		else write_file << numOfBill << endl;
+			if (i == ds_nv.length - 1 && numOfBill == 0) write_file << numOfBill;
+			else write_file << numOfBill << endl;
 
-		if (numOfBill > 0) {
-			DS_HoaDon* nodeIt_HD = ds_nv.nhan_vien[i]->ds_hoadon;
-			while (nodeIt_HD != NULL) {
-				write_file << nodeIt_HD->hoadon.SoHD << ",";
-				write_file << nodeIt_HD->hoadon.date.ngay << "/" << nodeIt_HD->hoadon.date.thang << "/" << nodeIt_HD->hoadon.date.nam << ",";
-				if (nodeIt_HD->next != NULL) {
-					write_file << nodeIt_HD->hoadon.Loai << "," << endl;
-				}
-				else write_file << nodeIt_HD->hoadon.Loai << endl;
-				if (nodeIt_HD->hoadon.first_cthd != NULL) {
-					DS_CT_HoaDon* nodeIt_CT = nodeIt_HD->hoadon.first_cthd;
-					write_file << getNumOfCTHD(nodeIt_CT) << endl;
-					while (nodeIt_CT != NULL) {
-						write_file << nodeIt_CT->ct_hoadon.MAVT << ",";
-						write_file << nodeIt_CT->ct_hoadon.Soluong << ",";
-						write_file << nodeIt_CT->ct_hoadon.Dongia << ",";
-						write_file << nodeIt_CT->ct_hoadon.VAT << ",";
-						if (nodeIt_CT->next != NULL) {	
-							write_file << nodeIt_CT->ct_hoadon.TrangThai << "," << endl;
-						}
-						else {
-							if (i == ds_nv.length - 1) write_file << nodeIt_CT->ct_hoadon.TrangThai;
-							else write_file << nodeIt_CT->ct_hoadon.TrangThai << endl;
-						}
-						nodeIt_CT = nodeIt_CT->next;
+			if (numOfBill > 0) {
+				DS_HoaDon* nodeIt_HD = ds_nv.nhan_vien[i]->ds_hoadon;
+				while (nodeIt_HD != NULL) {
+					write_file << nodeIt_HD->hoadon.SoHD << ",";
+					write_file << nodeIt_HD->hoadon.date.ngay << "/" << nodeIt_HD->hoadon.date.thang << "/" << nodeIt_HD->hoadon.date.nam << ",";
+					if (nodeIt_HD->next != NULL) {
+						write_file << nodeIt_HD->hoadon.Loai << "," << endl;
 					}
+					else write_file << nodeIt_HD->hoadon.Loai << endl;
+					if (nodeIt_HD->hoadon.first_cthd != NULL) {
+						DS_CT_HoaDon* nodeIt_CT = nodeIt_HD->hoadon.first_cthd;
+						write_file << getNumOfCTHD(nodeIt_CT) << endl;
+						while (nodeIt_CT != NULL) {
+							write_file << nodeIt_CT->ct_hoadon.MAVT << ",";
+							write_file << nodeIt_CT->ct_hoadon.Soluong << ",";
+							write_file << nodeIt_CT->ct_hoadon.Dongia << ",";
+							write_file << nodeIt_CT->ct_hoadon.VAT << ",";
+							if (nodeIt_CT->next != NULL) {
+								write_file << nodeIt_CT->ct_hoadon.TrangThai << "," << endl;
+							}
+							else {
+								if (i == ds_nv.length - 1) write_file << nodeIt_CT->ct_hoadon.TrangThai;
+								else write_file << nodeIt_CT->ct_hoadon.TrangThai << endl;
+							}
+							nodeIt_CT = nodeIt_CT->next;
+						}
+					}
+					else write_file << "0" << endl;
+					nodeIt_HD = nodeIt_HD->next;
 				}
-				else write_file << "0" << endl;
-				nodeIt_HD = nodeIt_HD->next;
 			}
 		}
 	}
@@ -186,6 +191,9 @@ void staff_table(
 	int page = n / num_rows;
 	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
+	if (n==0) {
+		view_page.page = 1;
+	}
 	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
 	// reder page
 	int i = num_rows * (view_page.current - 1);
@@ -243,9 +251,9 @@ void staff_table(
 		string fullName = ds.nhan_vien[i]->ho;
 
 		fullName += " ";
-		fullName += ds.nhan_vien[i]->ten;
+		fullName += (string)ds.nhan_vien[i]->ten;
 
-		char ten[30];
+		char ten[32];
 		strcpy_s(ten, fullName.c_str());
 		writeText(230, text_top, ten, 1, 0, 3, 15);
 		writeText(650, text_top, ds.nhan_vien[i]->phai, 1, 0, 3, 15);
@@ -536,7 +544,8 @@ sf_end:;
 int checkSubmitEditAdd(int arr[], int n) {
 	int count = 0;
 	for (int i = 0; i < n; i++)
-	{
+	{	
+		cout << arr[i] << " ";
 		if (arr[i] <= -1) count++; // dem so luong k hop le
 
 	}

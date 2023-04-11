@@ -74,87 +74,65 @@ int searchNode(DS_VatTu* root, string x)
 	}
 	return 1;
 }
-void deleteNode(DS_VatTu*& root, string x)
+void deleteNode(DS_VatTu*& root, string key)
 {
-	if (root != NULL)
+	DS_VatTu* curr = root;
+	DS_VatTu* prev = NULL;
+	while (curr != NULL && (string)curr->vat_tu.tenVT != key)
 	{
-		DS_VatTu* p = root;
-		DS_VatTu* prev = p;
-		bool isRoot = true;
-		if (p->left == NULL && p->right == NULL) {
-			root = NULL;
-		}
-		else {
-			while (p != NULL && string(p->vat_tu.tenVT) != x)
-			{
-				isRoot = false;
-				prev = p;
-				if (x > string(p->vat_tu.tenVT))
-				{
-					p = p->right;
-				}
+		prev = curr;
+		if (key < curr->vat_tu.tenVT)
+			curr = curr->left;
+		else
+			curr = curr->right;
+	}
+
+	if (curr != NULL)
+	{
+		if (curr->left == NULL || curr->right == NULL)
+		{
+
+			DS_VatTu* newCurr;
+			if (curr->left == NULL)
+				newCurr = curr->right;
+			else
+				newCurr = curr->left;
+
+			if (prev == NULL) {
+				root = newCurr;
+			}
+			else {
+				if (curr == prev->left)
+					prev->left = newCurr;
 				else
-				{
-					p = p->left;
-				}
+					prev->right = newCurr;
+
+			}
+		}
+		else
+		{
+			DS_VatTu* p = NULL;
+			DS_VatTu* temp;
+			temp = curr->right;
+			while (temp->left != NULL)
+			{
+				p = temp;
+				temp = temp->left;
 			}
 			if (p != NULL)
-			{
+				p->left = temp->right;
+			else
+				curr->right = temp->right;
+			strcpy_s(curr->vat_tu.tenVT, temp->vat_tu.tenVT);
 
-				if ((p->left != NULL && p->right != NULL) || isRoot)
-				{
-					DS_VatTu* temp = p;
-					prev = p;
-					if (temp->right == NULL) {
-						temp = temp->left;
-						prev = temp;
-					}
-					if (temp->right != NULL) {
-						temp = temp->right;
-						while (temp->left != NULL)
-						{
-							prev = temp;
-							temp = temp->left;
-						}
-					}
-					else {
-						prev = p;
-					}
-					p->vat_tu = temp->vat_tu;// gan gia tri
-					p = temp;// doi dia chi
-				}
-				DS_VatTu* t = p;
-				if (t->left == NULL)
-				{
-					t = t->right;
-				}
-				else
-				{
-					t = t->left;
-				}
-				if ((string)(prev->vat_tu.tenVT) > (string)(p->vat_tu.tenVT))
-				{
-
-					prev->left = t;
-				}
-				else if ((string)(prev->vat_tu.tenVT) == (string)(p->vat_tu.tenVT)) {
-					if (prev->left != NULL) {
-						prev->left = t;
-					}
-					else {
-						prev->right = t;
-					}
-				}
-				else
-				{
-
-					prev->right = t;
-				}
-				delete p, t, prev;
-			}
 		}
 	}
+	else {
+		cout << "---Key " << key << " not found in the--";
+	}
+
 }
+
 int getSizeGoods(DS_VatTu* root) {
 	if (root == NULL) {
 		return 0;
@@ -187,7 +165,7 @@ DS_VatTu* getIndexGoods(DS_VatTu*& root, int index) {
 	}
 	return NULL;
 }
-bool findMVT(DS_VatTu *root,string mvt) {
+bool findMVT(DS_VatTu* root, string mvt) {
 	DS_VatTu* temp = root;
 	DS_VatTu* res;
 	Stack s(getSizeGoods(root));
@@ -211,6 +189,32 @@ bool findMVT(DS_VatTu *root,string mvt) {
 		}
 	}
 	return false;
+}
+
+DS_VatTu* searchVT(DS_VatTu* root, string mvt) {
+	DS_VatTu* temp = root;
+	DS_VatTu* res;
+	Stack s(getSizeGoods(root));
+	int k = 0;
+	while (1) {
+		while (temp != NULL) {
+			push(s, temp);
+			temp = temp->left;
+		}
+		if (!isEmpty(s)) {
+			res = pop(s);
+			if ((string)res->vat_tu.maVT == mvt) {
+				return res;
+			}
+			if (res->right != NULL) {
+				temp = res->right;
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return NULL;
 }
 void lnr(DS_VatTu* root)
 {

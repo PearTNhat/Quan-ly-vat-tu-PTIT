@@ -80,7 +80,6 @@ int main() {
 
 			if (sf_page) {
 				create_sf_header();
-				// sf_table_header -> mảng 
 				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 				sf_handleTable(x, y, ds_nv, delete_sf,edit_sf,vp_m_sf, sf_isEdit, sf_isAdd);
 				goto sf_start;
@@ -98,7 +97,7 @@ int main() {
 			if (b_page) {
 				//demoPhu();
 				b_create_menu_title();
-				bill_page(x, y, ds_nv);
+				bill_page(x, y, ds_nv, ds_vt);
 				b_page = false;
 				goto batdau;
 
