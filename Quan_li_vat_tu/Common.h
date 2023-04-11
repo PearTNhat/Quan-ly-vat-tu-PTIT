@@ -310,6 +310,96 @@ int getNumOfInfo(DS_info* First) {
 	delete temp;
 	return count;
 }
+
+void removeRedundantSpaces(string& sentence) {
+	string result = "";
+
+	bool lastWasSpace = true; // Start with a space to handle leading spaces
+	for (char c : sentence) {
+		if (c == ' ') {
+			if (!lastWasSpace) {
+				result += c;
+			}
+			lastWasSpace = true;
+		}
+		else {
+			result += c;
+			lastWasSpace = false;
+		}
+	}
+
+	sentence = result;
+}
+
+
+string convertToText(int number) {
+	string units[] = { "", "mot", "hai", "ba", "bon", "nam", "sau", "bay", "tam", "chin" };
+	string tens[] = { "", "muoi", "hai muoi", "ba muoi", "bon muoi", "nam muoi", "sau muoi", "bay muoi", "tam muoi", "chin muoi" };
+	string suffixes[] = { "", "nghin", "trieu" };
+	string result = "";
+
+	// Handle zero case
+	if (number == 0) {
+		return "Khong dong";
+	}
+
+	// Split the number into groups of three digits and process them separately
+	int groupCount = 0;
+	while (number > 0) {
+		int group = number % 1000;
+		number /= 1000;
+		string groupText = "";
+
+		// Convert the hundreds place to text
+		int hundreds = group / 100;
+		if (hundreds > 0) {
+			groupText += units[hundreds] + " tram";
+		}
+
+		// Convert the tens and units places to text
+		int tensAndUnits = group % 100;
+		if (tensAndUnits > 0) {
+			if (tensAndUnits < 10) {
+				groupText += " " + units[tensAndUnits];
+			}
+			else if (tensAndUnits < 20) {
+				groupText += " muoi";
+				if (tensAndUnits == 11) {
+					groupText += " mot";
+				}
+				else if (tensAndUnits == 15) {
+					groupText += " lam";
+				}
+				else {
+					groupText += " " + units[tensAndUnits % 10];
+				}
+			}
+			else {
+				groupText += " " + tens[tensAndUnits / 10];
+				if (tensAndUnits % 10 > 0) {
+					groupText += " " + units[tensAndUnits % 10];
+				}
+			}
+		}
+
+		// Add the suffix to the group text if it's not empty
+		if (!groupText.empty()) {
+			groupText += " " + suffixes[groupCount];
+		}
+
+		// Combine the group text with the overall result
+		result = groupText + " " + result;
+		groupCount++;
+	}
+
+	// Capitalize the first letter of the result
+	result += " dong";
+	removeRedundantSpaces(result);
+	result[0] = toupper(result[0]);
+
+	return result;
+}
+
 //void staff_table(
 //	char sf_table_header[][20],
 //	DS_NhanVien ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
