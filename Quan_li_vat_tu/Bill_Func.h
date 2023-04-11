@@ -545,7 +545,6 @@ void in_hoa_don_table(
 		setbkcolor(15);
 		string bangchu = "Bang chu:  ";
 		bangchu += convertToText(tonggia);
-		cout << "LENGTH = " << bangchu.length();
 		int indent = 0;
 		if (bangchu.length() > 34) indent = bangchu.length() * bangchu.length() * 1.96 / 34;
 		outtextxy(850 - indent, bar_bottom + 16 + 13 + 50, (char*)bangchu.c_str());

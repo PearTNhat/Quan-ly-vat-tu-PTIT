@@ -331,6 +331,11 @@ void removeRedundantSpaces(string& sentence) {
 	sentence = result;
 }
 
+#include <string>
+#include <iostream>
+#include <ctype.h>
+
+using namespace std;
 
 string convertToText(int number) {
 	string units[] = { "", "mot", "hai", "ba", "bon", "nam", "sau", "bay", "tam", "chin" };
@@ -360,7 +365,8 @@ string convertToText(int number) {
 		int tensAndUnits = group % 100;
 		if (tensAndUnits > 0) {
 			if (tensAndUnits < 10) {
-				groupText += " " + units[tensAndUnits];
+				if (groupCount == 2) groupText += " " + units[tensAndUnits];
+				else groupText += " linh " + units[tensAndUnits];
 			}
 			else if (tensAndUnits < 20) {
 				groupText += " muoi";
@@ -392,14 +398,13 @@ string convertToText(int number) {
 		groupCount++;
 	}
 
-	// Capitalize the first letter of the result
 	result += " dong";
 	removeRedundantSpaces(result);
+	// Capitalize the first letter of the result
 	result[0] = toupper(result[0]);
 
 	return result;
 }
-
 //void staff_table(
 //	char sf_table_header[][20],
 //	DS_NhanVien ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
