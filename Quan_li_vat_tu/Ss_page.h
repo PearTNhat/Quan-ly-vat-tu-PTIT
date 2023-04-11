@@ -502,6 +502,7 @@ string ss_page_input(
 }
 
 void do_hoa_search_hd() {
+	vp_m_ss = {};
 	setfillstyle(1, COLOR_INFOR_SS);
 	setcolor(0);
 	bar3d(280, 180, 920, 530, 0, 0);

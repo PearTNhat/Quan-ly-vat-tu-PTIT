@@ -8,6 +8,7 @@
 #include "Goods_Func.h"
 
 view_page vp_m_ss;
+view_page vp_m_print;
 string soHD = "";
 
 char sohoadon[21] = "HD";
@@ -460,21 +461,21 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// transition page
 			if (ktVT(650, 565, 685, 600, x, y)) {
-				if (vp_m_ss.current == vp_m_ss.page) {
+				if (vp_m_print.current == vp_m_print.page) {
 					continue;
 				}
-				next_page(650, 565, 685, 600, vp_m_ss);
+				next_page(650, 565, 685, 600, vp_m_print, true);
 
 				delete_after_header();
-				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_ss, ROWS_PER_PG_SS);
+				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 5);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
-				if (vp_m_ss.current == 1) {
+				if (vp_m_print.current == 1) {
 					continue;
 				}
-				prev_page(495, 565, 530, 600, vp_m_ss);
+				prev_page(495, 565, 530, 600, vp_m_print, true);
 				delete_after_header();
-				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_ss, ROWS_PER_PG_SS);
+				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 5);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				ss_page = false;
@@ -482,8 +483,8 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root) {
 			}
 			if (ktVT(15, 70, 310, 110, x, y) || ktVT(320, 70, 640, 110, x, y)) {
 				// reset view_page
-				vp_m_ss.current = 1;
-				vp_m_ss.page = 1;
+				vp_m_print.current = 1;
+				vp_m_print.page = 1;
 				out_table = true;
 				goto ss_end;
 			}
@@ -531,7 +532,8 @@ void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool 
 			}
 			else {
 				writeText(490, 370, (char*)"OK! Lap bang", 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
-				in_hoa_don_table(table_in_HD_header, result_info, root, vp_m_ss, 5);
+				in_hoa_don_table(table_in_HD_header, result_info, root, vp_m_print, 5);
+				handle_in_HD_table(x, y, result_info, root);
 			}
 		}
 	}
@@ -539,6 +541,7 @@ void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool 
 
 
 void do_hoa_in_hoadon(bool& is_error) {
+	vp_m_print = {};
 	setfillstyle(1, COLOR_INFOR_SS);
 	setcolor(0);
 	bar3d(280, 180, 920, 490, 0, 0);
