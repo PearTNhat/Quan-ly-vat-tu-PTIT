@@ -166,23 +166,25 @@ void write_file_staff(DS_NhanVien ds_nv) {
 	write_file.close();
 }
 void create_sf_header(string title, string subTitle) {
+	cout << title << " " << subTitle;
 	setfillstyle(1, bk_screen);
 	setcolor(0);
 	text_box(950, 70, 1150, 110, (char*)subTitle.c_str(), f_medium, 2, 10, 20, 11);
 	setbkcolor(bk_screen);
 	setcolor(12);
 	settextstyle(f_medium, 0, 3);
-	outtextxy(500, 75, (char*)title.c_str());
+	outtextxy(50, 75, (char*)title.c_str());
 }
 void staff_table(
 	char sf_table_header[][20],
 	DS_NhanVien ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
 	char curd_o[][20], // "them sua xoa" // k can co the xoa
 	view_page& view_page,
-	check_CURD edit[],//// k can co the xoa
-	check_CURD _delete[],// k can co the xoa
+	check_CURD &edit,//// k can co the xoa
+	check_CURD &_delete,// k can co the xoa
 	int num_rows
 ) {
+	setlinestyle(0, 0, 0);
 	delete_after_header();
 	create_sf_header();
 	// tnh so page co trong trang
@@ -200,8 +202,8 @@ void staff_table(
 	//header
 	int bar_top = 120, bar_bottom = 150;
 	int text_top = 125;
-	setfillstyle(1, 6);
-	setbkcolor(6);
+	setfillstyle(1, COLOR_HEADER_TABLE);
+	setbkcolor(COLOR_HEADER_TABLE);
 	settextstyle(f_small, 0, 1);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 	outtextxy(55, text_top, (char*)"STT");
@@ -227,16 +229,18 @@ void staff_table(
 		}
 		// Neu k su dung thi xoa tu day xuong
 		//vi tri edit
-		edit[e].l = 900;
-		edit[e].t = text_top;
-		edit[e].r = 978;
-		edit[e].b = text_top + 22;
+		edit.data[e].key = (string)ds.nhan_vien[i]->maNV;
+		edit.data[e].l = 900;
+		edit.data[e].t = text_top;
+		edit.data[e].r = 978;
+		edit.data[e].b = text_top + 22;
 		e++;
 		// vi tri delete
-		_delete[d].l = 990;
-		_delete[d].t = text_top;
-		_delete[d].r = 1038;
-		_delete[d].b = text_top + 22;
+		_delete.data[d].key = (string)ds.nhan_vien[i]->maNV;
+		_delete.data[d].l = 990;
+		_delete.data[d].t = text_top;
+		_delete.data[d].r = 1038;
+		_delete.data[d].b = text_top + 22;
 		d++;
 		// --------------------------------- xuong day
 
@@ -265,8 +269,8 @@ void staff_table(
 		setbkcolor(15);
 	}
 	//------------- k can cos the xoa
-	_delete[0].n = d;
-	edit[0].n = e;
+	_delete.n = d;
+	edit.n = e;
 
 	// < >
 	page_transition(view_page);
@@ -452,7 +456,7 @@ start:;
 	}
 sf_end:;
 }
-void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], check_CURD edit_sf[], view_page& vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
+void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf, check_CURD edit_sf, view_page& vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_D_staff = true;
@@ -467,9 +471,9 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], 
 				goto sf_out;
 			}
 			// edit
-			for (int i = 0; i < edit_sf[0].n; i++)
+			for (int i = 0; i < edit_sf.n; i++)
 			{
-				if (ktVT(edit_sf[i].l, edit_sf[i].t, edit_sf[i].r, edit_sf[i].b, x, y)) {
+				if (ktVT(edit_sf.data[i].l, edit_sf.data[i].t, edit_sf.data[i].r, edit_sf.data[i].b, x, y)) {
 					i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
 					staff_infor(ds_nv.nhan_vien[i_CRUD]->maNV, ds_nv.nhan_vien[i_CRUD]->ho, ds_nv.nhan_vien[i_CRUD]->ten, ds_nv.nhan_vien[i_CRUD]->phai);
 					sf_isEdit = true;
@@ -477,9 +481,9 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf[], 
 				}
 			}
 			//delete
-			for (int i = 0; i < delete_sf[0].n; i++)
+			for (int i = 0; i < delete_sf.n; i++)
 			{
-				if (ktVT(delete_sf[i].l, delete_sf[i].t, delete_sf[i].r, delete_sf[i].b, x, y)) {
+				if (ktVT(delete_sf.data[i].l, delete_sf.data[i].t, delete_sf.data[i].r, delete_sf.data[i].b, x, y)) {
 					i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
 					if (ds_nv.nhan_vien[i_CRUD]->ds_hoadon == NULL) {
 						check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
@@ -607,9 +611,9 @@ void sort_staff(DS_NhanVien& ds_nv) {
 	string p1, p2;
 	for (int i = 0; i < ds_nv.length - 1; i++)
 	{
+		p1 = (string)ds_nv.nhan_vien[i]->ten + (string)ds_nv.nhan_vien[i]->ho;
 		for (int j = i + 1; j < ds_nv.length; j++)
 		{
-			p1 = (string)ds_nv.nhan_vien[i]->ten + (string)ds_nv.nhan_vien[i]->ho;
 			p2 = (string)ds_nv.nhan_vien[j]->ten + (string)ds_nv.nhan_vien[j]->ho;
 			if (p2 < p1) {
 				NhanVien* temp = ds_nv.nhan_vien[j];

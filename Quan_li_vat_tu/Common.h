@@ -2,18 +2,22 @@
 #include "Header.h"
 #include "Constant.h"
 #include "Bill_Struct.h"
-
+#define MAX_DATA_CRUD 10
 bool g_page = false, sf_page = false, b_page = false, ss_page = false, out_table = false;
 struct view_page {
 	int current = 1;
 	int page = 1;
 };
-struct check_CURD {
+struct dataCRUD {
+	string key="";
 	int l;
 	int t;
 	int r;
 	int b;
-	int n; // luu so luong can check // o vi tri so index = 0 //  
+};
+struct check_CURD {
+	dataCRUD data[MAX_DATA_CRUD];
+	int n=0; 
 };
 struct arrString {
 	string s[100];
