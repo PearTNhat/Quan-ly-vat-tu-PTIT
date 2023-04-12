@@ -34,11 +34,12 @@ bool ktVT(int l, int t, int r, int b, int x, int y) {
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }
-void text_box(int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = XANH_DUONG_NHAT, int tColor = COLOR(0, 0, 0), int cBoder = 0) {
+void text_box(int l, int t, int r, int b, char s[], int font, int f_size, int d_t = 0, int d_l = 8, int bg = XANH_DUONG_NHAT, int tColor = COLOR(0, 0, 0), bool printHD = false, int cBoder = 0) {
 	setcolor(cBoder);
 	setfillstyle(1, bg);
 	settextstyle(font, 0, f_size);
-	bar3d(l, t, r, b, 0, 0);
+	if (printHD) bar(l, t, r, b);
+	else bar3d(l, t, r, b, 0, 0);
 	setcolor(tColor);
 	setbkcolor(bg);
 	outtextxy(l + d_l, t + d_t, s);
@@ -88,7 +89,7 @@ void page_transition(view_page& view_page, bool printHD = false) {
 	string s = to_string(view_page.current) + " / " + to_string(view_page.page);
 	char num_p[10];
 	strcpy_s(num_p, s.c_str());
-	if (printHD) 
+	if (printHD)
 		setbkcolor(15);
 	else setbkcolor(bk_screen);
 	settextstyle(f_small, 0, 2);
@@ -102,21 +103,30 @@ void page_transition(view_page& view_page, bool printHD = false) {
 	}
 	else if (view_page.current == 1) {
 		//>
-		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10);
+		if (printHD) text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10, COLOR(221, 221, 221), 0, 1);
+		else text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10);
 
 	}
 	else if (view_page.current == view_page.page) {
 		//<
-		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10);
+		if (printHD) text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10, COLOR(221, 221, 221), 0, 1);
+		else text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10);
 	}
 	else {
 		//<  >
-		text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10);
-		text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10);
+		if (printHD) {
+			text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10, COLOR(221, 221, 221), 0, 1);
+			text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10, COLOR(221, 221, 221), 0, 1);
+		}
+		else {
+			text_box(l_arrow_l, t_arrow_l, r_arrow_l, b_arrow_l, arrow_left, f_medium, 3, 5, 10);
+			text_box(l_arrow_r, t_arrow_r, r_arrow_r, b_arrow_r, arrow_right, f_medium, 3, 5, 10);
+		}
+		
 
 	}
 }
-void next_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200, int d_t = 5, int d_l = 10, int bg = HEADER_BACKGROUND, int color = 10) {
+void next_page(int l, int t, int r, int b, view_page& check_page, bool printHD = false, int _delay = 200, int d_t = 5, int d_l = 10, int bg = HEADER_BACKGROUND, int color = 10) {
 	int current = check_page.current;
 	int total_page = check_page.page;
 	if (current >= total_page) {
@@ -124,11 +134,12 @@ void next_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 	}
 	else {
 		check_page.current++;
-		highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l, bg, color);
+		if (printHD) highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l, COLOR(51, 51, 51), COLOR(221, 221 , 221));
+		else highlight_box(l, t, r, b, (char*)">", f_medium, 3, d_t, d_l, bg, color);
 		delay(_delay);
 	}
 }
-void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 200, int d_t = 5, int d_l = 10, int bg = HEADER_BACKGROUND, int color = 10) {
+void prev_page(int l, int t, int r, int b, view_page& check_page, bool printHD = false, int _delay = 200, int d_t = 5, int d_l = 10, int bg = HEADER_BACKGROUND, int color = 10) {
 	int current = check_page.current;
 	int total_page = check_page.page;
 	if (current <= 1) {
@@ -136,7 +147,8 @@ void prev_page(int l, int t, int r, int b, view_page& check_page, int _delay = 2
 	}
 	else {
 		check_page.current--;
-		highlight_box(l, t, r, b, (char*)"<", f_medium, 3, d_t, d_l, bg, color);
+		if (printHD) highlight_box(l, t, r, b, (char*)"<", f_medium, 3, d_t, d_l, COLOR(51, 51, 51), COLOR(221, 221, 221));
+		else highlight_box(l, t, r, b, (char*)"<", f_medium, 3, d_t, d_l, bg, color);
 		delay(_delay);
 	}
 }
@@ -301,6 +313,95 @@ int getNumOfInfo(DS_info* First) {
 	temp = NULL;
 	delete temp;
 	return count;
+}
+
+void removeRedundantSpaces(string& sentence) {
+	string result = "";
+
+	bool lastWasSpace = true; // Start with a space to handle leading spaces
+	for (char c : sentence) {
+		if (c == ' ') {
+			if (!lastWasSpace) {
+				result += c;
+			}
+			lastWasSpace = true;
+		}
+		else {
+			result += c;
+			lastWasSpace = false;
+		}
+	}
+
+	sentence = result;
+}
+
+string convertToText(int number) {
+	string units[] = { "", "mot", "hai", "ba", "bon", "nam", "sau", "bay", "tam", "chin" };
+	string tens[] = { "", "muoi", "hai muoi", "ba muoi", "bon muoi", "nam muoi", "sau muoi", "bay muoi", "tam muoi", "chin muoi" };
+	string suffixes[] = { "", "nghin", "trieu" };
+	string result = "";
+
+	// Handle zero case
+	if (number == 0) {
+		return "Khong dong";
+	}
+
+	// Split the number into groups of three digits and process them separately
+	int groupCount = 0;
+	while (number > 0) {
+		int group = number % 1000;
+		number /= 1000;
+		string groupText = "";
+
+		// Convert the hundreds place to text
+		int hundreds = group / 100;
+		if (hundreds > 0) {
+			groupText += units[hundreds] + " tram";
+		}
+
+		// Convert the tens and units places to text
+		int tensAndUnits = group % 100;
+		if (tensAndUnits > 0) {
+			if (tensAndUnits < 10) {
+				if (groupCount == 2) groupText += " " + units[tensAndUnits];
+				else groupText += " linh " + units[tensAndUnits];
+			}
+			else if (tensAndUnits < 20) {
+				groupText += " muoi";
+				if (tensAndUnits == 11) {
+					groupText += " mot";
+				}
+				else if (tensAndUnits == 15) {
+					groupText += " lam";
+				}
+				else {
+					groupText += " " + units[tensAndUnits % 10];
+				}
+			}
+			else {
+				groupText += " " + tens[tensAndUnits / 10];
+				if (tensAndUnits % 10 > 0) {
+					groupText += " " + units[tensAndUnits % 10];
+				}
+			}
+		}
+
+		// Add the suffix to the group text if it's not empty
+		if (!groupText.empty()) {
+			groupText += " " + suffixes[groupCount];
+		}
+
+		// Combine the group text with the overall result
+		result = groupText + " " + result;
+		groupCount++;
+	}
+
+	result += " dong";
+	removeRedundantSpaces(result);
+	// Capitalize the first letter of the result
+	result[0] = toupper(result[0]);
+
+	return result;
 }
 //void staff_table(
 //	char sf_table_header[][20],

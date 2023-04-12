@@ -92,6 +92,7 @@ void ss_table(
 	int page = n / num_per_pg;
 	int du = n % num_per_pg;
 	view_page.page = du ? page + 1 : page;
+	if (n == 0) view_page.page = 1;
 	int max_rows = n > (num_per_pg * view_page.current) ? (num_per_pg * view_page.current) : n;
 	// reder page
 	int i = num_per_pg * (view_page.current - 1);
@@ -389,7 +390,7 @@ string ss_page_input(
 				outtextxy(l + kcl, t + kct, result);
 				input.erase(input.end() - 1);
 				strcpy_s(result, input.c_str());
-				cout << "result:" << result << endl;
+				std::cout << "result:" << result << endl;
 				// enter  xong vẫn để lại chữ
 				setfillstyle(1, 15);
 				bar3d(l, t, r, b, 0, 0);
@@ -501,18 +502,19 @@ string ss_page_input(
 }
 
 void do_hoa_search_hd() {
+	vp_m_ss = {};
 	setfillstyle(1, COLOR_INFOR_SS);
 	setcolor(0);
 	bar3d(280, 180, 920, 530, 0, 0);
 
 	setlinestyle(0, 0, 1);
 	// Thanh tieu de
-	const char* title = "Tìm kiếm hóa đơn";
+	const char* title = "Tim kiem hoa don";
 	text_box(440, 140, 750, 181, (char*)title, 10, 3, 10, 40, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiem
-	text_box(310, 480, 890, 520, (char*)"Tìm kiếm", f_medium, 3, 10, 230, COLOR(252, 186, 3), 0);
+	text_box(310, 480, 890, 520, (char*)"Tim kiem", f_medium, 3, 10, 230, COLOR(252, 186, 3), 0);
 	// Begin
-	text_box(290, 190, 520, 230, (char*)"Từ ngày (begin)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
+	text_box(290, 190, 520, 230, (char*)"Tu ngay (begin)", f_medium, 3, 10, 10, COLOR(200, 200, 190), 0);
 	setcolor(0);
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SS);

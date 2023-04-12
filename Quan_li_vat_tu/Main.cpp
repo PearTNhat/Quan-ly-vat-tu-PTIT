@@ -12,10 +12,11 @@ int main() {
 	// nhân viên
 	check_CURD delete_sf;
 	check_CURD edit_sf;
+	check_CURD edit_sf[ROW_STAFF];
 	view_page vp_m_sf;
-	bool sf_isEdit = false, sf_isAdd = false;
 	DS_NhanVien ds_nv;
 	DS_HoaDon ds_hdP;
+	read_file_staff(ds_nv, ds_hdP);
 	read_file_staff(ds_nv, ds_hdP);
 	sort_staff(ds_nv);
 	// vật tư
@@ -100,7 +101,7 @@ int main() {
 			if (b_page) {
 				//demoPhu();
 				b_create_menu_title();
-				bill_page(x, y, ds_nv);
+				bill_page(x, y, ds_nv, ds_vt);
 				b_page = false;
 				goto batdau;
 
