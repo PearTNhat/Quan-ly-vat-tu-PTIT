@@ -190,7 +190,7 @@ bool checksoluong(DS_VatTu* root, string mvt, string Soluong) {
 		if (!isEmpty(s)) {
 			res = pop(s);
 			if (res->vat_tu.maVT == mvt) {
-				if (res->vat_tu.SLT > stoi(Soluong)) {
+				if (res->vat_tu.SLT >= stoi(Soluong)) {
 					return true;
 				}
 				else {
