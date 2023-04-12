@@ -177,36 +177,36 @@ bool checktrungmanv(DS_NhanVien& ds_nv, string d)
 //	return false;
 //}
 
-bool checksoluong(DS_VatTu* root, string mvt, string Soluong) {
-	DS_VatTu* temp = root;
-	DS_VatTu* res;
-	Stack s(getSizeGoods(root));
-	int k = 0;
-	while (1) {
-		while (temp != NULL) {
-			push(s, temp);
-			temp = temp->left;
-		}
-		if (!isEmpty(s)) {
-			res = pop(s);
-			if (res->vat_tu.maVT == mvt) {
-				if (res->vat_tu.SLT >= stoi(Soluong)) {
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
-			if (res->right != NULL) {
-				temp = res->right;
-			}
-		}
-		else {
-			break;
-		}
-	}
-	return false;
-}
+//bool checksoluong(DS_VatTu* root, string mvt, string Soluong) {
+//	DS_VatTu* temp = root;
+//	DS_VatTu* res;
+//	Stack s(getSizeGoods(root));
+//	int k = 0;
+//	while (1) {
+//		while (temp != NULL) {
+//			push(s, temp);
+//			temp = temp->left;
+//		}
+//		if (!isEmpty(s)) {
+//			res = pop(s);
+//			if (res->vat_tu.maVT == mvt) {
+//				if (res->vat_tu.SLT >= stoi(Soluong)) {
+//					return true;
+//				}
+//				else {
+//					return false;
+//				}
+//			}
+//			if (res->right != NULL) {
+//				temp = res->right;
+//			}
+//		}
+//		else {
+//			break;
+//		}
+//	}
+//	return false;
+//}
 
 
 
@@ -310,9 +310,9 @@ void in_hoa_don_table(
 		writeText(70, text_top, stt, 1, 0, 3, 15);
 		DS_CT_HoaDon* tempNodeCT = getIndexCTHD(ds, i);
 		string tenVT;
-		DS_VatTu* nodeVT = searchVT(root, tempNodeCT->ct_hoadon.MAVT);
-		if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
-		else tenVT = "Unknown";
+		//DS_VatTu* nodeVT = searchVT(root, tempNodeCT->ct_hoadon.MAVT);
+		//if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
+		//else tenVT = "Unknown";
 		writeText(135, text_top, (char*)tenVT.c_str(), 1, 0, 3, 15);
 		string soluong = to_string(tempNodeCT->ct_hoadon.Soluong);
 		writeText(284, text_top, (char*)soluong.c_str(), 1, 0, 3, 15);
@@ -472,7 +472,7 @@ void nhd_bill(int& x, int& y)
 {
 	DS_NhanVien ds_nv;
 	DS_VatTu* ds_vt;
-	initNode(ds_vt);
+	//initNode(ds_vt);
 
 	string d;
 	char ch;
@@ -867,34 +867,34 @@ void nhd_bill(int& x, int& y)
 						goto batdau;
 					}
 				}
-				if (checksoluong(ds_vt, c_mavattu, d) == false)
-				{
-					soluong = false;
-					text_box(985, 125, 1175, 215, (char*)"Ko du so luong!", f_medium, 2, 30, 8, RED, 0, 0);
-					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
-					khung_b_nhd();
-					goto SL;
-				}
-				if (checksoluong(ds_vt, c_mavattu, d) == true)
-				{
-					soluong = true;
-					strcat(c_soluongvt, d.c_str());
-					// if click chuyen o input
-					if (ktVT(110, 120, 590, 145, x, y) || //sohd
-						ktVT(590, 120, 980, 145, x, y) || //manv
-						ktVT(110, 170, 430, 195, x, y) || //mavt
-						ktVT(110, 195, 350, 220, x, y) || //soluong
-						ktVT(350, 195, 590, 220, x, y) || //dongia
-						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
-						ktVT(20, 130, 100, 170, x, y) || // nhap
-						ktVT(20, 170, 100, 210, x, y))  // xuat
-					{
-						goto batdau;
-					}
-					goto DG;
-				}
+				//if (checksoluong(ds_vt, c_mavattu, d) == false)
+				//{
+				//	soluong = false;
+				//	text_box(985, 125, 1175, 215, (char*)"Ko du so luong!", f_medium, 2, 30, 8, RED, 0, 0);
+				//	text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
+				//	khung_b_nhd();
+				//	goto SL;
+				//}
+				//if (checksoluong(ds_vt, c_mavattu, d) == true)
+				//{
+				//	soluong = true;
+				//	strcat(c_soluongvt, d.c_str());
+				//	// if click chuyen o input
+				//	if (ktVT(110, 120, 590, 145, x, y) || //sohd
+				//		ktVT(590, 120, 980, 145, x, y) || //manv
+				//		ktVT(110, 170, 430, 195, x, y) || //mavt
+				//		ktVT(110, 195, 350, 220, x, y) || //soluong
+				//		ktVT(350, 195, 590, 220, x, y) || //dongia
+				//		ktVT(430, 170, 590, 195, x, y) || //vat
+				//		ktVT(620, 170, 770, 195, x, y) || // them vt
+				//		ktVT(800, 170, 950, 195, x, y) ||// them hd
+				//		ktVT(20, 130, 100, 170, x, y) || // nhap
+				//		ktVT(20, 170, 100, 210, x, y))  // xuat
+				//	{
+				//		goto batdau;
+				//	}
+				//	goto DG;
+				//}
 				if (ktVT(110, 120, 590, 145, x, y) || //sohd
 					ktVT(590, 120, 980, 145, x, y) || //manv
 					ktVT(110, 170, 430, 195, x, y) || //mavt
