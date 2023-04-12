@@ -555,8 +555,7 @@ void nhd(int& x, int& y)
 {
 	DS_NhanVien ds_nv;
 	DS_HoaDon ds_hdP;
-	DS_VatTu* ds_vt;
-	initNode(ds_vt);
+	DS_VatTu* ds_vt=NULL;
 
 	bool nhap = false, xuat = false;
 	bool sohd = false, manv = false, mavt = false, soluong = false, dongia = false, vat = false, trangthai;
