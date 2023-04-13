@@ -10,21 +10,27 @@
 
 int main() {
 	// nhân viên
-	DS_NhanVien ds_nv;
-	check_CURD delete_sf[ROW_STAFF];
+	check_CURD delete_sf;
+	check_CURD edit_sf;
 	check_CURD edit_sf[ROW_STAFF];
 	view_page vp_m_sf;
-	bool sf_isEdit = false, sf_isAdd = false;
-	read_file_staff(ds_nv);
+	DS_NhanVien ds_nv;
+	DS_HoaDon ds_hdP;
+	read_file_staff(ds_nv, ds_hdP);
+	read_file_staff(ds_nv, ds_hdP);
 	sort_staff(ds_nv);
 	// vật tư
-	DS_VatTu* ds_vt;
-	initNode(ds_vt);
-	check_CURD delete_table_g[COLS_G];
-	check_CURD edit_table_g[COLS_G];
+	check_CURD delete_table_g;
+	check_CURD edit_table_g;
 	view_page vp_g_table;
 	bool g_isEdit = false, g_isAdd = false;
+	
+	DS_VatTu* ds_vt=NULL;
+	DS_s_VT *ds_s_vt = NULL;
 	read_file_goods(ds_vt);
+	coppyVTtoSVT(ds_vt, ds_s_vt);
+	//lnrSVT(ds_s_vt);
+	//
 	PTRHD ds_hd = NULL;
 	//read_file_DSHD(ds_hd);
 	//ds_tmp arr_temp = build_dshd_array(ds_hd);
@@ -60,9 +66,8 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-				create_sf_header("Danh sach vat tu","Quan li vat tu");
-				goods_table(g_table_header, ds_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g,10);
-				g_handleTable( x,  y,  ds_vt,  delete_table_g,  edit_table_g,  vp_g_table,  g_isEdit,  g_isAdd);
+				goods_table(g_table_header, ds_vt,ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g,10);
+				g_handleTable( x,  y,  ds_vt,ds_s_vt,  delete_table_g,  edit_table_g,  vp_g_table,  g_isEdit,  g_isAdd);
 				goto sf_start;
 
 			}

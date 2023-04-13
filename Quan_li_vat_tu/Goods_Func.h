@@ -24,13 +24,13 @@ void read_file_goods(DS_VatTu *&ds_vt) {
 	else {
 		while (!readFile.eof()) {
 			readFile.getline(temp_vt.maVT, 11, ',');
-			readFile.getline(temp_vt.tenVT, 11, ',');
-			readFile.getline(temp_vt.DVT, 11, ',');
+			readFile.getline(temp_vt.tenVT, 26, ',');
+			readFile.getline(temp_vt.DVT, 7, ',');
 			getline(readFile,t_tt, ',');
 			temp_vt.trangThai = stoi(t_tt);
 			readFile >> temp_vt.SLT;
 			readFile.ignore();
-			insertNode(ds_vt, temp_vt);
+			insertNode_k_maVT(ds_vt, temp_vt);
 		}
 	}
 	readFile.close();
@@ -103,17 +103,19 @@ void goods_infor(string mvt, string tvt,string dvt,string slt) {
 void goods_table(
 	char sf_table_header[][20],
 	DS_VatTu *ds_vt,
+	DS_s_VT *ds_s_vt,
 	char curd_o[][20], 
 	view_page& view_page,
-	check_CURD edit[],
-	check_CURD _delete[],
+	check_CURD &edit,
+	check_CURD &_delete,
 	int num_cols
 ) {
+	setlinestyle(0, 0, 0);
 	delete_after_header();
-	create_sf_header();
+	create_sf_header((string)"Danh sach vat tu", (string)" Them vat tu");
 	// tnh so page co trong trang
 	setcolor(0);
-	int n = getSizeGoods(ds_vt);
+	int n = getSize_s_VT(ds_s_vt);
 	int page = n / num_cols;
 	int du = n % num_cols;
 	view_page.page = du ? page + 1 : page;
@@ -124,10 +126,10 @@ void goods_table(
 	// reder page
 	int i = num_cols * (view_page.current - 1);
 	//header
-	int bar_top = 120, bar_bottom = 150;
-	int text_top = 125;
-	setfillstyle(1, 6);
-	setbkcolor(6);
+	int bar_top = 120, bar_bottom = 155;
+	int text_top = 127;
+	setfillstyle(1, COLOR_HEADER_TABLE);
+	setbkcolor(COLOR_HEADER_TABLE);
 	settextstyle(f_small, 0, 1);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 	outtextxy(55, text_top, (char*)"STT");
@@ -140,32 +142,40 @@ void goods_table(
 	setbkcolor(15);
 	int d = 0;//delete
 	int e = 0;//edit
-	DS_VatTu *temp;
+	s_VT temp;
+	VatTu tempVT;
 	for (; i < max_rows; i++)
 	{
-		temp = getIndexGoods(ds_vt, i+1);
+		temp = getNodeByIndex_s_VT(ds_s_vt, i+1)->vat_tu;
+		tempVT = getNodebyId_maVT(ds_vt, (string)temp.maVT)->vat_tu;
 		if (i % num_cols == 0) {
-			bar_top += 30;
-			bar_bottom += 40;
-			text_top += 35;
-		}
-		else {
-			bar_top += 40;
+			bar_top += 35;
 			bar_bottom += 40;
 			text_top += 40;
 		}
+		else {
+			bar_top += 39;
+			bar_bottom += 40;
+			text_top += 39;
+		}
+		if (i == max_rows-1) {
+			cout << ( max_rows- num_cols * (view_page.current - 1) )-2<< endl;
+			bar_bottom -= (max_rows - num_cols * (view_page.current - 1)) - 2;
+		}
 		// Neu k su dung thi xoa tu day xuong
 		//vi tri edit
-		edit[e].l = 900;
-		edit[e].t = text_top;
-		edit[e].r = 978;
-		edit[e].b = text_top + 22;
+		edit.data[e].key = tempVT.maVT;
+		edit.data[e].l = 900;
+		edit.data[e].t = text_top;
+		edit.data[e].r = 978;
+		edit.data[e].b = text_top + 22;
 		e++;
 		// vi tri delete
-		_delete[d].l = 990;
-		_delete[d].t = text_top;
-		_delete[d].r = 1038;
-		_delete[d].b = text_top + 22;
+		_delete.data[d].key = tempVT.maVT;
+		_delete.data[d].l = 990;
+		_delete.data[d].t = text_top;
+		_delete.data[d].r = 1038;
+		_delete.data[d].b = text_top + 22;
 		d++;
 		// --------------------------------- xuong day
 
@@ -176,11 +186,11 @@ void goods_table(
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
 		writeText(55, text_top, stt,1,0,3,15);
-		writeText(95, text_top, temp->vat_tu.maVT, 1, 0, 3, 15);
-		writeText(230, text_top, temp->vat_tu.tenVT, 1, 0, 3, 15);
-		writeText(450, text_top, temp->vat_tu.DVT, 1, 0, 3, 15);
+		writeText(95, text_top, tempVT.maVT, 1, 0, 3, 15);
+		writeText(230, text_top, tempVT.tenVT, 1, 0, 3, 15);
+		writeText(450, text_top, tempVT.DVT, 1, 0, 3, 15);
 	
-		writeText(650, text_top, (char*)to_string(temp->vat_tu.SLT).c_str(), 1, 0, 3, 15);
+		writeText(650, text_top, (char*)to_string(tempVT.SLT).c_str(), 1, 0, 3, 15);
 
 		//------------- k can cos the xoa
 		text_box(900, text_top-2, 978, text_top + 23, curd_o[0], f_small, 1, 1, 2);
@@ -189,14 +199,14 @@ void goods_table(
 		setbkcolor(15);
 	}
 	//------------- k can cos the xoa
-	_delete[0].n = d;
-	edit[0].n = e;
+	_delete.n = d;
+	edit.n = e;
 
 	// < >
 	page_transition(view_page);
 
 }
-void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt,  string& t_mvt, string& t_tvt, string& t_dvt, string& t_slt, int i_CRUD , bool& isEdit, bool& isAdd) {
+void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt, DS_s_VT *& ds_s_vt,  string& t_mvt, string& t_tvt, string& t_dvt, string& t_slt, string keyCRUD, bool& isEdit, bool& isAdd) {
 start:;
 	int checkSubmit[4];
 	if (isAdd) {
@@ -225,7 +235,7 @@ start:;
 					
 					t_mvt = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mvt, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
 
-					if (findMVT(ds_vt,t_mvt) ==1) {
+					if (searchNode_k_maVT(ds_vt, t_mvt) ==1) {
 						checkSubmit[0] = -2;
 						warning_msg((char*)"Ma vat tu da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
@@ -249,14 +259,14 @@ start:;
 					else if (t_tvt.length() == 0) {
 						checkSubmit[1] = -1;
 					}
-					if (searchNode(ds_vt,t_tvt)!=-1 ) {
+					if (searchNode_k_tenVT(ds_s_vt,t_tvt)==1 ) {
 						warning_msg((char*)"Ten vat tu da ton tai.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 						checkSubmit[1] = -2;
 					}
 				}
 				if (isEdit) {
-					string test_tvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.tenVT;
-					if (((string)t_tvt != test_tvt) && searchNode(ds_vt, t_tvt) != -1) {
+					string test_tvt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu.tenVT;
+					if (((string)t_tvt != test_tvt) && searchNode_k_tenVT(ds_s_vt, t_tvt) == 1) {
 						warning_msg((char*)"Ten vat tu da ton tai.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 						checkSubmit[1] = -2;
 					}
@@ -329,6 +339,8 @@ start:;
 
 				if (checkSubmitEditAdd(checkSubmit, 4) == 0) { 
 					VatTu vt_temp;
+					VatTu prev;
+					s_VT svt_temp;
 					if (isAdd) {
 						vt_temp = {};
 						strcpy_s(vt_temp.maVT, t_mvt.c_str());
@@ -336,7 +348,10 @@ start:;
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT =stoi(t_slt);
 						vt_temp.trangThai = false;
-						insertNode(ds_vt,vt_temp);
+						strcpy_s(svt_temp.maVT, t_mvt.c_str());
+						strcpy_s(svt_temp.tenVT, t_tvt.c_str());
+						insertNode_k_maVT(ds_vt,vt_temp);
+						insertNode_k_tenVT(ds_s_vt, svt_temp);
 						write_file_goods(ds_vt);
 						text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
 						announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
@@ -348,11 +363,21 @@ start:;
 					}
 					if (isEdit) {
 						vt_temp = {};
+						svt_temp = {};
+
 						strcpy_s(vt_temp.maVT, t_mvt.c_str());
 						strcpy_s(vt_temp.tenVT, t_tvt.c_str());
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT = stoi(t_slt);
-						getIndexGoods(ds_vt, i_CRUD)->vat_tu = vt_temp;
+						prev = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
+						getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu= vt_temp;
+						
+						strcpy_s(svt_temp.maVT, t_mvt.c_str());
+						strcpy_s(svt_temp.tenVT, t_tvt.c_str());
+						deleteNode_k_tenVT(ds_s_vt, prev.tenVT);
+						insertNode_k_tenVT(ds_s_vt, svt_temp);
+						lnrSVT(ds_s_vt);
+						
 						
 					}
 					isEdit = false;
@@ -390,11 +415,12 @@ start:;
 	}
 sf_end:;
 }
-void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[], check_CURD edit_table_g[], view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd) {
+void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CURD &delete_table_g, check_CURD &edit_table_g, view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd) {
 
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_D_staff = true;
+	string keyCRUD = "";
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -406,26 +432,25 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 				goto sf_out;
 			}
 			// edit
-			for (int i = 0; i < edit_table_g[0].n; i++)
+			for (int i = 0; i < edit_table_g.n; i++)
 			{
-				if (ktVT(edit_table_g[i].l, edit_table_g[i].t, edit_table_g[i].r, edit_table_g[i].b, x, y)) {
-					i_CRUD = (vp_g_table.current - 1) * ROW_STAFF + i;
-					i_CRUD += 1;
-					DS_VatTu *temp;
-					temp = getIndexGoods(ds_vt,i_CRUD);
-					goods_infor(temp->vat_tu.maVT, temp->vat_tu.tenVT, temp->vat_tu.DVT, to_string(temp->vat_tu.SLT));
+				if (ktVT(edit_table_g.data[i].l, edit_table_g.data[i].t, edit_table_g.data[i].r, edit_table_g.data[i].b, x, y)) {
+					keyCRUD = edit_table_g.data[i].key;
+					VatTu temp;
+					temp = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
+					goods_infor(temp.maVT, temp.tenVT, temp.DVT, to_string(temp.SLT));
 					g_isEdit = true;
 					goto sf_out;
 				}
 			}
 			//delete
-			for (int i = 0; i < delete_table_g[0].n; i++)
+			for (int i = 0; i < delete_table_g.n; i++)
 			{
-				if (ktVT(delete_table_g[i].l, delete_table_g[i].t, delete_table_g[i].r, delete_table_g[i].b, x, y)) {
-					i_CRUD = (vp_g_table.current - 1) * ROW_STAFF + i;
-					i_CRUD += 1;
-					VatTu x_vt = getIndexGoods(ds_vt, i_CRUD)->vat_tu;
-					cout << x_vt.trangThai << " " << x_vt.tenVT << "__";
+				if (ktVT(delete_table_g.data[i].l, delete_table_g.data[i].t, delete_table_g.data[i].r, delete_table_g.data[i].b, x, y)) {
+					keyCRUD = delete_table_g.data[i].key;
+					cout << keyCRUD << endl;
+					VatTu x_vt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
+					
 					if (x_vt.trangThai) {
 						announce_board(0, 0, 0, 0, "Vat tu nay dang o trong hoa don khong the xoa.");
 						delay(1200);
@@ -433,8 +458,10 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 					else {
 						check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
 						if (check_D_staff) {
-							deleteNode(ds_vt, x_vt.tenVT);
-						
+							cout << x_vt.maVT << endl;
+							deleteNode_k_maVT(ds_vt, x_vt.maVT);
+							deleteNode_k_tenVT(ds_s_vt, x_vt.tenVT);
+							lnrSVT(ds_s_vt); 
 							write_file_goods(ds_vt);
 						}
 					}
@@ -449,7 +476,7 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 				}
 				next_page(650, 565, 685, 600, vp_g_table);
 				delete_after_header();
-				goods_table(sf_table_header, ds_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+				goods_table(g_table_header, ds_vt,ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_g_table.current == 1) {
@@ -457,7 +484,7 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 				}
 				prev_page(495, 565, 530, 600, vp_g_table);
 				delete_after_header();
-				goods_table(sf_table_header, ds_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+				goods_table(g_table_header, ds_vt,ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				g_page = false;
@@ -468,19 +495,20 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt, check_CURD delete_table_g[]
 	}
 sf_out:;
 	if (g_isEdit) {
-		string t_mvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.maVT;
-		string t_tvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.tenVT;
-		string t_dvt = getIndexGoods(ds_vt, i_CRUD)->vat_tu.DVT;
-		int slt = getIndexGoods(ds_vt,i_CRUD)->vat_tu.SLT;
+		VatTu temp = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
+		string t_mvt = temp.maVT;
+		string t_tvt = temp.tenVT;
+		string t_dvt = temp.DVT;
+		int slt = temp.SLT;
 		string t_slt = to_string(slt);
-		handleInfor_goods(x, y, ds_vt, t_mvt, t_tvt, t_dvt, t_slt, i_CRUD, g_isEdit, g_isAdd);
+		handleInfor_goods(x, y, ds_vt, ds_s_vt, t_mvt, t_tvt, t_dvt, t_slt, keyCRUD, g_isEdit, g_isAdd);
 	}
 	if (g_isAdd) {
 		string t_add_mnt = "";
 		string t_add_ho = "";
 		string t_add_ten = "";
 		string t_add_slt = "";
-		handleInfor_goods(x, y, ds_vt, t_add_mnt, t_add_ho, t_add_ten, t_add_slt,-1, g_isEdit, g_isAdd);
+		handleInfor_goods(x, y, ds_vt, ds_s_vt, t_add_mnt, t_add_ho, t_add_ten, t_add_slt,"", g_isEdit, g_isAdd);
 	}
 
 sf_end:;
