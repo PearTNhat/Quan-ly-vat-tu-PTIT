@@ -313,6 +313,9 @@ void in_hoa_don_table(
 		//DS_VatTu* nodeVT = searchVT(root, tempNodeCT->ct_hoadon.MAVT);
 		//if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
 		//else tenVT = "Unknown";
+		DS_VatTu* nodeVT = getNodebyId_maVT(root, tempNodeCT->ct_hoadon.MAVT);
+		if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
+		else tenVT = "Unknown";
 		writeText(135, text_top, (char*)tenVT.c_str(), 1, 0, 3, 15);
 		string soluong = to_string(tempNodeCT->ct_hoadon.Soluong);
 		writeText(290, text_top, (char*)soluong.c_str(), 1, 0, 3, 15);
