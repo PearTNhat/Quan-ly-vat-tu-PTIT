@@ -36,6 +36,58 @@ bool xu_li_nam_nhuan(int day, int month, int year, string& error_leap_year);
 void xu_li_button_tim_kiem(int& x, int& y, bool is_all_valid, string dayb, string monthb, string yearb, string daye, string monthe, string yeare, DS_NhanVien ds_nv);
 int compareDate(Date date1, Date date2);
 
+
+
+DS_info* merge(DS_info* l1, DS_info* l2) {
+	if (!l1) return l2;
+	if (!l2) return l1;
+
+	if (compareDate(l1->hoadon.date, l2->hoadon.date) < 0) {  
+		l1->next = merge(l1->next, l2);
+		return l1;
+	}
+	else if (compareDate(l1->hoadon.date, l2->hoadon.date) > 0) {
+		l2->next = merge(l1, l2->next);
+		return l2;
+	}
+	else { // dates are the same
+		if (strcmp(l1->hoadon.SoHD, l2->hoadon.SoHD) <= 0) {
+			l1->next = merge(l1->next, l2);
+			return l1;
+		}
+		else {
+			l2->next = merge(l1, l2->next);
+			return l2;
+		}
+	}
+}
+
+
+DS_info* split(DS_info* head) {
+	DS_info* slow = head;
+	DS_info* fast = head->next;  // 1 2 3 4
+
+	while (fast && fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+
+	DS_info* mid = slow->next;
+	slow->next = nullptr;
+	return mid;
+}
+
+
+DS_info* mergeSort(DS_info* head) {
+	if (!head || !head->next) return head;
+
+	DS_info* mid = split(head);
+	DS_info* l1 = mergeSort(head);
+	DS_info* l2 = mergeSort(mid);
+
+	return merge(l1, l2);
+}
+
 void insertionSortDSHD(DS_info*& ds) {
 	if (ds == NULL || ds->next == NULL) {
 		return; // The list is already sorted
@@ -745,7 +797,8 @@ void xu_li_button_tim_kiem(
 		date_end.nam = year_e;
 
 		getDataTKHD(ds_info, ds_nv, date_begin, date_end);
-		insertionSortDSHD(ds_info);
+		//insertionSortDSHD(ds_info);
+		ds_info = mergeSort(ds_info);
 		ss_table(ss_table_header, ds_info, vp_m_ss, ROWS_PER_PG_SS);
 		ss_handleTable(x, y, ds_info);
 	}

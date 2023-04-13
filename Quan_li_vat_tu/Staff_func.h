@@ -166,7 +166,6 @@ void write_file_staff(DS_NhanVien ds_nv) {
 	write_file.close();
 }
 void create_sf_header(string title, string subTitle) {
-	cout << title << " " << subTitle;
 	setfillstyle(1, bk_screen);
 	setcolor(0);
 	text_box(950, 70, 1150, 110, (char*)subTitle.c_str(), f_medium, 2, 10, 20, 11);
