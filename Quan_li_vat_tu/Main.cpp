@@ -15,7 +15,6 @@ int main() {
 	view_page vp_m_sf;
 	bool sf_isEdit = false, sf_isAdd = false;
 	DS_NhanVien ds_nv;
-	DS_HoaDon ds_hdP;
 	read_file_staff(ds_nv);
 	sort_staff(ds_nv);
 	// vật tư
