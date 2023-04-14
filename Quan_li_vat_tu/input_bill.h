@@ -181,7 +181,7 @@ string input_bill(
 				if (key == 13 || key == 9) {
 					//enter để break	'
 					if (input.length() == 1) {
-						warning_msg_bill("Khong duoc trong", e_l+2, e_t+30, 4,0,0);
+						//warning_msg_bill("Khong duoc trong", e_l+2, e_t+30, 4,0,0);
 						// reset lai mau
 						setbkcolor(i_highlight);
 						setcolor(i_color);

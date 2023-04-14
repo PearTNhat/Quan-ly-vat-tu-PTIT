@@ -74,28 +74,11 @@ void khung_b_nhd()
 	b_taokhungden(110, 195, 350, 220);
 	b_taokhungden(350, 195, 590, 220);
 	b_taokhungden(430, 170, 590, 195);
-	b_taokhungden(620, 170, 770, 195);//them vt
-	b_taokhungden(800, 170, 950, 195);
-	//b_taokhungden(590, 170, 980, 195);
-	//b_taokhungden(590, 195, 740, 220);
-	//b_taokhungden(740, 195, 980, 220);
-
-
+	b_taokhungden(620, 145, 770, 170);//them vt
+	b_taokhungden(800, 145, 950, 170);
+	b_taokhungden(590, 170, 980, 195);
+	b_taokhungden(590, 195, 980, 220);
 }
-
-
-
-
-
-//void create_bill_tabble()
-//{
-//
-//}
-
-
-
-
-
 
 //Tra hang
 
@@ -190,64 +173,26 @@ bool checksoluong(DS_VatTu* root, string mvt, string x) {
 	return false; // trả về false nếu không tìm thấy nút có maVT khớp
 }
 
-
-//bool checktrungmavt(DS_VatTu* root, string mvt) {
-//	DS_VatTu* temp = root;
-//	DS_VatTu* res;
-//	Stack s(getSizeGoods(root));
-//	int k = 0;
-//	while (1) {
-//		while (temp != NULL) {
-//			push(s, temp);
-//			temp = temp->left;
-//		}
-//		if (!isEmpty(s)) {
-//			res = pop(s);
-//			if ((string)res->vat_tu.maVT == mvt) {
-//				return true;
-//			}
-//			if (res->right != NULL) {
-//				temp = res->right;
-//			}
-//		}
-//		else {
-//			break;
-//		}
-//	}
-//	return false;
-//}
-
-//bool checksoluong(DS_VatTu* root, string mvt, string Soluong) {
-//	DS_VatTu* temp = root;
-//	DS_VatTu* res;
-//	Stack s(getSizeGoods(root));
-//	int k = 0;
-//	while (1) {
-//		while (temp != NULL) {
-//			push(s, temp);
-//			temp = temp->left;
-//		}
-//		if (!isEmpty(s)) {
-//			res = pop(s);
-//			if (res->vat_tu.maVT == mvt) {
-//				if (res->vat_tu.SLT >= stoi(Soluong)) {
-//					return true;
-//				}
-//				else {
-//					return false;
-//				}
-//			}
-//			if (res->right != NULL) {
-//				temp = res->right;
-//			}
-//		}
-//		else {
-//			break;
-//		}
-//	}
-//	return false;
-//}
-
+bool checkSLT(DS_VatTu* root, string mvt) {
+	DS_VatTu* p = root;
+	while (p != NULL) {
+		if (p->vat_tu.maVT == mvt) { // so sánh trường maVT trước
+			if ( 0 == p->vat_tu.SLT) { 
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if (mvt > p->vat_tu.maVT) {
+			p = p->right;
+		}
+		else {
+			p = p->left;
+		}
+	}
+	return true; 
+}
 
 
 void resetbaoloi()
@@ -532,8 +477,9 @@ void khunglan2(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, bool
 	text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
 	text_box_no_border(350, 195, 590, 220, (char*)"Don gia:", f_medium, 2, 1, 5, 9, 0);
 	text_box_no_border(430, 170, 590, 195, (char*)"%VAT: ", f_medium, 2, 1, 5, 9, 0);
-	text_box_no_border(620, 170, 770, 195, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
-	text_box_no_border(800, 170, 950, 195, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);
+	text_box_no_border(620, 145, 770, 170, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
+	text_box_no_border(800, 145, 950, 170, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);
+	
 	text_box_no_border(985, 125, 1175, 215, (char*)"", f_medium, 2, 1, 5, 14, 0);
 	khung_b_nhd();
 
@@ -551,10 +497,175 @@ void khunglan2(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, bool
 	}
 }
 
-void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, bool& xuat, int& x, int& y)
+
+void themvttamthoi(HoaDon& hd, dscthd& p,int& n, char(&c_mavattu)[11], char(&c_soluong)[11], char(&c_dongia)[11], char(&c_vat)[11], bool& nhap, bool& xuat)
 {
+	
+	CT_HoaDon cthoadon = {};
+	
+	
+	strcpy(cthoadon.MAVT, c_mavattu);
+	cthoadon.Soluong = stoi(c_soluong);
+	cthoadon.Dongia = stoi(c_dongia);
+	cthoadon.VAT = stof(c_vat);
+	cthoadon.TrangThai = 1;
+	Insert_last_CTHD(p, cthoadon);
+	n++;
+	
+}
+
+char* timTenVT(DS_VatTu* root, char MAVT[11]) {
+	if (root == NULL) { // nếu cây rỗng
+		return NULL;
+	}
+	if (strcmp(root->vat_tu.maVT, MAVT) == 0) { // nếu tìm thấy MAVT trong nút hiện tại
+		return root->vat_tu.tenVT; // trả về tenVT tương ứng
+	}
+	if (strcmp(root->vat_tu.maVT, MAVT) < 0) { // nếu MAVT cần tìm nằm bên phải nút hiện tại
+		return timTenVT(root->right, MAVT); // tiếp tục tìm kiếm bên phải
+	}
+	else { // nếu MAVT cần tìm nằm bên trái nút hiện tại
+		return timTenVT(root->left, MAVT); // tiếp tục tìm kiếm bên trái
+	}
+}
+
+char* timDvtVT(DS_VatTu* root, char MAVT[11]) {
+	if (root == NULL) { // nếu cây rỗng
+		return NULL;
+	}
+	if (strcmp(root->vat_tu.maVT, MAVT) == 0) { // nếu tìm thấy MAVT trong nút hiện tại
+		return root->vat_tu.DVT; // trả về DVT tương ứng
+	}
+	if (strcmp(root->vat_tu.maVT, MAVT) < 0) { // nếu MAVT cần tìm nằm bên phải nút hiện tại
+		return timDvtVT(root->right, MAVT); // tiếp tục tìm kiếm bên phải
+	}
+	else { // nếu MAVT cần tìm nằm bên trái nút hiện tại
+		return timDvtVT(root->left, MAVT); // tiếp tục tìm kiếm bên trái
+	}
+}
+
+
+float thanhtien1vt(int& soluong, int& dongia, float& VAT)
+{
+	float a = 0;
+	a = soluong * dongia + soluong * dongia * (VAT/100);
+	return a;
+}
+
+void delete_bill_table()
+{
+	setfillstyle(1, bk_screen);
+	bar(9, 229, 1181, 900);
+}
+
+void bill_nhd_table(
+	char bill_table_header[][20],
+	HoaDon &hd,
+	dscthd p,
+	view_page& view_page,
+	int num_rows,
+	int& n,
+	float& TONGCONG
+) {
+	DS_VatTu* ds_vt = NULL;
+	read_file_goods(ds_vt);
+
+	setlinestyle(0, 0, 0);
+	delete_bill_table();
+	setcolor(0);
+	int page = n / num_rows;
+	int du = n % num_rows;
+	view_page.page = du ? page + 1 : page;
+	if (n == 0) {
+		view_page.page = 1;
+	}
+	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
+	// reder page
+	int i = num_rows * (view_page.current - 1);
+	//header
+	int bar_top = 230, bar_bottom = 260;
+	int text_top = 235;
+	setfillstyle(1, COLOR_HEADER_TABLE);
+	setbkcolor(COLOR_HEADER_TABLE);
+	settextstyle(f_small, 0, 1);
+	bar3d(10, bar_top, 1180, bar_bottom, 0, 0);
+	outtextxy(16, text_top, (char*)"STT");
+	outtextxy(75, text_top, bill_table_header[0]);
+	outtextxy(200, text_top, bill_table_header[1]);
+	outtextxy(350, text_top, bill_table_header[2]);
+	outtextxy(450, text_top, bill_table_header[3]);
+	outtextxy(600, text_top, bill_table_header[4]);
+	outtextxy(750, text_top, bill_table_header[5]);
+	outtextxy(850, text_top, bill_table_header[6]);
+	setfillstyle(1, 15);
+	setbkcolor(15);
+	int d = 0;//delete
+	int e = 0;//edit
+	for (; i < max_page; i++)
+	{
+		if (i % num_rows == 0) {
+			bar_top += 30;
+			bar_bottom += 40;
+			text_top += 35;
+		}
+		else {
+			bar_top += 40;
+			bar_bottom += 40;
+			text_top += 40;
+		}
+		// row
+		setcolor(0);
+		bar3d(10, bar_top, 1180, bar_bottom, 0, 0);
+		// title header
+
+		int SL = p->ct_hoadon.Soluong;
+		char SL_char[10];
+		sprintf(SL_char, "%d", SL);
+
+		int DG = p->ct_hoadon.Dongia;
+		char DG_char[10];
+		sprintf(DG_char, "%d", DG);
+
+		float VAT = p->ct_hoadon.VAT;
+		char VAT_char[10];
+		sprintf(VAT_char, "%.2f", VAT);
+
+		float TT = thanhtien1vt(SL,DG,VAT);
+		char TT_char[20];
+		sprintf(TT_char, "%.2f", TT);
+
+		TONGCONG = TONGCONG + TT;
+
+		char stt[10];
+		strcpy_s(stt, to_string(i + 1).c_str());
+		writeText(16, text_top, stt, 1, 0, 3, 15);
+		writeText(75, text_top, p->ct_hoadon.MAVT, 1, 0, 3, 15);
+		char* TENVT = timTenVT(ds_vt, p->ct_hoadon.MAVT);
+		writeText(200, text_top, TENVT, 1, 0, 3, 15);
+		char* DVT = timDvtVT(ds_vt, p->ct_hoadon.MAVT);
+		writeText(350, text_top, DVT, 1, 0, 3, 15);
+		writeText(450, text_top, SL_char, 1, 0, 3, 15);
+		writeText(600, text_top, DG_char, 1, 0, 3, 15);
+		writeText(750, text_top, VAT_char, 1, 0, 3, 15);
+		writeText(850, text_top, TT_char, 1, 0, 3, 15);
+
+		p = p->next;
+	}
+	// < >
+	page_transition(view_page);
+}
+
+void saukhithemvt(HoaDon& hd, dscthd p , float& TONGCONG, int&n ,char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, bool& xuat, int& x, int& y)
+{
+	lannua:
 	DS_NhanVien ds_nv;
 	DS_VatTu* ds_vt = NULL;
+
+	
+	char TONGCONG_char[20];
+	string a = "0";
+
+	view_page vp_b_table;
 
 	string d;
 	char c_mavattu[11] = "";
@@ -570,6 +681,7 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 	read_file_staff(ds_nv);
 	read_file_goods(ds_vt);
 
+	
 
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
@@ -578,6 +690,7 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 	string curr_year = to_string(1900 + ltm->tm_year);
 
 	khunglan2(c_sohoadon,c_mannhanvien,nhap,xuat);
+	goto batdau2;
 	while (1)
 	{
 		if (ismouseclick(WM_LBUTTONDOWN))
@@ -607,6 +720,7 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 				{
 					break;
 				}
+				
 				if (empty(d) == true)
 				{
 					mavt = false;
@@ -614,11 +728,21 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y))// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y))// them hd
 					{
 						goto batdau2;
 					}
+					goto SL2;
+				}
+				if (checkSLT(ds_vt, d) == false)
+				{
+					mavt = false;
+					strcpy(c_mavattu, "");
+					text_box(985, 125, 1175, 215, (char*)"Het Hang!", f_medium, 2, 30, 8, RED, 0, 0);
+					text_box_no_border(110, 170, 430, 195, (char*)"Ma vat tu:", f_medium, 2, 1, 5, 9, 0);
+					khung_b_nhd();
+					goto MAVT2;
 				}
 				if (checktrungmavt(ds_vt, d) == false)
 				{
@@ -637,8 +761,8 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y))// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y))// them hd
 					{
 						goto batdau2;
 					}
@@ -648,8 +772,8 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y))// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y))// them hd
 				{
 					goto batdau2;
 				}
@@ -690,11 +814,12 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y))// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y))// them hd
 					{
 						goto batdau2;
 					}
+					goto DG2;
 				}
 				if (checksoluong(ds_vt, c_mavattu, d) == false)
 				{
@@ -713,8 +838,8 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y))// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y))// them hd
 					{
 						goto batdau2;
 					}
@@ -724,8 +849,8 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y))// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y))// them hd
 				{
 					goto batdau2;
 				}
@@ -766,11 +891,12 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y))// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y))// them hd
 					{
 						goto batdau2;
 					}
+					goto VAT2;
 				}
 				if (empty(d) == false)
 				{
@@ -781,8 +907,8 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y))// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y))// them hd
 					{
 						goto batdau2;
 					}
@@ -792,8 +918,8 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y))// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y))// them hd
 				{
 					goto batdau2;
 				}
@@ -810,12 +936,12 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 				}
 				if (vat == true)
 				{
-					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, c_vatvt, 4, "number", "calmCase");
+					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, c_vatvt, 7, "decimal_number", "calmCase");
 					strcpy(c_vatvt, "");
 				}
 				if (vat == false)
 				{
-					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, "", 4, "number", "calmCase");
+					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, "", 7, "decimal_number", "calmCase");
 				}
 				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
 					ktVT(350, 10, 550, 50, x, y) || // nhan vien
@@ -834,8 +960,8 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y))// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y))// them hd
 					{
 						goto batdau2;
 					}
@@ -849,25 +975,28 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y))// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y))// them hd
 					{
 						goto batdau2;
 					}
+					goto THEMVT2;
 				}
 				if (ktVT(110, 170, 430, 195, x, y) || //mavt
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y))// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y))// them hd
 				{
 					goto batdau2;
 				}
+				goto THEMVT2;
 			}
 			//check truoc khi them vt
-			if (ktVT(620, 170, 770, 195, x, y))
+			if (ktVT(620, 145, 770, 170, x, y))
 			{
+				THEMVT2:
 				if (mavt == false) {
 					text_box(985, 125, 1175, 215, (char*)"nhap MaVT!", f_medium, 2, 30, 8, RED, 0, 0);
 					goto MAVT2;
@@ -886,17 +1015,24 @@ void saukhithemvt(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, b
 				}
 				if (mavt == true && soluong == true && dongia == true && (nhap == true || xuat == true))
 				{
-					text_box_no_border(620, 170, 770, 195, (char*)"Them vat tu", f_medium, 2, 1, 5, 14, 0);
+					text_box_no_border(620, 145, 770, 170, (char*)"Them vat tu", f_medium, 2, 1, 5, 14, 0);
 					text_box(985, 125, 1175, 215, (char*)"Da them VT", f_medium, 2, 30, 8, LIGHTGREEN, 0, 0);
 					delay(800);
 					resetbaoloi();
-					text_box_no_border(620, 170, 770, 195, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
+					text_box_no_border(620, 145, 770, 170, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
 					khung_b_nhd();
+					themvttamthoi(hd,p, n, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhap, xuat);
+					bill_nhd_table(bill_table_header, hd,p, vp_b_table, 7, n, TONGCONG);
+					sprintf(TONGCONG_char, "%.2f", TONGCONG);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, TONGCONG_char, f_medium, 2, 1, 30, 15, 0);
+					khung_b_nhd();
+					goto lannua;
 					//vat tu lan 2 tu day xuong
 					//saukhithemvt(c_sohoadon, c_manhanvien, nhap, xuat, x, y);
 				}
 			}
-			if (ktVT(800, 170, 950, 195, x, y))
+			if (ktVT(800, 145, 950, 170, x, y))
 			{
 				//b_create_info();
 				//highlight_box(800, 165, 950, 190, (char*)"Luu hoa don", f_medium, 2, 1, 5, 0, 10);
@@ -929,6 +1065,16 @@ void nhd_bill(int& x, int& y)
 {
 	DS_NhanVien ds_nv;
 	DS_VatTu* ds_vt = NULL;
+
+	HoaDon hd;
+	Initialize_CTHD(hd.first_cthd);
+	dscthd p = hd.first_cthd;
+	float TONGCONG = 0;
+	char TONGCONG_char[20];
+	int n = 0;
+	string a = "0";
+
+	view_page vp_b_table;
 
 	string d;
 	char c_sohoadon[21] = "";
@@ -973,8 +1119,10 @@ void nhd_bill(int& x, int& y)
 	text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
 	text_box_no_border(350, 195, 590, 220, (char*)"Don gia:", f_medium, 2, 1, 5, 9, 0);
 	text_box_no_border(430, 170, 590, 195, (char*)"%VAT: ", f_medium, 2, 1, 5, 9, 0);
-	text_box_no_border(620, 170, 770, 195, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
-	text_box_no_border(800, 170, 950, 195, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);
+	text_box_no_border(620, 145, 770, 170, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
+	text_box_no_border(800, 145, 950, 170, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);
+	text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+	text_box_no_border(590, 195, 980, 220, (char*)"", f_medium, 2, 1, 5, 15, 0);
 	text_box_no_border(985, 125, 1175, 215, (char*)"", f_medium, 2, 1, 5, 14, 0);
 
 	setlinestyle(0, 0, 1);
@@ -1039,13 +1187,14 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
 						goto batdau;
 					}
+					goto MANV;
 				}
 				if (checktrungshd(ds_nv, d) == false)
 				{
@@ -1066,8 +1215,8 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
@@ -1081,8 +1230,8 @@ void nhd_bill(int& x, int& y)
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y) ||// them hd
 					ktVT(20, 130, 100, 170, x, y) || // nhap
 					ktVT(20, 170, 100, 210, x, y))  // xuat
 				{
@@ -1122,13 +1271,14 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
 						goto batdau;
 					}
+					goto MAVT;
 				}
 				if (checktrungmanv(ds_nv, d) == false)
 				{
@@ -1149,8 +1299,8 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
@@ -1164,8 +1314,8 @@ void nhd_bill(int& x, int& y)
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y) ||// them hd
 					ktVT(20, 130, 100, 170, x, y) || // nhap
 					ktVT(20, 170, 100, 210, x, y))  // xuat
 				{
@@ -1219,7 +1369,8 @@ void nhd_bill(int& x, int& y)
 				{
 					break;
 				}
-				if (empty(d) == true && (nhap == true || xuat == true))
+				
+				if (empty(d) == true)
 				{
 					mavt = false;
 					if (ktVT(110, 120, 590, 145, x, y) || //sohd
@@ -1228,13 +1379,23 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
 						goto batdau;
 					}
+					goto SL;
+				}
+				if (checkSLT(ds_vt, d) == false) 
+				{
+					mavt = false;
+					strcpy(c_mavattu, "");
+					text_box(985, 125, 1175, 215, (char*)"Het Hang!", f_medium, 2, 30, 8, RED, 0, 0);
+					text_box_no_border(110, 170, 430, 195, (char*)"Ma vat tu:", f_medium, 2, 1, 5, 9, 0);
+					khung_b_nhd();
+					goto MAVT;
 				}
 				if (checktrungmavt(ds_vt, d) == false)
 				{
@@ -1255,8 +1416,8 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
@@ -1270,8 +1431,8 @@ void nhd_bill(int& x, int& y)
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y) ||// them hd
 					ktVT(20, 130, 100, 170, x, y) || // nhap
 					ktVT(20, 170, 100, 210, x, y))  // xuat
 				{
@@ -1316,13 +1477,14 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
 						goto batdau;
 					}
+					goto DG;
 				}
 				if (checksoluong(ds_vt, c_mavattu, d) == false)
 				{
@@ -1343,8 +1505,8 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
@@ -1358,8 +1520,8 @@ void nhd_bill(int& x, int& y)
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y) ||// them hd
 					ktVT(20, 130, 100, 170, x, y) || // nhap
 					ktVT(20, 170, 100, 210, x, y))  // xuat
 				{
@@ -1404,13 +1566,14 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
 						goto batdau;
 					}
+					goto VAT;
 				}
 				if (empty(d) == false)
 				{
@@ -1423,8 +1586,8 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
@@ -1438,8 +1601,8 @@ void nhd_bill(int& x, int& y)
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y) ||// them hd
 					ktVT(20, 130, 100, 170, x, y) || // nhap
 					ktVT(20, 170, 100, 210, x, y))  // xuat
 				{
@@ -1458,12 +1621,12 @@ void nhd_bill(int& x, int& y)
 				}
 				if (vat == true)
 				{
-					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, c_vatvt, 4, "number", "calmCase");
+					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, c_vatvt, 7, "decimal_number", "calmCase");
 					strcpy(c_vatvt, "");
 				}
 				if (vat == false)
 				{
-					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, "", 4, "number", "calmCase");
+					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, "", 7, "decimal_number", "calmCase");
 				}
 				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
 					ktVT(350, 10, 550, 50, x, y) || // nhan vien
@@ -1484,13 +1647,14 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
 						goto batdau;
 					}
+					goto THEMVT;
 				}
 				if (empty(d) == false)
 				{
@@ -1503,13 +1667,14 @@ void nhd_bill(int& x, int& y)
 						ktVT(110, 195, 350, 220, x, y) || //soluong
 						ktVT(350, 195, 590, 220, x, y) || //dongia
 						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 170, 770, 195, x, y) || // them vt
-						ktVT(800, 170, 950, 195, x, y) ||// them hd
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
 						ktVT(20, 130, 100, 170, x, y) || // nhap
 						ktVT(20, 170, 100, 210, x, y))  // xuat
 					{
 						goto batdau;
 					}
+					goto THEMVT;
 				}
 				if (ktVT(110, 120, 590, 145, x, y) || //sohd
 					ktVT(590, 120, 980, 145, x, y) || //manv
@@ -1517,8 +1682,8 @@ void nhd_bill(int& x, int& y)
 					ktVT(110, 195, 350, 220, x, y) || //soluong
 					ktVT(350, 195, 590, 220, x, y) || //dongia
 					ktVT(430, 170, 590, 195, x, y) || //vat
-					ktVT(620, 170, 770, 195, x, y) || // them vt
-					ktVT(800, 170, 950, 195, x, y) ||// them hd
+					ktVT(620, 145, 770, 170, x, y) || // them vt
+					ktVT(800, 145, 950, 170, x, y) ||// them hd
 					ktVT(20, 130, 100, 170, x, y) || // nhap
 					ktVT(20, 170, 100, 210, x, y))  // xuat
 				{
@@ -1526,8 +1691,9 @@ void nhd_bill(int& x, int& y)
 				}
 			}
 			//check truoc khi them vt
-			if (ktVT(620, 170, 770, 195, x, y))
+			if (ktVT(620, 145, 770, 170, x, y))
 			{
+				THEMVT:
 				if (sohd == false) {
 					text_box(985, 125, 1175, 215, (char*)"nhap SoHD!", f_medium, 2, 30, 8, RED, 0, 0);
 					goto SOHD;
@@ -1554,17 +1720,48 @@ void nhd_bill(int& x, int& y)
 				}
 				if (sohd == true && manv == true && mavt == true && soluong == true && dongia == true && (nhap == true || xuat == true))
 				{
-					text_box_no_border(620, 170, 770, 195, (char*)"Them vat tu", f_medium, 2, 1, 5, 14, 0);
+					text_box_no_border(620, 145, 770, 170, (char*)"Them vat tu", f_medium, 2, 1, 5, 14, 0);
 					text_box(985, 125, 1175, 215, (char*)"Da them VT", f_medium, 2, 30, 8, LIGHTGREEN, 0, 0);
 					delay(800);
 					resetbaoloi();
-					text_box_no_border(620, 170, 770, 195, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
+					text_box_no_border(620, 145, 770, 170, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
 					khung_b_nhd();
+					themvttamthoi(hd,p, n, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhap, xuat);
+					bill_nhd_table(bill_table_header, hd,p, vp_b_table, 7, n,TONGCONG);
+					sprintf(TONGCONG_char, "%.2f", TONGCONG);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, TONGCONG_char, f_medium, 2, 1, 30, 15, 0);
+					khung_b_nhd();
+					goto tvt;
 					//vat tu lan 2 tu day xuong
-					saukhithemvt(c_sohoadon, c_manhanvien, nhap, xuat, x, y);
+					while (1)
+					{
+						if (ismouseclick(WM_LBUTTONDOWN))
+						{
+							getmouseclick(WM_LBUTTONDOWN, x, y);
+							if (ktVT(620, 145, 770, 170, x, y))
+							{
+								tvt:
+								saukhithemvt(hd,p,TONGCONG,n,c_sohoadon, c_manhanvien, nhap, xuat, x, y);
+							}
+							
+							if (ktVT(50, 10, 250, 50, x, y) || //vat tu
+								ktVT(350, 10, 550, 50, x, y) || // nhan vien
+								ktVT(650, 10, 850, 50, x, y) || // thanh toan
+								ktVT(950, 10, 1150, 50, x, y) || // thong ke
+								ktVT(15, 70, 310, 110, x, y) || // lap hoa don
+								ktVT(350, 70, 645, 110, x, y) || // tra hang
+								ktVT(685, 70, 980, 110, x, y) || // in hoa don
+								ktVT(800, 145, 950, 170, x, y))  // them hoadon
+							{
+								break;
+							}
+						}
+						delay(1);
+					}
 				}
 			}
-			if (ktVT(800, 170, 950, 195, x, y))
+			if (ktVT(800, 145, 950, 170, x, y))
 			{
 				//b_create_info();
 				//highlight_box(800, 165, 950, 190, (char*)"Luu hoa don", f_medium, 2, 1, 5, 0, 10);
@@ -1589,6 +1786,7 @@ void nhd_bill(int& x, int& y)
 
 void bill_page(int& x, int& y, DS_NhanVien ds_nv, DS_VatTu* ds_vt)
 {
+	
 	bool error_soHD = false;
 	bool in_hoa_don_page = false;
 	while (1)
