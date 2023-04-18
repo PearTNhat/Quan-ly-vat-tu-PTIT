@@ -9,6 +9,6 @@ VT356,Riu Vang,Cai,0,2312
 VT3442,Con Dao,Con,0,4234
 VT3,Da,Khoi,0,345
 VT35,Bua,Cai,0,15
-VT44,Kim Bam Babi,Cai,0,2321
+VT44,Kim Bam Babi,Cai,0,0
 VT4123,Xeng,Cai,0,4324
 VT60,Sat,Kg,0,145
