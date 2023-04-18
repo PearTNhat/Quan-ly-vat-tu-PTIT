@@ -54,14 +54,14 @@ struct DS_CT_HoaDon
 typedef DS_CT_HoaDon* dscthd;
 
 // Initialize khoi dong danh sach lien ket chi tiet hoadon
-void Initialize_CTHD(dscthd &first_cthd)
+void Initialize_CTHD(dscthd& first_cthd)
 {
 	first_cthd = NULL;
 }
 
 /* Tac vu nodepointer: xac dinh con tro cua nut i trong danh sach lien ket chi tiet hoadon
    (i = 2, ...) */
-dscthd nodepointer_CTHD(dscthd &first_cthd, int i)
+dscthd nodepointer_CTHD(dscthd& first_cthd, int i)
 {
 	dscthd d;
 	int vitri = 1;
@@ -176,6 +176,173 @@ void Clearlist_CTHD(dscthd& first_cthd)
 	while (first_cthd != NULL) Delete_First_CTHD(first_cthd);
 }
 
+CT_HoaDon getNodeByMaVT(dscthd head, char c_mavattu) {
+	if (head == nullptr) {
+		return CT_HoaDon();
+	}
+
+	dscthd current = head;
+	while (current != nullptr) {
+		if (strcmp(current->ct_hoadon.MAVT, (char*)c_mavattu) == 0) {
+			return current->ct_hoadon;
+		}
+		current = current->next;
+	}
+
+	return CT_HoaDon();
+}
+
+CT_HoaDon getNodeByvitri(dscthd head, int i) {
+	if (head == nullptr) {
+		return CT_HoaDon();
+	}
+
+	dscthd current = head;
+	int count = 0;
+	while (current != nullptr && count != i) {
+		current = current->next;
+		count++;
+	}
+
+	if (count == i && current != nullptr) {
+		return current->ct_hoadon;
+	}
+
+	return CT_HoaDon();
+}
+
+void xoaNodeByvitri(dscthd& head, int i) {
+	if (head == nullptr) {
+		return;
+	}
+
+	if (i == 0) {
+		dscthd temp = head;
+		head = head->next;
+		delete temp;
+		return;
+	}
+
+	dscthd current = head;
+	dscthd previous = nullptr;
+	int count = 0;
+
+	while (current != nullptr && count != i) {
+		previous = current;
+		current = current->next;
+		count++;
+	}
+
+	if (count == i && current != nullptr) {
+		previous->next = current->next;
+		delete current;
+		return;
+	}
+}
+
+void themNodeByvitri(dscthd& head, int i, CT_HoaDon ct_hoadon) {
+	// Tạo một node mới
+	dscthd new_node = new DS_CT_HoaDon;
+	new_node->ct_hoadon = ct_hoadon;
+	new_node->next = nullptr;
+
+	if (head == nullptr && i == 0) {
+		// Trường hợp danh sách rỗng, thêm node mới vào đầu danh sách
+		head = new_node;
+		return;
+	}
+
+	if (i == 0) {
+		// Thêm node mới vào đầu danh sách
+		new_node->next = head;
+		head = new_node;
+		return;
+	}
+
+	dscthd current = head;
+	dscthd previous = nullptr;
+	int count = 0;
+
+	while (current != nullptr && count != i) {
+		previous = current;
+		current = current->next;
+		count++;
+	}
+
+	if (count == i) {
+		// Thêm node mới vào vị trí thứ i
+		previous->next = new_node;
+		new_node->next = current;
+		return;
+	}
+
+	// Nếu không tìm thấy vị trí cần thêm node mới
+	delete new_node; // Giải phóng bộ nhớ đã cấp phát cho node mới
+}
+
+
+dscthd getNodeMaVTdscthd(dscthd head, string c_mavattu) {
+	if (head == nullptr) {
+		return nullptr;
+	}
+
+	dscthd current = head;
+	while (current != nullptr) {
+		if (current->ct_hoadon.MAVT == c_mavattu) {
+			return current;
+		}
+		current = current->next;
+	}
+
+	return nullptr;
+}
+
+void xoaNodeMaVTdscthd(dscthd& first, string c_mavattu) {
+	// Tìm node cần xóa
+	dscthd nodexoa = getNodeMaVTdscthd(first, c_mavattu);
+
+	// Nếu không tìm thấy node cần xóa
+	if (nodexoa == nullptr) {
+		cout << "Khong tim thay node can xoa" << endl;
+		return;
+	}
+
+	// Nếu node cần xóa là head
+	if (nodexoa == first) {
+		first = first->next;
+		delete nodexoa;
+		return;
+	}
+
+	// Tìm node trước node cần xóa
+	dscthd prev_node = first;
+	while (prev_node->next != nodexoa) {
+		prev_node = prev_node->next;
+	}
+
+	// Xóa node cần xóa
+	prev_node->next = nodexoa->next;
+	delete nodexoa;
+}
+
+dscthd getNodeByIndexdscthd(dscthd head, int index) {
+	if (head == nullptr) {
+		return nullptr;
+	}
+	dscthd current = head;
+	int count = 0;
+	while (current != nullptr) {
+		if (count == index) {
+			return current;
+		}
+		count++;
+		current = current->next;
+	}
+	return nullptr;
+}
+
+
+
 //hoa don
 
 struct Date
@@ -206,8 +373,8 @@ struct HoaDon
 	bool operator==(HoaDon& other)
 	{
 		if (strcmp(this->SoHD, other.SoHD) == 0 &&
-			strcmp(this->Loai, other.Loai) == 0 && 
-			this->date == other.date) 
+			strcmp(this->Loai, other.Loai) == 0 &&
+			this->date == other.date)
 			return true;
 
 		return false;
@@ -497,11 +664,11 @@ char menu()
 
 void demoPhu()
 {
-	
+
 	char chucnang;
 	PTRHD First;
 	Initialize_HD(First);
-	do 
+	do
 	{
 		chucnang = menu();
 		switch (chucnang)
@@ -509,7 +676,7 @@ void demoPhu()
 		case'1':
 		{
 			system("cls");
-			
+
 			break;
 		}
 		case'3':

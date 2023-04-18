@@ -27,7 +27,7 @@ void read_file_goods(DS_VatTu *&ds_vt) {
 			readFile.getline(temp_vt.tenVT, 26, ',');
 			readFile.getline(temp_vt.DVT, 7, ',');
 			getline(readFile,t_tt, ',');
-			temp_vt.trangThai = stoi(t_tt);
+			temp_vt.sldaban = stoi(t_tt);
 			readFile >> temp_vt.SLT;
 			readFile.ignore();
 			insertNode_k_maVT(ds_vt, temp_vt);
@@ -48,7 +48,7 @@ void selectMiddle(templeGoods arr, int l, int r, ofstream& writeFile,string mvt)
 			writeFile << arr.a[middle]->vat_tu.maVT << ",";
 			writeFile << arr.a[middle]->vat_tu.tenVT << ",";
 			writeFile << arr.a[middle]->vat_tu.DVT << ",";
-			writeFile << int(arr.a[middle]->vat_tu.trangThai)<< ",";
+			writeFile << int(arr.a[middle]->vat_tu.sldaban)<< ",";
 			if (mvt== (string)arr.a[middle]->vat_tu.maVT) {
 				writeFile << arr.a[middle]->vat_tu.SLT ;
 			}
@@ -347,7 +347,7 @@ start:;
 						strcpy_s(vt_temp.tenVT, t_tvt.c_str());
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT =stoi(t_slt);
-						vt_temp.trangThai = false;
+						vt_temp.sldaban = false;
 						strcpy_s(svt_temp.maVT, t_mvt.c_str());
 						strcpy_s(svt_temp.tenVT, t_tvt.c_str());
 						insertNode_k_maVT(ds_vt,vt_temp);
@@ -451,7 +451,7 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 					cout << keyCRUD << endl;
 					VatTu x_vt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
 					
-					if (x_vt.trangThai) {
+					if (x_vt.sldaban > 0) {
 						announce_board(0, 0, 0, 0, "Vat tu nay dang o trong hoa don khong the xoa.");
 						delay(1200);
 					}

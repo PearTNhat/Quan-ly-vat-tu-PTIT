@@ -47,4 +47,4 @@ char table_doanhThu_header[2][20] = { "Thang", "Doanh thu (VND)" };
 char table_in_HD_header[][20] = { "Ten vat tu", "So luong", "Don gia", "%VAT", "Trang Thai", "Thanh tien (VND)" };
 
 //bill
-char bill_table_header[7][20] = { "MaVT","TenVT","Donvi","Soluong","Dongia","%VAT","Thanh Tien" };
+char bill_table_header[8][20] = { "MaVT","TenVT","Donvi","Soluong","Dongia","%VAT","Thanh Tien", "Chuc nang"};

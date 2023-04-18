@@ -52,7 +52,7 @@ string input_bill(
 				outtextxy(l + kcl, t + kct, result);
 				//
 				if (input.length() == 1) {
-					warning_msg_bill("Khong duoc trong", e_l + 2, e_t + 30, 4, 0, 0);
+					//warning_msg_bill("Khong duoc trong", e_l + 2, e_t + 30, 4, 0, 0);
 					// reset lai mau
 					setbkcolor(i_highlight);
 					setcolor(i_color);

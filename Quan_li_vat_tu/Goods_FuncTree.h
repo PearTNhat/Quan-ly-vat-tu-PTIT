@@ -203,7 +203,7 @@ DS_VatTu* createNode_k_mVT(VatTu x)
 	strcpy_s(p->vat_tu.tenVT, x.tenVT);
 	strcpy_s(p->vat_tu.DVT, x.DVT);
 	p->vat_tu.SLT = x.SLT;
-	p->vat_tu.trangThai = x.trangThai;
+	p->vat_tu.sldaban = x.sldaban;
 	p->left = NULL;
 	p->right = NULL;
 	return p;
@@ -319,7 +319,7 @@ void deleteNode_k_maVT(DS_VatTu*& root, string key)
 			strcpy_s(curr->vat_tu.tenVT , temp->vat_tu.tenVT);
 			curr->vat_tu.SLT = temp->vat_tu.SLT;
 			strcpy_s(curr->vat_tu.DVT, temp->vat_tu.DVT);
-			curr->vat_tu.trangThai= temp->vat_tu.trangThai;
+			curr->vat_tu.sldaban= temp->vat_tu.sldaban;
 
 		}
 	}
