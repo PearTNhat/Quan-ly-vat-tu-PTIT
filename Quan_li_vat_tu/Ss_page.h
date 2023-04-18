@@ -88,40 +88,6 @@ DS_info* mergeSort(DS_info* head) {
 	return merge(l1, l2);
 }
 
-void insertionSortDSHD(DS_info*& ds) {
-	if (ds == NULL || ds->next == NULL) {
-		return; // The list is already sorted
-	}
-
-	DS_info* sorted_head = ds;
-	ds = ds->next;
-	sorted_head->next = NULL;
-
-	while (ds != NULL) {
-		DS_info* node = ds;
-		ds = ds->next;
-		node->next = NULL;
-
-		if (compareDate(node->hoadon.date, sorted_head->hoadon.date) < 0) {
-			node->next = sorted_head;
-			sorted_head = node;
-			continue;
-		}
-
-		DS_info* current = sorted_head;
-
-		while (current->next != NULL &&
-			compareDate(current->next->hoadon.date, node->hoadon.date) < 0) {
-			current = current->next;
-		}
-
-		node->next = current->next;
-		current->next = node;
-	}
-
-	ds = sorted_head;
-}
-
 void create_ss_header() {
 	setfillstyle(1, HEADER_BACKGROUND);
 	setcolor(0);
@@ -158,9 +124,10 @@ void ss_table(
 	int bar_top = 220, bar_bottom = 252;
 	int text_top = 225;
 	setcolor(0);
-	setfillstyle(1, 6);
-	setbkcolor(6);
-	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
+	setfillstyle(1, COLOR(51, 51, 51)); // original color -> 6
+	setbkcolor(COLOR(51, 51, 51));
+	//bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
+	bar(50, bar_top, 1150, bar_bottom);
 	setcolor(15);
 	settextstyle(f_small, 0, 2);
 	outtextxy(55, text_top, (char*)"STT");
@@ -175,6 +142,14 @@ void ss_table(
 	int e = 0;//edit
 	for (; i < max_rows; i++)
 	{
+		int bkcolor = 15;
+		setfillstyle(1, 15);
+		if (i % 2 == 1) {
+			//setfillstyle(1, COLOR(221, 221, 221));
+			//bkcolor = COLOR(221, 221, 221);
+			setfillstyle(1, COLOR(238, 238, 238));
+			bkcolor = COLOR(238, 238, 238);
+		}
 		if (i % num_per_pg == 0) {
 			bar_top += 30;
 			bar_bottom += 40;
@@ -186,14 +161,15 @@ void ss_table(
 			text_top += 40;
 		}
 		// row
-		setcolor(0);
-		bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
+		//setcolor(0);
+		//bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
+		bar(50, bar_top, 1150, bar_bottom);
 		// title header
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
-		writeText(70, text_top, stt, 1, 0, 3, 15);
+		writeText(70, text_top, stt, 1, 0, 3, bkcolor);
 		DS_info* tempNodeInfo = getIndexDS_InfoTable(ds, i);
-		writeText(114, text_top, tempNodeInfo->hoadon.SoHD, 1, 0, 3, 15);
+		writeText(114, text_top, tempNodeInfo->hoadon.SoHD, 1, 0, 3, bkcolor);
 		string full_date = "";
 		full_date += to_string(tempNodeInfo->hoadon.date.ngay);
 		full_date += " / ";
@@ -203,11 +179,11 @@ void ss_table(
 
 		char date[30];
 		strcpy_s(date, full_date.c_str());
-		writeText(230, text_top, date, 1, 0, 3, 15);
+		writeText(230, text_top, date, 1, 0, 3, bkcolor);
 		if (strcmp(tempNodeInfo->hoadon.Loai, "N") == 0) {
-			writeText(490, text_top, (char*)"Nhap", 1, 0, 3, 15);
-		} else writeText(490, text_top, (char*)"Xuat", 1, 0, 3, 15);
-		writeText(650, text_top, tempNodeInfo->hoTenNV, 1, 0, 3, 15);
+			writeText(490, text_top, (char*)"Nhap", 1, 0, 3, bkcolor);
+		} else writeText(490, text_top, (char*)"Xuat", 1, 0, 3, bkcolor);
+		writeText(650, text_top, tempNodeInfo->hoTenNV, 1, 0, 3, bkcolor);
 		// Lấy trị giá hóa đơn
 		float triGia = 0;
 		DS_CT_HoaDon* nodeCT = tempNodeInfo->hoadon.first_cthd;
@@ -218,7 +194,7 @@ void ss_table(
 			nodeCT = nodeCT->next;
 		}
 		string triGia_str = formatNumber((int)triGia);
-		writeText(920, text_top, (char*)triGia_str.c_str(), 1, 0, 3, 15);
+		writeText(920, text_top, (char*)triGia_str.c_str(), 1, 0, 3, bkcolor);
 	}
 
 	// < >
@@ -282,9 +258,10 @@ void table_doanhThu(
 	int text_top = 152;
 
 	setcolor(0);
-	setfillstyle(1, 6);
-	setbkcolor(6);
-	bar3d(250, bar_top, 950, bar_bottom, 0, 0);
+	setfillstyle(1, COLOR(51, 51, 51)); // original color -> 6
+	setbkcolor(COLOR(51, 51, 51));
+	//bar3d(250, bar_top, 950, bar_bottom, 0, 0);
+	bar(250, bar_top, 950, bar_bottom);
 	setcolor(15);
 	settextstyle(f_small, 0, 2);
 	outtextxy(435, text_top, table_doanhThu_header[0]);
@@ -293,6 +270,14 @@ void table_doanhThu(
 	setbkcolor(15);
 	for (; i < 12; i++)
 	{
+		int bkcolor = 15;
+		setfillstyle(1, 15);
+		if (i % 2 == 1) {
+			//setfillstyle(1, COLOR(221, 221, 221));
+			//bkcolor = COLOR(221, 221, 221);
+			setfillstyle(1, COLOR(238, 238, 238));
+			bkcolor = COLOR(238, 238, 238);
+		}
 		if (i == 0) {
 			bar_top += 30;
 			bar_bottom += 38;
@@ -304,7 +289,8 @@ void table_doanhThu(
 			text_top += 35;
 		}
 		setcolor(0);
-		bar3d(250, bar_top, 950, bar_bottom, 0, 0);
+		//bar3d(250, bar_top, 950, bar_bottom, 0, 0);
+		bar(250, bar_top, 950, bar_bottom);
 		// title header
 		DS_HoaDon* nodeHD = ds;
 		long long doanh_thu = 0;
@@ -326,12 +312,12 @@ void table_doanhThu(
 		const char* m = thang.c_str();
 		int indent = 0;
 		if (strlen(m) == 2) indent += 5;
-		writeText(452 - indent, text_top, (char*)m, 1, 0, 3, 15);
+		writeText(452 - indent, text_top, (char*)m, 1, 0, 3, bkcolor);
 		string doanh_thu_str = formatNumber(doanh_thu);
 		m = doanh_thu_str.c_str();
 		indent = 0;
 		indent += 3*(strlen(m) - 0);
-		writeText(720 - indent, text_top, (char*)m, 1, 0, 3, 15);
+		writeText(720 - indent, text_top, (char*)m, 1, 0, 3, bkcolor);
 	}
 }
 
