@@ -119,6 +119,9 @@ void goods_table(
 	int page = n / num_cols;
 	int du = n % num_cols;
 	view_page.page = du ? page + 1 : page;
+	if (view_page.current> view_page.page) {
+		view_page.current--;
+	}
 	if (n == 0) {
 		view_page.page = 1;
 	}
@@ -166,16 +169,16 @@ void goods_table(
 		//vi tri edit
 		edit.data[e].key = tempVT.maVT;
 		edit.data[e].l = 900;
-		edit.data[e].t = text_top;
+		edit.data[e].t = text_top-2;
 		edit.data[e].r = 978;
-		edit.data[e].b = text_top + 22;
+		edit.data[e].b = text_top + 23;
 		e++;
 		// vi tri delete
 		_delete.data[d].key = tempVT.maVT;
-		_delete.data[d].l = 990;
-		_delete.data[d].t = text_top;
+		_delete.data[d].l = 995;
+		_delete.data[d].t = text_top-2;
 		_delete.data[d].r = 1038;
-		_delete.data[d].b = text_top + 22;
+		_delete.data[d].b = text_top + 23;
 		d++;
 		// --------------------------------- xuong day
 
@@ -198,6 +201,12 @@ void goods_table(
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
+	/*int top = 120 + 35;
+	line(87, top, 87, bar_bottom);
+	line(220, top, 220, bar_bottom);
+	line(446, top, 446, bar_bottom);
+	line(645, top, 645, bar_bottom);
+	line(890, top,890 , bar_bottom);*/
 	//------------- k can cos the xoa
 	_delete.n = d;
 	edit.n = e;
@@ -425,6 +434,9 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// them nhan vien moi
+		/*	line(x, y, x+20, y);
+			cout << "\nvi tri x-out:" << x << " - vi tri y-out:" << y << endl;*/
+
 		start_handle_staff:
 			if (ktVT(950, 70, 1150, 110, x, y)) { // them vat tu
 				goods_infor();
@@ -438,6 +450,8 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 					keyCRUD = edit_table_g.data[i].key;
 					VatTu temp;
 					temp = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
+					text_box(edit_table_g.data[i].l, edit_table_g.data[i].t, edit_table_g.data[i].r, edit_table_g.data[i].b, (char*)"Chinh sua",f_small,1,1, 2, XANH_LA_CAY, 0);
+					delay(200);
 					goods_infor(temp.maVT, temp.tenVT, temp.DVT, to_string(temp.SLT));
 					g_isEdit = true;
 					goto sf_out;
@@ -450,7 +464,8 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 					keyCRUD = delete_table_g.data[i].key;
 					cout << keyCRUD << endl;
 					VatTu x_vt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
-					
+					text_box(delete_table_g.data[i].l, delete_table_g.data[i].t, delete_table_g.data[i].r, delete_table_g.data[i].b, (char*)"Xoa", f_small, 1, 1, 6, XANH_LA_CAY, 0);
+					delay(200);
 					if (x_vt.trangThai) {
 						announce_board(0, 0, 0, 0, "Vat tu nay dang o trong hoa don khong the xoa.");
 						delay(1200);

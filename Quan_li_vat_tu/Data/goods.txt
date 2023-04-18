@@ -11,4 +11,4 @@ VT3,Da,Khoi,0,345
 VT35,Bua,Cai,0,15
 VT44,Kim Bam Babi,Cai,0,2321
 VT4123,Xeng,Cai,0,4324
-VT60,Sat,Kg,1,145
+VT60,Sat,Kg,0,145

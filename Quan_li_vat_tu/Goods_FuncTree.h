@@ -265,6 +265,24 @@ bool searchNode_k_maVT(DS_VatTu* root, string x)
 	}
 	return 1;
 }
+DS_VatTu *getNodebyId_maVT(DS_VatTu *root,string id) {
+	if (root==NULL) {
+		
+		return NULL;
+	}
+	else {
+		if ((string)root->vat_tu.maVT==id) {
+			return root;
+		}
+		else if ((string)root->vat_tu.maVT>id) {
+			return getNodebyId_maVT(root->left, id);
+		}
+		else {
+			return getNodebyId_maVT(root->right, id);
+		}
+	}
+
+}
 void deleteNode_k_maVT(DS_VatTu*& root, string key)
 {
 	DS_VatTu* curr = root;
@@ -328,24 +346,6 @@ void deleteNode_k_maVT(DS_VatTu*& root, string key)
 	}
 
 }
-DS_VatTu *getNodebyId_maVT(DS_VatTu *root,string id) {
-	if (root==NULL) {
-		
-		return NULL;
-	}
-	else {
-		if ((string)root->vat_tu.maVT==id) {
-			return root;
-		}
-		else if ((string)root->vat_tu.maVT>id) {
-			return getNodebyId_maVT(root->left, id);
-		}
-		else {
-			return getNodebyId_maVT(root->right, id);
-		}
-	}
-
-}
 int getSizeGoods(DS_VatTu* root) {
 	if (root == NULL) {
 		return 0;
@@ -378,31 +378,6 @@ DS_VatTu* getIndexGoods(DS_VatTu*& root, int index) {
 	}
 	return NULL;
 }
-//bool findMVT(DS_VatTu* root, string mvt) {
-//	DS_VatTu* temp = root;
-//	DS_VatTu* res;
-//	Stack s(getSizeGoods(root));
-//	int k = 0;
-//	while (1) {
-//		while (temp != NULL) {
-//			push(s, temp);
-//			temp = temp->left;
-//		}
-//		if (!isEmpty(s)) {
-//			res = pop(s);
-//			if ((string)res->vat_tu.maVT == mvt) {
-//				return true;
-//			}
-//			if (res->right != NULL) {
-//				temp = res->right;
-//			}
-//		}
-//		else {
-//			break;
-//		}
-//	}
-//	return false;
-//}
 void lnr(DS_VatTu* root)
 {
 	if (root != NULL)

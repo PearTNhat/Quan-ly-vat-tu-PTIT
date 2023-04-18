@@ -192,15 +192,18 @@ void staff_table(
 	int page = n / num_rows;
 	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
+	if (view_page.current > view_page.page) {
+		view_page.current--;
+	}
 	if (n==0) {
 		view_page.page = 1;
 	}
-	int max_page = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
+	int max_rows = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
 	// reder page
 	int i = num_rows * (view_page.current - 1);
 	//header
-	int bar_top = 120, bar_bottom = 150;
-	int text_top = 125;
+	int bar_top = 120, bar_bottom = 155;
+	int text_top = 127;
 	setfillstyle(1, COLOR_HEADER_TABLE);
 	setbkcolor(COLOR_HEADER_TABLE);
 	settextstyle(f_small, 0, 1);
@@ -214,17 +217,21 @@ void staff_table(
 	setbkcolor(15);
 	int d = 0;//delete
 	int e = 0;//edit
-	for (; i < max_page; i++)
+	for (; i < max_rows; i++)
 	{
 		if (i % num_rows == 0) {
-			bar_top += 30;
-			bar_bottom += 40;
-			text_top += 35;
-		}
-		else {
-			bar_top += 40;
+			bar_top += 35;
 			bar_bottom += 40;
 			text_top += 40;
+		}
+		else {
+			bar_top += 39;
+			bar_bottom += 40;
+			text_top += 39;
+		}
+		if (i == max_rows - 1) {
+			cout << (max_rows - num_rows * (view_page.current - 1)) - 2 << endl;
+			bar_bottom -= (max_rows - num_rows * (view_page.current - 1)) - 2;
 		}
 		// Neu k su dung thi xoa tu day xuong
 		//vi tri edit
@@ -232,14 +239,14 @@ void staff_table(
 		edit.data[e].l = 900;
 		edit.data[e].t = text_top;
 		edit.data[e].r = 978;
-		edit.data[e].b = text_top + 22;
+		edit.data[e].b = text_top + 23;
 		e++;
 		// vi tri delete
 		_delete.data[d].key = (string)ds.nhan_vien[i]->maNV;
-		_delete.data[d].l = 990;
+		_delete.data[d].l = 995;
 		_delete.data[d].t = text_top;
 		_delete.data[d].r = 1038;
-		_delete.data[d].b = text_top + 22;
+		_delete.data[d].b = text_top + 23;
 		d++;
 		// --------------------------------- xuong day
 
@@ -474,6 +481,8 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf, ch
 			{
 				if (ktVT(edit_sf.data[i].l, edit_sf.data[i].t, edit_sf.data[i].r, edit_sf.data[i].b, x, y)) {
 					i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
+					text_box(edit_sf.data[i].l, edit_sf.data[i].t, edit_sf.data[i].r, edit_sf.data[i].b, (char*)"Chinh sua", f_small, 1, 1, 2, XANH_LA_CAY, 0);
+					delay(200);
 					staff_infor(ds_nv.nhan_vien[i_CRUD]->maNV, ds_nv.nhan_vien[i_CRUD]->ho, ds_nv.nhan_vien[i_CRUD]->ten, ds_nv.nhan_vien[i_CRUD]->phai);
 					sf_isEdit = true;
 					goto sf_out;
@@ -484,6 +493,8 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf, ch
 			{
 				if (ktVT(delete_sf.data[i].l, delete_sf.data[i].t, delete_sf.data[i].r, delete_sf.data[i].b, x, y)) {
 					i_CRUD = (vp_m_sf.current - 1) * ROW_STAFF + i;
+					text_box(delete_sf.data[i].l, delete_sf.data[i].t, delete_sf.data[i].r, delete_sf.data[i].b, (char*)"Xoa", f_small, 1, 1, 6, XANH_LA_CAY, 0);
+					delay(200);
 					if (ds_nv.nhan_vien[i_CRUD]->ds_hoadon == NULL) {
 						check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
 						if (check_D_staff) {
