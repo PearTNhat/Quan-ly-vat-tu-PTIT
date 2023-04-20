@@ -2155,7 +2155,7 @@ bool isMoreThan3Days(int day1, int month1, int year1, int day2, int month2, int 
 }
 
 
-HoaDon checkshdtrahang(DS_NhanVien &ds_nv, string d)
+HoaDon checkshdtrahang(DS_NhanVien ds_nv, string d)
 {
 	for (int i = 0; i < ds_nv.length; i++)
 	{
@@ -2221,7 +2221,12 @@ void duyetlaihdsaukhitrahang(HoaDon tra,HoaDon phu, DS_VatTu*& ds_vt, HoaDon& hd
 		}
 		
 	}
-	
+	while (current_a != NULL)
+	{
+		cout << current_a->ct_hoadon.MAVT << "\n";
+		cout << "vat:" << current_a->ct_hoadon.VAT;
+		current_a = current_a->next;
+	}
 }
 
 void khung_b_trahang()
@@ -2524,18 +2529,18 @@ batdau:
 			if (ktVT(525, 450, 675, 500, x, y))
 			{
 			trahang:;
-				if (checktrungshd(ds_nv, sohd) == false)
+				if (checktrungshd(ds_nvphu, sohd) == false)
 				{
 					sohoadon = false;
 					strcpy(sohd, "");
 					text_box_no_border(520, 355, 580, 380, (char*)"KHONG TON TAI HOA DON", f_medium, 2, 1, 1, COLOR_INFOR_SS, RED);
 					goto nhapsohd;
 				}
-				if (checktrungshd(ds_nv, sohd) == true)
+				if (checktrungshd(ds_nvphu, sohd) == true)
 				{
 					p = checkshdtrahang(ds_nvphu, sohd);
 					cout << "hhh" << p.first_cthd->ct_hoadon.MAVT << "hhh";
-					h = checknhanvientrahang(ds_nv, sohd);
+					h = checknhanvientrahang(ds_nvphu, sohd);
 					if (isMoreThan3Days(p.date.ngay,p.date.thang,p.date.nam,mday,mmonth,myear) == false)
 					{
 						sohoadon = false;
@@ -2554,9 +2559,10 @@ batdau:
 								cout << "ggg" << sohd << "ggg";
 								hd = checkshdtrahang(ds_nv, sohd);
 								cout << "abc" << hd.first_cthd->ct_hoadon.MAVT << "abc";
-								duyetlaihdsaukhitrahang(u, p,ds_vt, hd);
-								write_file_staff(ds_nv);
-								goto batdau;
+								duyetlaihdsaukhitrahang(u, p, ds_vt, hd);
+								sohoadon = false;
+								strcpy(sohd, "");
+								goto out;
 							}
 						}
 						b_create_menu_title();
@@ -2585,6 +2591,9 @@ batdau:
 		}
 		delay(1);
 	}
+	out:
+	write_file_staff(ds_nv);
+	//goto batdau;
 }
 
 void bill_page(int& x, int& y, DS_NhanVien ds_nv, DS_VatTu* ds_vt)
