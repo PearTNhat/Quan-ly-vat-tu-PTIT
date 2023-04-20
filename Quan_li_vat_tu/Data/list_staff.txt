@@ -1,10 +1,13 @@
 NV9,Ly Thanh,Hau,Nam,
 0
 NV10,Ly Thanh Hoang,Hau,Nam,
-1
-333,20/4/2023,N
+2
+333,20/4/2023,N,
 1
 VT3,123,123,23,0
+123,20/4/2023,N
+1
+VT3,1000,123,123,1
 NV11,Ly Thanh,Hoang,Nam,
 0
 NV1,Ho Tuan,Kiet,Nam,
@@ -20,10 +23,14 @@ NV25,Khuong Tu,Nha,Nam,
 NV14,Huan,Nhi,Nu,
 0
 NV6,Ly Mac,Sau,Nu,
-1
-HD35,20/10/2012,N
+2
+HD35,20/10/2012,N,
 1
 VT7,10,20000,10,1
+999,20/4/2023,X
+2
+VT3,123,123,23,0,
+VT135,1000,123,123,0
 NV7,Lenh Ho,Sung,Nam,
 0
 NV5,Bach Tieu,Thuan,Nam,
