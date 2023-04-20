@@ -463,7 +463,6 @@ void sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf, ch
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// them nhan vien moi
-		start_handle_staff:
 			if (ktVT(950, 70, 1150, 110, x, y)) {
 				staff_infor();
 				sf_isAdd = true;

@@ -48,3 +48,4 @@ char table_in_HD_header[][20] = { "Ten vat tu", "So luong", "Don gia", "%VAT", "
 
 //bill
 char bill_table_header[8][20] = { "MaVT","TenVT","Donvi","Soluong","Dongia","%VAT","Thanh Tien", "Chuc nang"};
+char tra_hang_cn[1][20] = { "Tra Hang" };
