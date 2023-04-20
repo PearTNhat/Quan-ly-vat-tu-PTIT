@@ -612,6 +612,28 @@ long double tongPhanTuDSLKD(HoaDon& hd) {
 	return sum;
 }
 
+long double tongtrangthai0(HoaDon hd)
+{
+	long double sum = 0;
+	dscthd current = getNodesByTrangThai(hd.first_cthd, 0);
+	while (current != NULL) {
+		sum += thanhtien1vt(current->ct_hoadon.Soluong, current->ct_hoadon.Dongia, current->ct_hoadon.VAT);
+		current = current->next;
+	}
+	return sum;
+}
+
+long double tongtrangthai1(HoaDon hd)
+{
+	long double sum = 0;
+	dscthd current = getNodesByTrangThai(hd.first_cthd, 1);
+	while (current != NULL) {
+		sum += thanhtien1vt(current->ct_hoadon.Soluong, current->ct_hoadon.Dongia, current->ct_hoadon.VAT);
+		current = current->next;
+	}
+	return sum;
+}
+
 void delete_bill_table()
 {
 	setfillstyle(1, bk_screen);
@@ -950,7 +972,7 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 		else {
 			next_page(650, 565, 685, 600, vp_b_table);
 			delete_bill_table();
-			bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n,ds_vt);
+			bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
 
 		}
 	}
@@ -962,7 +984,7 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 			prev_page(495, 565, 530, 600, vp_b_table);
 			cout << vp_b_table.current;
 			delete_bill_table();
-			bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n,ds_vt);
+			bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
 
 		}
 	}
@@ -980,7 +1002,7 @@ bill_out:
 		stringstream ss;
 		ss << fixed << setprecision(2) << temp.VAT;
 		string c_vatvt = ss.str();
-		handle_nhd_table(x, y, hd, i_CRUD, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhd_isEdit,ds_vt);
+		handle_nhd_table(x, y, hd, i_CRUD, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhd_isEdit, ds_vt);
 		nhd_isEdit = false;
 	}
 bill_end:;
@@ -1443,14 +1465,14 @@ lannua:
 				break;
 			}
 		bang:
-			b_handle_table(x, y, hd, n, delete_table_b, edit_table_b, vp_b_table, nhd_isEdit,ds_vt);
+			b_handle_table(x, y, hd, n, delete_table_b, edit_table_b, vp_b_table, nhd_isEdit, ds_vt);
 			if (hd.first_cthd != NULL)
 			{
 				delete_after_header();
 				b_create_menu_title();
 				highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 				khunglan2(c_sohoadon, c_mannhanvien, nhap, xuat);
-				bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n,ds_vt);
+				bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
 				long double TONGCONG = tongPhanTuDSLKD(hd);
 				text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
 				text_box_no_border(590, 195, 980, 220, (char*)formatNumber(int(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
@@ -2156,7 +2178,7 @@ nhd:
 
 }
 
-bool isMoreThan3Days(int day1, int month1, int year1, int day2, int month2, int year2)
+bool lonhon3ngaykhong(int day1, int month1, int year1, int day2, int month2, int year2)
 {
 	struct tm date1 = { 0, 0, 0, day1, month1 - 1, year1 - 1900 };
 	struct tm date2 = { 0, 0, 0, day2, month2 - 1, year2 - 1900 };
@@ -2168,11 +2190,11 @@ bool isMoreThan3Days(int day1, int month1, int year1, int day2, int month2, int 
 	// Tính số giây chênh lệch giữa hai ngày tháng
 	double diff = difftime(t2, t1);
 
-	// Nếu chênh lệch lớn hơn 3 ngày, trả về false
+	// Nếu chênh lệch lớn hơn 3 ngày, trả về true
 	if (diff > 3 * 24 * 60 * 60 || diff < -3 * 24 * 60 * 60)
-		return false;
+		return true;
 
-	return true;
+	return false;
 }
 
 
@@ -2226,14 +2248,14 @@ NhanVien* checknhanvientrahang(DS_NhanVien& ds_nv, string d)
 	return NULL; // nếu không tìm thấy hóa đơn, trả về NULL
 }
 
-void duyetlaihdsaukhitrahang(HoaDon tra,HoaDon phu, DS_VatTu*& ds_vt, HoaDon& hd)
+void duyetlaihdsaukhitrahang(HoaDon tra, HoaDon phu, DS_VatTu*& ds_vt, HoaDon& hd)
 {
 	dscthd current_a = hd.first_cthd;
 	while (current_a != NULL) { // duyệt qua từng phần tử trong danh sách a
-		if( phu.first_cthd == NULL)
+		if (phu.first_cthd == NULL)
 		{
 			current_a->ct_hoadon.TrangThai = false; // nếu tìm thấy thì gán TrangThai của a là false
-			
+
 			cout << "666" << current_a->ct_hoadon.MAVT;
 			TimKiemNode(ds_vt, current_a->ct_hoadon.MAVT)->vat_tu.sldaban--;
 			TimKiemNode(ds_vt, current_a->ct_hoadon.MAVT)->vat_tu.SLT += current_a->ct_hoadon.Soluong;
@@ -2255,7 +2277,7 @@ void duyetlaihdsaukhitrahang(HoaDon tra,HoaDon phu, DS_VatTu*& ds_vt, HoaDon& hd
 			}
 			current_a = current_a->next;
 		}
-		
+
 	}
 	while (current_a != NULL)
 	{
@@ -2284,20 +2306,20 @@ void khung_b_trahang()
 	b_taokhungden(980, 170, 1180, 220);
 }
 
-void khungtrahang(HoaDon &hd, NhanVien*& nv)
+void khungtrahang(HoaDon& hd, HoaDon &p, NhanVien*& nv,HoaDon& u)
 {
 	char ngay[10];
 	char thang[10];
 	char nam[10];
-	snprintf(ngay, sizeof(ngay), "%d", hd.date.ngay);
-	snprintf(thang, sizeof(thang), "%d", hd.date.thang);
-	snprintf(nam, sizeof(nam), "%d", hd.date.nam);
-	char ten[30] ="";
+	snprintf(ngay, sizeof(ngay), "%d", p.date.ngay);
+	snprintf(thang, sizeof(thang), "%d", p.date.thang);
+	snprintf(nam, sizeof(nam), "%d", p.date.nam);
+	char ten[30] = "";
 	strcat(ten, nv->ho);
 	strcat(ten, " ");
 	strcat(ten, nv->ten);
 	text_box_no_border(110, 120, 590, 145, (char*)"So hoa don:", f_medium, 2, 1, 5, 15, 0);
-	text_box_no_border(250, 121, 590, 145, hd.SoHD, f_medium, 2, 1, 5, 15, 0);
+	text_box_no_border(250, 121, 590, 145, p.SoHD, f_medium, 2, 1, 5, 15, 0);
 	text_box_no_border(110, 145, 270, 170, (char*)"ngay:", f_medium, 2, 1, 5, 15, 0);
 	text_box_no_border(180, 146, 265, 168, ngay, f_medium, 2, 1, 5, 15, 0);
 	text_box_no_border(270, 145, 430, 170, (char*)"thang:", f_medium, 2, 1, 5, 15, 0);
@@ -2308,23 +2330,89 @@ void khungtrahang(HoaDon &hd, NhanVien*& nv)
 	text_box_no_border(750, 121, 980, 145, (char*)nv->maNV, f_medium, 2, 1, 5, 15, 0);
 	text_box_no_border(590, 145, 980, 170, (char*)"Ten:", f_medium, 2, 1, 5, 15, 0);
 	text_box_no_border(650, 145, 980, 170, ten, f_medium, 2, 1, 5, 15, 0);
-	if (hd.Loai[0] == 'N')
+	if (p.Loai[0] == 'N')
 	{
 		text_box_no_border(10, 120, 110, 220, (char*)"N", f_medium, 8, 10, 25, 15, 0);
 	}
-	if (hd.Loai[0] == 'X')
+	if (p.Loai[0] == 'X')
 	{
 		text_box_no_border(10, 120, 110, 220, (char*)"X", f_medium, 8, 10, 25, 15, 0);
 	}
-	text_box_no_border(110, 170, 590, 195, (char*)"TRA LAI CHO KHACH", f_medium, 2, 5, 120, 15, 0);
-	text_box_no_border(110, 195, 590, 220, (char*)"", f_medium, 2, 1, 5, 15, 0);
+	long double TONGCONGtra = tongPhanTuDSLKD(u);
 	long double TONGCONG = tongPhanTuDSLKD(hd);
+	text_box_no_border(110, 170, 590, 195, (char*)"TRA LAI CHO KHACH", f_medium, 2, 5, 120, 15, 0);
+	text_box_no_border(110, 195, 590, 220, (char*)formatNumber(int(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
 	text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
 	text_box_no_border(590, 195, 980, 220, (char*)formatNumber(int(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
 	text_box_no_border(980, 120, 1180, 170, (char*)"XAC NHAN", f_medium, 4, 10, 20, XANH_DUONG_NHAT, 0);
 	text_box_no_border(980, 170, 1180, 220, (char*)"HUY", f_medium, 4, 10, 60, XANH_DUONG_NHAT, 0);
 	khung_b_trahang();
 
+}
+
+bool bill_announce_board(int x, int y, int kcl = 0, int kct = 0, string value = "", string type = "noClose", int bg = COLOR(232, 246, 250)) { // 200 //400 
+
+	setfillstyle(1, bg);
+	setcolor(I_ERROR_COLOR);
+	bar3d(420, 260, 780, 460, 0, 0);
+	string temp_value;
+	temp_value = "";
+	int minus = 0;
+	if (value.length() >= 27 && value[27] != ' ') {
+		minus = 27;
+		while (value[minus] != ' ') {
+			minus--;
+		}
+		minus = 27 - minus;
+	}
+	int text_length = value.length() <= 27 ? value.length() : (27 - minus);
+	for (int i = 0; i < text_length; i++)
+	{
+		temp_value += value[i];
+	}
+	writeText(450 + kcl, 330 + kct, (char*)temp_value.c_str(), 1, 0, f_medium, bg);
+	if (value.length() > 26) {
+		temp_value = "";
+		for (int i = 27; i < value.length(); i++)
+		{
+			temp_value += value[i];
+		}
+		writeText(450 + kcl, 350 + kct, (char*)trim(temp_value).c_str(), 1, 0, f_medium, bg);
+	}
+	if (type != "noClose") {
+		text_box(500, 395, 570, 420, (char*)"Co", f_medium, 1, 5, 20, bg, 0);
+		text_box(610, 395, 680, 420, (char*)"Khong", f_medium, 1, 5, 6, bg, 0);
+		text_box(750, 260, 780, 290, (char*)"X", f_medium, 1, 7, 9, COLOR(255, 97, 100), 0, I_ERROR_COLOR);
+		while (1) {
+			if (ismouseclick(WM_LBUTTONDOWN)) {
+				getmouseclick(WM_LBUTTONDOWN, x, y);
+				if (ktVT(500, 395, 570, 420, x, y)) {
+					x = NULL;
+					y = NULL;
+
+					text_box(500, 395, 570, 420, (char*)"Co", f_medium, 1, 5, 20, XANH_LA_CAY, 0);
+					delay(200);
+					return 1;
+				}
+				if (ktVT(610, 395, 680, 420, x, y)) {
+					text_box(610, 395, 680, 420, (char*)"Khong", f_medium, 1, 5, 6, XANH_LA_CAY, 0);
+					delay(200);
+					x = NULL;
+					y = NULL;
+					return 0;
+				}
+				if (ktVT(750, 260, 780, 290, x, y)) {
+					x = NULL;
+					y = NULL;
+					text_box(750, 260, 780, 290, (char*)"X", f_medium, 1, 7, 9, COLOR(250, 0, 4), 0, I_ERROR_COLOR);
+					delay(200);
+					return 0;
+				}
+			}
+		}
+	}
+
+	return 1;
 }
 
 void bill_trahang_table(
@@ -2336,15 +2424,12 @@ void bill_trahang_table(
 	int num_rows,
 	DS_VatTu*& ds_vt
 ) {
-	
 	dscthd p;
 	p = hd.first_cthd;
-	
-
 	setlinestyle(0, 0, 0);
 	delete_bill_table();
 	setcolor(0);
-	int n = getNumOfCTHD(p);
+	int n = getNumOfCTHD(p) ;
 	int page = n / num_rows;
 	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
@@ -2376,11 +2461,12 @@ void bill_trahang_table(
 	outtextxy(1030, text_top, bill_table_header[7]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
-	
+
 	int e = 0;//trahang
 	for (; i < max_page; i++)
 	{
-		p = getNodeByIndexdscthd(hd.first_cthd, i);
+
+
 		if (i % num_rows == 0) {
 			bar_top += 30;
 			bar_bottom += 40;
@@ -2405,7 +2491,6 @@ void bill_trahang_table(
 		setcolor(0);
 		bar3d(10, bar_top, 1180, bar_bottom, 0, 0);
 		// title header
-
 		int SL = p->ct_hoadon.Soluong;
 		char SL_char[10];
 		sprintf(SL_char, "%d", SL);
@@ -2442,6 +2527,8 @@ void bill_trahang_table(
 
 		p = p->next;
 
+
+
 	}
 	//------------- k can cos the xoa
 	edit_table_b.n = e;
@@ -2449,8 +2536,11 @@ void bill_trahang_table(
 	page_transition(view_page);
 }
 
-void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, view_page& vp_b_table,HoaDon&tra, DS_VatTu*& ds_vt)
+void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, view_page& vp_b_table, HoaDon& tra, DS_VatTu*& ds_vt)
 {
+	long double TONGCONGtra ;
+	long double TONGCONG0 ;
+	long double TONGCONG ;
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_B_nhd = true;
@@ -2459,20 +2549,41 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// edit
-			cout << edit_table_b.n << endl;
+			
 			for (int i = 0; i < edit_table_b.n; i++)
 			{
 				if (ktVT(edit_table_b.data[i].l, edit_table_b.data[i].t, edit_table_b.data[i].r, edit_table_b.data[i].b, x, y)) {
 					i_CRUD = (vp_b_table.current - 1) * 7 + i;
-					check_B_nhd = announce_board(x, y, 40, 0, "Ban co muon tra khong.", "");
+					check_B_nhd = bill_announce_board(x, y, 40, 0, "Ban co muon tra khong.", "");
 					if (check_B_nhd) {
 						Insert_last_CTHD(tra.first_cthd, getNodeByvitri(hd.first_cthd, i_CRUD));
 						xoaNodeByvitri(hd.first_cthd, i_CRUD);
-						cout << tra.first_cthd->ct_hoadon.MAVT;
+						TONGCONGtra = tongPhanTuDSLKD(tra);
+						TONGCONG0 = tongtrangthai0(hd);
+						TONGCONG = tongPhanTuDSLKD(hd);
+						text_box_no_border(110, 170, 590, 195, (char*)"TRA LAI CHO KHACH", f_medium, 2, 5, 120, 15, 0);
+						text_box_no_border(110, 195, 590, 220, (char*)formatNumber(int(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
+						
+						text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
+						text_box_no_border(590, 195, 980, 220, (char*)formatNumber(int(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+						cout << "?????!!!!!";
+						goto bill_end;
 					}
 					goto bill_end;
 				}
-				goto bill_end;
+
+			}
+			if (ktVT(980, 120, 1180, 170, x, y) ||
+				ktVT(980, 170, 1180, 220, x, y) ||
+				ktVT(50, 10, 250, 50, x, y) || //vat tu
+				ktVT(350, 10, 550, 50, x, y) || // nhan vien
+				ktVT(650, 10, 850, 50, x, y) || // thanh toan
+				ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				ktVT(15, 70, 310, 110, x, y) || // lap hoa don
+				ktVT(350, 70, 645, 110, x, y) || // tra hang
+				ktVT(685, 70, 980, 110, x, y))
+			{
+				break;
 			}
 			// transition page
 			if (ktVT(650, 565, 685, 600, x, y)) {
@@ -2482,7 +2593,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 				else {
 					next_page(650, 565, 685, 600, vp_b_table);
 					delete_bill_table();
-					bill_trahang_table(bill_table_header, hd, tra_hang_cn, vp_b_table, edit_table_b, 7,ds_vt);
+					bill_trahang_table(bill_table_header, hd, tra_hang_cn, vp_b_table, edit_table_b, 7, ds_vt);
 
 				}
 			}
@@ -2494,7 +2605,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 					prev_page(495, 565, 530, 600, vp_b_table);
 					cout << vp_b_table.current;
 					delete_bill_table();
-					bill_trahang_table(bill_table_header, hd, tra_hang_cn, vp_b_table, edit_table_b, 7,ds_vt);
+					bill_trahang_table(bill_table_header, hd, tra_hang_cn, vp_b_table, edit_table_b, 7, ds_vt);
 
 				}
 			}
@@ -2506,7 +2617,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 		delay(1);
 	}
 
-	
+
 bill_end:;
 
 }
@@ -2517,7 +2628,7 @@ void trahang_bill(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt)
 batdau:
 	DS_NhanVien ds_nvphu;
 	HoaDon hd;
-	HoaDon p,u;
+	HoaDon p, u;
 	NhanVien* h;
 	Initialize_CTHD(u.first_cthd);
 	Initialize_CTHD(hd.first_cthd);
@@ -2533,10 +2644,10 @@ batdau:
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
 	int mday = ltm->tm_mday;
-	int mmonth = 1+ltm->tm_mon;
-	int myear =1900+ ltm->tm_year;
+	int mmonth = 1 + ltm->tm_mon;
+	int myear = 1900 + ltm->tm_year;
 
-	
+
 	setlinestyle(0, 0, 1);
 	b_create_menu_title();
 	highlight_box(350, 70, 645, 110, (char*)"Tra hang", f_medium, 3, 10, 40, 14, 0);
@@ -2569,9 +2680,10 @@ batdau:
 				strcpy(sohd, d.c_str());
 				goto trahang;
 			}
+
 			if (ktVT(525, 450, 675, 500, x, y))
 			{
-			trahang:;
+			trahang:
 				if (checktrungshd(ds_nvphu, sohd) == false)
 				{
 					sohoadon = false;
@@ -2582,15 +2694,17 @@ batdau:
 				if (checktrungshd(ds_nvphu, sohd) == true)
 				{
 					p = checkshdtrahang(ds_nvphu, sohd);
+					HoaDon tt1;
+					tt1.first_cthd = getNodesByTrangThai(p.first_cthd, 1);
 					h = checknhanvientrahang(ds_nvphu, sohd);
-					if(checknhapxuattrahang(p) == false)
+					if (checknhapxuattrahang(p) == false)
 					{
 						sohoadon = false;
 						strcpy(sohd, "");
 						text_box_no_border(520, 355, 580, 380, (char*)"KHONG PHAI HOA DON XUAT", f_medium, 2, 1, 1, COLOR_INFOR_SS, RED);
 						goto nhapsohd;
 					}
-					if (isMoreThan3Days(p.date.ngay,p.date.thang,p.date.nam,mday,mmonth,myear) == false)
+					if (lonhon3ngaykhong(p.date.ngay, p.date.thang, p.date.nam, mday, mmonth, myear) == true)
 					{
 						sohoadon = false;
 						strcpy(sohd, "");
@@ -2604,29 +2718,71 @@ batdau:
 						text_box_no_border(520, 355, 580, 380, (char*)"HOA DON DA TRA HET VT", f_medium, 2, 1, 1, COLOR_INFOR_SS, RED);
 						goto nhapsohd;
 					}
-					if (isMoreThan3Days(p.date.ngay, p.date.thang, p.date.nam, mday, mmonth, myear) == true)
+					if (lonhon3ngaykhong(p.date.ngay, p.date.thang, p.date.nam, mday, mmonth, myear) == false)
 					{
 					th:
-						if (p.first_cthd == NULL)
+
+						if (tt1.first_cthd == NULL)
 						{
-							check_B_trahang = announce_board(x, y, 40, 0, "Tra toan bo hoa don!.", "");
-							if (check_B_trahang) {
+							khung_b_trahang();
+							delete_bill_table(); 
+							check_B_trahang = bill_announce_board(x, y, 40, 0, "Luu Thay Doi?.", "");
+							if (check_B_trahang)
+							{
 								hd = checkshdtrahang(ds_nv, sohd);
-								duyetlaihdsaukhitrahang(u, p, ds_vt, hd);
+								duyetlaihdsaukhitrahang(u, tt1, ds_vt, hd);
 								write_file_staff(ds_nv);
 								goto batdau;
 							}
+							else goto batdau;
 						}
+						if (tt1.first_cthd != NULL)
+						{
+							if (ktVT(980, 120, 1180, 170, x, y))
+							{
+								
+								check_B_trahang = bill_announce_board(x, y, 40, 0, "Luu Thay Doi?.", "");
+								if (check_B_trahang) {
+									hd = checkshdtrahang(ds_nv, sohd);
+									duyetlaihdsaukhitrahang(u, tt1, ds_vt, hd);
+									write_file_staff(ds_nv);
+									goto batdau;
+								}
+							}
+							if (ktVT(980, 170, 1180, 220, x, y))
+							{
+								check_B_trahang = bill_announce_board(x, y, 40, 0, "huy qua trinh tra hang!.", "");
+								if (check_B_trahang) {
+									goto batdau;
+								}
+							}
+						}
+
+						if (ktVT(50, 10, 250, 50, x, y) || //vat tu
+							ktVT(350, 10, 550, 50, x, y) || // nhan vien
+							ktVT(650, 10, 850, 50, x, y) || // thanh toan
+							ktVT(950, 10, 1150, 50, x, y) || // thong ke
+							ktVT(15, 70, 310, 110, x, y) || // lap hoa don
+							ktVT(350, 70, 645, 110, x, y) || // tra hang
+							ktVT(685, 70, 980, 110, x, y)) // in hoa don
+						{
+							break;
+						}
+
 						b_create_menu_title();
 						highlight_box(350, 70, 645, 110, (char*)"Tra hang", f_medium, 3, 10, 40, 14, 0);
 						b_delete_after_create();
-						khungtrahang(p, h);
-						bill_trahang_table(bill_table_header, p, tra_hang_cn, vp_b_table, edit_table_b, 7,ds_vt);
-						trahang_handle_table(x, y, p, edit_table_b, vp_b_table, u,ds_vt);
+						khungtrahang(tt1, p, h, u);
+						bill_trahang_table(bill_table_header, tt1, tra_hang_cn, vp_b_table, edit_table_b, 7, ds_vt);
+						trahang_handle_table(x, y, tt1, edit_table_b, vp_b_table, u, ds_vt);
+						
 						goto th;
 					}
-					
 				}
+
+
+
+
 
 			}
 
@@ -2645,7 +2801,7 @@ batdau:
 	}
 }
 
-void bill_page(int& x, int& y, DS_NhanVien &ds_nv, DS_VatTu* &ds_vt)
+void bill_page(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt)
 {
 
 	bool error_soHD = false;
@@ -2658,12 +2814,12 @@ void bill_page(int& x, int& y, DS_NhanVien &ds_nv, DS_VatTu* &ds_vt)
 		batdau:
 			if (ktVT(15, 70, 310, 110, x, y))
 			{
-				nhd_bill(x, y,ds_nv,ds_vt);
+				nhd_bill(x, y, ds_nv, ds_vt);
 				goto batdau;
 			}
 			if (ktVT(350, 70, 645, 110, x, y))
 			{
-				trahang_bill(x, y,ds_nv,ds_vt);
+				trahang_bill(x, y, ds_nv, ds_vt);
 				goto batdau;
 
 			}
