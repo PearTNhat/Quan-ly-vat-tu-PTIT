@@ -341,6 +341,20 @@ dscthd getNodeByIndexdscthd(dscthd head, int index) {
 	return nullptr;
 }
 
+dscthd getNodesByTrangThai(dscthd head, bool trangThai) {
+	dscthd resultHead = nullptr; // Khởi tạo danh sách kết quả rỗng
+	dscthd current = head;
+	while (current != nullptr) {
+		if (current->ct_hoadon.TrangThai == trangThai) {
+			dscthd newNode = new DS_CT_HoaDon; // Tạo một nút mới để lưu trữ
+			newNode->ct_hoadon = current->ct_hoadon; // Sao chép giá trị từ nút hiện tại
+			newNode->next = nullptr;
+			Insert_last_CTHD(resultHead, newNode->ct_hoadon); // Thêm nút mới vào danh sách kết quả
+		}
+		current = current->next;
+	}
+	return resultHead; // Trả về con trỏ đến đầu danh sách kết quả
+}
 
 
 //hoa don
