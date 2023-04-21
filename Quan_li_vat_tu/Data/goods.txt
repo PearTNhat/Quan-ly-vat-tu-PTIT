@@ -1,14 +1,14 @@
 VT25,Gach,Vien,0,1234
-VT12,Cat,Khoi,0,145
-CUCSI,Bua Keo Bao,Cai,0,431
-VT115,Riu,Bao,0,1345
-VT125,Bay,Cai,0,1345
+VT12,Cat,Khoi,3,145
+CUCSI,Bua Keo Bao,Cai,2,445
+VT115,Riu,Bao,1,1345
+VT125,Bay,Cai,1,1345
 VT12341,Xi Mang,Cai,0,4312
-VT135,Phan,Bao,0,1345
+VT135,Phan,Bao,1,1345
 VT356,Riu Vang,Cai,0,2312
-VT3442,Con Dao,Con,0,4234
-VT3,Da,Khoi,0,345
+VT3442,Con Dao,Con,1,4234
+VT3,Da,Khoi,2,619
 VT35,Bua,Cai,0,15
-VT44,Kim Bam Babi,Cai,0,0
+VT44,Kim Bam Babi,Cai,3,0
 VT4123,Xeng,Cai,0,4324
-VT60,Sat,Kg,0,145
+VT60,Sat,Kg,4,145
