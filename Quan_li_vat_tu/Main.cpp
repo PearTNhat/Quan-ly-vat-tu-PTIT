@@ -165,6 +165,7 @@ int main() {
 				}
 			}
 			if (ktVT(1130, 10, 1180, 50, x, y)) {
+				delete[]  ds_nv.nhan_vien;
 				announce_board(x, y, 50, 20, "THOAT CHUONG TRINH");
 				delay(500);
 				announce_board(x, y, 80, 20, "XIN CAM ON");
@@ -174,8 +175,8 @@ int main() {
 			delay(1);
 		}
 	}
-	delete[]  ds_nv.nhan_vien;
-	getch();
+
+	
 	closegraph();
 	return 0;
 }
