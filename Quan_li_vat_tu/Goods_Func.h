@@ -250,6 +250,11 @@ start:;
 				}
 				goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
 				x = NULL, y = NULL;
+				if (isEdit) {
+					text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mvt
+
+					text_box(430, 345, 800, 375, (char*)t_slt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); //slt
+				}
 				goto headInfor;
 
 			}

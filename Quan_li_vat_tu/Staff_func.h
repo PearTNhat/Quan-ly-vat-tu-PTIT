@@ -315,11 +315,12 @@ start:;
 				if (checkBreak) {
 					sf_isEdit = false;
 					sf_isAdd = false;
-					cout << x <<" " << y;
 					return true;
 				}
 				staff_infor(t_mnv, t_ho, t_ten, t_gender);
+				if (sf_isEdit) {
 				text_box(430, 165, 800, 195, (char*)t_mnv.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mnv
+				}
 				x = NULL, y = NULL;
 				goto headInfor;
 
