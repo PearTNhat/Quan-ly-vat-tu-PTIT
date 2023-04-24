@@ -201,12 +201,6 @@ void goods_table(
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
-	/*int top = 120 + 35;
-	line(87, top, 87, bar_bottom);
-	line(220, top, 220, bar_bottom);
-	line(446, top, 446, bar_bottom);
-	line(645, top, 645, bar_bottom);
-	line(890, top,890 , bar_bottom);*/
 	//------------- k can cos the xoa
 	_delete.n = d;
 	edit.n = e;
@@ -215,7 +209,7 @@ void goods_table(
 	page_transition(view_page);
 
 }
-void handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt, DS_s_VT *& ds_s_vt,  string& t_mvt, string& t_tvt, string& t_dvt, string& t_slt, string keyCRUD, bool& isEdit, bool& isAdd) {
+bool handleInfor_goods(int& x, int& y, DS_VatTu *&ds_vt, DS_s_VT *& ds_s_vt,  string& t_mvt, string& t_tvt, string& t_dvt, string& t_slt, string keyCRUD, bool& isEdit, bool& isAdd) {
 start:;
 	int checkSubmit[4];
 	if (isAdd) {
@@ -235,10 +229,30 @@ start:;
 		text_box(430, 345, 800, 375, (char*)t_slt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); //slt
 	}
 	bool checkCancle = true;
+	bool checkBreak = false;
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 		headInfor:;
+			if (
+				ktVT(20, 10, 220, 50, x, y)
+				|| ktVT(320, 10, 520, 50, x, y)
+				|| ktVT(620, 10, 820, 50, x, y)
+				|| ktVT(920, 10, 1120, 50, x, y)
+				|| ktVT(1140, 10, 1190, 50, x, y)
+				)
+			{
+				checkBreak = announce_board(x, y, 40, 0, "Ban co muon huy khong.", "");
+				if (checkBreak) {
+					isEdit = false;
+					isAdd = false;
+					return true;
+				}
+				goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
+				x = NULL, y = NULL;
+				goto headInfor;
+
+			}
 			if (isAdd) {
 				if (ktVT(430, 165, 800, 195, x, y)) { // Mvt
 					
@@ -259,7 +273,7 @@ start:;
 				}
 			}
 			if (ktVT(430, 225, 800, 255, x, y)) { // ten vat tu
-				t_tvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_tvt, 25, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
+				t_tvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_tvt, 25, "text", "firstCase", COLOR_INFOR_SG, 430, 285);
 					
 				if (isAdd) {
 					if (t_tvt.length() > 0) {
@@ -334,11 +348,15 @@ start:;
 					isEdit = false;
 					isAdd = false;
 					delay(200);
+					cout << "oeeeee ";
 					goto sf_end;
 				}
 				else {
 					goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
 					x = NULL, y = NULL;
+					text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mvt
+
+					text_box(430, 345, 800, 375, (char*)t_slt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); //slt
 					goto headInfor;
 				}
 
@@ -423,20 +441,19 @@ start:;
 		}
 	}
 sf_end:;
+	return false;
 }
-void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CURD &delete_table_g, check_CURD &edit_table_g, view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd) {
+bool g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CURD &delete_table_g, check_CURD &edit_table_g, view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd) {
 
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_D_staff = true;
 	string keyCRUD = "";
+	bool checkX = false;
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// them nhan vien moi
-		/*	line(x, y, x+20, y);
-			cout << "\nvi tri x-out:" << x << " - vi tri y-out:" << y << endl;*/
-
 		start_handle_staff:
 			if (ktVT(950, 70, 1150, 110, x, y)) { // them vat tu
 				goods_infor();
@@ -456,6 +473,9 @@ void g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 					g_isEdit = true;
 					goto sf_out;
 				}
+			}
+			if (ktVT(1140, 10, 1190, 50, x, y)) {
+				return false;
 			}
 			//delete
 			for (int i = 0; i < delete_table_g.n; i++)
@@ -515,15 +535,20 @@ sf_out:;
 		string t_dvt = temp.DVT;
 		int slt = temp.SLT;
 		string t_slt = to_string(slt);
-		handleInfor_goods(x, y, ds_vt, ds_s_vt, t_mvt, t_tvt, t_dvt, t_slt, keyCRUD, g_isEdit, g_isAdd);
+		checkX=handleInfor_goods(x, y, ds_vt, ds_s_vt, t_mvt, t_tvt, t_dvt, t_slt, keyCRUD, g_isEdit, g_isAdd);
 	}
 	if (g_isAdd) {
 		string t_add_mnt = "";
 		string t_add_ho = "";
 		string t_add_ten = "";
 		string t_add_slt = "";
-		handleInfor_goods(x, y, ds_vt, ds_s_vt, t_add_mnt, t_add_ho, t_add_ten, t_add_slt,"", g_isEdit, g_isAdd);
+		checkX=handleInfor_goods(x, y, ds_vt, ds_s_vt, t_add_mnt, t_add_ho, t_add_ten, t_add_slt,"", g_isEdit, g_isAdd);
 	}
+
+	if (checkX) {
+		return false; 
+	}
+	return true;
 
 sf_end:;
 }
