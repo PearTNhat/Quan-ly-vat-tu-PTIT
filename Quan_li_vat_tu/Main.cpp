@@ -174,8 +174,8 @@ int main() {
 			delay(1);
 		}
 	}
-	//delete[] & ds_nv.length;
-	//getch();
+	delete[]  ds_nv.nhan_vien;
+	getch();
 	closegraph();
 	return 0;
 }

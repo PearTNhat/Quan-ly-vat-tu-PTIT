@@ -356,7 +356,7 @@ start:;
 						strcpy_s(vt_temp.tenVT, t_tvt.c_str());
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT =stoi(t_slt);
-						vt_temp.sldaban = false;
+						vt_temp.sldaban = 0;
 						strcpy_s(svt_temp.maVT, t_mvt.c_str());
 						strcpy_s(svt_temp.tenVT, t_tvt.c_str());
 						insertNode_k_maVT(ds_vt,vt_temp);

@@ -1,3 +1,5 @@
+NV1412414,Banh Cong,Cong,Nu,
+0
 NV9,Ly Thanh,Hau,Nam,
 1
 8,20/4/2023,N
@@ -51,7 +53,13 @@ VT35,12,11,12.5,0
 NV25,Khuong Tu,Nha,Nam,
 0
 NV14,Huan,Nhi,Nu,
-0
+2
+D,24/4/2023,X,
+1
+VT115,12,200,1,1
+AVCA,24/4/2023,X
+1
+VT115,33,122,1,1
 NV6,Ly Mac,Sau,Nu,
 2
 HD35,20/10/2012,N,
@@ -85,6 +93,8 @@ HANH3,20/4/2023,X
 VT3,100,100,100,0,
 VT60,10,500,5,0,
 VT25,20,5000,100,0
+NV3213,Bao Cong,Tu,Nam,
+0
 NV2,Han Bang,Tuyet,Nu,
 3
 HD8,20/10/2012,N,
