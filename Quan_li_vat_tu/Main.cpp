@@ -165,9 +165,9 @@ int main() {
 				}
 			}
 			if (ktVT(1130, 10, 1180, 50, x, y)) {
-				announce_board(x, y, 40, 20, "THOAT CHUONG TRINH");
+				announce_board(x, y, 50, 20, "THOAT CHUONG TRINH");
 				delay(500);
-				announce_board(x, y, 40, 20, "XIN CAM ON");
+				announce_board(x, y, 80, 20, "XIN CAM ON");
 				delay(1000);
 				break;
 			}
