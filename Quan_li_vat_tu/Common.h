@@ -3,7 +3,7 @@
 #include "Constant.h"
 #include "Bill_Struct.h"
 #define MAX_DATA_CRUD 10
-bool g_page = false, sf_page = false, b_page = false, ss_page = false, out_table = false;
+bool g_page = false, sf_page = false, b_page = false, ss_page = false, out_table = false,X_page = false;
 struct view_page {
 	int current = 1;
 	int page = 1;

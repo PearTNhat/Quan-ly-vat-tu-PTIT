@@ -62,6 +62,7 @@ int main() {
 				sf_page = false;
 				b_page = false;
 				ss_page = false;
+				X_page = false;
 				delete_after_header();
 			}
 			if (g_page) {
@@ -78,6 +79,7 @@ int main() {
 				sf_page = true;
 				b_page = false;
 				ss_page = false;
+				X_page = false;
 				delete_after_header();
 			}
 
@@ -95,6 +97,7 @@ int main() {
 				sf_page = false;
 				b_page = true;
 				ss_page = false;
+				X_page = false;
 				delete_after_header();
 			}
 			if (b_page) {
@@ -114,6 +117,7 @@ int main() {
 				sf_page = false;
 				b_page = false;
 				ss_page = true;
+				X_page = false;
 				delete_after_header();
 			}
 			if (ss_page) {
@@ -165,18 +169,24 @@ int main() {
 				}
 			}
 			if (ktVT(1130, 10, 1180, 50, x, y)) {
-				delete[]  ds_nv.nhan_vien;
+				g_page = false;
+				sf_page = false;
+				b_page = false; 
+				ss_page = false;
+				X_page = true;
+			}
+			if (X_page)
+			{
 				announce_board(x, y, 50, 20, "THOAT CHUONG TRINH");
 				delay(500);
 				announce_board(x, y, 80, 20, "XIN CAM ON");
 				delay(1000);
-				break;
+				goto end;
 			}
 			delay(1);
 		}
 	}
-
-	
+	end:
 	closegraph();
 	return 0;
 }
