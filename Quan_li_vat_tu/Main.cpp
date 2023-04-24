@@ -168,7 +168,7 @@ int main() {
 					}
 				}
 			}
-			if (ktVT(1130, 10, 1180, 50, x, y)) {
+			if (ktVT(1140, 10, 1190, 50, x, y)) {
 				g_page = false;
 				sf_page = false;
 				b_page = false; 
@@ -177,6 +177,7 @@ int main() {
 			}
 			if (X_page)
 			{
+				highlight_box(1140, 10, 1190, 50, (char*)"X", f_medium, 4, 5, 14);
 				announce_board(x, y, 50, 20, "THOAT CHUONG TRINH");
 				delay(500);
 				announce_board(x, y, 80, 20, "XIN CAM ON");
