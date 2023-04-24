@@ -616,6 +616,9 @@ int search_ID_Staff(DS_NhanVien ds_nv, string ID) {
 	}
 	return -1;
 }
+void quick_sort(DS_NhanVien& ds_nv) {
+
+}
 void sort_staff(DS_NhanVien& ds_nv) {
 	string p1, p2;
 	for (int i = 0; i < ds_nv.length - 1; i++)
