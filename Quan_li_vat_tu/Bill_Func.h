@@ -348,7 +348,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root) {
 				next_page(650, 565, 685, 600, vp_m_print, true);
 
 				delete_after_header();
-				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 5);
+				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 4);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_m_print.current == 1) {
@@ -356,7 +356,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root) {
 				}
 				prev_page(495, 565, 530, 600, vp_m_print, true);
 				delete_after_header();
-				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 5);
+				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 4);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				ss_page = false;
@@ -413,7 +413,7 @@ void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool 
 			}
 			else {
 				writeText(490, 370, (char*)"OK! Lap bang", 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
-				in_hoa_don_table(table_in_HD_header, result_info, root, vp_m_print, 5);
+				in_hoa_don_table(table_in_HD_header, result_info, root, vp_m_print, 4);
 				handle_in_HD_table(x, y, result_info, root);
 			}
 		}

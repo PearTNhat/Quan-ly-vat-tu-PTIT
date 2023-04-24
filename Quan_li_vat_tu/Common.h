@@ -30,7 +30,8 @@ void split(string s, arrString& arrS);
 bool checkLowcase(char s);
 //
 bool ktVT(int l, int t, int r, int b, int x, int y) {
-	/*cout << l << " " << x << " " << r << "|" << t << " " << y << " " << b << " ";*/
+	cout << l << " " << x << " " << r << "|" << t << " " << y << " " << b << " ";
+	cout << "x: " << x << " - y: " << y << endl;
 	if (x <= r && x >= l && y >= t && y <= b) return true;
 	return false;
 }

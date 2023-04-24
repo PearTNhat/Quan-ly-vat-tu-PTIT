@@ -14,4 +14,5 @@ VT3442,Con Dao,Con,1,4234
 VT4123,Xeng,Cai,1,4312
 VT356,Riu Vang,Cai,1,2280
 VT44,Kim Bam Babi,Cai,3,0
+VT4123,Xeng,Cai,1,4312
 VT60,Sat,Kg,4,32

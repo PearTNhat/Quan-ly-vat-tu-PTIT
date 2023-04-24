@@ -122,6 +122,7 @@ int main() {
 				X_page = false;
 				delete_after_header();
 			}
+			else ss_page = false;
 			if (ss_page) {
 				test_data(ds_nv);
 				bool is_error = false;
@@ -133,8 +134,6 @@ int main() {
 				while (1) { 
 					if (ismouseclick(WM_LBUTTONDOWN)) {
 						getmouseclick(WM_LBUTTONDOWN, x, y);
-					start_again:
-						out_table = false;
 						if (ktVT(15, 70, 310, 110, x, y)) {
 							is_all_valid = true;
 							setlinestyle(0, 0, 3);
@@ -164,9 +163,8 @@ int main() {
 						}
 						xu_li_tra_cuu_doanh_thu(x, y, is_all_valid, error_year, year_dt, thong_ke_doanh_thu_pg, ds_nv);
 						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, ds_nv);
-						if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y)||ktVT(1140, 10, 1190, 50,x,y))
+						if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y))
 							goto start;
-						if (out_table) goto start_again;
 					}
 				}
 			}
