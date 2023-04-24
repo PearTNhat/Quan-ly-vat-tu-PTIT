@@ -265,6 +265,24 @@ bool searchNode_k_maVT(DS_VatTu* root, string x)
 	}
 	return 1;
 }
+DS_VatTu *getNodebyId_maVT(DS_VatTu *root,string id) {
+	if (root==NULL) {
+		
+		return NULL;
+	}
+	else {
+		if ((string)root->vat_tu.maVT==id) {
+			return root;
+		}
+		else if ((string)root->vat_tu.maVT>id) {
+			return getNodebyId_maVT(root->left, id);
+		}
+		else {
+			return getNodebyId_maVT(root->right, id);
+		}
+	}
+
+}
 void deleteNode_k_maVT(DS_VatTu*& root, string key)
 {
 	DS_VatTu* curr = root;
@@ -325,24 +343,6 @@ void deleteNode_k_maVT(DS_VatTu*& root, string key)
 	}
 	else {
 		cout << "---Key " << key << " not found in the--";
-	}
-
-}
-DS_VatTu *getNodebyId_maVT(DS_VatTu *root,string id) {
-	if (root==NULL) {
-		
-		return NULL;
-	}
-	else {
-		if ((string)root->vat_tu.maVT==id) {
-			return root;
-		}
-		else if ((string)root->vat_tu.maVT>id) {
-			return getNodebyId_maVT(root->left, id);
-		}
-		else {
-			return getNodebyId_maVT(root->right, id);
-		}
 	}
 
 }

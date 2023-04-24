@@ -44,7 +44,10 @@ HD4,20/10/2022,N
 VT3,10,50000,5,1,
 VT2,15,70000,8,0
 NV3,Chu Tu,Mach,Nu,
-0
+1
+DSA,21/4/2023,X
+1
+VT35,12,11,12.5,0
 NV25,Khuong Tu,Nha,Nam,
 0
 NV14,Huan,Nhi,Nu,
