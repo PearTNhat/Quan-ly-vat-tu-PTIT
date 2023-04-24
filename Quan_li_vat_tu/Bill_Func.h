@@ -706,7 +706,6 @@ void bill_nhd_table(
 		// Neu k su dung thi xoa tu day xuong
 		//vi tri edit
 		//edit.data[e].key =string( );
-		cout << "1 ";
 		edit.data[e].l = 1030;
 		edit.data[e].t = text_top;
 		edit.data[e].r = 1108;
@@ -764,7 +763,6 @@ void bill_nhd_table(
 
 	}
 	//------------- k can cos the xoa
-	cout << "e:   " << e;
 	_delete.n = d;
 	edit.n = e;
 	// < >
@@ -2466,7 +2464,7 @@ void bill_trahang_table(
 	for (; i < max_page; i++)
 	{
 
-
+		p = getNodeByIndexdscthd(hd.first_cthd, i);
 		if (i % num_rows == 0) {
 			bar_top += 30;
 			bar_bottom += 40;
@@ -2480,7 +2478,6 @@ void bill_trahang_table(
 		// Neu k su dung thi xoa tu day xuong
 		//vi tri trahang
 		//edit.data[e].key =string( );
-		cout << "1 ";
 		edit_table_b.data[e].l = 1030;
 		edit_table_b.data[e].t = text_top;
 		edit_table_b.data[e].r = 1108;
