@@ -59,10 +59,11 @@ void createHeader(char x[][maxTHeader]) {
 	setcolor(HEADER_TEXT_COLOR);
 	bar3d(-1, 0, 1200, 60, 0, 0);
 
-	text_box(50, 10, 250, 50, x[0], f_medium, 3, 10, 56);
-	text_box(350, 10, 550, 50, x[1], f_medium, 3, 10, 43);
-	text_box(650, 10, 850, 50, x[2], f_medium, 3, 10, 35);
-	text_box(950, 10, 1150, 50, x[3], f_medium, 3, 10, 45);
+	text_box(20, 10, 230, 50, x[0], f_medium, 3, 10, 56);
+	text_box(300, 10, 500, 50, x[1], f_medium, 3, 10, 43);
+	text_box(600, 10, 800, 50, x[2], f_medium, 3, 10, 35);
+	text_box(900, 10, 1100, 50, x[3], f_medium, 3, 10, 45);
+	text_box(1130, 10, 1180, 50, (char*)"X", f_medium, 4, 5, 14,LIGHTRED);
 }
 void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {
 	setcolor(0);
