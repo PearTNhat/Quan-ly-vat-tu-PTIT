@@ -55,9 +55,9 @@ int main() {
 			//Nhat
 		batdau:
 			//vat tu 
-			if (ktVT(20, 10, 230, 50, x, y)) {
+			if (ktVT(20, 10, 220, 50, x, y)) {
 				createHeader(header_title);
-				highlight_box(20, 10, 230, 50, header_title[0], f_medium, 3, 10, 56);
+				highlight_box(20, 10, 220, 50, header_title[0], f_medium, 3, 10, 56);
 				g_page = true;
 				sf_page = false;
 				b_page = false;
@@ -72,9 +72,9 @@ int main() {
 
 			}
 			// nhan vien
-			if (ktVT(300, 10, 500, 50, x, y)) {
+			if (ktVT(320, 10, 520, 50, x, y)) {
 				createHeader(header_title);
-				highlight_box(300, 10, 500, 50, header_title[1], f_medium, 3, 10, 43);
+				highlight_box(320, 10, 520, 50, header_title[1], f_medium, 3, 10, 43);
 				g_page = false;
 				sf_page = true;
 				b_page = false;
@@ -90,9 +90,9 @@ int main() {
 				goto sf_start;
 			}
 			//Phu
-			if (ktVT(600, 10, 800, 50, x, y)) {
+			if (ktVT(620, 10, 820, 50, x, y)) {
 				createHeader(header_title);
-				highlight_box(600, 10, 800, 50, header_title[2], f_medium, 3, 10, 35);
+				highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
 				g_page = false;
 				sf_page = false;
 				b_page = true;
@@ -110,9 +110,9 @@ int main() {
 
 			}
 			//Phuong
-			if (ktVT(900, 10, 1100, 50, x, y)) {
+			if (ktVT(920, 10, 1120, 50, x, y)) {
 				createHeader(header_title);
-				highlight_box(900, 10, 1100, 50, header_title[3], f_medium, 3, 10, 45);
+				highlight_box(920, 10, 1120, 50, header_title[3], f_medium, 3, 10, 45);
 				g_page = false;
 				sf_page = false;
 				b_page = false;
@@ -162,7 +162,7 @@ int main() {
 						}
 						xu_li_tra_cuu_doanh_thu(x, y, is_all_valid, error_year, year_dt, thong_ke_doanh_thu_pg, ds_nv);
 						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, ds_nv);
-						if (ktVT(20, 10, 230, 50, x, y) || ktVT(300, 10, 500, 50, x, y) || ktVT(600, 10, 800, 50, x, y) || ktVT(900, 10, 1100, 50, x, y)||ktVT(1130, 10, 1180, 50,x,y))
+						if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y)||ktVT(1140, 10, 1190, 50,x,y))
 							goto start;
 						if (out_table) goto start_again;
 					}
