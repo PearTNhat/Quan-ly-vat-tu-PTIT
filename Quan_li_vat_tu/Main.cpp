@@ -55,13 +55,14 @@ int main() {
 			//Nhat
 		batdau:
 			//vat tu 
-			if (ktVT(50, 10, 250, 50, x, y)) {
+			if (ktVT(20, 10, 220, 50, x, y)) {
 				createHeader(header_title);
-				highlight_box(50, 10, 250, 50, header_title[0], f_medium, 3, 10, 56);
+				highlight_box(20, 10, 220, 50, header_title[0], f_medium, 3, 10, 56);
 				g_page = true;
 				sf_page = false;
 				b_page = false;
 				ss_page = false;
+				X_page = false;
 				delete_after_header();
 			}
 			if (g_page) {
@@ -71,13 +72,14 @@ int main() {
 
 			}
 			// nhan vien
-			if (ktVT(350, 10, 550, 50, x, y)) {
+			if (ktVT(320, 10, 520, 50, x, y)) {
 				createHeader(header_title);
-				highlight_box(350, 10, 550, 50, header_title[1], f_medium, 3, 10, 43);
+				highlight_box(320, 10, 520, 50, header_title[1], f_medium, 3, 10, 43);
 				g_page = false;
 				sf_page = true;
 				b_page = false;
 				ss_page = false;
+				X_page = false;
 				delete_after_header();
 			}
 
@@ -88,13 +90,14 @@ int main() {
 				goto sf_start;
 			}
 			//Phu
-			if (ktVT(650, 10, 850, 50, x, y)) {
+			if (ktVT(620, 10, 820, 50, x, y)) {
 				createHeader(header_title);
-				highlight_box(650, 10, 850, 50, header_title[2], f_medium, 3, 10, 35);
+				highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
 				g_page = false;
 				sf_page = false;
 				b_page = true;
 				ss_page = false;
+				X_page = false;
 				delete_after_header();
 			}
 			if (b_page) {
@@ -107,13 +110,14 @@ int main() {
 
 			}
 			//Phuong
-			if (ktVT(950, 10, 1150, 50, x, y)) {
+			if (ktVT(920, 10, 1120, 50, x, y)) {
 				createHeader(header_title);
-				highlight_box(950, 10, 1150, 50, header_title[3], f_medium, 3, 10, 45);
+				highlight_box(920, 10, 1120, 50, header_title[3], f_medium, 3, 10, 45);
 				g_page = false;
 				sf_page = false;
 				b_page = false;
 				ss_page = true;
+				X_page = false;
 				delete_after_header();
 			}
 			if (ss_page) {
@@ -158,17 +162,32 @@ int main() {
 						}
 						xu_li_tra_cuu_doanh_thu(x, y, is_all_valid, error_year, year_dt, thong_ke_doanh_thu_pg, ds_nv);
 						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, ds_nv);
-						if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y))
+						if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y)||ktVT(1140, 10, 1190, 50,x,y))
 							goto start;
 						if (out_table) goto start_again;
 					}
 				}
 			}
+			if (ktVT(1140, 10, 1190, 50, x, y)) {
+				g_page = false;
+				sf_page = false;
+				b_page = false; 
+				ss_page = false;
+				X_page = true;
+			}
+			if (X_page)
+			{
+				highlight_box(1140, 10, 1190, 50, (char*)"X", f_medium, 4, 5, 14);
+				announce_board(x, y, 50, 20, "THOAT CHUONG TRINH");
+				delay(500);
+				announce_board(x, y, 80, 20, "XIN CAM ON");
+				delay(1000);
+				goto end;
+			}
 			delay(1);
 		}
 	}
-	delete[]  ds_nv.nhan_vien;
-	getch();
+	end:
 	closegraph();
 	return 0;
 }

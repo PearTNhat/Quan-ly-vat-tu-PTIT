@@ -986,8 +986,8 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 
 		}
 	}
-	if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
-		g_page = false;
+	if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) ||ktVT(1140, 10, 1190, 50, x, y)) {
+		b_page = false;
 		goto bill_end;
 	}
 
@@ -1055,17 +1055,17 @@ lannua:
 				{
 					d = input_bill(x, y, 235, 171, 430, 195, 5, 3, 985, 125, 1175, 215, "", 10, "textNumberNoSpace", "upcase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
-
 				if (empty(d) == true)
 				{
 					mavt = false;
@@ -1153,13 +1153,14 @@ lannua:
 				{
 					d = input_bill(x, y, 220, 196, 350, 220, 5, 3, 985, 125, 1175, 215, "", 5, "number", "calmCase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -1249,13 +1250,14 @@ lannua:
 				{
 					d = input_bill(x, y, 450, 196, 590, 220, 5, 3, 985, 125, 1175, 215, "", 6, "number", "calmCase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -1321,13 +1323,14 @@ lannua:
 				{
 					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, "", 4, "decimal", "calmCase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -1452,13 +1455,14 @@ lannua:
 			{
 				continue;
 			}
-			if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-				ktVT(350, 10, 550, 50, x, y) || // nhan vien
-				ktVT(650, 10, 850, 50, x, y) || // thanh toan
-				ktVT(950, 10, 1150, 50, x, y) || // thong ke
+			if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+				ktVT(320, 10, 520, 50, x, y) || // nhan vien
+				ktVT(620, 10, 820, 50, x, y) || // thanh toan
+				ktVT(920, 10, 1120, 50, x, y) || // thong ke
 				ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 				ktVT(350, 70, 645, 110, x, y) || // tra hang
-				ktVT(685, 70, 980, 110, x, y)) // in hoa don
+				ktVT(685, 70, 980, 110, x, y) || // in hoa don
+				ktVT(1140, 10, 1190, 50, x, y)) // thoat
 			{
 				break;
 			}
@@ -1567,13 +1571,14 @@ nhd:
 
 					d = input_bill(x, y, 250, 121, 590, 145, 5, 3, 985, 125, 1175, 215, "", 20, "textNumberNoSpace", "upcase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -1651,13 +1656,14 @@ nhd:
 				{
 					d = input_bill(x, y, 750, 121, 980, 145, 5, 3, 985, 125, 1175, 215, "", 10, "textNumberNoSpace", "upcase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -1758,13 +1764,14 @@ nhd:
 				{
 					d = input_bill(x, y, 235, 171, 430, 195, 5, 3, 985, 125, 1175, 215, "", 10, "textNumberNoSpace", "upcase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -1857,13 +1864,14 @@ nhd:
 				{
 					d = input_bill(x, y, 220, 196, 350, 220, 5, 3, 985, 125, 1175, 215, "", 5, "number", "calmCase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -1966,13 +1974,14 @@ nhd:
 				{
 					d = input_bill(x, y, 450, 196, 590, 220, 5, 3, 985, 125, 1175, 215, "", 6, "number", "calmCase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -2047,13 +2056,14 @@ nhd:
 				{
 					d = input_bill(x, y, 495, 171, 590, 195, 5, 3, 985, 125, 1175, 215, "", 4, "decimal", "calmCase");
 				}
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -2160,13 +2170,14 @@ nhd:
 			}
 
 
-			if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-				ktVT(350, 10, 550, 50, x, y) || // nhan vien
-				ktVT(650, 10, 850, 50, x, y) || // thanh toan
-				ktVT(950, 10, 1150, 50, x, y) || // thong ke
+			if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+				ktVT(320, 10, 520, 50, x, y) || // nhan vien
+				ktVT(620, 10, 820, 50, x, y) || // thanh toan
+				ktVT(920, 10, 1120, 50, x, y) || // thong ke
 				ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 				ktVT(350, 70, 645, 110, x, y) || // tra hang
-				ktVT(685, 70, 980, 110, x, y)) // in hoa don
+				ktVT(685, 70, 980, 110, x, y) || // in hoa don
+				ktVT(1140, 10, 1190, 50, x, y)) // thoat
 			{
 				break;
 			}
@@ -2304,7 +2315,7 @@ void khung_b_trahang()
 	b_taokhungden(980, 170, 1180, 220);
 }
 
-void khungtrahang(HoaDon& hd, HoaDon &p, NhanVien*& nv,HoaDon& u)
+void khungtrahang(HoaDon& hd, HoaDon& p, NhanVien*& nv, HoaDon& u)
 {
 	char ngay[10];
 	char thang[10];
@@ -2427,7 +2438,7 @@ void bill_trahang_table(
 	setlinestyle(0, 0, 0);
 	delete_bill_table();
 	setcolor(0);
-	int n = getNumOfCTHD(p) ;
+	int n = getNumOfCTHD(p);
 	int page = n / num_rows;
 	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
@@ -2535,9 +2546,8 @@ void bill_trahang_table(
 
 void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, view_page& vp_b_table, HoaDon& tra, DS_VatTu*& ds_vt)
 {
-	long double TONGCONGtra ;
-	long double TONGCONG0 ;
-	long double TONGCONG ;
+	long double TONGCONGtra;
+	long double TONGCONG;
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_B_nhd = true;
@@ -2546,7 +2556,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// edit
-			
+
 			for (int i = 0; i < edit_table_b.n; i++)
 			{
 				if (ktVT(edit_table_b.data[i].l, edit_table_b.data[i].t, edit_table_b.data[i].r, edit_table_b.data[i].b, x, y)) {
@@ -2556,11 +2566,10 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 						Insert_last_CTHD(tra.first_cthd, getNodeByvitri(hd.first_cthd, i_CRUD));
 						xoaNodeByvitri(hd.first_cthd, i_CRUD);
 						TONGCONGtra = tongPhanTuDSLKD(tra);
-						TONGCONG0 = tongtrangthai0(hd);
 						TONGCONG = tongPhanTuDSLKD(hd);
 						text_box_no_border(110, 170, 590, 195, (char*)"TRA LAI CHO KHACH", f_medium, 2, 5, 120, 15, 0);
 						text_box_no_border(110, 195, 590, 220, (char*)formatNumber(int(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
-						
+
 						text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
 						text_box_no_border(590, 195, 980, 220, (char*)formatNumber(int(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
 						cout << "?????!!!!!";
@@ -2570,18 +2579,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 				}
 
 			}
-			if (ktVT(980, 120, 1180, 170, x, y) ||
-				ktVT(980, 170, 1180, 220, x, y) ||
-				ktVT(50, 10, 250, 50, x, y) || //vat tu
-				ktVT(350, 10, 550, 50, x, y) || // nhan vien
-				ktVT(650, 10, 850, 50, x, y) || // thanh toan
-				ktVT(950, 10, 1150, 50, x, y) || // thong ke
-				ktVT(15, 70, 310, 110, x, y) || // lap hoa don
-				ktVT(350, 70, 645, 110, x, y) || // tra hang
-				ktVT(685, 70, 980, 110, x, y))
-			{
-				break;
-			}
+			
 			// transition page
 			if (ktVT(650, 565, 685, 600, x, y)) {
 				if (vp_b_table.current == vp_b_table.page) {
@@ -2606,7 +2604,17 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 
 				}
 			}
-			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
+			if (ktVT(980, 120, 1180, 170, x, y) ||
+				ktVT(980, 170, 1180, 220, x, y) ||
+				ktVT(20, 10, 220, 50, x, y) || //vat tu
+				ktVT(320, 10, 520, 50, x, y) || // nhan vien
+				ktVT(620, 10, 820, 50, x, y) || // thanh toan
+				ktVT(920, 10, 1120, 50, x, y) || // thong ke
+				ktVT(15, 70, 310, 110, x, y) || // lap hoa don
+				ktVT(350, 70, 645, 110, x, y) || // tra hang
+				ktVT(685, 70, 980, 110, x, y) || // in hoa don
+				ktVT(1140, 10, 1190, 50, x, y)) // thoat
+			{
 				g_page = false;
 				goto bill_end;
 			}
@@ -2664,13 +2672,14 @@ batdau:
 			{
 			nhapsohd:
 				string d = input(x, y, 520, 325, 870, 355, 15, 5, 0, 0, 50, sohd, 20, "textNumberNoSpace", "upcase", COLOR_INFOR_SS, COLOR_INFOR_SS, RED);
-				if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-					ktVT(350, 10, 550, 50, x, y) || // nhan vien
-					ktVT(650, 10, 850, 50, x, y) || // thanh toan
-					ktVT(950, 10, 1150, 50, x, y) || // thong ke
+				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+					ktVT(320, 10, 520, 50, x, y) || // nhan vien
+					ktVT(620, 10, 820, 50, x, y) || // thanh toan
+					ktVT(920, 10, 1120, 50, x, y) || // thong ke
 					ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 					ktVT(350, 70, 645, 110, x, y) || // tra hang
-					ktVT(685, 70, 980, 110, x, y)) // in hoa don
+					ktVT(685, 70, 980, 110, x, y) || // in hoa don
+					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
 				}
@@ -2722,7 +2731,7 @@ batdau:
 						if (tt1.first_cthd == NULL)
 						{
 							khung_b_trahang();
-							delete_bill_table(); 
+							delete_bill_table();
 							check_B_trahang = bill_announce_board(x, y, 40, 0, "Luu Thay Doi?.", "");
 							if (check_B_trahang)
 							{
@@ -2737,7 +2746,7 @@ batdau:
 						{
 							if (ktVT(980, 120, 1180, 170, x, y))
 							{
-								
+
 								check_B_trahang = bill_announce_board(x, y, 40, 0, "Luu Thay Doi?.", "");
 								if (check_B_trahang) {
 									hd = checkshdtrahang(ds_nv, sohd);
@@ -2755,13 +2764,14 @@ batdau:
 							}
 						}
 
-						if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-							ktVT(350, 10, 550, 50, x, y) || // nhan vien
-							ktVT(650, 10, 850, 50, x, y) || // thanh toan
-							ktVT(950, 10, 1150, 50, x, y) || // thong ke
+						if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+							ktVT(320, 10, 520, 50, x, y) || // nhan vien
+							ktVT(620, 10, 820, 50, x, y) || // thanh toan
+							ktVT(920, 10, 1120, 50, x, y) || // thong ke
 							ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 							ktVT(350, 70, 645, 110, x, y) || // tra hang
-							ktVT(685, 70, 980, 110, x, y)) // in hoa don
+							ktVT(685, 70, 980, 110, x, y) || // in hoa don
+							ktVT(1140, 10, 1190, 50, x, y)) // thoat
 						{
 							break;
 						}
@@ -2772,7 +2782,7 @@ batdau:
 						khungtrahang(tt1, p, h, u);
 						bill_trahang_table(bill_table_header, tt1, tra_hang_cn, vp_b_table, edit_table_b, 7, ds_vt);
 						trahang_handle_table(x, y, tt1, edit_table_b, vp_b_table, u, ds_vt);
-						
+
 						goto th;
 					}
 				}
@@ -2783,13 +2793,14 @@ batdau:
 
 			}
 
-			if (ktVT(50, 10, 250, 50, x, y) || //vat tu
-				ktVT(350, 10, 550, 50, x, y) || // nhan vien
-				ktVT(650, 10, 850, 50, x, y) || // thanh toan
-				ktVT(950, 10, 1150, 50, x, y) || // thong ke
+			if (ktVT(20, 10, 220, 50, x, y) || //vat tu
+				ktVT(320, 10, 520, 50, x, y) || // nhan vien
+				ktVT(620, 10, 820, 50, x, y) || // thanh toan
+				ktVT(920, 10, 1120, 50, x, y) || // thong ke
 				ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 				ktVT(350, 70, 645, 110, x, y) || // tra hang
-				ktVT(685, 70, 980, 110, x, y)) // in hoa don
+				ktVT(685, 70, 980, 110, x, y) || // in hoa don
+				ktVT(1140, 10, 1190, 50, x, y)) // thoat
 			{
 				break;
 			}
@@ -2831,10 +2842,11 @@ void bill_page(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt)
 			}
 			xu_li_tra_cuu_hoa_don(x, y, error_soHD, soHD, in_hoa_don_page, ds_nv, ds_vt);
 
-			if (ktVT(50, 10, 250, 50, x, y) ||
-				ktVT(350, 10, 550, 50, x, y) ||
-				ktVT(650, 10, 850, 50, x, y) ||
-				ktVT(950, 10, 1150, 50, x, y))
+			if (ktVT(20, 10, 220, 50, x, y) ||
+				ktVT(320, 10, 520, 50, x, y) ||
+				ktVT(620, 10, 820, 50, x, y) ||
+				ktVT(920, 10, 1120, 50, x, y) ||
+				ktVT(1140, 10, 1190, 50, x, y))
 			{
 				break;
 			}
