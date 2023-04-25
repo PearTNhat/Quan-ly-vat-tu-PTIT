@@ -456,7 +456,7 @@ void do_hoa_in_hoadon(bool& is_error) {
 	const char* title = "IN HOA DON";
 	text_box(470, 140, 720, 181, (char*)title, 10, 3, 10, 58, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiemi
-	text_box(450, 410, 750, 450, (char*)"Tìm hóa đơn", f_medium, 3, 10, 70, COLOR(255, 153, 51), 0);
+	text_box(450, 410, 750, 450, (char*)"Tim hoa don", f_medium, 3, 10, 70, COLOR(255, 153, 51), 0);
 	// User input 
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SS);
