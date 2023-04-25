@@ -162,6 +162,27 @@ bool checksoluong(DS_VatTu* root, char* mvt, string x) {
 	return false; // trả về false nếu không tìm thấy nút có maVT khớp
 }
 
+bool checksoluongnhap(DS_VatTu* root, char* mvt, string x) {
+	DS_VatTu* p = root;
+	while (p != NULL) {
+		if (strcmp(p->vat_tu.maVT, mvt) == 0) { // so sánh trường maVT trước
+			if (stoi(x) + p->vat_tu.SLT > 99999 ) { // so sánh trường SLT nếu maVT khớp
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if (strcmp(mvt, p->vat_tu.maVT) > 0) {
+			p = p->right;
+		}
+		else {
+			p = p->left;
+		}
+	}
+	return false; // trả về false nếu không tìm thấy nút có maVT khớp
+}
+
 bool checkSLT(DS_VatTu* root, string mvt) {
 	DS_VatTu* p = root;
 	while (p != NULL) {
@@ -864,6 +885,10 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 				}
 				else {
 					bill_infor(c_mavattu, c_soluongvt, c_dongiavt, c_vatvt);
+					if (nhd_isEdit) {
+
+					text_box(430, 165, 800, 195, (char*)c_mavattu.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mnv
+					}
 					x = NULL, y = NULL;
 					goto nhdInfor;
 				}
@@ -1183,6 +1208,14 @@ lannua:
 				{
 					soluong = false;
 					text_box(985, 125, 1175, 215, (char*)"Ko du so luong!", f_medium, 2, 30, 8, RED, 0, 0);
+					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
+					khung_b_nhd();
+					goto SL2;
+				}
+				if (checksoluongnhap(ds_vt, c_mavattu, d) == false && nhap == true)
+				{
+					soluong = false;
+					text_box(985, 125, 1175, 215, (char*)"SLnhap qua lon!", f_medium, 2, 30, 8, RED, 0, 0);
 					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
 					khung_b_nhd();
 					goto SL2;
@@ -1897,6 +1930,14 @@ nhd:
 				{
 					soluong = false;
 					text_box(985, 125, 1175, 215, (char*)"Ko du so luong!", f_medium, 2, 30, 8, RED, 0, 0);
+					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
+					khung_b_nhd();
+					goto SL;
+				}
+				if (checksoluongnhap(ds_vt, c_mavattu, d) == false && nhap == true)
+				{
+					soluong = false;
+					text_box(985, 125, 1175, 215, (char*)"SLnhap qua lon!", f_medium, 2, 30, 8, RED, 0, 0);
 					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
 					khung_b_nhd();
 					goto SL;

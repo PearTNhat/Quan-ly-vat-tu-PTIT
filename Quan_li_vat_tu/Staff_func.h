@@ -230,7 +230,6 @@ void staff_table(
 			text_top += 39;
 		}
 		if (i == max_rows - 1) {
-			cout << (max_rows - num_rows * (view_page.current - 1)) - 2 << endl;
 			bar_bottom -= (max_rows - num_rows * (view_page.current - 1)) - 2;
 		}
 		// Neu k su dung thi xoa tu day xuong
@@ -591,7 +590,6 @@ int checkSubmitEditAdd(int arr[], int n) {
 	int count = 0;
 	for (int i = 0; i < n; i++)
 	{
-		cout << arr[i] << " ";
 		if (arr[i] <= -1) count++; // dem so luong k hop le
 
 	}

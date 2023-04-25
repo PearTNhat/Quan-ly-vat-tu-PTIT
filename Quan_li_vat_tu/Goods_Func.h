@@ -162,7 +162,6 @@ void goods_table(
 			text_top += 39;
 		}
 		if (i == max_rows-1) {
-			cout << ( max_rows- num_cols * (view_page.current - 1) )-2<< endl;
 			bar_bottom -= (max_rows - num_cols * (view_page.current - 1)) - 2;
 		}
 		// Neu k su dung thi xoa tu day xuong
@@ -332,7 +331,7 @@ start:;
 			// slt
 			if (isAdd) {
 				if (ktVT(430, 345, 800, 375, x,y)) {
-					t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt,4, "number", "camelCase", COLOR_INFOR_SG, NULL, NULL);
+					t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt,5, "number", "camelCase", COLOR_INFOR_SG, NULL, NULL);
 					if (t_dvt.length() > 0) {
 						checkSubmit[3] = 1;
 					}
@@ -353,7 +352,6 @@ start:;
 					isEdit = false;
 					isAdd = false;
 					delay(200);
-					cout << "oeeeee ";
 					goto sf_end;
 				}
 				else {
@@ -487,7 +485,6 @@ bool g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 			{
 				if (ktVT(delete_table_g.data[i].l, delete_table_g.data[i].t, delete_table_g.data[i].r, delete_table_g.data[i].b, x, y)) {
 					keyCRUD = delete_table_g.data[i].key;
-					cout << keyCRUD << endl;
 					VatTu x_vt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
 					
 					if (x_vt.sldaban > 0) {
@@ -497,7 +494,6 @@ bool g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 					else {
 						check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
 						if (check_D_staff) {
-							cout << x_vt.maVT << endl;
 							deleteNode_k_maVT(ds_vt, x_vt.maVT);
 							deleteNode_k_tenVT(ds_s_vt, x_vt.tenVT);
 							lnrSVT(ds_s_vt); 

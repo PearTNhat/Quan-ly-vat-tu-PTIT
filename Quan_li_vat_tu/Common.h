@@ -254,16 +254,16 @@ bool checkLowcase(char s) {
 	return false;
 }
 
-std::string formatNumber(int num) {
+std::string formatNumber(long long num) {
 	std::ostringstream ss;
 	ss << num;
 	std::string numStr = ss.str();
 
-	int numDigits = numStr.size();
-	int numCommas = (numDigits - 1) / 3;
+	long long numDigits = numStr.size();
+	long long numCommas = (numDigits - 1) / 3;
 
-	for (int i = 1; i <= numCommas; i++) {
-		int commaPos = numDigits - i * 3;
+	for (long long i = 1; i <= numCommas; i++) {
+		long long commaPos = numDigits - i * 3;
 		numStr.insert(commaPos, ",");
 	}
 
