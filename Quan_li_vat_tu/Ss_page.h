@@ -185,15 +185,15 @@ void ss_table(
 		} else writeText(490, text_top, (char*)"Xuat", 1, 0, 3, bkcolor);
 		writeText(650, text_top, tempNodeInfo->hoTenNV, 1, 0, 3, bkcolor);
 		// Lấy trị giá hóa đơn
-		float triGia = 0;
+		long double triGia = 0;
 		DS_CT_HoaDon* nodeCT = tempNodeInfo->hoadon.first_cthd;
 		while (nodeCT != NULL) {
 			if (nodeCT->ct_hoadon.TrangThai == 1) {
-				triGia += (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong) + (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong * nodeCT->ct_hoadon.VAT / 100);
+				triGia += ((long double)nodeCT->ct_hoadon.Dongia * (long double)nodeCT->ct_hoadon.Soluong) + ((long double)nodeCT->ct_hoadon.Dongia * (long double)nodeCT->ct_hoadon.Soluong * (long double)nodeCT->ct_hoadon.VAT / 100);
 			}
 			nodeCT = nodeCT->next;
 		}
-		string triGia_str = formatNumber((int)triGia);
+		string triGia_str = formatNumber((long long)triGia);
 		writeText(920, text_top, (char*)triGia_str.c_str(), 1, 0, 3, bkcolor);
 	}
 

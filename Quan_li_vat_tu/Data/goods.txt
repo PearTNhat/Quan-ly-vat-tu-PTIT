@@ -7,7 +7,7 @@ VT12,Cat,Khoi,4,22
 VT115,Riu,Bao,4,800
 VT12341,Xi Mang,Cai,0,4312
 VT125,Bay,Cai,2,1318
-VT35,Bua,Cai,2,24
+VT35,Bua,Cai,3,23
 VT3,Da,Khoi,12,0
 VT25,Gach,Vien,2,790
 VT3442,Con Dao,Con,1,14233

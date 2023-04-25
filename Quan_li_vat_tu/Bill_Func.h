@@ -344,11 +344,10 @@ void in_hoa_don_table(
 			if (nodeIt->ct_hoadon.TrangThai == 1) {
 				long double giagoc = (long double)nodeIt->ct_hoadon.Soluong * (long double)nodeIt->ct_hoadon.Dongia;
 				long double thue = (long double)nodeIt->ct_hoadon.Soluong * (long double)nodeIt->ct_hoadon.Dongia * (long double)nodeIt->ct_hoadon.VAT / 100;
-				tonggia = giagoc + thue;
+				tonggia += giagoc + thue;
 			}
 			nodeIt = nodeIt->next;
 		}
-		cout << "tong gia: " << tonggia << endl;
 		int indent = 0;
 		if (to_string(tonggia).length() > 9) indent += 50;
 		outtextxy(1010 - indent, bar_bottom + 16 + 13, (char*)formatNumber((long long)tonggia).c_str());
