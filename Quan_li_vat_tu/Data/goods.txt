@@ -1,17 +1,17 @@
-VT135,Phan,Bao,2,1290
-VT1,Bao,Bao,1,2320
-CUCSI,Bua Keo Bao,Cai,3,322
-ABC,Tao Bao,Cai,0,3123
-DSAD,Sa,Easesa,0,43
-VT12,Cat,Khoi,4,22
-VT115,Riu,Bao,4,800
-VT12341,Xi Mang,Cai,0,4312
-VT125,Bay,Cai,2,1318
-VT35,Bua,Cai,3,23
-VT3,Da,Khoi,12,0
-VT25,Gach,Vien,2,790
-VT3442,Con Dao,Con,1,14233
-VT4123,Xeng,Cai,1,4312
-VT356,Riu Vang,Cai,1,2280
-VT44,Kim Bam Babi,Cai,3,0
-VT60,Sat,Kg,4,32
+VT135,Phan,Bao,2,9790
+VT1,Bao,Bao,0,10000
+CUCSI,Bua Keo Bao,Cai,0,10099
+ABC,Tao Bao,Cai,0,10080
+DSAD,Sa,Easesa,0,10000
+VT12,Cat,Khoi,0,10300
+VT115,Riu,Bao,1,9920
+VT12341,Xi Mang,Cai,0,10000
+VT125,Bay,Cai,1,10000
+VT35,Bua,Cai,2,9947
+VT3,Da,Khoi,3,9660
+VT25,Gach,Vien,1,10190
+VT3442,Con Dao,Con,0,10000
+VT4123,Xeng,Cai,0,10000
+VT356,Riu Vang,Cai,0,10000
+VT44,Kim Bam Babi,Cai,0,10100
+VT60,Sat,Kg,0,10030
