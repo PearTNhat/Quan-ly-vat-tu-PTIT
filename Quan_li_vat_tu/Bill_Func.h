@@ -323,7 +323,7 @@ void in_hoa_don_table(
 			writeText(833, text_top, (char*)"Khach mua", 1, 0, 3, 15);
 		else
 			writeText(833, text_top, (char*)"Khach tra", 1, 0, 3, 15);
-		long long thanhtien = (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia) + (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia * tempNodeCT->ct_hoadon.VAT / 100);
+		long double thanhtien = ((long double)tempNodeCT->ct_hoadon.Soluong * (long double)tempNodeCT->ct_hoadon.Dongia) + ((long double)tempNodeCT->ct_hoadon.Soluong * (long double)tempNodeCT->ct_hoadon.Dongia * (long double)tempNodeCT->ct_hoadon.VAT / 100);
 		writeText(1010, text_top, (char*)formatNumber(thanhtien).c_str(), 1, 0, 3, 15);
 	}
 
@@ -339,15 +339,19 @@ void in_hoa_don_table(
 		settextstyle(f_small, 0, 2);
 		outtextxy(870, bar_bottom + 15 + 13, (char*)"Tong gia");
 		DS_CT_HoaDon* nodeIt = ds;
-		long long tonggia = 0;
+		long double tonggia = 0;
 		while (nodeIt != NULL) {
-			if (nodeIt->ct_hoadon.TrangThai == 1) 
-				tonggia += (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia) + (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia * nodeIt->ct_hoadon.VAT / 100);
+			if (nodeIt->ct_hoadon.TrangThai == 1) {
+				long double giagoc = (long double)nodeIt->ct_hoadon.Soluong * (long double)nodeIt->ct_hoadon.Dongia;
+				long double thue = (long double)nodeIt->ct_hoadon.Soluong * (long double)nodeIt->ct_hoadon.Dongia * (long double)nodeIt->ct_hoadon.VAT / 100;
+				tonggia = giagoc + thue;
+			}
 			nodeIt = nodeIt->next;
 		}
+		cout << "tong gia: " << tonggia << endl;
 		int indent = 0;
 		if (to_string(tonggia).length() > 9) indent += 50;
-		outtextxy(1010 - indent, bar_bottom + 16 + 13, (char*)formatNumber(tonggia).c_str());
+		outtextxy(1010 - indent, bar_bottom + 16 + 13, (char*)formatNumber((long long)tonggia).c_str());
 		settextstyle(3, HORIZ_DIR, 2);
 		setbkcolor(15);
 		string bangchu = "Bang chu:  ";
