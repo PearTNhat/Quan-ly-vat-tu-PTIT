@@ -118,7 +118,7 @@ void ss_table(
 	string from_date = "Tu " + day_b + "/" + month_b + "/" + year_b + " den " + day_e + "/" + month_e + "/" + year_e;
 	char m[50];
 	strcpy_s(m, from_date.c_str());
-	writeText(465, 140, (char*)"THỐNG KÊ HÓA ĐƠN", 4, 15, 8, bk_screen);
+	writeText(465, 140, (char*)"THONG KE HOA DON", 4, 15, 8, bk_screen);
 	writeText(480, 170, m, 2, 15, 8, bk_screen);
 	// header num_rows
 	int bar_top = 220, bar_bottom = 252;
@@ -249,7 +249,7 @@ void table_doanhThu(
 	// reder page
 	int i = 0;
 	// create table title
-	string title = "THỐNG KÊ DOANH THU NĂM ";
+	string title = "THONG KE DOANH THU NAM ";
 	title += year_dt;
 	const char* m = title.c_str();
 	writeText(350, 115, (char*)m, 4, 15, 8, bk_screen);
@@ -797,14 +797,14 @@ void do_hoa_search_doanh_thu() {
 
 	// Thanh tieu de
 	setlinestyle(0, 0, 1);
-	const char* title = "Tra cứu doanh thu";
+	const char* title = "Tra cuu doanh thu";
 	text_box(440, 140, 750, 181, (char*)title, 10, 3, 10, 40, COLOR(51, 51, 51), 15); // font 8
 	// Thanh tim kiemi
-	text_box(450, 410, 750, 450, (char*)"Tra cứu", f_medium, 3, 10, 100, COLOR(255, 153, 51), 0);
+	text_box(450, 410, 750, 450, (char*)"Tra cuu", f_medium, 3, 10, 100, COLOR(255, 153, 51), 0);
 	// User input 
 	setfillstyle(1, 15);
 	setbkcolor(COLOR_INFOR_SS);
-	outtextxy(350, 290, (char*)"Nhập năm cần tra cứu:");
+	outtextxy(350, 290, (char*)"Nhap nam can tra cuu:");
 	bar3d(670, 285, 835, 320, 0, 0);
 }
 

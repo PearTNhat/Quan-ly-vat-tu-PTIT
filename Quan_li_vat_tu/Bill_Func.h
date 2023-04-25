@@ -320,7 +320,8 @@ void in_hoa_don_table(
 		DS_CT_HoaDon* nodeIt = ds;
 		int tonggia = 0;
 		while (nodeIt != NULL) {
-			tonggia += (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia) + (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia * nodeIt->ct_hoadon.VAT / 100);
+			if (nodeIt->ct_hoadon.TrangThai == 1) 
+				tonggia += (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia) + (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia * nodeIt->ct_hoadon.VAT / 100);
 			nodeIt = nodeIt->next;
 		}
 		outtextxy(1010, bar_bottom + 16 + 13, (char*)formatNumber(tonggia).c_str());
