@@ -336,10 +336,10 @@ void removeRedundantSpaces(string& sentence) {
 	sentence = result;
 }
 
-string convertToText(int number) {
+string convertToText(long long number) {
 	string units[] = { "", "mot", "hai", "ba", "bon", "nam", "sau", "bay", "tam", "chin" };
 	string tens[] = { "", "muoi", "hai muoi", "ba muoi", "bon muoi", "nam muoi", "sau muoi", "bay muoi", "tam muoi", "chin muoi" };
-	string suffixes[] = { "", "nghin", "trieu" };
+	string suffixes[] = { "", "nghin", "trieu", "ty"};
 	string result = "";
 
 	// Handle zero case

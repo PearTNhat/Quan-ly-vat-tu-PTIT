@@ -345,12 +345,14 @@ void in_hoa_don_table(
 				tonggia += (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia) + (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia * nodeIt->ct_hoadon.VAT / 100);
 			nodeIt = nodeIt->next;
 		}
-		outtextxy(1010, bar_bottom + 16 + 13, (char*)formatNumber(tonggia).c_str());
+		int indent = 0;
+		if (to_string(tonggia).length() > 9) indent += 50;
+		outtextxy(1010 - indent, bar_bottom + 16 + 13, (char*)formatNumber(tonggia).c_str());
 		settextstyle(3, HORIZ_DIR, 2);
 		setbkcolor(15);
 		string bangchu = "Bang chu:  ";
 		bangchu += convertToText(tonggia);
-		int indent = 0;
+		indent = 0;
 		if (bangchu.length() > 34) indent = bangchu.length() * bangchu.length() * 1.96 / 34;
 		outtextxy(850 - indent, bar_bottom + 16 + 13 + 50, (char*)bangchu.c_str());
 	}
