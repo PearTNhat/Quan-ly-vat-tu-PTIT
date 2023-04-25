@@ -12,7 +12,6 @@ struct Stack {
     }
 
     ~Stack() {
-
         delete[] a;
     }
 };

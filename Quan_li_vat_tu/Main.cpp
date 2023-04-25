@@ -17,7 +17,7 @@ int main() {
 	bool sf_isEdit = false, sf_isAdd = false;
 	DS_NhanVien ds_nv;
 	read_file_staff(ds_nv);
-	sort_staff(ds_nv);
+	quick_sort_staff(ds_nv, 0, ds_nv.length - 1);
 	// vật tư
 	check_CURD delete_table_g;
 	check_CURD edit_table_g;
@@ -45,8 +45,6 @@ int main() {
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
-			cout << "\nvi tri x-out:" << x << " - vi tri y-out:" << y << endl;
-			line(x, y, x + 20, y);
 			//------------------------
 			//code
 
@@ -67,8 +65,10 @@ int main() {
 			}
 			if (g_page) {
 				goods_table(g_table_header, ds_vt,ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g,10);
-				g_handleTable( x,  y,  ds_vt,ds_s_vt,  delete_table_g,  edit_table_g,  vp_g_table,  g_isEdit,  g_isAdd);
-				goto sf_start;
+				bool sf_out = g_handleTable( x,  y,  ds_vt,ds_s_vt,  delete_table_g,  edit_table_g,  vp_g_table,  g_isEdit,  g_isAdd);
+				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
+					goto sf_start;
+				}
 
 			}
 			// nhan vien
@@ -86,8 +86,10 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
-				sf_handleTable(x, y, ds_nv, delete_sf,edit_sf,vp_m_sf, sf_isEdit, sf_isAdd);
-				goto sf_start;
+				bool sf_out=sf_handleTable(x, y, ds_nv, delete_sf,edit_sf,vp_m_sf, sf_isEdit, sf_isAdd);
+				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
+					goto sf_start;
+				}
 			}
 			//Phu
 			if (ktVT(620, 10, 820, 50, x, y)) {
@@ -185,7 +187,12 @@ int main() {
 			delay(1);
 		}
 	}
-	end:
+end:
+	for (int i = 0; i < ds_nv.length; i++)
+	{
+		delete ds_nv.nhan_vien[i];
+	}
+	ds_nv.length = 0; // Đặt độ dài của mảng về 0
 	closegraph();
 	return 0;
 }

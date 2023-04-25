@@ -228,10 +228,13 @@ string input(
 						}
 						input[0] = toupper(input[0]);
 					}
+					if (function == "firstCase") {
+						input[0]=toupper(input[0]);
+					}
+
 					input += "|";
 				}
-
-
+				
 				strcpy_s(result, input.c_str());
 				//---xoa canh bao
 				setfillstyle(1, i_bg);
