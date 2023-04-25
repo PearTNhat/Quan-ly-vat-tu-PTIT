@@ -1,5 +1,5 @@
 VT135,Phan,Bao,2,1290
-VT1,Bao,Bao,0,2321
+VT1,Bao,Bao,1,2320
 CUCSI,Bua Keo Bao,Cai,3,322
 ABC,Tao Bao,Cai,0,3123
 DSAD,Sa,Easesa,0,43
@@ -10,7 +10,7 @@ VT125,Bay,Cai,2,1318
 VT35,Bua,Cai,2,24
 VT3,Da,Khoi,12,0
 VT25,Gach,Vien,2,790
-VT3442,Con Dao,Con,1,4234
+VT3442,Con Dao,Con,1,14233
 VT4123,Xeng,Cai,1,4312
 VT356,Riu Vang,Cai,1,2280
 VT44,Kim Bam Babi,Cai,3,0
