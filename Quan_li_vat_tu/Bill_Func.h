@@ -323,7 +323,7 @@ void in_hoa_don_table(
 			writeText(833, text_top, (char*)"Khach mua", 1, 0, 3, 15);
 		else
 			writeText(833, text_top, (char*)"Khach tra", 1, 0, 3, 15);
-		int thanhtien = (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia) + (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia * tempNodeCT->ct_hoadon.VAT / 100);
+		long long thanhtien = (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia) + (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia * tempNodeCT->ct_hoadon.VAT / 100);
 		writeText(1010, text_top, (char*)formatNumber(thanhtien).c_str(), 1, 0, 3, 15);
 	}
 
@@ -339,7 +339,7 @@ void in_hoa_don_table(
 		settextstyle(f_small, 0, 2);
 		outtextxy(870, bar_bottom + 15 + 13, (char*)"Tong gia");
 		DS_CT_HoaDon* nodeIt = ds;
-		int tonggia = 0;
+		long long tonggia = 0;
 		while (nodeIt != NULL) {
 			if (nodeIt->ct_hoadon.TrangThai == 1) 
 				tonggia += (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia) + (nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia * nodeIt->ct_hoadon.VAT / 100);
@@ -1511,7 +1511,7 @@ lannua:
 				bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
 				long double TONGCONG = tongPhanTuDSLKD(hd);
 				text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
-				text_box_no_border(590, 195, 980, 220, (char*)formatNumber(int(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+				text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
 				khung_b_nhd();
 			}
 			else
@@ -2392,9 +2392,9 @@ void khungtrahang(HoaDon& hd, HoaDon& p, NhanVien*& nv, HoaDon& u)
 	long double TONGCONGtra = tongPhanTuDSLKD(u);
 	long double TONGCONG = tongPhanTuDSLKD(hd);
 	text_box_no_border(110, 170, 590, 195, (char*)"TRA LAI CHO KHACH", f_medium, 2, 5, 120, 15, 0);
-	text_box_no_border(110, 195, 590, 220, (char*)formatNumber(int(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
+	text_box_no_border(110, 195, 590, 220, (char*)formatNumber(long long(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
 	text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
-	text_box_no_border(590, 195, 980, 220, (char*)formatNumber(int(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+	text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
 	text_box_no_border(980, 120, 1180, 170, (char*)"XAC NHAN", f_medium, 4, 10, 20, XANH_DUONG_NHAT, 0);
 	text_box_no_border(980, 170, 1180, 220, (char*)"HUY", f_medium, 4, 10, 60, XANH_DUONG_NHAT, 0);
 	khung_b_trahang();
@@ -2610,10 +2610,10 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 						TONGCONGtra = tongPhanTuDSLKD(tra);
 						TONGCONG = tongPhanTuDSLKD(hd);
 						text_box_no_border(110, 170, 590, 195, (char*)"TRA LAI CHO KHACH", f_medium, 2, 5, 120, 15, 0);
-						text_box_no_border(110, 195, 590, 220, (char*)formatNumber(int(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
+						text_box_no_border(110, 195, 590, 220, (char*)formatNumber(long long(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
 
 						text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
-						text_box_no_border(590, 195, 980, 220, (char*)formatNumber(int(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+						text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
 						cout << "?????!!!!!";
 						goto bill_end;
 					}
