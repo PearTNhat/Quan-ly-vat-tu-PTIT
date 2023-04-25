@@ -364,7 +364,7 @@ string convertToText(long long number) {
 		int tensAndUnits = group % 100;
 		if (tensAndUnits > 0) {
 			if (tensAndUnits < 10) {
-				if (groupCount == 2) groupText += " " + units[tensAndUnits];
+				if (groupCount >= 2) groupText += " " + units[tensAndUnits];
 				else groupText += " linh " + units[tensAndUnits];
 			}
 			else if (tensAndUnits < 20) {
