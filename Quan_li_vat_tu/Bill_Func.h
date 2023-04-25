@@ -1117,7 +1117,7 @@ lannua:
 					khung_b_nhd();
 					goto MAVT2;
 				}
-				if (checkSLT(ds_vt, d) == false)
+				if (checkSLT(ds_vt, d) == false && xuat == true)
 				{
 					mavt = false;
 					strcpy(c_mavattu, "");
