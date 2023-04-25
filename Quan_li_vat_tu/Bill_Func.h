@@ -1830,7 +1830,7 @@ nhd:
 					}
 					goto SL;
 				}
-				if (checkSLT(ds_vt, d) == false)
+				if (checkSLT(ds_vt, d) == false && xuat == true)
 				{
 					mavt = false;
 					strcpy(c_mavattu, "");
