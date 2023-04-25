@@ -1584,7 +1584,7 @@ nhd:
 				text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
 				text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
 				khung_b_nhd();
-				nhap = true; xuat = false;
+				nhap = true; xuat = false; mavt = false;
 				continue;
 
 			}
@@ -1594,7 +1594,7 @@ nhd:
 				text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
 				text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
 				khung_b_nhd();
-				nhap = false; xuat = true;
+				nhap = false; xuat = true; mavt = false;
 				continue;
 			}
 			if (ktVT(110, 120, 590, 145, x, y))
@@ -1782,7 +1782,8 @@ nhd:
 						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
 						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
 						khung_b_nhd();
-						nhap = true; xuat = false;
+						nhap = true; xuat = false;mavt = false;
+						
 						continue;
 					}
 					if (ktVT(20, 170, 100, 210, x, y))
@@ -1791,7 +1792,7 @@ nhd:
 						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
 						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
 						khung_b_nhd();
-						nhap = false; xuat = true;
+						nhap = false; xuat = true;mavt = false;
 						continue;
 					}
 				}
