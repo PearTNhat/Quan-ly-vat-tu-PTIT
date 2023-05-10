@@ -38,7 +38,7 @@ int main() {
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	cleardevice();
-	Loading(x,y);
+	//Loading(x,y);
 	setlinestyle(0, 0, 2);
 	setbkcolor(bk_screen);
 	cleardevice();
