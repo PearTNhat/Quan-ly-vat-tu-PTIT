@@ -154,9 +154,9 @@ DS_s_VT* getNodeByIndex_s_VT(DS_s_VT*& root, int index) {
 bool searchNode_k_tenVT(DS_s_VT* root, string x)
 {
 	DS_s_VT* p = root;
-	while (p != NULL && string(p->vat_tu.maVT) != x)
+	while (p != NULL && string(p->vat_tu.tenVT) != x)
 	{
-		if (x > string(p->vat_tu.maVT))
+		if (x > string(p->vat_tu.tenVT))
 		{
 			p = p->right;
 		}
