@@ -30,10 +30,10 @@ struct ds_tmp {
 void create_ss_header();
 bool ktra_loi_input(string input, int max_value, string input_field, int input_result, int e_kcl, int e_kct, int i_error_color, int i_bg, int i_highlight, int i_color);
 void get_current_date(string& day_e, string& month_e, string& year_e);
-void ss_handleTable(int& x, int& y, DS_info* ds_info);
+void ss_handleTable(int& x, int& y, DS_info* ds_info, view_page& vp_m_ss);
 void get_current_date(string& day_e, string& month_e, string& year_e);
 bool xu_li_nam_nhuan(int day, int month, int year, string& error_leap_year);
-void xu_li_button_tim_kiem(int& x, int& y, bool is_all_valid, string dayb, string monthb, string yearb, string daye, string monthe, string yeare, DS_NhanVien ds_nv);
+void xu_li_button_tim_kiem(int& x, int& y, bool is_all_valid, string dayb, string monthb, string yearb, string daye, string monthe, string yeare, DS_NhanVien ds_nv, view_page& vp_m_ss);
 int compareDate(Date date1, Date date2);
 
 
@@ -201,7 +201,7 @@ void ss_table(
 	page_transition(view_page);
 }
 
-void ss_handleTable(int& x, int& y, DS_info* ds) {
+void ss_handleTable(int& x, int& y, DS_info* ds, view_page& vp_m_ss) {
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -223,7 +223,7 @@ void ss_handleTable(int& x, int& y, DS_info* ds) {
 				delete_after_header();
 				ss_table(ss_table_header, ds, vp_m_ss, ROWS_PER_PG_SS);
 			}
-			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
+			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
 				ss_page = false;
 				goto ss_end;
 			}
@@ -526,7 +526,7 @@ string ss_page_input(
 	return input;
 }
 
-void do_hoa_search_hd() {
+void do_hoa_search_hd(view_page& vp_m_ss) {
 	vp_m_ss = {};
 	setfillstyle(1, COLOR_INFOR_SS);
 	setcolor(0);
@@ -656,7 +656,7 @@ void xu_li_button_tim_kiem(
 	int& x, int& y,
 	bool is_all_valid,
 	string dayb, string monthb, string yearb, string daye, string monthe, string yeare,
-	DS_NhanVien ds_nv
+	DS_NhanVien ds_nv, view_page& vp_m_ss
 ) {
 	// check empty
 	if (dayb == "" || daye == "" || monthe == "" || monthb == "" || yearb == "" || yeare == "") {
@@ -786,7 +786,7 @@ void xu_li_button_tim_kiem(
 		//insertionSortDSHD(ds_info);
 		ds_info = mergeSort(ds_info);
 		ss_table(ss_table_header, ds_info, vp_m_ss, ROWS_PER_PG_SS);
-		ss_handleTable(x, y, ds_info);
+		ss_handleTable(x, y, ds_info, vp_m_ss);
 	}
 }
 
@@ -832,7 +832,7 @@ void  xu_li_thong_ke_hd(
 	string& day_b, string& month_b, string& year_b,
 	string& day_e, string& month_e, string& year_e,
 	bool page,
-	DS_NhanVien ds_nv
+	DS_NhanVien ds_nv, view_page& vp_m_ss
 ) {
 	// Begin ===========================================
 	// input day
@@ -888,7 +888,7 @@ void  xu_li_thong_ke_hd(
 	// Click on Tìm kiếm button =================
 	if (ktVT(310, 480, 890, 520, x, y) && page) {
 		cout << "Click on button tim kiem" << endl;
-		xu_li_button_tim_kiem(x, y, is_all_valid, day_b, month_b, year_b, day_e, month_e, year_e, ds_nv);
+		xu_li_button_tim_kiem(x, y, is_all_valid, day_b, month_b, year_b, day_e, month_e, year_e, ds_nv, vp_m_ss);
 	}
 }
 

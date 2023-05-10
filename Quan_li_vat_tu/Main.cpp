@@ -30,13 +30,15 @@ int main() {
 	coppyVTtoSVT(ds_vt, ds_s_vt);
 	//
 	PTRHD ds_hd = NULL;
+	view_page vp_m_ss;
+	string soHD = "";
 	//read_file_DSHD(ds_hd);
 	//ds_tmp arr_temp = build_dshd_array(ds_hd);
 	//
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	cleardevice();
-	//Loading(x,y);
+	Loading(x,y);
 	setlinestyle(0, 0, 2);
 	setbkcolor(bk_screen);
 	cleardevice();
@@ -104,7 +106,7 @@ int main() {
 			if (b_page) {
 				//demoPhu();
 				b_create_menu_title();
-				bill_page(x, y, ds_nv, ds_vt);
+				bill_page(x, y, ds_nv, ds_vt, vp_m_ss, soHD);
 				b_page = false;
 				goto batdau;
 
@@ -139,7 +141,7 @@ int main() {
 							delete_after_header();
 							create_ss_header();
 							highlight_box(15, 70, 310, 110, (char*)"Thong Ke Hoa Don", f_medium, 3, 10, 40, 0, XANH_LA_CAY);
-							do_hoa_search_hd();
+							do_hoa_search_hd(vp_m_ss);
 							thong_ke_hd_pg = true;
 							thong_ke_doanh_thu_pg = false;
 							day_b = "";
@@ -161,7 +163,7 @@ int main() {
 							year_dt = "";
 						}
 						xu_li_tra_cuu_doanh_thu(x, y, is_all_valid, error_year, year_dt, thong_ke_doanh_thu_pg, ds_nv);
-						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, ds_nv);
+						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, ds_nv, vp_m_ss);
 						if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y))
 							goto start;
 					}
