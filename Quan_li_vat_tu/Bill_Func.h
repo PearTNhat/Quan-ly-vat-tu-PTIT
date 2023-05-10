@@ -11,13 +11,6 @@
 #include <iomanip>
 
 
-
-view_page vp_m_ss;
-view_page vp_m_print;
-string soHD = "";
-
-
-
 void highlight_box_b(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {
 	setcolor(0);
 	settextstyle(font, 0, f_size);
@@ -363,7 +356,7 @@ void in_hoa_don_table(
 	page_transition(view_page, true);
 }
 
-void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root) {
+void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root, view_page& vp_m_print) {
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -385,7 +378,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root) {
 				delete_after_header();
 				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 4);
 			}
-			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
+			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y))  {
 				ss_page = false;
 				goto ss_end;
 			}
@@ -402,7 +395,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root) {
 ss_end:;
 }
 
-void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool page, DS_NhanVien ds_nv, DS_VatTu* root) {
+void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool page, DS_NhanVien ds_nv, DS_VatTu* root, view_page& vp_m_print) {
 	if (ktVT(620, 285, 845, 320, x, y) && page) {
 		cout << "Tien hanh nhap input SoHD";
 		soHD = input_soHD(error_sohd, x, y, 620, 285, 845, 320, 70, 7, 5, 45, 50, soHD, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SS, 430, 225);
@@ -441,14 +434,14 @@ void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool 
 			else {
 				writeText(490, 370, (char*)"OK! Lap bang", 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
 				in_hoa_don_table(table_in_HD_header, result_info, root, vp_m_print, 4);
-				handle_in_HD_table(x, y, result_info, root);
+				handle_in_HD_table(x, y, result_info, root, vp_m_print);
 			}
 		}
 	}
 }
 
 
-void do_hoa_in_hoadon(bool& is_error) {
+void do_hoa_in_hoadon(bool& is_error, view_page& vp_m_print) {
 	vp_m_print = {};
 	setfillstyle(1, COLOR_INFOR_SS);
 	setcolor(0);
@@ -2857,7 +2850,7 @@ batdau:
 	}
 }
 
-void bill_page(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt)
+void bill_page(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt, view_page& vp_m_print, string& soHD)
 {
 
 	bool error_soHD = false;
@@ -2884,11 +2877,11 @@ void bill_page(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt)
 				b_create_menu_title();
 				highlight_box(685, 70, 980, 110, (char*)"In hoa don", f_medium, 3, 10, 40, 14, 0);
 				b_delete_after_create();
-				do_hoa_in_hoadon(error_soHD);
+				do_hoa_in_hoadon(error_soHD, vp_m_print);
 				in_hoa_don_page = true;
 				soHD = "";
 			}
-			xu_li_tra_cuu_hoa_don(x, y, error_soHD, soHD, in_hoa_don_page, ds_nv, ds_vt);
+			xu_li_tra_cuu_hoa_don(x, y, error_soHD, soHD, in_hoa_don_page, ds_nv, ds_vt, vp_m_print);
 
 			if (ktVT(20, 10, 220, 50, x, y) ||
 				ktVT(320, 10, 520, 50, x, y) ||

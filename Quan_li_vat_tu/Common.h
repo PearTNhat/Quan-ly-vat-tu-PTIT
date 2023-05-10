@@ -319,7 +319,7 @@ int getNumOfInfo(DS_info* First) {
 void removeRedundantSpaces(string& sentence) {
 	string result = "";
 
-	bool lastWasSpace = true; // Start with a space to handle leading spaces
+	bool lastWasSpace = true; 
 	for (char c : sentence) {
 		if (c == ' ') {
 			if (!lastWasSpace) {
