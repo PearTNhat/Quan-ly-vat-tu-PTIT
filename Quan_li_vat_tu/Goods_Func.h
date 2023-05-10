@@ -54,8 +54,7 @@ void selectMiddle(templeGoods arr, int l, int r, ofstream& writeFile,string mvt)
 			}
 			else {
 				writeFile << arr.a[middle]->vat_tu.SLT << endl;
-		
-				}
+			}
 		selectMiddle(arr, l, middle - 1, writeFile, mvt);
 		selectMiddle(arr, middle + 1, r, writeFile, mvt);
 	}
@@ -218,12 +217,11 @@ start:;
 		}
 	}
 	if (isEdit) {
-
 		for (int i = 0; i < 4; i++)
 		{
 			checkSubmit[i] = 1;
 		}
-		text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT,0); // mvt
+		text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mvt
 
 		text_box(430, 345, 800, 375, (char*)t_slt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); //slt
 	}
@@ -233,6 +231,11 @@ start:;
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 		headInfor:;
+			if (isEdit) {
+				text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mvt
+
+				text_box(430, 345, 800, 375, (char*)t_slt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); //slt
+			}
 			if (
 				ktVT(20, 10, 220, 50, x, y)
 				|| ktVT(320, 10, 520, 50, x, y)
@@ -249,13 +252,7 @@ start:;
 				}
 				goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
 				x = NULL, y = NULL;
-				if (isEdit) {
-					text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mvt
-
-					text_box(430, 345, 800, 375, (char*)t_slt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); //slt
-				}
 				goto headInfor;
-
 			}
 			if (isAdd) {
 				if (ktVT(430, 165, 800, 195, x, y)) { // Mvt
@@ -286,7 +283,7 @@ start:;
 					else if (t_tvt.length() == 0) {
 						checkSubmit[1] = -1;
 					}
-					if (searchNode_k_tenVT(ds_s_vt,t_tvt)==1 ) {
+					if (searchNode_k_tenVT(ds_s_vt,t_tvt)==1) {
 						warning_msg((char*)"Ten vat tu da ton tai.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 						checkSubmit[1] = -2;
 					}
@@ -357,9 +354,6 @@ start:;
 				else {
 					goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
 					x = NULL, y = NULL;
-					text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mvt
-
-					text_box(430, 345, 800, 375, (char*)t_slt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); //slt
 					goto headInfor;
 				}
 
@@ -457,7 +451,6 @@ bool g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			// them nhan vien moi
-		start_handle_staff:
 			if (ktVT(950, 70, 1150, 110, x, y)) { // them vat tu
 				goods_infor();
 				g_isAdd = true;
@@ -496,7 +489,6 @@ bool g_handleTable(int& x, int& y, DS_VatTu *&ds_vt,DS_s_VT *&ds_s_vt, check_CUR
 						if (check_D_staff) {
 							deleteNode_k_maVT(ds_vt, x_vt.maVT);
 							deleteNode_k_tenVT(ds_s_vt, x_vt.tenVT);
-							lnrSVT(ds_s_vt); 
 							write_file_goods(ds_vt);
 						}
 					}
@@ -546,7 +538,7 @@ sf_out:;
 		checkX=handleInfor_goods(x, y, ds_vt, ds_s_vt, t_add_mnt, t_add_ho, t_add_ten, t_add_slt,"", g_isEdit, g_isAdd);
 	}
 
-	if (checkX) {
+	if (checkX) { // return false de cho no chay xuong duoi
 		return false; 
 	}
 	return true;

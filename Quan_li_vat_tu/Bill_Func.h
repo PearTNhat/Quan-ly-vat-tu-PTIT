@@ -10,13 +10,9 @@
 #include <sstream>
 #include <iomanip>
 
-
-
 view_page vp_m_ss;
 view_page vp_m_print;
 string soHD = "";
-
-
 
 void highlight_box_b(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {
 	setcolor(0);

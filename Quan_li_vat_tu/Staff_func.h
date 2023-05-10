@@ -6,12 +6,6 @@
 #include "Staff_Struct.h";
 #include "input_staff_good.h"
 
-// lam xong delete mang
-// then chuc nang tim kiem maNV
-// khi k thể xoá thì k hiện yes no
-// khi delete xong vẫn ở trang đó
-// k co row thi se la 0/0 chu k phai la 1/0
-
 //-------------
 void create_sf_header(string title = "Danh sach nhan vien", string subTitle = "Them nhan vien");
 void staff_infor(string mnv = "", string ho = "", string ten = "", string gender = "");
@@ -280,16 +274,16 @@ void staff_table(
 	// < >
 	page_transition(view_page);
 }
-bool handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& t_mnv, string& t_ho, string& t_ten, string& t_gender, string func, bool& sf_isEdit, bool& sf_isAdd) {
+bool handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& t_mnv, string& t_ho, string& t_ten, string& t_gender, bool& sf_isEdit, bool& sf_isAdd) {
 start:;
 	int checkSubmit[4];
-	if (func == "add") {
+	if (sf_isAdd) {
 		for (int i = 0; i < 4; i++)
 		{
 			checkSubmit[i] = -1;
 		}
 	}
-	if (func == "edit") {
+	if (sf_isEdit) {
 		for (int i = 0; i < 4; i++)
 		{
 			checkSubmit[i] = 1;
@@ -298,7 +292,7 @@ start:;
 	}
 	bool checkCancle = true;
 	bool checkBreak = false;
-	while (1) { // chong rerender k can thiet
+	while (1) { 
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 		headInfor:;
@@ -326,7 +320,7 @@ start:;
 			}
 			if (ktVT(430, 165, 800, 195, x, y)) { // MNV
 
-				if (func == "add") {
+				if (sf_isAdd) {
 					t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
 					if (search_ID_Staff(ds_nv, (string)t_mnv) != -1) {
 						checkSubmit[0] = -2;
@@ -343,7 +337,7 @@ start:;
 			}
 			if (ktVT(430, 225, 800, 255, x, y)) { // ho
 				t_ho = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_ho, 22, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
-				if (func == "add") {
+				if (sf_isAdd) {
 					if (t_ho.length() > 0) {
 						checkSubmit[1] = 1;
 					}
@@ -351,7 +345,7 @@ start:;
 						checkSubmit[1] = -1;
 					}
 				}
-				if (func == "edit") {
+				if (sf_isEdit) {
 					if (t_ho.length() == 0) {
 						checkSubmit[1] = -1;
 					}
@@ -364,7 +358,7 @@ start:;
 			}
 			if (ktVT(430, 285, 800, 315, x, y)) { // ten
 				t_ten = input(x, y, 430, 285, 800, 315, 5, 6, 5, 35, 50, t_ten, 8, "textNoSpace", "camelCase", COLOR_INFOR_SG, 430, 345);
-				if (func == "add") {
+				if (sf_isAdd) {
 					if (t_ten.length() > 0) {
 						checkSubmit[2] = 1;
 					}
@@ -372,7 +366,7 @@ start:;
 						checkSubmit[2] = -1;
 					}
 				}
-				if (func == "edit") {
+				if (sf_isEdit) {
 					if (t_ten.length() == 0) {
 						checkSubmit[2] = -1;
 					}
@@ -568,7 +562,7 @@ sf_out:;
 		string t_ho = ds_nv.nhan_vien[i_CRUD]->ho;
 		string t_ten = ds_nv.nhan_vien[i_CRUD]->ten;
 		string t_gender = ds_nv.nhan_vien[i_CRUD]->phai;
-		checkX=handleInfor_staff(x, y, ds_nv, i_CRUD, t_mnv, t_ho, t_ten, t_gender, "edit", sf_isEdit, sf_isAdd);
+		checkX=handleInfor_staff(x, y, ds_nv, i_CRUD, t_mnv, t_ho, t_ten, t_gender,  sf_isEdit, sf_isAdd);
 
 	}
 	if (sf_isAdd) {
@@ -576,15 +570,15 @@ sf_out:;
 		string t_add_ho = "";
 		string t_add_ten = "";
 		string t_add_gender = "";
-		checkX=handleInfor_staff(x, y, ds_nv, ds_nv.length, t_add_mnv, t_add_ho, t_add_ten, t_add_gender, "add", sf_isEdit, sf_isAdd);
+		checkX=handleInfor_staff(x, y, ds_nv, ds_nv.length, t_add_mnv, t_add_ho, t_add_ten, t_add_gender, sf_isEdit, sf_isAdd);
 
 	}
 	//checkX == true la break ngay lap luc
 	if (checkX) {
 		return false; // cho break ra ngoai// khong lap lai nua
 	}
-	return true;
 sf_end:;
+	return true;
 }
 int checkSubmitEditAdd(int arr[], int n) {
 	int count = 0;

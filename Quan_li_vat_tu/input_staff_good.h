@@ -158,7 +158,6 @@ string input(
 				continue;
 			}
 			bool check_key;
-			//cout << "key "<< (int)key <<endl;
 			if (type == "number") {
 				check_key = only_number(key);
 			}
@@ -192,7 +191,7 @@ string input(
 					if (input.length() == (max_value + 1)) {
 						string s = "Ban da nhap dung ";
 						s += to_string(max_value);
-						s += " roi.";
+						s += " ki tu roi.";
 						warning_msg(s, l + e_kcl, t + e_kct, i_bg, i_error_color);
 						// reset lai mau
 						setbkcolor(i_highlight);

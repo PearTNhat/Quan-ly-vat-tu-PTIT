@@ -9,7 +9,7 @@
 #include "Loading.h"
 
 int main() {
-	
+
 	// nhân viên
 	check_CURD delete_sf;
 	check_CURD edit_sf;
@@ -23,16 +23,16 @@ int main() {
 	check_CURD edit_table_g;
 	view_page vp_g_table;
 	bool g_isEdit = false, g_isAdd = false;
-	
-	DS_VatTu* ds_vt=NULL;
-	DS_s_VT *ds_s_vt = NULL;
+
+	DS_VatTu* ds_vt = NULL;
+	DS_s_VT* ds_s_vt = NULL;
 	read_file_goods(ds_vt);
 	coppyVTtoSVT(ds_vt, ds_s_vt);
-	//lnrSVT(ds_s_vt);
 	//
 	PTRHD ds_hd = NULL;
 	//read_file_DSHD(ds_hd);
 	//ds_tmp arr_temp = build_dshd_array(ds_hd);
+	//
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
 	cleardevice();
@@ -40,15 +40,14 @@ int main() {
 	setlinestyle(0, 0, 2);
 	setbkcolor(bk_screen);
 	cleardevice();
-	
+
 	createHeader(header_title);
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			//------------------------
 			//code
-
-		sf_start:
+		beginning:
 		start:
 			//Nhat
 		batdau:
@@ -64,10 +63,10 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-				goods_table(g_table_header, ds_vt,ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g,10);
-				bool sf_out = g_handleTable( x,  y,  ds_vt,ds_s_vt,  delete_table_g,  edit_table_g,  vp_g_table,  g_isEdit,  g_isAdd);
+				goods_table(g_table_header, ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
-					goto sf_start;
+					goto beginning;
 				}
 
 			}
@@ -86,9 +85,9 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
-				bool sf_out=sf_handleTable(x, y, ds_nv, delete_sf,edit_sf,vp_m_sf, sf_isEdit, sf_isAdd);
+				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
-					goto sf_start;
+					goto beginning;
 				}
 			}
 			//Phu
@@ -131,7 +130,7 @@ int main() {
 				bool is_all_valid = true;
 				bool error_dayb = false, error_monthb = false, error_yearb = false, error_daye = false, error_monthe = false, error_yeare = false, error_year = false;
 				create_ss_header();
-				while (1) { 
+				while (1) {
 					if (ismouseclick(WM_LBUTTONDOWN)) {
 						getmouseclick(WM_LBUTTONDOWN, x, y);
 						if (ktVT(15, 70, 310, 110, x, y)) {
@@ -171,7 +170,7 @@ int main() {
 			if (ktVT(1140, 10, 1190, 50, x, y)) {
 				g_page = false;
 				sf_page = false;
-				b_page = false; 
+				b_page = false;
 				ss_page = false;
 				X_page = true;
 			}
