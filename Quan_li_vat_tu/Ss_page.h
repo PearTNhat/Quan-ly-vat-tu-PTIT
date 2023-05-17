@@ -10,7 +10,8 @@
 
 
 char title[5][MAXTITLE] = { "Top", "Ma VT", "Ten Vat Tu", "Don Vi Tinh", "Doanh Thu" };
-
+char ss_table_header[5][20] = { "So HD", "Ngay lap", "Loai HD", "Ho ten NV lap", "Tri gia HD (VND)" };
+char table_doanhThu_header[2][20] = { "Thang", "Doanh thu (VND)" };
 
 string day_b = "";
 string month_b = "";
