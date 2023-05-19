@@ -149,8 +149,11 @@
     <ClInclude Include="Header.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="input_bill.h" />
+    <ClInclude Include="input_one.h" />
     <ClInclude Include="input_staff_good.h" />
     <ClInclude Include="Loading.h" />
+    <ClInclude Include="Search_Goods.h" />
+    <ClInclude Include="Search_staffs.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Staff_Func.h" />
     <ClInclude Include="Goods_Struct.h" />

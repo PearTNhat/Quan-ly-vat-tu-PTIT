@@ -7,9 +7,11 @@
 #include "Bill_Func.h"
 #include "Ss_page.h"
 #include "Loading.h"
-
+// tim cach xoa mang con tro dong
+// them giaiphong cay tam
+// xem lai cac chatr global
+// xem lai enter xuong gender trong addd staff
 int main() {
-
 	// nhân viên
 	check_CURD delete_sf;
 	check_CURD edit_sf;
@@ -17,7 +19,7 @@ int main() {
 	bool sf_isEdit = false, sf_isAdd = false;
 	DS_NhanVien ds_nv;
 	read_file_staff(ds_nv);
-	quick_sort_staff(ds_nv, 0, ds_nv.length - 1);
+	//quick_sort_staff(ds_nv, 0, ds_nv.length - 1);
 	// vật tư
 	check_CURD delete_table_g;
 	check_CURD edit_table_g;
@@ -65,7 +67,7 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-				goods_table(g_table_header, ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+				
 				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
@@ -86,8 +88,7 @@ int main() {
 
 			if (sf_page) {
 				create_sf_header();
-				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
-				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd);
+				bool sf_out = sf_handleTable(x, y, sf_table_header, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
 				}

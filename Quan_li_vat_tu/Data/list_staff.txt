@@ -1,6 +1,6 @@
 NV35,Bach Con,Con,Nu,
 0
-NV1412414,Banh Cong,Cong,Nu,
+NV1412414,Banh Cong,Tu,Nu,
 0
 NV9,Ly Thanh,Hau,Nam,
 0

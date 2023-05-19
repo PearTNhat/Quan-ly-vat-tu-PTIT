@@ -128,7 +128,7 @@ int getSize_s_VT(DS_s_VT* root) {
 DS_s_VT* getNodeByIndex_s_VT(DS_s_VT*& root, int index) {
 	DS_s_VT* temp = root;
 	DS_s_VT* res;
-	Stack s(getSize_s_VT(root));
+	Stack <DS_s_VT> s(getSize_s_VT(root));
 	int k = 0;
 	while (1) {
 		while (temp != NULL) {
@@ -352,10 +352,11 @@ int getSizeGoods(DS_VatTu* root) {
 	}
 	return getSizeGoods(root->left) + getSizeGoods(root->right) + 1;
 }
+
 DS_VatTu* getIndexGoods(DS_VatTu*& root, int index) {
 	DS_VatTu* temp = root;
 	DS_VatTu* res;
-	StackVT s(getSizeGoods(root));
+	Stack <DS_VatTu> s(getSizeGoods(root));
 	int k = 0;
 	while (1) {
 		while (temp != NULL) {
@@ -387,4 +388,13 @@ void lnr(DS_VatTu* root)
 		cout << root->vat_tu.tenVT << " \n";
 		lnr(root->right);
 	}
+}
+void deleteTree(DS_s_VT* node)
+{
+	if (node == NULL) return;
+
+	deleteTree(node->left);
+	deleteTree(node->right);
+
+	delete node;
 }

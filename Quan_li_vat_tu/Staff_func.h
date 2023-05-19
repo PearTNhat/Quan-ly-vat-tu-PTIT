@@ -5,9 +5,11 @@
 #include "Bill_Struct.h"
 #include "Staff_Struct.h";
 #include "input_staff_good.h"
-
+#include "input_one.h"
+#include "Goods_Struct.h"
+#include "Search_staffs.h"
 //-------------
-void create_sf_header(string title = "Danh sach nhan vien", string subTitle = "Them nhan vien");
+void create_sf_header(string title = "Danh sach nhan vien", string subTitle = "Them nhan vien", string search = "Nhap ten hoac id can tim kiem");
 void staff_infor(string mnv = "", string ho = "", string ten = "", string gender = "");
 void delete_staff(DS_NhanVien& ds_nv, int index);
 int checkSubmitEditAdd(int arr[], int n);
@@ -159,38 +161,46 @@ void write_file_staff(DS_NhanVien ds_nv) {
 	}
 	write_file.close();
 }
-void create_sf_header(string title, string subTitle) {
-	setfillstyle(1, bk_screen);
+void create_sf_header(string title, string subTitle,string search) {
+	int colorsearch = 0;
+	if (search=="Nhap ten hoac id can tim kiem") {
+		colorsearch =COLOR(153, 150, 150);
+	}
+	text_box(50, 72, 400, 108, (char*)search.c_str(), f_medium, 1, 10, 10, WHITE, colorsearch);
 	setcolor(0);
-	text_box(950, 70, 1150, 110, (char*)subTitle.c_str(), f_medium, 2, 10, 20, 11);
+	setfillstyle(1, bk_screen);
+	text_box(950, 70, 1150, 110, (char*)subTitle.c_str(), f_medium,2 , 10, 20, 11);
 	setbkcolor(bk_screen);
 	setcolor(12);
 	settextstyle(f_medium,0, 5);
-	outtextxy(50, 70, (char*)title.c_str());
+	//outtextxy(50, 70, (char*)title.c_str());
 }
 void staff_table(
 	char sf_table_header[][20],
-	DS_NhanVien ds, // day la danh sach cac phan tu chon kd_lieu cho phu hop
+	NhanVien ** nhan_vien,
+	int length,// day la danh sach cac phan tu chon kd_lieu cho phu hop
 	char curd_o[][20], // "them sua xoa" // k can co the xoa
 	view_page& view_page,
 	check_CURD& edit,//// k can co the xoa
 	check_CURD& _delete,// k can co the xoa
-	int num_rows
+	int num_rows,
+	string searchValue = "Nhap ten hoac id can tim kiem"
 ) {
 	setlinestyle(0, 0, 0);
 	delete_after_header();
-	create_sf_header();
+	
+	create_sf_header((string)"Danh sach nhan vien", (string)" Them nhan vien", searchValue);
 	// tnh so page co trong trang
 	setcolor(0);
-	int n = ds.length;
+	int n = length;
 	int page = n / num_rows;
 	int du = n % num_rows;
 	view_page.page = du ? page + 1 : page;
-	if (view_page.current > view_page.page) {
-		view_page.current--;
-	}
 	if (n == 0) {
 		view_page.page = 1;
+	}
+	if (view_page.current > view_page.page) {
+		view_page.current--;
 	}
 	int max_rows = n > (num_rows * view_page.current) ? (num_rows * view_page.current) : n;
 	// reder page
@@ -228,14 +238,14 @@ void staff_table(
 		}
 		// Neu k su dung thi xoa tu day xuong
 		//vi tri edit
-		edit.data[e].key = (string)ds.nhan_vien[i]->maNV;
+		edit.data[e].key =(string)nhan_vien[i]->maNV;
 		edit.data[e].l = 900;
 		edit.data[e].t = text_top;
 		edit.data[e].r = 978;
 		edit.data[e].b = text_top + 23;
 		e++;
 		// vi tri delete
-		_delete.data[d].key = (string)ds.nhan_vien[i]->maNV;
+		_delete.data[d].key = (string)nhan_vien[i]->maNV;
 		_delete.data[d].l = 995;
 		_delete.data[d].t = text_top;
 		_delete.data[d].r = 1038;
@@ -250,16 +260,16 @@ void staff_table(
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
 		writeText(55, text_top, stt, 1, 0, 3, 15);
-		writeText(95, text_top, ds.nhan_vien[i]->maNV, 1, 0, 3, 15);
-		string fullName = ds.nhan_vien[i]->ho;
+		writeText(95, text_top, nhan_vien[i]->maNV, 1, 0, 3, 15);
+		string fullName = nhan_vien[i]->ho;
 
 		fullName += " ";
-		fullName += (string)ds.nhan_vien[i]->ten;
+		fullName += (string)nhan_vien[i]->ten;
 
 		char ten[32];
 		strcpy_s(ten, fullName.c_str());
 		writeText(230, text_top, ten, 1, 0, 3, 15);
-		writeText(650, text_top, ds.nhan_vien[i]->phai, 1, 0, 3, 15);
+		writeText(650, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
 
 		//------------- k can co the xoa
 		text_box(900, text_top, 978, text_top + 23, curd_o[0], f_small, 1, 1, 2);
@@ -277,6 +287,7 @@ void staff_table(
 bool handleInfor_staff(int& x, int& y, DS_NhanVien& ds_nv, int& i_CRUD, string& t_mnv, string& t_ho, string& t_ten, string& t_gender, bool& sf_isEdit, bool& sf_isAdd) {
 start:;
 	int checkSubmit[4];
+	bool isBack = false;
 	if (sf_isAdd) {
 		for (int i = 0; i < 4; i++)
 		{
@@ -296,6 +307,9 @@ start:;
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 		headInfor:;
+			if (sf_isEdit) {
+				text_box(430, 165, 800, 195, (char*)t_mnv.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mnv
+			}
 			if (
 				ktVT(20, 10, 220, 50, x, y)
 				|| ktVT(320, 10, 520, 50, x, y)
@@ -318,10 +332,12 @@ start:;
 				goto headInfor;
 
 			}
-			if (ktVT(430, 165, 800, 195, x, y)) { // MNV
+			if (ktVT(430, 165, 800, 195, x, y) || isBack) { // MNV
 
 				if (sf_isAdd) {
-					t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
+					if (isBack == false) {
+						t_mnv = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mnv, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
+					}
 					if (search_ID_Staff(ds_nv, (string)t_mnv) != -1) {
 						checkSubmit[0] = -2;
 						warning_msg((char*)"Ma nhan vien da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
@@ -332,8 +348,10 @@ start:;
 					else {
 						checkSubmit[0] = -1;
 					}
+					if (isBack == false) {
+						goto headInfor;
+					}
 				}
-				goto headInfor;
 			}
 			if (ktVT(430, 225, 800, 255, x, y)) { // ho
 				t_ho = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_ho, 22, "text", "camelCase", COLOR_INFOR_SG, 430, 285);
@@ -377,6 +395,7 @@ start:;
 				goto headInfor;
 
 			}
+			isBack = false;
 			// nam
 			if (ktVT(430, 345, 530, 375, x, y)) {
 				setfillstyle(1, COLOR_INFOR_SG);
@@ -399,25 +418,32 @@ start:;
 			//HUY
 			if (ktVT(750, 420, 820, 450, x, y)) {
 				text_box(750, 420, 820, 450, (char*)"Huy", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
-				if (checkSubmitEditAdd(checkSubmit, 4) < 4) {
+				if (t_gender != "" || t_ten != "" || t_ho != "" || t_mnv != "") {
 					checkCancle = announce_board(x, y, 50, 0, "Ban co muon huy.", "");
+					if (checkCancle) {
+						sf_isEdit = false;
+						sf_isAdd = false;
+						delay(200);
+						goto sf_end;
+					}
+					else {
+						staff_infor(t_mnv, t_ho, t_ten, t_gender);
+						isBack = true;
+						x = NULL, y = NULL;
+						goto headInfor;
+					}
 				}
-				if (checkCancle) {
-					sf_isEdit = false;
-					sf_isAdd = false;
-					delay(200);
-					goto sf_end;
-				}
-				else {
-					staff_infor(t_mnv, t_ho, t_ten, t_gender);
-					text_box(430, 165, 800, 195, (char*)t_mnv.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mnv
-					x = NULL, y = NULL;
-					goto headInfor;
-				}
+				sf_isEdit = false;
+				sf_isAdd = false;
+				goto sf_end;
+				
 
 			}
 			//LUU
 			if (ktVT(840, 420, 910, 450, x, y)) {
+				text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
+				delay(200);
+				text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, 11, 0);
 				if (checkSubmitEditAdd(checkSubmit, 4) == 0) {
 					if (sf_isAdd) { //add
 						NhanVien* nv_temp = new NhanVien;
@@ -428,7 +454,7 @@ start:;
 						strcpy_s(nv_temp->phai, t_gender.c_str());
 						insertOrderd_Staff(ds_nv, nv_temp);
 						ds_nv.length++;
-						text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, XANH_LA_CAY, 0);
+						
 						announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
 						write_file_staff(ds_nv);
 						delay(500);
@@ -471,6 +497,7 @@ start:;
 						warning_msg("Khong duoc de trong", 430 + 5, 350 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
 
+
 				}
 			}
 
@@ -480,14 +507,50 @@ start:;
 sf_end:;
 	return false;
 }
-bool sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf, check_CURD edit_sf, view_page& vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
+bool sf_handleTable(int& x, int& y, char sf_table_header[][20],DS_NhanVien& ds_nv, check_CURD delete_sf, check_CURD edit_sf, view_page& vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_D_staff = true;
 	bool checkX = false;
+	string e_search = "";
+	int svt_NULL = 0;
+	int search_empty = 0;
+	staff_table(sf_table_header, ds_nv.nhan_vien, ds_nv.length, CURD_o_text, vp_m_sf, edit_sf, delete_sf, 10);
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
+			//search
+			if (ktVT(50, 72, 400, 108, x, y)) {// search
+				while (1) {
+					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 50);
+					if (!ktVT(50, 72, 400, 108, x, y)) {
+						if (e_search == "") {
+							create_sf_header((string)"Danh sach nhan vien", (string)" Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
+						}
+						break;
+					}
+					templeDynamicArray<NhanVien> nv_arr(ds_nv.length);
+					search_staffs(ds_nv, nv_arr, e_search);
+					if (e_search == "") {
+						search_empty++;
+					}
+					else {
+						search_empty = 0;
+					}
+					if (nv_arr.size_current == 0) {
+						svt_NULL++;
+					}
+					else {
+						svt_NULL = 0;
+					}
+					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
+						staff_table(sf_table_header, nv_arr.a,nv_arr.size_current, CURD_o_text, vp_m_sf, edit_sf, delete_sf, 10,e_search);
+					}
+					delete []nv_arr.a;
+					delay(1);
+				}
+
+			}
 			// them nhan vien moi
 			if (ktVT(950, 70, 1150, 110, x, y)) {
 				staff_infor();
@@ -539,7 +602,7 @@ bool sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf, ch
 				}
 				next_page(650, 565, 685, 600, vp_m_sf);
 				delete_after_header();
-				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				staff_table(sf_table_header, ds_nv.nhan_vien,ds_nv.length, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_m_sf.current == 1) {
@@ -547,7 +610,7 @@ bool sf_handleTable(int& x, int& y, DS_NhanVien& ds_nv, check_CURD delete_sf, ch
 				}
 				prev_page(495, 565, 530, 600, vp_m_sf);
 				delete_after_header();
-				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				staff_table(sf_table_header, ds_nv.nhan_vien, ds_nv.length, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				sf_page = false;
@@ -584,7 +647,7 @@ int checkSubmitEditAdd(int arr[], int n) {
 	int count = 0;
 	for (int i = 0; i < n; i++)
 	{
-		if (arr[i] <= -1) count++; // dem so luong k hop le
+		if (arr[i] < 0) count++; // dem so luong k hop le
 
 	}
 	return count;

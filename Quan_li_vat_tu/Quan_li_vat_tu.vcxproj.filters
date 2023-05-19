@@ -80,6 +80,15 @@
     <ClInclude Include="Ss_page.h">
       <Filter>Header Files\Statistic</Filter>
     </ClInclude>
+    <ClInclude Include="input_one.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Search_Goods.h">
+      <Filter>Header Files\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="Search_staffs.h">
+      <Filter>Header Files\Staff</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\list_staff.txt">

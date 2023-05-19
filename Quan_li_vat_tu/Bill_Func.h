@@ -6,9 +6,7 @@
 #include "input_bill.h"
 #include "Staff_func.h"
 #include "Goods_Func.h"
-#include <cstring>
-#include <sstream>
-#include <iomanip>
+
 
 
 void highlight_box_b(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {

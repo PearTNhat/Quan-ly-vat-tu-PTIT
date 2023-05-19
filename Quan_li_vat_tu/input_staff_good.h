@@ -81,6 +81,23 @@ bool text_number_nospace(char x) {
 	}
 	return false;
 }
+bool text_number(char x) {
+	if (x == 9)return true;
+
+	if (x >= 'a' && x <= 'z') {
+		return true;
+	}
+	if (x >= 'A' && x <= 'Z') {
+		return true;
+	}
+	else if (x >= '0' && x <= '9') {
+		return true;
+	}
+	else if (x == 8 || x == 13||x==' ') {
+		return true;
+	}
+	return false;
+}
 string input(
 	int& x, int& y,
 	int l, int t, int r, int b,
