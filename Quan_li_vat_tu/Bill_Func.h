@@ -8,6 +8,7 @@
 #include "Goods_Func.h"
 
 
+char table_in_HD_header[][20] = { "Ten vat tu", "So luong", "Don gia", "%VAT", "Trang Thai", "Thanh tien (VND)" };
 
 void highlight_box_b(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {
 	setcolor(0);
@@ -430,7 +431,6 @@ void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool 
 				writeText(460, 370, (char*)"So hoa don khong ton tai!", 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
 			}
 			else {
-				writeText(490, 370, (char*)"OK! Lap bang", 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
 				in_hoa_don_table(table_in_HD_header, result_info, root, vp_m_print, 4);
 				handle_in_HD_table(x, y, result_info, root, vp_m_print);
 			}
