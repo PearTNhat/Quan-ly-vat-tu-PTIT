@@ -107,7 +107,7 @@ int main() {
 			if (b_page) {
 				//demoPhu();
 				b_create_menu_title();
-				bill_page(x, y, ds_nv, ds_vt, vp_m_ss, soHD);
+				bill_page(x, y, ds_nv, ds_vt, ds_s_vt, vp_m_ss, soHD);
 				b_page = false;
 				goto batdau;
 

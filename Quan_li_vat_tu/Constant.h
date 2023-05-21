@@ -45,4 +45,6 @@ const int f_small = 3;// kc l? 1
 
 //bill
 char bill_table_header[8][20] = { "MaVT","TenVT","Donvi","Soluong","Dongia","%VAT","Thanh Tien", "Chuc nang"};
+char bill_mavt_header[][20] = { "MaVT","TenVT","Don vi","So luong ton","Chuc nang" };
+char mavt_cn[1][20] = { "Chon" };
 char tra_hang_cn[1][20] = { "Tra Hang" };
