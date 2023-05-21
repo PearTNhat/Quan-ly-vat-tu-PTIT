@@ -1823,7 +1823,7 @@ void nhd_mavt_table
 	page_transition(view_page);
 }
 
-bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CURD& chon, view_page& vp_mavt_table, bool& is_chon, const char(&mavtphu)[11])
+bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CURD& chon, view_page& vp_mavt_table, bool& is_chon, const char(&mavtphu)[11], bool& xuat)
 {
 	bool check_D_staff = true;
 	string keyCRUD = "";
@@ -1832,9 +1832,11 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 	int svt_NULL = 0;
 	int search_empty = 0;
 	nhd_mavt_table(bill_mavt_header, ds_vt, ds_s_vt, mavt_cn, vp_mavt_table, chon, 10);
+
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
+		batdau:
 			if (ktVT(50, 72, 400, 108, x, y)) {// search
 				while (1) {
 					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 50);
@@ -1868,12 +1870,29 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 
 			}
 			//delete
+		
 			for (int i = 0; i < chon.n; i++)
 			{
 				if (ktVT(chon.data[i].l, chon.data[i].t, chon.data[i].r, chon.data[i].b, x, y)) {
 					keyCRUD = chon.data[i].key;
 					VatTu x_vt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
 					strcpy((char*)mavtphu, x_vt.maVT);
+					string d = mavtphu;
+					if (checkSLT(ds_vt, d) == false && xuat == true)
+					{
+						announce_board(x, y, 40, 20, "Het Hang!");
+						delay(500);
+						strcpy((char*)mavtphu, "");
+						bool a = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, is_chon, mavtphu, xuat);
+					}
+					if (checktrungmavt(ds_vt, d) == false)
+					{
+						announce_board(x, y, 40, 20, "");
+						delay(500);
+						strcpy((char*)mavtphu, "");
+						bool a = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, is_chon, mavtphu, xuat);
+					}
+					
 					goto bill_end;
 
 				}
@@ -2255,7 +2274,7 @@ nhd:
 				if (mavt == true)
 				{
 
-					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon, mavtphu);
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon, mavtphu, xuat);
 					d = mavtphu;
 					strcpy(mavtphu, "");
 					delete_after_header();
@@ -2291,7 +2310,7 @@ nhd:
 				if (mavt == false)
 				{
 					// doan nay ne 
-					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon,mavtphu);
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon,mavtphu,xuat);
 					d = mavtphu;
 					strcpy(mavtphu,"");
 					delete_after_header();
@@ -2332,42 +2351,6 @@ nhd:
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
-				}
-
-				if (empty(d) == true)
-				{
-					mavt = false;
-					if (ktVT(110, 120, 590, 145, x, y) || //sohd
-						ktVT(590, 120, 980, 145, x, y) || //manv
-						ktVT(110, 170, 430, 195, x, y) || //mavt
-						ktVT(110, 195, 350, 220, x, y) || //soluong
-						ktVT(350, 195, 590, 220, x, y) || //dongia
-						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 145, 770, 170, x, y) || // them vt
-						ktVT(800, 145, 950, 170, x, y) ||// them hd
-						ktVT(20, 130, 100, 170, x, y) || // nhap
-						ktVT(20, 170, 100, 210, x, y))  // xuat
-					{
-						goto batdau;
-					}
-					goto SL;
-				}
-				if (checkSLT(ds_vt, d) == false && xuat == true)
-				{
-					mavt = false;
-					strcpy(c_mavattu, "");
-					text_box(985, 125, 1175, 215, (char*)"Het Hang!", f_medium, 2, 30, 8, RED, 0, 0);
-					text_box_no_border(110, 170, 430, 195, (char*)"Ma vat tu:", f_medium, 2, 1, 5, 9, 0);
-					khung_b_nhd();
-					goto MAVT;
-				}
-				if (checktrungmavt(ds_vt, d) == false)
-				{
-					mavt = false;
-					text_box(985, 125, 1175, 215, (char*)"Ko ton tai VT!", f_medium, 2, 30, 8, RED, 0, 0);
-					text_box_no_border(110, 170, 430, 195, (char*)"Ma vat tu:", f_medium, 2, 1, 5, 9, 0);
-					khung_b_nhd();
-					goto MAVT;
 				}
 				if (checktrungmavt(ds_vt, d) == true)
 				{
