@@ -1159,7 +1159,7 @@ void nhd_manv_table
 		writeText(650, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
 
 		//------------- k can co the xoa
-		text_box(900, text_top, 978, text_top + 23, mavt_cn[0], f_small, 1, 1, 2);
+		text_box(900, text_top, 978, text_top + 23, mavt_cn[0], f_small, 1, 1, 17);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
@@ -1340,7 +1340,7 @@ void nhd_mavt_table
 		writeText(650, text_top, (char*)to_string(tempVT.SLT).c_str(), 1, 0, 3, 15);
 
 		//------------- k can cos the xoa
-		text_box(900, text_top - 2, 978, text_top + 23, mavt_cn[0], f_small, 1, 1, 2);
+		text_box(900, text_top - 2, 978, text_top + 23, mavt_cn[0], f_small, 1, 1, 17);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
@@ -1464,7 +1464,7 @@ bill_end:;
 }
 
 
-void saukhithemvt(HoaDon& hd, int& n, char(&c_sohoadon)[21], char(&c_manhanvien)[11], bool& nhap, bool& xuat, int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt)
+int saukhithemvt(HoaDon& hd, int& n, char(&c_sohoadon)[21], char(&c_manhanvien)[11], bool& nhap, bool& xuat, int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt)
 {
 lannua:
 	char TONGCONG_char[50] = "";
@@ -1550,7 +1550,8 @@ lannua:
 					ktVT(685, 70, 980, 110, x, y) || // in hoa don
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
-					break;
+					return 2;
+					
 				}
 				if (checktrungmavt(ds_vt, d) == true)
 				{
@@ -1609,7 +1610,7 @@ lannua:
 					ktVT(685, 70, 980, 110, x, y) || // in hoa don
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
-					break;
+					return 2;
 				}
 				if (empty(d) == true)
 				{
@@ -1715,7 +1716,7 @@ lannua:
 					ktVT(685, 70, 980, 110, x, y) || // in hoa don
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
-					break;
+					return 2;
 				}
 				if (empty(d) == true)
 				{
@@ -1789,7 +1790,7 @@ lannua:
 					ktVT(685, 70, 980, 110, x, y) || // in hoa don
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
-					break;
+					return 2;
 				}
 				if (empty(d) == true)
 				{
@@ -1921,7 +1922,7 @@ lannua:
 				ktVT(685, 70, 980, 110, x, y)||
 				ktVT(1140, 10, 1190, 50, x, y)) // thoat
 			{
-				break;
+				return 2;
 			}
 			
 		bang:
@@ -2802,7 +2803,11 @@ nhd:
 					themvttamthoi(hd, n, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhap, xuat);
 					khung_b_nhd();
 					//vat tu lan 2 tu day xuong
-					saukhithemvt(hd, n, c_sohoadon, c_manhanvien, nhap, xuat, x, y, ds_nv, ds_vt, ds_s_vt);
+					int thoat2 = saukhithemvt(hd, n, c_sohoadon, c_manhanvien, nhap, xuat, x, y, ds_nv, ds_vt, ds_s_vt);
+					if(thoat2 == 2)
+					{
+						break;
+					}
 					goto nhd;
 				}
 			}
