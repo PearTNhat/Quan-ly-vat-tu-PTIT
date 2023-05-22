@@ -25,7 +25,7 @@
 #define XANH_LA_CAY COLOR(0, 255, 0)
 #define PROHIBIT COLOR(200, 200, 190)
 
-char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","THANH TOAN","THONG KE" };
+char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","NHAP XUAT","THONG KE" };
 char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};
 
 //goods
