@@ -1541,6 +1541,7 @@ lannua:
 
 					//d = input_bill(x, y, 235, 171, 430, 195, 5, 3, 985, 125, 1175, 215, "", 10, "textNumberNoSpace", "upcase");
 				}
+		
 				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
 					ktVT(320, 10, 520, 50, x, y) || // nhan vien
 					ktVT(620, 10, 820, 50, x, y) || // thanh toan
@@ -3429,11 +3430,6 @@ batdau:
 						goto th;
 					}
 				}
-
-
-
-
-
 			}
 
 			if (ktVT(20, 10, 220, 50, x, y) || //vat tu
