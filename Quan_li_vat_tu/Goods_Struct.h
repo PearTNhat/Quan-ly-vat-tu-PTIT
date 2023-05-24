@@ -4,7 +4,7 @@ struct VatTu {
 	char tenVT[26];
 	char DVT[7];
 	int SLT;
-	int sldaban;
+	int sldaban; // so luong hoadon 
 };
 // tree
 struct DS_VatTu {
