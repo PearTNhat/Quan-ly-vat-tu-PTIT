@@ -9,13 +9,10 @@ void search_staffs(DS_NhanVien ds_nv, templeDynamicArray<NhanVien> &arr,string v
 	{
 		if (search_string(((string)ds_nv.nhan_vien[i]->ho + (string)ds_nv.nhan_vien[i]->ten), value) >= 0) {
 			arr.a[arr.size_current++] = ds_nv.nhan_vien[i];
-			cout << "thay ";
-
 		}
 		else if (search_string(ds_nv.nhan_vien[i]->maNV, value) >= 0) {
 			arr.a[arr.size_current++] = ds_nv.nhan_vien[i];
-			cout << "thay ";
-
 		}
 	}
 }
+

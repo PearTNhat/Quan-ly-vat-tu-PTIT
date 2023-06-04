@@ -32,5 +32,4 @@ struct templeDynamicArray {
 		capacity = size;
 		a = new T * [capacity];
 	}
-	
 };

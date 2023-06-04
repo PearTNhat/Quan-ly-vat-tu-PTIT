@@ -1,7 +1,5 @@
 ﻿#pragma once
-#include"Header.h"
-#include"Common.h"
-#include "input_staff_good.h"
+#include "input_staff_goods.h"
 string input_one(int& x, int& y,
 	int l, int t, int r, int b,
 	int kcl, int kct,// can chinh vi tri input
@@ -10,7 +8,8 @@ string input_one(int& x, int& y,
 	int setX = NULL, int setY = NULL,
 	int i_highlight = I_HIGHLIGHT,
 	int i_color = I_COLOR,
-	int i_error_color = I_ERROR_COLOR) {
+	int i_error_color = I_ERROR_COLOR) 
+{
 	while (kbhit()) {
 		getch();
 	}

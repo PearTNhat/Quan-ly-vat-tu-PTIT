@@ -260,12 +260,7 @@ string lowercase(string str) {
 void deleteAllSpace (string &str) {
 	for (int i = 0; i < str.length();)
 	{	
-
-		if (str[0]==' ' ) {
-			str.erase(0, 1);
-			continue;
-		}
-		else if(str[i]==' ') {
+		if(str[i]==' ') {
 			str.erase(i,1);
 			continue;
 		}
@@ -283,6 +278,13 @@ int search_string(string str, string subStr) {
 	size_t pos = str.find(subStr);
 	if (pos != string::npos) {
 		return pos;
+	}
+	return -1;
+}
+int search_strict(string str, string subStr) {
+	cout << str << "  " << subStr;
+	if(str==subStr){
+		return 1;
 	}
 	return -1;
 }

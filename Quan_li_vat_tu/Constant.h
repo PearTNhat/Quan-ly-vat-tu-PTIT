@@ -29,7 +29,7 @@ char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","NHAP XUAT","THONG KE"
 char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};
 
 //goods
-char g_table_header[][20] = { "MaVT","TenVT","Don vi","So luong ton","Chuc nang"};
+const char g_table_header[][20] = { "MaVT","TenVT","Don vi","So luong ton","Chuc nang"};
 
 //staff
 char sf_table_header[4][20] = { "MaNV","Ho Ten","Phai","Chuc nang"};

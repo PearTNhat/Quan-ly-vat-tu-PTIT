@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bill_Func.h" />
+    <ClInclude Include="CallbackInputt.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="Goods_Func.h" />
     <ClInclude Include="Goods_FuncTree.h" />
@@ -150,13 +151,13 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="input_bill.h" />
     <ClInclude Include="input_one.h" />
-    <ClInclude Include="input_staff_good.h" />
+    <ClInclude Include="input_staff_goods.h" />
     <ClInclude Include="Loading.h" />
     <ClInclude Include="Search_Goods.h" />
     <ClInclude Include="Search_staffs.h" />
     <ClInclude Include="Stack.h" />
-    <ClInclude Include="Staff_Func.h" />
     <ClInclude Include="Goods_Struct.h" />
+    <ClInclude Include="Staff_func.h" />
     <ClInclude Include="Staff_Struct.h" />
     <ClInclude Include="Bill_Struct.h" />
     <ClInclude Include="Ss_page.h" />

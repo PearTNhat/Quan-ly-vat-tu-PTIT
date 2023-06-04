@@ -107,11 +107,11 @@ void deleteNode_k_tenVT(DS_s_VT*& root, string key)
 	}
 
 }
-void coppyVTtoSVT(DS_VatTu*& root, DS_s_VT*& target) {
+template <typename DS_VT>
+void coppyVTtoSVT(DS_VT* root, DS_s_VT*& target) {
 	s_VT x;
-	DS_VatTu* temp = root;
+	DS_VT* temp = root;
 	if (temp != NULL) {
-		x = {};
 		strcpy_s(x.maVT, temp->vat_tu.maVT);
 		strcpy_s(x.tenVT, temp->vat_tu.tenVT);
 		insertNode_k_tenVT(target,x);

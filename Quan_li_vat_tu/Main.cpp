@@ -11,6 +11,8 @@
 // them giaiphong cay tam
 // xem lai cac chatr global
 // xem lai enter xuong gender trong addd staff
+//xem lai  so 0 trong slt
+// xem lai giai phong du lieu trong search table
 int main() {
 	// nhân viên
 	check_CURD delete_sf;

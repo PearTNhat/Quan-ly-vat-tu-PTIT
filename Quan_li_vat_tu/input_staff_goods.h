@@ -1,7 +1,4 @@
 ﻿#pragma once
-#include "Header.h"
-#include "Constant.h"
-#include "Common.h"
 bool only_number(char x) {
 	if (x == 9)return true;
 	if (x >= '0' && x <= '9') {
@@ -93,19 +90,19 @@ bool text_number(char x) {
 	else if (x >= '0' && x <= '9') {
 		return true;
 	}
-	else if (x == 8 || x == 13||x==' ') {
+	else if (x == 8 || x == 13 || x == ' ') {
 		return true;
 	}
 	return false;
-}
+};
+
 string input(
 	int& x, int& y,
 	int l, int t, int r, int b,
-	int kcl, int kct,// can chinh vi tri input
-	int e_kcl, int e_kct, int e_length = 50, // can chinh bao loi
+	int kcl, int kct,
+	int e_kcl, int e_kct, int e_length = 50,
 	string value = "", int max_value = 255, string type = "",
-	string function = "", // upcase abc -> ABC
-						// camelCase nguyen van a -> Nguyen Van A
+	string function = "",
 	int i_bg = I_BG,
 	int setX = NULL, int setY = NULL,
 	int i_highlight = I_HIGHLIGHT,
@@ -247,7 +244,7 @@ string input(
 					if (function == "firstCase") {
 						input[0]=toupper(input[0]);
 					}
-
+					
 					input += "|";
 				}
 				

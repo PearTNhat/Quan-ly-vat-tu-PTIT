@@ -1,7 +1,7 @@
 #pragma once
+#include "Staff_func.h"
 #include "input_one.h"
 #include "Search_Goods.h"
-#include "Goods_Struct.h"
 #define COLS_G 10
 //
 void create_g_header();
@@ -11,7 +11,6 @@ void create_g_header() {
 	setfillstyle(1, 15);
 	setcolor(0);
 	bar3d(10, 65, 1180, 115, 0, 0);
-
 	text_box(15, 70, 310, 110, (char*)"", f_medium, 3, 10, 40, bk_screen);
 	text_box(320, 70, 565, 110, (char*)"Top 10 Vat Tu", f_medium, 10, 40, bk_screen);
 }
@@ -87,6 +86,8 @@ void goods_infor(string mvt, string tvt, string dvt, string slt) {
 	text_box(430, 165, 800, 195, (char*)mvt.c_str(), f_medium, 1, 6, 5, 15, 0); // chu cao 20
 	writeText(260, 170, (char*)"Ma vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
 
+	text_box(820, 165, 920, 195, (char *)"Xem bang", f_medium, 1, 6, 5, 15, 0);
+
 	text_box(430, 225, 800, 255, (char*)tvt.c_str(), f_medium, 1, 6, 5, 15, 0);
 	writeText(260, 230, (char*)"Ten vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
 
@@ -102,7 +103,6 @@ void goods_infor(string mvt, string tvt, string dvt, string slt) {
 
 }
 void goods_table(
-	char sf_table_header[][20],
 	DS_VatTu* ds_vt,
 	DS_s_VT* ds_s_vt,
 	char curd_o[][20],
@@ -114,7 +114,7 @@ void goods_table(
 ) {
 	setlinestyle(0, 0, 0);
 	delete_after_header();
-	create_sf_header((string)"Danh sach vat tu", (string)" Them vat tu", searchValue);
+	create_sf_header( (string)" Them vat tu", searchValue);
 	// tnh so page co trong trang
 	setcolor(0);
 	int n = getSize_s_VT(ds_s_vt);
@@ -139,11 +139,11 @@ void goods_table(
 	settextstyle(f_small, 0, 1);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 	outtextxy(55, text_top, (char*)"STT");
-	outtextxy(95, text_top, sf_table_header[0]);
-	outtextxy(230, text_top, sf_table_header[1]);
-	outtextxy(450, text_top, sf_table_header[2]);
-	outtextxy(650, text_top, sf_table_header[3]);
-	outtextxy(900, text_top, sf_table_header[4]);
+	outtextxy(95, text_top, (char *)g_table_header[0]);
+	outtextxy(230, text_top, (char*)g_table_header[1]);
+	outtextxy(450, text_top, (char*)g_table_header[2]);
+	outtextxy(650, text_top, (char*)g_table_header[3]);
+	outtextxy(900, text_top, (char*)g_table_header[4]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	int d = 0;//delete
@@ -232,9 +232,11 @@ start:;
 	}
 	bool checkCancle = true;
 	bool checkBreak = false;
+	
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
+			line(x, y, x + 5, y);
 		headInfor:;
 			if (isEdit) {
 				text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mvt
@@ -260,12 +262,18 @@ start:;
 				isBack = true;
 				goto headInfor;
 			}
+			if (ktVT(820, 165, 920, 195, x, y)) {
+				x = 0; y = 0;
+				search_goods_I(x, y, ds_vt);
+				goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
+				goto headInfor;
+			}
 			if (isAdd) {
-				if (ktVT(430, 165, 800, 195, x, y) || isBack) { // Mvt
+				// vi tri input
+				if (ktVT(430, 165, 800, 195, x, y) || isBack ) { // Mvt
 					if (isBack == false) {
 						t_mvt = input(x, y, 430, 165, 800, 195, 5, 6, 5, 35, 50, t_mvt, 10, "textNumberNoSpace", "upcase", COLOR_INFOR_SG, 430, 225);
 					}
-
 					if (searchNode_k_maVT(ds_vt, t_mvt) == 1) {
 						checkSubmit[0] = -2;
 						warning_msg((char*)"Ma vat tu da ton tai.", 435, 165 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
@@ -281,7 +289,9 @@ start:;
 					}
 				}
 			}
-			if (ktVT(430, 225, 800, 255, x, y) || isBack) { // ten vat tu
+			// vi tri input
+			if (ktVT(430, 225, 800, 255, x, y) || isBack ) { // ten vat tu
+				
 				if (isBack == false) {
 					t_tvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, t_tvt, 25, "text", "firstCase", COLOR_INFOR_SG, 430, 285);
 				}
@@ -440,11 +450,15 @@ start:;
 					if (checkSubmit[0] == -1) {
 						warning_msg("Khong duoc de trong", 435, 165 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
-
+					if (checkSubmit[0] == -2) {
+						warning_msg("Ma vat tu da ton tai", 435, 165 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
+					}
 					if (checkSubmit[1] == -1) {
 						warning_msg("Khong duoc de trong", 435, 225 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
-
+					if (checkSubmit[1] == -2) {
+						warning_msg("Ten vat tu da ton tai", 435, 165 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
+					}
 					if (checkSubmit[2] == -1) {
 						warning_msg("Khong duoc de trong", 435, 285 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
@@ -462,14 +476,14 @@ sf_end:;
 	return false;
 }
 bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CURD& delete_table_g, check_CURD& edit_table_g, view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd) {
-
 	bool check_D_staff = true;
 	string keyCRUD = "";
 	bool checkX = false;
 	string e_search = "";
 	int svt_NULL = 0;
 	int search_empty = 0;
-	goods_table(g_table_header, ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+	string placeholder = "";
+	goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -477,28 +491,32 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 				while (1) {
 					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 50);
 					if (!ktVT(50, 72, 400, 108, x, y)) {
-						if (e_search=="") {
-							create_sf_header((string)"Danh sach vat tu", (string)" Them vat tu", (string)"Nhap ten hoac id can tim kiem");
+						if (e_search == "") {
+							placeholder = "Nhap ten hoac id can tim kiem";
+							create_sf_header( (string)" Them vat tu", placeholder);
 						}
 						break;
 					}
-					cout << e_search << endl;
-					DS_s_VT *result=NULL;
-					search_goods(ds_vt,result,e_search);
-					if (e_search=="") {
+					placeholder = e_search;
+					DS_s_VT* result = NULL;
+					search_goods(ds_vt, result, e_search);
+					deleteTree(ds_s_vt);
+					ds_s_vt = NULL;
+					coppyVTtoSVT(result, ds_s_vt);
+					if (e_search == "") {
 						search_empty++;
 					}
 					else {
 						search_empty = 0;
 					}
-					if (result==NULL) {
+					if (result == NULL) {
 						svt_NULL++;
 					}
 					else {
-						svt_NULL=0;
+						svt_NULL = 0;
 					}
-					if (svt_NULL==1 || search_empty==1 ||(search_empty==0 && svt_NULL==0)) {
-						goods_table(g_table_header,ds_vt , result, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10,e_search);
+					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
+						goods_table(ds_vt, result, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 					}
 					deleteTree(result);
 					delay(1);
@@ -557,7 +575,8 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 				}
 				next_page(650, 565, 685, 600, vp_g_table);
 				delete_after_header();
-				goods_table(g_table_header, ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+				goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
+
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_g_table.current == 1) {
@@ -565,14 +584,14 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 				}
 				prev_page(495, 565, 530, 600, vp_g_table);
 				delete_after_header();
-				goods_table(g_table_header, ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+				goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				g_page = false;
 				goto sf_end;
 			}
+			delay(1);
 		}
-		delay(1);
 	}
 sf_out:;
 	if (g_isEdit) {
@@ -595,7 +614,7 @@ sf_out:;
 	if (checkX) { // return false de cho no chay xuong duoi
 		return false;
 	}
-	return true;
-
+	cout << "end ";
 sf_end:;
+	return true;
 }

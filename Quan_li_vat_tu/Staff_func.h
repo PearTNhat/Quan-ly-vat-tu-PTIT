@@ -3,13 +3,13 @@
 #include "Common.h"
 #include "Constant.h"
 #include "Bill_Struct.h"
-#include "Staff_Struct.h";
-#include "input_staff_good.h"
+#include "Staff_Struct.h"
+#include "input_staff_goods.h"
 #include "input_one.h"
 #include "Goods_Struct.h"
 #include "Search_staffs.h"
 //-------------
-void create_sf_header(string title = "Danh sach nhan vien", string subTitle = "Them nhan vien", string search = "Nhap ten hoac id can tim kiem");
+void create_sf_header( string subTitle = "Them nhan vien", string search = "Nhap ten hoac id can tim kiem");
 void staff_infor(string mnv = "", string ho = "", string ten = "", string gender = "");
 void delete_staff(DS_NhanVien& ds_nv, int index);
 int checkSubmitEditAdd(int arr[], int n);
@@ -161,7 +161,7 @@ void write_file_staff(DS_NhanVien ds_nv) {
 	}
 	write_file.close();
 }
-void create_sf_header(string title, string subTitle,string search) {
+void create_sf_header(string subTitle,string search) {
 	int colorsearch = 0;
 	if (search=="Nhap ten hoac id can tim kiem") {
 		colorsearch =COLOR(153, 150, 150);
@@ -172,9 +172,7 @@ void create_sf_header(string title, string subTitle,string search) {
 	text_box(950, 70, 1150, 110, (char*)subTitle.c_str(), f_medium,2 , 10, 20, 11);
 	setbkcolor(bk_screen);
 	setcolor(12);
-	settextstyle(f_medium,0, 5);
-	//outtextxy(50, 70, (char*)title.c_str());
-}
+	settextstyle(f_medium,0, 5);}
 void staff_table(
 	char sf_table_header[][20],
 	NhanVien ** nhan_vien,
@@ -189,7 +187,7 @@ void staff_table(
 	setlinestyle(0, 0, 0);
 	delete_after_header();
 	
-	create_sf_header((string)"Danh sach nhan vien", (string)" Them nhan vien", searchValue);
+	create_sf_header((string)" Them nhan vien", searchValue);
 	// tnh so page co trong trang
 	setcolor(0);
 	int n = length;
@@ -525,7 +523,7 @@ bool sf_handleTable(int& x, int& y, char sf_table_header[][20],DS_NhanVien& ds_n
 					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 50);
 					if (!ktVT(50, 72, 400, 108, x, y)) {
 						if (e_search == "") {
-							create_sf_header((string)"Danh sach nhan vien", (string)" Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
+							create_sf_header( (string)" Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
 						}
 						break;
 					}
