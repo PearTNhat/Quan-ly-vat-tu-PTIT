@@ -105,7 +105,6 @@ void goods_infor(string mvt, string tvt, string dvt, string slt) {
 void goods_table(
 	DS_VatTu* ds_vt,
 	DS_s_VT* ds_s_vt,
-	char curd_o[][20],
 	view_page& view_page,
 	check_CURD& edit,
 	check_CURD& _delete,
@@ -198,8 +197,8 @@ void goods_table(
 		writeText(650, text_top, (char*)to_string(tempVT.SLT).c_str(), 1, 0, 3, 15);
 
 		//------------- k can cos the xoa
-		text_box(900, text_top - 2, 978, text_top + 23, curd_o[0], f_small, 1, 1, 2);
-		text_box(995, text_top - 2, 1038, text_top + 23, curd_o[1], f_small, 1, 1, 6);
+		text_box(900, text_top - 2, 978, text_top + 23, (char*)CURD_o_text[0], f_small, 1, 1, 2);
+		text_box(995, text_top - 2, 1038, text_top + 23, (char*)CURD_o_text[1], f_small, 1, 1, 6);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
@@ -483,7 +482,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 	int svt_NULL = 0;
 	int search_empty = 0;
 	string placeholder = "";
-	goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+	goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10);
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -516,7 +515,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
-						goods_table(ds_vt, result, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
+						goods_table(ds_vt, result, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 					}
 					deleteTree(result);
 					delay(1);
@@ -575,7 +574,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 				}
 				next_page(650, 565, 685, 600, vp_g_table);
 				delete_after_header();
-				goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
+				goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
@@ -584,7 +583,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 				}
 				prev_page(495, 565, 530, 600, vp_g_table);
 				delete_after_header();
-				goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
+				goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				g_page = false;

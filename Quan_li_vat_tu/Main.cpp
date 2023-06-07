@@ -90,7 +90,7 @@ int main() {
 
 			if (sf_page) {
 				create_sf_header();
-				bool sf_out = sf_handleTable(x, y, sf_table_header, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd);
+				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
 				}

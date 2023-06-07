@@ -174,10 +174,8 @@ void create_sf_header(string subTitle,string search) {
 	setcolor(12);
 	settextstyle(f_medium,0, 5);}
 void staff_table(
-	char sf_table_header[][20],
 	NhanVien ** nhan_vien,
 	int length,// day la danh sach cac phan tu chon kd_lieu cho phu hop
-	char curd_o[][20], // "them sua xoa" // k can co the xoa
 	view_page& view_page,
 	check_CURD& edit,//// k can co the xoa
 	check_CURD& _delete,// k can co the xoa
@@ -211,10 +209,10 @@ void staff_table(
 	settextstyle(f_small, 0, 1);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 	outtextxy(55, text_top, (char*)"STT");
-	outtextxy(95, text_top, sf_table_header[0]);
-	outtextxy(230, text_top, sf_table_header[1]);
-	outtextxy(650, text_top, sf_table_header[2]);
-	outtextxy(900, text_top, sf_table_header[3]);
+	outtextxy(95, text_top, (char*)sf_table_header[0]);
+	outtextxy(230, text_top, (char*)sf_table_header[1]);
+	outtextxy(650, text_top, (char*)sf_table_header[2]);
+	outtextxy(900, text_top, (char*)sf_table_header[3]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	int d = 0;//delete
@@ -270,8 +268,8 @@ void staff_table(
 		writeText(650, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
 
 		//------------- k can co the xoa
-		text_box(900, text_top, 978, text_top + 23, curd_o[0], f_small, 1, 1, 2);
-		text_box(995, text_top, 1038, text_top + 23, curd_o[1], f_small, 1, 1, 6);
+		text_box(900, text_top, 978, text_top + 23, (char*)CURD_o_text[0], f_small, 1, 1, 2);
+		text_box(995, text_top, 1038, text_top + 23, (char*)CURD_o_text[1], f_small, 1, 1, 6);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
@@ -505,7 +503,7 @@ start:;
 sf_end:;
 	return false;
 }
-bool sf_handleTable(int& x, int& y, char sf_table_header[][20],DS_NhanVien& ds_nv, check_CURD delete_sf, check_CURD edit_sf, view_page& vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
+bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, check_CURD edit_sf, view_page& vp_m_sf, bool& sf_isEdit, bool& sf_isAdd) {
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_D_staff = true;
@@ -513,7 +511,7 @@ bool sf_handleTable(int& x, int& y, char sf_table_header[][20],DS_NhanVien& ds_n
 	string e_search = "";
 	int svt_NULL = 0;
 	int search_empty = 0;
-	staff_table(sf_table_header, ds_nv.nhan_vien, ds_nv.length, CURD_o_text, vp_m_sf, edit_sf, delete_sf, 10);
+	staff_table( ds_nv.nhan_vien, ds_nv.length, vp_m_sf, edit_sf, delete_sf, 10);
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -542,7 +540,7 @@ bool sf_handleTable(int& x, int& y, char sf_table_header[][20],DS_NhanVien& ds_n
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
-						staff_table(sf_table_header, nv_arr.a,nv_arr.size_current, CURD_o_text, vp_m_sf, edit_sf, delete_sf, 10,e_search);
+						staff_table(nv_arr.a,nv_arr.size_current, vp_m_sf, edit_sf, delete_sf, 10,e_search);
 					}
 					delete []nv_arr.a;
 					delay(1);
@@ -600,7 +598,7 @@ bool sf_handleTable(int& x, int& y, char sf_table_header[][20],DS_NhanVien& ds_n
 				}
 				next_page(650, 565, 685, 600, vp_m_sf);
 				delete_after_header();
-				staff_table(sf_table_header, ds_nv.nhan_vien,ds_nv.length, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				staff_table(ds_nv.nhan_vien,ds_nv.length, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_m_sf.current == 1) {
@@ -608,7 +606,7 @@ bool sf_handleTable(int& x, int& y, char sf_table_header[][20],DS_NhanVien& ds_n
 				}
 				prev_page(495, 565, 530, 600, vp_m_sf);
 				delete_after_header();
-				staff_table(sf_table_header, ds_nv.nhan_vien, ds_nv.length, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				staff_table( ds_nv.nhan_vien, ds_nv.length, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				sf_page = false;
