@@ -683,9 +683,7 @@ void delete_bill_table()
 }
 
 void bill_nhd_table(
-	char bill_table_header[][20],
 	HoaDon& hd,
-	char curd_o[][20],
 	view_page& view_page,
 	check_CURD& edit,
 	check_CURD& _delete,
@@ -720,14 +718,14 @@ void bill_nhd_table(
 	settextstyle(f_small, 0, 1);
 	bar3d(10, bar_top, 1180, bar_bottom, 0, 0);
 	outtextxy(16, text_top, (char*)"STT");
-	outtextxy(75, text_top, bill_table_header[0]);
-	outtextxy(200, text_top, bill_table_header[1]);
-	outtextxy(350, text_top, bill_table_header[2]);
-	outtextxy(450, text_top, bill_table_header[3]);
-	outtextxy(560, text_top, bill_table_header[4]);
-	outtextxy(680, text_top, bill_table_header[5]);
-	outtextxy(780, text_top, bill_table_header[6]);
-	outtextxy(1030, text_top, bill_table_header[7]);
+	outtextxy(75, text_top, (char*)bill_table_header[0]);
+	outtextxy(200, text_top, (char*)bill_table_header[1]);
+	outtextxy(350, text_top, (char*)bill_table_header[2]);
+	outtextxy(450, text_top, (char*)bill_table_header[3]);
+	outtextxy(560, text_top, (char*)bill_table_header[4]);
+	outtextxy(680, text_top, (char*)bill_table_header[5]);
+	outtextxy(780, text_top, (char*)bill_table_header[6]);
+	outtextxy(1030, text_top, (char*)bill_table_header[7]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	int d = 0;//delete
@@ -797,8 +795,8 @@ void bill_nhd_table(
 		writeText(780, text_top, (char*)formatNumber(long long(TT)).c_str(), 1, 0, 3, 15);
 		//writeText(780, text_top, TT_char, 1, 0, 3, 15);
 
-		text_box(1030, text_top, 1108, text_top + 23, curd_o[0], f_small, 1, 1, 2);
-		text_box(1130, text_top, 1178, text_top + 23, curd_o[1], f_small, 1, 1, 6);
+		text_box(1030, text_top, 1108, text_top + 23, (char*)CURD_o_text[0], f_small, 1, 1, 2);
+		text_box(1130, text_top, 1178, text_top + 23, (char*)CURD_o_text[1], f_small, 1, 1, 6);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 
@@ -1016,7 +1014,7 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 		else {
 			next_page(650, 565, 685, 600, vp_b_table);
 			delete_bill_table();
-			bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+			bill_nhd_table( hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
 
 		}
 	}
@@ -1028,7 +1026,7 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 			prev_page(495, 565, 530, 600, vp_b_table);
 			cout << vp_b_table.current;
 			delete_bill_table();
-			bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+			bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
 
 		}
 	}
@@ -1074,7 +1072,6 @@ void nhd_manv_table
 (
 	NhanVien** nhan_vien,
 	int length,// day la danh sach cac phan tu chon kd_lieu cho phu hop
-	char mavt_cn[][20], // "them sua xoa" // k can co the xoa
 	view_page& view_page,
 	check_CURD& chon,// k can co the xoa
 	int num_rows,
@@ -1158,7 +1155,7 @@ void nhd_manv_table
 		writeText(650, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
 
 		//------------- k can co the xoa
-		text_box(900, text_top, 978, text_top + 23, mavt_cn[0], f_small, 1, 1, 17);
+		text_box(900, text_top, 978, text_top + 23, (char*)mavt_cn[0], f_small, 1, 1, 17);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
@@ -1179,7 +1176,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 	string e_search = "";
 	int svt_NULL = 0;
 	int search_empty = 0;
-	nhd_manv_table( ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
+	nhd_manv_table(ds_nv.nhan_vien, ds_nv.length, vp_manv_table, chon, 10);
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -1208,7 +1205,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
-						nhd_manv_table( nv_arr.a, nv_arr.size_current, CURD_o_text, vp_manv_table, chon, 10, e_search);
+						nhd_manv_table(nv_arr.a, nv_arr.size_current, vp_manv_table, chon, 10, e_search);
 					}
 					delete[]nv_arr.a;
 					delay(1);
@@ -1218,6 +1215,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 			//delete
 			for (int i = 0; i < chon.n; i++)
 			{
+				
 				if (ktVT(chon.data[i].l, chon.data[i].t, chon.data[i].r, chon.data[i].b, x, y)) {
 					i_CRUD = (vp_manv_table.current - 1) * ROW_STAFF + i;
 					strcpy((char*)manvphu, ds_nv.nhan_vien[i_CRUD]->maNV);
@@ -1231,7 +1229,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 				}
 				next_page(650, 565, 685, 600, vp_manv_table);
 				delete_after_header();
-				nhd_manv_table( ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
+				nhd_manv_table(ds_nv.nhan_vien, ds_nv.length, vp_manv_table, chon, 10);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_manv_table.current == 1) {
@@ -1239,7 +1237,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 				}
 				prev_page(495, 565, 530, 600, vp_manv_table);
 				delete_after_header();
-				nhd_manv_table(ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
+				nhd_manv_table(ds_nv.nhan_vien, ds_nv.length, vp_manv_table, chon, 10);
 			}
 			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y)) {
 				b_page = false;
@@ -1255,10 +1253,8 @@ bill_end:;
 
 void nhd_mavt_table
 (
-	char bill_mavt_header[][20],
 	DS_VatTu* ds_vt,
 	DS_s_VT* ds_s_vt,
-	char mavt_cn[][20],
 	view_page& view_page,
 	check_CURD& chon,
 	int num_cols,
@@ -1290,11 +1286,11 @@ void nhd_mavt_table
 	settextstyle(f_small, 0, 1);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 	outtextxy(55, text_top, (char*)"STT");
-	outtextxy(95, text_top, bill_mavt_header[0]);
-	outtextxy(230, text_top, bill_mavt_header[1]);
-	outtextxy(450, text_top, bill_mavt_header[2]);
-	outtextxy(650, text_top, bill_mavt_header[3]);
-	outtextxy(900, text_top, bill_mavt_header[4]);
+	outtextxy(95, text_top, (char*)bill_mavt_header[0]);
+	outtextxy(230, text_top, (char*)bill_mavt_header[1]);
+	outtextxy(450, text_top, (char*)bill_mavt_header[2]);
+	outtextxy(650, text_top, (char*)bill_mavt_header[3]);
+	outtextxy(900, text_top, (char*)bill_mavt_header[4]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	int e = 0;//edit
@@ -1339,7 +1335,7 @@ void nhd_mavt_table
 		writeText(650, text_top, (char*)to_string(tempVT.SLT).c_str(), 1, 0, 3, 15);
 
 		//------------- k can cos the xoa
-		text_box(900, text_top - 2, 978, text_top + 23, mavt_cn[0], f_small, 1, 1, 17);
+		text_box(900, text_top - 2, 978, text_top + 23, (char*)mavt_cn[0], f_small, 1, 1, 17);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
@@ -1358,7 +1354,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 	string e_search = "";
 	int svt_NULL = 0;
 	int search_empty = 0;
-	nhd_mavt_table(bill_mavt_header, ds_vt, ds_s_vt, mavt_cn, vp_mavt_table, chon, 10);
+	nhd_mavt_table( ds_vt, ds_s_vt, vp_mavt_table, chon, 10);
 
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -1389,7 +1385,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
-						nhd_mavt_table(bill_mavt_header, ds_vt, result, mavt_cn, vp_mavt_table, chon, 10, e_search);
+						nhd_mavt_table( ds_vt, result, vp_mavt_table, chon, 10, e_search);
 					}
 					deleteTree(result);
 					delay(1);
@@ -1439,7 +1435,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 				}
 				next_page(650, 565, 685, 600, vp_mavt_table);
 				delete_after_header();
-				nhd_mavt_table(bill_mavt_header, ds_vt, ds_s_vt, mavt_cn, vp_mavt_table, chon, 10);
+				nhd_mavt_table( ds_vt, ds_s_vt, vp_mavt_table, chon, 10);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_mavt_table.current == 1) {
@@ -1447,7 +1443,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 				}
 				prev_page(495, 565, 530, 600, vp_mavt_table);
 				delete_after_header();
-				nhd_mavt_table(bill_mavt_header, ds_vt, ds_s_vt, mavt_cn, vp_mavt_table, chon, 10);
+				nhd_mavt_table( ds_vt, ds_s_vt, vp_mavt_table, chon, 10);
 			}
 			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y)) {
 				b_page = false;
@@ -1933,7 +1929,7 @@ lannua:
 				b_create_menu_title();
 				highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 				khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
-				bill_nhd_table(bill_table_header, hd, CURD_o_text, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+				bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
 				long double TONGCONG = tongPhanTuDSLKD(hd);
 				text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
 				text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
@@ -3073,9 +3069,7 @@ bool bill_announce_board(int x, int y, int kcl = 0, int kct = 0, string value = 
 }
 
 void bill_trahang_table(
-	char bill_table_header[][20],
 	HoaDon& hd,
-	char tra_hang_cn[][20],
 	view_page& view_page,
 	check_CURD& edit_table_b,
 	int num_rows,
@@ -3108,14 +3102,14 @@ void bill_trahang_table(
 	settextstyle(f_small, 0, 1);
 	bar3d(10, bar_top, 1180, bar_bottom, 0, 0);
 	outtextxy(16, text_top, (char*)"STT");
-	outtextxy(75, text_top, bill_table_header[0]);
-	outtextxy(200, text_top, bill_table_header[1]);
-	outtextxy(350, text_top, bill_table_header[2]);
-	outtextxy(450, text_top, bill_table_header[3]);
-	outtextxy(560, text_top, bill_table_header[4]);
-	outtextxy(680, text_top, bill_table_header[5]);
-	outtextxy(780, text_top, bill_table_header[6]);
-	outtextxy(1030, text_top, bill_table_header[7]);
+	outtextxy(75, text_top, (char*)bill_table_header[0]);
+	outtextxy(200, text_top, (char*)bill_table_header[1]);
+	outtextxy(350, text_top, (char*)bill_table_header[2]);
+	outtextxy(450, text_top, (char*)bill_table_header[3]);
+	outtextxy(560, text_top, (char*)bill_table_header[4]);
+	outtextxy(680, text_top, (char*)bill_table_header[5]);
+	outtextxy(780, text_top, (char*)bill_table_header[6]);
+	outtextxy(1030, text_top, (char*)bill_table_header[7]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 
@@ -3177,7 +3171,7 @@ void bill_trahang_table(
 		writeText(680, text_top, VAT_char, 1, 0, 3, 15);
 		writeText(780, text_top, TT_char, 1, 0, 3, 15);
 
-		text_box(1030, text_top, 1108, text_top + 23, tra_hang_cn[0], f_small, 1, 1, 2);
+		text_box(1030, text_top, 1108, text_top + 23, (char*)tra_hang_cn[0], f_small, 1, 1, 2);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 
@@ -3236,7 +3230,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 				else {
 					next_page(650, 565, 685, 600, vp_b_table);
 					delete_bill_table();
-					bill_trahang_table(bill_table_header, hd, tra_hang_cn, vp_b_table, edit_table_b, 7, ds_vt);
+					bill_trahang_table( hd, vp_b_table, edit_table_b, 7, ds_vt);
 
 				}
 			}
@@ -3248,7 +3242,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 					prev_page(495, 565, 530, 600, vp_b_table);
 					cout << vp_b_table.current;
 					delete_bill_table();
-					bill_trahang_table(bill_table_header, hd, tra_hang_cn, vp_b_table, edit_table_b, 7, ds_vt);
+					bill_trahang_table(hd, vp_b_table, edit_table_b, 7, ds_vt);
 
 				}
 			}
@@ -3428,7 +3422,7 @@ batdau:
 						highlight_box(350, 70, 645, 110, (char*)"Tra hang", f_medium, 3, 10, 40, 14, 0);
 						b_delete_after_create();
 						khungtrahang(tt1, p, h, u);
-						bill_trahang_table(bill_table_header, tt1, tra_hang_cn, vp_b_table, edit_table_b, 7, ds_vt);
+						bill_trahang_table(tt1, vp_b_table, edit_table_b, 7, ds_vt);
 						trahang_handle_table(x, y, tt1, edit_table_b, vp_b_table, u, ds_vt);
 
 						goto th;

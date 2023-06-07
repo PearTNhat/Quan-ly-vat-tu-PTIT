@@ -177,7 +177,6 @@ void create_sf_header(string subTitle,string search) {
 void staff_table(
 	NhanVien ** nhan_vien,
 	int length,// day la danh sach cac phan tu chon kd_lieu cho phu hop
-	char curd_o[][20], // "them sua xoa" // k can co the xoa
 	view_page& view_page,
 	check_CURD& edit,//// k can co the xoa
 	check_CURD& _delete,// k can co the xoa
@@ -270,8 +269,8 @@ void staff_table(
 		writeText(650, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
 
 		//------------- k can co the xoa
-		text_box(900, text_top, 978, text_top + 23, curd_o[0], f_small, 1, 1, 2);
-		text_box(995, text_top, 1038, text_top + 23, curd_o[1], f_small, 1, 1, 6);
+		text_box(900, text_top, 978, text_top + 23, (char*)CURD_o_text[0], f_small, 1, 1, 2);
+		text_box(995, text_top, 1038, text_top + 23, (char*)CURD_o_text[1], f_small, 1, 1, 6);
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
