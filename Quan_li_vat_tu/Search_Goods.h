@@ -50,26 +50,19 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 	int search_empty = 0;
 	string value;
 	view_page searhcing_view;
-	string placeholder = "Nhap ten hoac id can tim kiem";
 	DS_s_VT* result = NULL;
-	bool first_times = true;
-	goods_table_reducing(ds_vt, NULL, searhcing_view, 10, value);
-	create_sf_header((string)"    Tro ve", placeholder);
-	goto first;
+	search_goods(ds_vt, result, value);
+	goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
+	create_sf_header((string)"    Tro ve", (string)"Nhap ten hoac id can tim kiem");
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			if (ktVT(50, 72, 400, 108, x, y)) {
-			first:
 				while (1) {
-					if (!first_times) {
-						value = input_one(x, y, 50, 72, 400, 108, 10, 10, value, 50);
-						placeholder = value;
-					}
-					if (!ktVT(50, 72, 400, 108, x, y) && !first_times) {
+					value = input_one(x, y, 50, 72, 400, 108, 10, 10, value, 50);
+					if (!ktVT(50, 72, 400, 108, x, y)) {
 						if (value == "") {
-							placeholder = "Nhap ten hoac id can tim kiem";
-							create_sf_header((string)"    Tro ve", placeholder);
+							create_sf_header((string)"    Tro ve", (string)"Nhap ten hoac id can tim kiem");
 						}
 						break;
 					}
@@ -90,11 +83,6 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
 						goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
-						create_sf_header((string)"    Tro ve", placeholder);
-					}
-					if (first_times) {
-						first_times = false;
-						break;
 					}
 					delay(1);
 				}
@@ -105,8 +93,6 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 				}
 				next_page(650, 565, 685, 600, searhcing_view);
 				goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
-				create_sf_header((string)"    Tro ve", placeholder);
-
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (searhcing_view.current == 1) {
@@ -114,7 +100,6 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 				}
 				prev_page(495, 565, 530, 600, searhcing_view);
 				goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
-				create_sf_header( (string)"    Tro ve", placeholder);
 			}
 			if (ktVT(950, 70, 1150, 110,x,y) || ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				x = 0; y = 0;
@@ -135,6 +120,7 @@ void goods_table_reducing(
 {
 	setlinestyle(0, 0, 0);
 	delete_after_header();
+	create_sf_header((string)"    Tro ve", search);
 	// tnh so page co trong trang
 	setcolor(0);
 	int n = getSize_s_VT(ds_s_vt);

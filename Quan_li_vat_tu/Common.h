@@ -85,6 +85,10 @@ void delete_after_header() {
 	setfillstyle(1, bk_screen);
 	bar(0, 60, 1200, 900);
 }
+void delete_after_func() {
+	setfillstyle(1, bk_screen);
+	bar(0, 120, 1200, 900);
+}
 void page_transition(view_page& view_page, bool printHD = false) {
 	int l_arrow_l = 495, t_arrow_l = 565, r_arrow_l = 530, b_arrow_l = 600;
 	int l_arrow_r = 650, t_arrow_r = 565, r_arrow_r = 685, b_arrow_r = 600;

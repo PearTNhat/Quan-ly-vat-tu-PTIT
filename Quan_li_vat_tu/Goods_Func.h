@@ -5,7 +5,7 @@
 #define COLS_G 10
 //
 void create_g_header();
-void goods_infor(string mvt = "", string tvt = "", string dvt = "", string slt = "");
+void goods_infor(string mvt = "", string tvt = "", string dvt = "", string slt = "", bool isAdd=false);
 //
 void create_g_header() {
 	setfillstyle(1, 15);
@@ -76,7 +76,7 @@ void write_file_goods(DS_VatTu* ds_vt) {
 	}
 }
 
-void goods_infor(string mvt, string tvt, string dvt, string slt) {
+void goods_infor(string mvt, string tvt, string dvt, string slt,bool isAdd) {
 	delete_after_header();
 	text_box(430, 90, 800, 130, (char*)"Chinh sua thong tin vat tu", f_medium, 2, 10, 10, 11, 0);
 	//
@@ -85,8 +85,10 @@ void goods_infor(string mvt, string tvt, string dvt, string slt) {
 	bar3d(250, 130, 950, 500, 0, 0);
 	text_box(430, 165, 800, 195, (char*)mvt.c_str(), f_medium, 1, 6, 5, 15, 0); // chu cao 20
 	writeText(260, 170, (char*)"Ma vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
-
+	if (isAdd) {
 	text_box(820, 165, 920, 195, (char *)"Xem bang", f_medium, 1, 6, 5, 15, 0);
+
+	}
 
 	text_box(430, 225, 800, 255, (char*)tvt.c_str(), f_medium, 1, 6, 5, 15, 0);
 	writeText(260, 230, (char*)"Ten vat tu", 2, 0, f_medium, COLOR_INFOR_SG);
@@ -257,15 +259,15 @@ start:;
 					isAdd = false;
 					return true;
 				}
-				goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
+				goods_infor(t_mvt, t_tvt, t_dvt, t_slt, isAdd);
 				x = NULL, y = NULL;
 				isBack = true;
 				goto headInfor;
 			}
-			if (ktVT(820, 165, 920, 195, x, y)) {
+			if (ktVT(820, 165, 920, 195, x, y) && isAdd) { // xem bang
 				x = 0; y = 0;
 				search_goods_I(x, y, ds_vt);
-				goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
+				goods_infor(t_mvt, t_tvt, t_dvt, t_slt,isAdd);
 				goto headInfor;
 			}
 			if (isAdd) {
@@ -380,7 +382,7 @@ start:;
 						goto sf_end;
 					}
 					else {
-						goods_infor(t_mvt, t_tvt, t_dvt, t_slt);
+						goods_infor(t_mvt, t_tvt, t_dvt, t_slt, isAdd);
 						x = NULL, y = NULL;
 						isBack = true;
 						goto headInfor;
@@ -413,7 +415,7 @@ start:;
 						write_file_goods(ds_vt);
 						announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
 						delay(500);
-						goods_infor();
+						goods_infor("","","","",isAdd);
 						x = NULL, y = NULL;
 						t_mvt = t_dvt = t_slt = t_tvt = "";
 						goto start;
@@ -434,8 +436,6 @@ start:;
 						deleteNode_k_tenVT(ds_s_vt, prev.tenVT);
 						insertNode_k_tenVT(ds_s_vt, svt_temp);
 						lnrSVT(ds_s_vt);
-
-
 					}
 					isEdit = false;
 					isAdd = false;
@@ -475,15 +475,19 @@ start:;
 sf_end:;
 	return false;
 }
-bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CURD& delete_table_g, check_CURD& edit_table_g, view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd) {
+bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CURD& delete_table_g, check_CURD& edit_table_g, view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd,string &e_search) {
 	bool check_D_staff = true;
 	string keyCRUD = "";
 	bool checkX = false;
-	string e_search = "";
+	
 	int svt_NULL = 0;
 	int search_empty = 0;
-	string placeholder = "";
+	string placeholder = e_search;
+	DS_s_VT* result=NULL;
 	goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+	if (e_search.length()>0) {
+		create_sf_header((string)" Them vat tu", placeholder);
+	}
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -498,7 +502,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 						break;
 					}
 					placeholder = e_search;
-					DS_s_VT* result = NULL;
+					result = NULL;
 					search_goods(ds_vt, result, e_search);
 					deleteTree(ds_s_vt);
 					ds_s_vt = NULL;
@@ -525,8 +529,8 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 			}
 			// them nhan vien moi
 			if (ktVT(950, 70, 1150, 110, x, y)) { // them vat tu
-				goods_infor();
 				g_isAdd = true;
+				goods_infor("","","","", g_isAdd);
 				goto sf_out;
 			}
 			// edit

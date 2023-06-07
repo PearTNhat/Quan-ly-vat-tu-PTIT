@@ -15,14 +15,16 @@
 // xem lai giai phong du lieu trong search table
 int main() {
 	// nhân viên
+	string e_search_nv="";
 	check_CURD delete_sf;
 	check_CURD edit_sf;
 	view_page vp_m_sf;
-	bool sf_isEdit = false, sf_isAdd = false;
 	DS_NhanVien ds_nv;
+	bool sf_isEdit = false, sf_isAdd = false;
 	read_file_staff(ds_nv);
 	//quick_sort_staff(ds_nv, 0, ds_nv.length - 1);
 	// vật tư
+	string e_search_vt = "";
 	check_CURD delete_table_g;
 	check_CURD edit_table_g;
 	view_page vp_g_table;
@@ -70,7 +72,7 @@ int main() {
 			}
 			if (g_page) {
 				
-				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd);
+				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd, e_search_vt);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
 				}
@@ -90,7 +92,7 @@ int main() {
 
 			if (sf_page) {
 				create_sf_header();
-				bool sf_out = sf_handleTable(x, y, sf_table_header, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd);
+				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd, e_search_nv);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
 				}

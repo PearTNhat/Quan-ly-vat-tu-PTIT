@@ -32,7 +32,7 @@ char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};
 const char g_table_header[][20] = { "MaVT","TenVT","Don vi","So luong ton","Chuc nang"};
 
 //staff
-char sf_table_header[4][20] = { "MaNV","Ho Ten","Phai","Chuc nang"};
+const char sf_table_header[4][20] = { "MaNV","Ho Ten","Phai","Chuc nang"};
 
 const int bk_screen = COLOR(76, 98, 119);//COLOR(51, 73, 96);
 const int textColor = 0;

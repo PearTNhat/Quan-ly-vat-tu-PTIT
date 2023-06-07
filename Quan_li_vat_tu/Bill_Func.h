@@ -280,7 +280,7 @@ void in_hoa_don_table(
 	string maNV = "Ma NV:  ";
 	maNV += nodeInfo->maNV;
 	outtextxy(520, 200, (char*)maNV.c_str());
-	// header num_rows
+	// header num_cols
 	int bar_top = 300, bar_bottom = 332;
 	int text_top = 305;
 	setcolor(0);
@@ -1072,7 +1072,6 @@ void create_mavtmanv_header(string title, string search) {
 
 void nhd_manv_table
 (
-	char sf_table_header[][20],
 	NhanVien** nhan_vien,
 	int length,// day la danh sach cac phan tu chon kd_lieu cho phu hop
 	char mavt_cn[][20], // "them sua xoa" // k can co the xoa
@@ -1108,10 +1107,10 @@ void nhd_manv_table
 	settextstyle(f_small, 0, 1);
 	bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 	outtextxy(55, text_top, (char*)"STT");
-	outtextxy(95, text_top, sf_table_header[0]);
-	outtextxy(230, text_top, sf_table_header[1]);
-	outtextxy(650, text_top, sf_table_header[2]);
-	outtextxy(900, text_top, sf_table_header[3]);
+	outtextxy(95, text_top, (char*)sf_table_header[0]);
+	outtextxy(230, text_top, (char*)sf_table_header[1]);
+	outtextxy(650, text_top, (char*)sf_table_header[2]);
+	outtextxy(900, text_top, (char*)sf_table_header[3]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	int e = 0;//edit
@@ -1171,7 +1170,7 @@ void nhd_manv_table
 	page_transition(view_page);
 }
 
-bool manv_handle_table(int& x, int& y, char sf_table_header[][20], DS_NhanVien& ds_nv, check_CURD chon, view_page& vp_manv_table, bool& manv_isChon, const char(&manvphu)[11], bool& b_page)
+bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view_page& vp_manv_table, bool& manv_isChon, const char(&manvphu)[11], bool& b_page)
 {
 	bool break_all = false;
 	int i_CRUD = 0;
@@ -1180,7 +1179,7 @@ bool manv_handle_table(int& x, int& y, char sf_table_header[][20], DS_NhanVien& 
 	string e_search = "";
 	int svt_NULL = 0;
 	int search_empty = 0;
-	nhd_manv_table(sf_table_header, ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
+	nhd_manv_table( ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -1209,7 +1208,7 @@ bool manv_handle_table(int& x, int& y, char sf_table_header[][20], DS_NhanVien& 
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
-						nhd_manv_table(sf_table_header, nv_arr.a, nv_arr.size_current, CURD_o_text, vp_manv_table, chon, 10, e_search);
+						nhd_manv_table( nv_arr.a, nv_arr.size_current, CURD_o_text, vp_manv_table, chon, 10, e_search);
 					}
 					delete[]nv_arr.a;
 					delay(1);
@@ -1232,7 +1231,7 @@ bool manv_handle_table(int& x, int& y, char sf_table_header[][20], DS_NhanVien& 
 				}
 				next_page(650, 565, 685, 600, vp_manv_table);
 				delete_after_header();
-				nhd_manv_table(sf_table_header, ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
+				nhd_manv_table( ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_manv_table.current == 1) {
@@ -1240,7 +1239,7 @@ bool manv_handle_table(int& x, int& y, char sf_table_header[][20], DS_NhanVien& 
 				}
 				prev_page(495, 565, 530, 600, vp_manv_table);
 				delete_after_header();
-				nhd_manv_table(sf_table_header, ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
+				nhd_manv_table(ds_nv.nhan_vien, ds_nv.length, mavt_cn, vp_manv_table, chon, 10);
 			}
 			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y)) {
 				b_page = false;
@@ -2136,7 +2135,7 @@ nhd:
 			MANV:
 				if (manv == true)
 				{
-					bool manv_out = manv_handle_table(x, y, sf_table_header, ds_nv, chon, vp_manv_table, manv_isChon,manvphu, b_page);
+					bool manv_out = manv_handle_table(x, y, ds_nv, chon, vp_manv_table, manv_isChon,manvphu, b_page);
 					if (b_page == true)
 					{
 						d = manvphu;
@@ -2175,7 +2174,7 @@ nhd:
 				}
 				if (manv == false)
 				{
-					bool manv_out = manv_handle_table(x, y, sf_table_header, ds_nv, chon, vp_manv_table, manv_isChon, manvphu, b_page);
+					bool manv_out = manv_handle_table(x, y, ds_nv, chon, vp_manv_table, manv_isChon, manvphu, b_page);
 					if (b_page == true)
 					{
 						d = manvphu;
