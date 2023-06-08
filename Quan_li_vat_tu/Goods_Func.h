@@ -237,7 +237,6 @@ start:;
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
-			line(x, y, x + 5, y);
 		headInfor:;
 			if (isEdit) {
 				text_box(430, 165, 800, 195, (char*)t_mvt.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mvt

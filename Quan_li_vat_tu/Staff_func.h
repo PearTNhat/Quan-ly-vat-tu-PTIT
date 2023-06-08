@@ -259,6 +259,7 @@ void staff_table(
 		strcpy_s(stt, to_string(i + 1).c_str());
 		writeText(55, text_top, stt, 1, 0, 3, 15);
 		writeText(95, text_top, nhan_vien[i]->maNV, 1, 0, 3, 15);
+	
 		writeText(230, text_top, nhan_vien[i]->ho, 1, 0, 3, 15);
 		writeText(550, text_top, nhan_vien[i]->ten, 1, 0, 3, 15);
 		writeText(740, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
