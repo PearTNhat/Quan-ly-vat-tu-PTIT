@@ -39,7 +39,7 @@ void table_searching(int &x,int &y,DS_NhanVien ds_nv) {
 			//search
 			if (ktVT(50, 72, 400, 108, x, y)) {// search
 				while (1) {
-					value = input_one(x, y, 50, 72, 400, 108, 10, 10, value, 50);
+					value = input_one(x, y, 50, 72, 410, 108, 10, 10, value, 30);
 					if (!ktVT(50, 72, 400, 108, x, y)) {
 						if (value == "") {
 							create_sf_header((string)"  Tro ve", (string)"Nhap ten hoac id can tim kiem");
@@ -84,7 +84,8 @@ void table_searching(int &x,int &y,DS_NhanVien ds_nv) {
 				delete_after_header();
 				staff_table_normal(fillter_nv.a, fillter_nv.size_current, searhcing_view, 10,value);
 			}
-			if (ktVT(950, 70, 1150, 110, x, y) || ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
+			if (ktVT(950, 70, 1150, 110, x, y) || ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
+				cout << "X ";
 				break;
 			}
 		}
@@ -128,8 +129,9 @@ void staff_table_normal(
 	outtextxy(55, text_top, (char*)"STT");
 	outtextxy(95, text_top, (char*)sf_table_header[0]);
 	outtextxy(230, text_top, (char*)sf_table_header[1]);
-	outtextxy(650, text_top, (char*)sf_table_header[2]);
-	outtextxy(900, text_top, (char*)sf_table_header[3]);
+	outtextxy(550, text_top, (char*)sf_table_header[2]);
+	outtextxy(740, text_top, (char*)sf_table_header[3]);
+	outtextxy(900, text_top, (char*)sf_table_header[4]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	for (; i < max_rows; i++)
@@ -155,20 +157,12 @@ void staff_table_normal(
 		strcpy_s(stt, to_string(i + 1).c_str());
 		writeText(55, text_top, stt, 1, 0, 3, 15);
 		writeText(95, text_top, nhan_vien[i]->maNV, 1, 0, 3, 15);
-		string fullName = nhan_vien[i]->ho;
-
-		fullName += " ";
-		fullName += (string)nhan_vien[i]->ten;
-
-		char ten[32];
-		strcpy_s(ten, fullName.c_str());
-		writeText(230, text_top, ten, 1, 0, 3, 15);
-		writeText(650, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
+		writeText(230, text_top, nhan_vien[i]->ho, 1, 0, 3, 15);
+		writeText(550, text_top, nhan_vien[i]->ten, 1, 0, 3, 15);
+		writeText(740, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
 	
 		setfillstyle(1, 15);
 		setbkcolor(15);
 	}
-	//------------- k can cos the xoa
-	// < >
 	page_transition(view_page);
 }

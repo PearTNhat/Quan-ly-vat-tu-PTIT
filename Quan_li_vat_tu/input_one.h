@@ -20,6 +20,7 @@ string input_one(int& x, int& y,
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			if (!ktVT(l, t, r, b, x, y)) {
+				writeText(l + 365, t + kct, (char*)"   ", 3, i_color, f_medium, bk_screen);
 				input.erase(input.length() - 1);
 				//-- xoa đề render lại từ đầu
 				setfillstyle(1, 15);
@@ -64,6 +65,7 @@ string input_one(int& x, int& y,
 			if (check_key) {
 				input.erase(input.end() - 1);
 				if (key == 8) {// <- backspace xoa
+					writeText(l + 365, t + kct, (char*)"   ", 3, i_color, f_medium, bk_screen);
 					if (input.length() >0) {
 						if (input.length() > 1 && input[input.length() - 2]==' ') {
 							input.erase(input.length() - 1, 1);
@@ -72,6 +74,7 @@ string input_one(int& x, int& y,
 					}
 				}
 				else if (key ==13 || key == 9) {
+					writeText(l + 365, t + kct, (char*)"   ", 3, i_color, f_medium, bk_screen);
 					if (input.length() > 0 && (input[input.length() - 1] == ' ')) {
 						input.erase(input.length() - 1, 1);
 					}
@@ -82,8 +85,14 @@ string input_one(int& x, int& y,
 					return input;
 				}
 				else {
-					input += key;
-				}				
+					if (input.length()>=max_value) {
+						writeText(l + 365, t + kct, (char*)"MAX", 3, I_ERROR_COLOR, f_medium, bk_screen);
+					}
+					else {
+						writeText(l + 365, t + kct, (char*)"   ", 3, i_color, f_medium, bk_screen);
+						input += key;
+					}
+				}
 				//-- ghi chữ lại
 				if (input[0]==' ' ) {
 					input.erase(0, 1);

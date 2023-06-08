@@ -478,22 +478,21 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 	bool check_D_staff = true;
 	string keyCRUD = "";
 	bool checkX = false;
-	
 	int svt_NULL = 0;
 	int search_empty = 0;
 	string placeholder = e_search;
-	DS_s_VT* result=NULL;
-	goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
-	if (e_search.length()>0) {
+	search_goods(ds_vt, ds_s_vt, e_search);
+	goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10);
+	if (e_search.length() > 0) {
 		create_sf_header((string)" Them vat tu", placeholder);
 	}
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
-			if (ktVT(50, 72, 400, 108, x, y)) {// search
+			if (ktVT(50, 72, 410, 108, x, y)) {// search
 				while (1) {
-					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 50);
-					if (!ktVT(50, 72, 400, 108, x, y)) {
+					e_search = input_one(x, y, 50, 72, 410, 108, 10, 10, e_search, 25);
+					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
 							placeholder = "Nhap ten hoac id can tim kiem";
 							create_sf_header( (string)" Them vat tu", placeholder);
@@ -501,27 +500,24 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 						break;
 					}
 					placeholder = e_search;
-					result = NULL;
-					search_goods(ds_vt, result, e_search);
 					deleteTree(ds_s_vt);
 					ds_s_vt = NULL;
-					coppyVTtoSVT(result, ds_s_vt);
+					search_goods(ds_vt, ds_s_vt, e_search);
 					if (e_search == "") {
 						search_empty++;
 					}
 					else {
 						search_empty = 0;
 					}
-					if (result == NULL) {
+					if (ds_s_vt == NULL) {
 						svt_NULL++;
 					}
 					else {
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
-						goods_table(ds_vt, result, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
+						goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 					}
-					deleteTree(result);
 					delay(1);
 				}
 
@@ -589,7 +585,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 				delete_after_header();
 				goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 			}
-			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
+			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
 				g_page = false;
 				goto sf_end;
 			}
@@ -613,11 +609,11 @@ sf_out:;
 		string t_add_slt = "";
 		checkX = handleInfor_goods(x, y, ds_vt, ds_s_vt, t_add_mnt, t_add_ho, t_add_ten, t_add_slt, "", g_isEdit, g_isAdd);
 	}
-
+	deleteTree(ds_s_vt);
+	ds_s_vt = NULL;
 	if (checkX) { // return false de cho no chay xuong duoi
 		return false;
 	}
-	cout << "end ";
 sf_end:;
 	return true;
 }

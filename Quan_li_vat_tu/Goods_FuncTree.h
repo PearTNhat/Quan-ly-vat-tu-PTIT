@@ -389,7 +389,8 @@ void lnr(DS_VatTu* root)
 		lnr(root->right);
 	}
 }
-void deleteTree(DS_s_VT* node)
+template <typename DS_VT>
+void deleteTree(DS_VT* node)
 {
 	if (node == NULL) return;
 

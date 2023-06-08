@@ -1183,7 +1183,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 			//search
 			if (ktVT(50, 72, 400, 108, x, y)) {// search
 				while (1) {
-					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 50);
+					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 30);
 					if (!ktVT(50, 72, 400, 108, x, y)) {
 						if (e_search == "") {
 							create_mavtmanv_header((string)"Danh sach nhan vien", (string)"Nhap ten hoac id can tim kiem");
@@ -1362,7 +1362,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 		batdau:
 			if (ktVT(50, 72, 400, 108, x, y)) {// search
 				while (1) {
-					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 50);
+					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 25);
 					if (!ktVT(50, 72, 400, 108, x, y)) {
 						if (e_search == "") {
 							create_mavtmanv_header((string)"Danh sach vat tu", (string)"Nhap ten hoac id can tim kiem");
@@ -3492,6 +3492,3 @@ void bill_page(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt, DS_s_VT*& d
 
 	}
 }
-
-
-
