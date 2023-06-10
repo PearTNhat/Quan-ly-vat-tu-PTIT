@@ -21,7 +21,7 @@ struct CT_HoaDon
 	float VAT;
 	bool TrangThai;
 
-	/*bool operator==(CT_HoaDon& other)
+	bool operator==(CT_HoaDon& other)
 	{
 		if (strcmp(this->MAVT, other.MAVT) == 0 &&
 			this->Soluong == other.Soluong &&
@@ -43,7 +43,7 @@ struct CT_HoaDon
 			return true;
 
 		return  false;
-	}*/
+	}
 };
 
 struct DS_CT_HoaDon
