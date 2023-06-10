@@ -834,7 +834,7 @@ void bill_infor(string mvt, string tvt, string dvt, string vat) {
 
 }
 
-void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu, string& c_soluongvt, string& c_dongiavt, string& c_vatvt, bool& nhd_isEdit, DS_VatTu*& ds_vt)
+void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu, string& c_soluongvt, string& c_dongiavt, string& c_vatvt, bool& nhd_isEdit, DS_VatTu*& ds_vt, bool& nhap, bool& xuat)
 {
 	int checkSubmit[4];
 	if (nhd_isEdit) {
@@ -852,9 +852,21 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 			if (ktVT(430, 225, 800, 255, x, y)) { // so luong
 				c_soluongvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, c_soluongvt, 6, "number", "camelCase", COLOR_INFOR_SG, 430, 285);
 
-				if (nhd_isEdit) {
+				if (nhd_isEdit && xuat == true) {
 					if (checksoluong(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
 						warning_msg((char*)"Khong du so luong.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+						checkSubmit[1] = -2;
+					}
+					else if (empty(c_soluongvt) == 1) {
+						checkSubmit[1] = -1;
+					}
+					else {
+						checkSubmit[1] = 1;
+					}
+				}
+				if (nhd_isEdit && nhap == true) {
+					if (checksoluongnhap(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
+						warning_msg((char*)"So luong nhap qua lon!", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 						checkSubmit[1] = -2;
 					}
 					else if (empty(c_soluongvt) == 1) {
@@ -960,7 +972,7 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 nhd_end:;
 }
 
-void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table_b, check_CURD& edit_table_b, view_page& vp_b_table, bool& nhd_isEdit, DS_VatTu*& ds_vt, bool& check_sua_xoa)
+void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table_b, check_CURD& edit_table_b, view_page& vp_b_table, bool& nhd_isEdit, DS_VatTu*& ds_vt, bool& check_sua_xoa, bool& nhap,bool& xuat)
 {
 	dscthd p = hd.first_cthd;
 	CT_HoaDon temp;
@@ -1046,7 +1058,7 @@ bill_out:
 		stringstream ss;
 		ss << fixed << setprecision(2) << temp.VAT;
 		string c_vatvt = ss.str();
-		handle_nhd_table(x, y, hd, i_CRUD, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhd_isEdit, ds_vt);
+		handle_nhd_table(x, y, hd, i_CRUD, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhd_isEdit, ds_vt, nhap, xuat);
 		nhd_isEdit = false;
 	}
 bill_end:;
@@ -1987,7 +1999,7 @@ lannua:
 			}
 
 		bang:
-			b_handle_table(x, y, hd, n, delete_table_b, edit_table_b, vp_b_table, nhd_isEdit, ds_vt, check_sua_xoa);
+			b_handle_table(x, y, hd, n, delete_table_b, edit_table_b, vp_b_table, nhd_isEdit, ds_vt, check_sua_xoa,nhap,xuat);
 			if (check_sua_xoa == true && hd.first_cthd != NULL)
 			{
 				delete_after_header();
