@@ -4,7 +4,7 @@ struct VatTu {
 	char tenVT[26];
 	char DVT[7];
 	int SLT;
-	int sldaban;
+	int sldaban; // so luong hoadon 
 };
 // tree
 struct DS_VatTu {
@@ -23,11 +23,13 @@ struct DS_s_VT {
 	DS_s_VT* left = NULL;
 	DS_s_VT* right = NULL;
 };
-struct templeGoods {
-    DS_VatTu** a;
-    int capacity;
-    templeGoods(int size) {
-        capacity = size;
-        a = new DS_VatTu * [capacity];
-    }
+template <typename T>
+struct templeDynamicArray {
+	T** a;
+	int capacity;
+	int size_current = 0;
+	templeDynamicArray(int size) {
+		capacity = size;
+		a = new T * [capacity];
+	}
 };

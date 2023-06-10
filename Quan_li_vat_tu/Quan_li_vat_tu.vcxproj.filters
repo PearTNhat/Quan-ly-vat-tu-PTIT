@@ -47,7 +47,7 @@
     <ClInclude Include="Loading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="input_staff_good.h">
+    <ClInclude Include="input_staff_goods.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Goods_FuncTree.h">
@@ -58,9 +58,6 @@
     </ClInclude>
     <ClInclude Include="Goods_Func.h">
       <Filter>Header Files\Goods</Filter>
-    </ClInclude>
-    <ClInclude Include="Staff_Func.h">
-      <Filter>Header Files\Staff</Filter>
     </ClInclude>
     <ClInclude Include="Staff_Struct.h">
       <Filter>Header Files\Staff</Filter>
@@ -79,6 +76,21 @@
     </ClInclude>
     <ClInclude Include="Ss_page.h">
       <Filter>Header Files\Statistic</Filter>
+    </ClInclude>
+    <ClInclude Include="input_one.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Search_Goods.h">
+      <Filter>Header Files\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="Search_staffs.h">
+      <Filter>Header Files\Staff</Filter>
+    </ClInclude>
+    <ClInclude Include="CallbackInputt.h">
+      <Filter>Header Files\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff_func.h">
+      <Filter>Header Files\Staff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

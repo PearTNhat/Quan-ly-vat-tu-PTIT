@@ -1,13 +1,15 @@
 #pragma once
 #include "Header.h"
 #include "Goods_Struct.h"
+template <typename T>
 struct Stack {
-    DS_s_VT**a;
-    int top ;
+    T** a;
+    int top;
     int capacity;
-    Stack(int size) {       
+
+    Stack(int size) {
         capacity = size;
-        a = new DS_s_VT *[capacity];
+        a = new T * [capacity];
         top = -1;
     }
 
@@ -15,44 +17,14 @@ struct Stack {
         delete[] a;
     }
 };
-bool isEmpty(Stack& s) {
+
+template <typename T>
+bool isEmpty(Stack<T>& s) {
     return s.top == -1;
 }
-void push(Stack &s, DS_s_VT* x) {
-    if (s.capacity-1==s.top) {
-        cout << " Stack is overflow";
-    }
-    else {
-        s.a[++s.top] = x;
-    }
-}
-DS_s_VT* pop(Stack& s) {
-    if (s.top == -1) {
-        cout << " Stack is empty";
-        return NULL;
-    }   
-    return s.a[s.top--];
-    
-}
-struct StackVT {
-    DS_VatTu** a;
-    int top;
-    int capacity;
-    StackVT(int size) {
-        capacity = size;
-        a = new DS_VatTu * [capacity];
-        top = -1;
-    }
 
-    ~StackVT() {
-
-        delete[] a;
-    }
-};
-bool isEmpty(StackVT& s) {
-    return s.top == -1;
-}
-void push(StackVT& s, DS_VatTu* x) {
+template <typename T>
+void push(Stack<T>& s, T* x) {
     if (s.capacity - 1 == s.top) {
         cout << " Stack is overflow";
     }
@@ -60,12 +32,12 @@ void push(StackVT& s, DS_VatTu* x) {
         s.a[++s.top] = x;
     }
 }
-DS_VatTu* pop(StackVT& s) {
+
+template <typename T>
+T* pop(Stack<T>& s) {
     if (s.top == -1) {
         cout << " Stack is empty";
         return NULL;
     }
     return s.a[s.top--];
-
 }
-

@@ -14,8 +14,7 @@
 #include <cctype>
 #include "graphics.h"
 #include <sstream>
+#include <cstring>
+#include <iomanip>
 using namespace std;
 
-//void a() {
-//	b();
-//}

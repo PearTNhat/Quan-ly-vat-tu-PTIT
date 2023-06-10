@@ -25,14 +25,14 @@
 #define XANH_LA_CAY COLOR(0, 255, 0)
 #define PROHIBIT COLOR(200, 200, 190)
 
-char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","THANH TOAN","THONG KE" };
-char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};
+char header_title[4][maxTHeader] = { "VAT TU","NHAN VIEN","NHAP XUAT","THONG KE" };
+const char CURD_o_text[3][20] = { "Chinh sua","Xoa","Chi tiet"};
 
 //goods
-char g_table_header[][20] = { "MaVT","TenVT","Don vi","So luong ton","Chuc nang"};
+const char g_table_header[][20] = { "MaVT","TenVT","Don vi","So luong ton","Chuc nang"};
 
 //staff
-char sf_table_header[4][20] = { "MaNV","Ho Ten","Phai","Chuc nang"};
+const char sf_table_header[4][20] = { "MaNV","Ho Ten","Phai","Chuc nang"};
 
 const int bk_screen = COLOR(76, 98, 119);//COLOR(51, 73, 96);
 const int textColor = 0;
@@ -48,5 +48,7 @@ char table_doanhThu_header[2][20] = { "Thang", "Doanh thu (VND)" };
 char table_in_HD_header[][20] = { "Ten vat tu", "So luong", "Don gia", "%VAT", "Trang Thai", "Thanh tien (VND)" };
 
 //bill
-char bill_table_header[8][20] = { "MaVT","TenVT","Donvi","Soluong","Dongia","%VAT","Thanh Tien", "Chuc nang"};
-char tra_hang_cn[1][20] = { "Tra Hang" };
+const char bill_table_header[8][20] = { "MaVT","TenVT","Donvi","Soluong","Dongia","%VAT","Thanh Tien", "Chuc nang"};
+const char bill_mavt_header[][20] = { "MaVT","TenVT","Don vi","So luong ton","Chuc nang" };
+const char mavt_cn[1][20] = { "Chon" };
+const char tra_hang_cn[1][20] = { "Tra Hang" };

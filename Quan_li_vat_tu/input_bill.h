@@ -2,7 +2,7 @@
 #include "Header.h"
 #include "Constant.h"
 #include "Common.h"
-#include "input_staff_good.h"
+#include "input_staff_goods.h"
 
 void warning_msg_bill(string text, int e_l, int e_t, int bg, int color, int font)
 {

@@ -7,18 +7,24 @@
 #include "Bill_Func.h"
 #include "Ss_page.h"
 #include "Loading.h"
-
+// tim cach xoa mang con tro dong
+// them giaiphong cay tam
+// xem lai cac chatr global
+// xem lai enter xuong gender trong addd staff
+//xem lai  so 0 trong slt
+// xem lai giai phong du lieu trong search table
 int main() {
-
 	// nhân viên
+	string e_search_nv="";
 	check_CURD delete_sf;
 	check_CURD edit_sf;
 	view_page vp_m_sf;
-	bool sf_isEdit = false, sf_isAdd = false;
 	DS_NhanVien ds_nv;
+	bool sf_isEdit = false, sf_isAdd = false;
 	read_file_staff(ds_nv);
-	quick_sort_staff(ds_nv, 0, ds_nv.length - 1);
+	//quick_sort_staff(ds_nv, 0, ds_nv.length - 1);
 	// vật tư
+	string e_search_vt = "";
 	check_CURD delete_table_g;
 	check_CURD edit_table_g;
 	view_page vp_g_table;
@@ -63,8 +69,8 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-				goods_table(g_table_header, ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
-				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd);
+				
+				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd, e_search_vt);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
 				}
@@ -84,8 +90,7 @@ int main() {
 
 			if (sf_page) {
 				create_sf_header();
-				staff_table(sf_table_header, ds_nv, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
-				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd);
+				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd, e_search_nv);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
 				}
@@ -104,7 +109,7 @@ int main() {
 			if (b_page) {
 				//demoPhu();
 				b_create_menu_title();
-				bill_page(x, y, ds_nv, ds_vt, vp_m_ss, soHD);
+				bill_page(x, y, ds_nv, ds_vt, ds_s_vt, vp_m_ss, soHD);
 				b_page = false;
 				goto batdau;
 
