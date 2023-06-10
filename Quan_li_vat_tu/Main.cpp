@@ -7,12 +7,8 @@
 #include "Bill_Func.h"
 #include "Ss_page.h"
 #include "Loading.h"
-// tim cach xoa mang con tro dong
-// them giaiphong cay tam
-// xem lai cac chatr global
-// xem lai enter xuong gender trong addd staff
 //xem lai  so 0 trong slt
-// xem lai giai phong du lieu trong search table
+// xem redender rooi gan khoi tao lai bien co hayb k
 int main() {
 	// nhân viên
 	string e_search_nv="";
@@ -33,7 +29,7 @@ int main() {
 	DS_VatTu* ds_vt = NULL;
 	DS_s_VT* ds_s_vt = NULL;
 	read_file_goods(ds_vt);
-	coppyVTtoSVT(ds_vt, ds_s_vt);
+	//coppyVTtoSVT(ds_vt, ds_s_vt);
 	//
 	PTRHD ds_hd = NULL;
 	view_page vp_m_ss;
@@ -192,6 +188,7 @@ int main() {
 		}
 	}
 end:
+	deleteTree(ds_vt);
 	for (int i = 0; i < ds_nv.length; i++)
 	{
 		delete ds_nv.nhan_vien[i];

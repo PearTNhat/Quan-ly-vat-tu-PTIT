@@ -166,7 +166,7 @@ void create_sf_header(string subTitle,string search) {
 	if (search=="Nhap ten hoac id can tim kiem") {
 		colorsearch =COLOR(153, 150, 150);
 	}
-	text_box(50, 72, 400, 108, (char*)search.c_str(), f_medium, 1, 10, 10, WHITE, colorsearch);
+	text_box(50, 72, 410, 108, (char*)search.c_str(), f_medium, 1, 10, 10, WHITE, colorsearch);
 	setcolor(0);
 	setfillstyle(1, bk_screen);
 	text_box(950, 70, 1150, 110, (char*)subTitle.c_str(), f_medium,2 , 10, 20, 11);
@@ -212,8 +212,9 @@ void staff_table(
 	outtextxy(55, text_top, (char*)"STT");
 	outtextxy(95, text_top, (char*)sf_table_header[0]);
 	outtextxy(230, text_top, (char*)sf_table_header[1]);
-	outtextxy(650, text_top, (char*)sf_table_header[2]);
-	outtextxy(900, text_top, (char*)sf_table_header[3]);
+	outtextxy(550, text_top, (char*)sf_table_header[2]);
+	outtextxy(740, text_top, (char*)sf_table_header[3]);
+	outtextxy(900, text_top, (char*)sf_table_header[4]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	int d = 0;//delete
@@ -258,15 +259,10 @@ void staff_table(
 		strcpy_s(stt, to_string(i + 1).c_str());
 		writeText(55, text_top, stt, 1, 0, 3, 15);
 		writeText(95, text_top, nhan_vien[i]->maNV, 1, 0, 3, 15);
-		string fullName = nhan_vien[i]->ho;
-
-		fullName += " ";
-		fullName += (string)nhan_vien[i]->ten;
-
-		char ten[32];
-		strcpy_s(ten, fullName.c_str());
-		writeText(230, text_top, ten, 1, 0, 3, 15);
-		writeText(650, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
+	
+		writeText(230, text_top, nhan_vien[i]->ho, 1, 0, 3, 15);
+		writeText(550, text_top, nhan_vien[i]->ten, 1, 0, 3, 15);
+		writeText(740, text_top, nhan_vien[i]->phai, 1, 0, 3, 15);
 
 		//------------- k can co the xoa
 		text_box(900, text_top, 978, text_top + 23, (char*)CURD_o_text[0], f_small, 1, 1, 2);
@@ -379,6 +375,12 @@ start:;
 			}
 			if (ktVT(430, 285, 800, 315, x, y)) { // ten
 				t_ten = input(x, y, 430, 285, 800, 315, 5, 6, 5, 35, 50, t_ten, 8, "textNoSpace", "camelCase", COLOR_INFOR_SG, 430, 345);
+				if (x==430 && y==345) {
+					x = 430; y = 345;
+					if (t_gender == "Nu" ) {
+						x = 560;
+					}
+				}
 				if (sf_isAdd) {
 					if (t_ten.length() > 0) {
 						checkSubmit[2] = 1;
@@ -535,10 +537,10 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			//search
-			if (ktVT(50, 72, 400, 108, x, y)) {// search
+			if (ktVT(50, 72, 410, 108, x, y)) {// search
 				while (1) {
-					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 50);
-					if (!ktVT(50, 72, 400, 108, x, y)) {
+					e_search = input_one(x, y, 50, 72, 410, 108, 10, 10, e_search, 30);
+					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
 							create_sf_header( (string)" Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
 						}
@@ -627,7 +629,7 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 				delete_after_header();
 				staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 			}
-			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
+			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x,y)) {
 				sf_page = false;
 				goto sf_end;
 			}

@@ -59,7 +59,7 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			if (ktVT(50, 72, 400, 108, x, y)) {
 				while (1) {
-					value = input_one(x, y, 50, 72, 400, 108, 10, 10, value, 50);
+					value = input_one(x, y, 50, 72, 410, 108, 10, 10, value, 25);
 					if (!ktVT(50, 72, 400, 108, x, y)) {
 						if (value == "") {
 							create_sf_header((string)"    Tro ve", (string)"Nhap ten hoac id can tim kiem");
@@ -101,8 +101,7 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 				prev_page(495, 565, 530, 600, searhcing_view);
 				goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
 			}
-			if (ktVT(950, 70, 1150, 110,x,y) || ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
-				x = 0; y = 0;
+			if (ktVT(950, 70, 1150, 110,x,y) || ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
 				break;
 			}
 			delay(1);
