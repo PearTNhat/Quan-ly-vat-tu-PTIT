@@ -527,7 +527,7 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 	int search_empty = 0;
 	templeDynamicArray<NhanVien> fillter_nv(ds_nv.length);
 	search_staffs(ds_nv, fillter_nv, e_search);
-	staff_table(fillter_nv.a, fillter_nv.size_current, CURD_o_text, vp_m_sf, edit_sf, delete_sf, 10);
+	staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, 10);
 	if (e_search.length() > 0) {
 		create_sf_header((string)" Them vat tu", e_search);
 	}
@@ -560,7 +560,7 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
-						staff_table(fillter_nv.a, fillter_nv.size_current, CURD_o_text, vp_m_sf, edit_sf, delete_sf, 10,e_search);
+						staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, 10,e_search);
 					}
 					delay(1);
 				}
@@ -617,7 +617,7 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 				}
 				next_page(650, 565, 685, 600, vp_m_sf);
 				delete_after_header();
-				staff_table(fillter_nv.a, fillter_nv.size_current, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_m_sf.current == 1) {
@@ -625,7 +625,7 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 				}
 				prev_page(495, 565, 530, 600, vp_m_sf);
 				delete_after_header();
-				staff_table(fillter_nv.a, fillter_nv.size_current, CURD_o_text, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
 			}
 			if (ktVT(50, 10, 250, 50, x, y) || ktVT(350, 10, 550, 50, x, y) || ktVT(650, 10, 850, 50, x, y) || ktVT(950, 10, 1150, 50, x, y)) {
 				sf_page = false;

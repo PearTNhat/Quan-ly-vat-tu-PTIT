@@ -43,8 +43,8 @@ const int f_small = 3;// kc l? 1
 
 //thong 
 char title[5][30] = { "Top", "Ma VT", "Ten Vat Tu", "Don Vi Tinh", "Doanh Thu" };
-char ss_table_header[5][20] = { "So HD", "Ngay lap", "Loai HD", "Ho ten NV lap", "Tri gia HD (VND)" };
-char table_doanhThu_header[2][20] = { "Thang", "Doanh thu (VND)" };
+const char ss_table_header[5][20] = { "So HD", "Ngay lap", "Loai HD", "Ho ten NV lap", "Tri gia HD (VND)" };
+const char table_doanhThu_header[2][20] = { "Thang", "Doanh thu (VND)" };
 char table_in_HD_header[][20] = { "Ten vat tu", "So luong", "Don gia", "%VAT", "Trang Thai", "Thanh tien (VND)" };
 
 //bill

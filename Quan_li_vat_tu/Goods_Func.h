@@ -483,7 +483,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 	int search_empty = 0;
 	string placeholder = e_search;
 	DS_s_VT* result=NULL;
-	goods_table(ds_vt, ds_s_vt, CURD_o_text, vp_g_table, edit_table_g, delete_table_g, 10);
+	goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10);
 	if (e_search.length()>0) {
 		create_sf_header((string)" Them vat tu", placeholder);
 	}

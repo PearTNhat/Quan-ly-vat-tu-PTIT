@@ -250,7 +250,6 @@ void in_hoa_don_table(
 	writeText(10, 130, (char*)"CONG TY TNHH NHAT PHU PHUONG", 3, COLOR(51, 51, 51), f_medium, 15);
 	writeText(800, 130, (char*)"HOA DON BAN HANG", 4, COLOR(51, 51, 51), BOLD_FONT, 15); // bk_screen
 	// create bar	
-	//setlinestyle(0, 0, 2);
 	rectangle(-2, 160, 500, 290);
 	rectangle(500, 160, 1200, 290);
 	setfillstyle(1, COLOR(221, 221, 221));
@@ -318,9 +317,6 @@ void in_hoa_don_table(
 		writeText(70, text_top, stt, 1, 0, 3, 15);
 		DS_CT_HoaDon* tempNodeCT = getIndexCTHD(ds, i);
 		string tenVT;
-		//DS_VatTu* nodeVT = searchVT(root, tempNodeCT->ct_hoadon.MAVT);
-		//if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
-		//else tenVT = "Unknown";
 		DS_VatTu* nodeVT = getNodebyId_maVT(root, tempNodeCT->ct_hoadon.MAVT);
 		if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
 		else tenVT = "Unknown";
@@ -337,7 +333,7 @@ void in_hoa_don_table(
 			writeText(833, text_top, (char*)"Khach mua", 1, 0, 3, 15);
 		else
 			writeText(833, text_top, (char*)"Khach tra", 1, 0, 3, 15);
-		long double thanhtien = ((long double)tempNodeCT->ct_hoadon.Soluong * (long double)tempNodeCT->ct_hoadon.Dongia) + ((long double)tempNodeCT->ct_hoadon.Soluong * (long double)tempNodeCT->ct_hoadon.Dongia * (long double)tempNodeCT->ct_hoadon.VAT / 100);
+		long long thanhtien = (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia) + ceil(tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia * tempNodeCT->ct_hoadon.VAT / 100);
 		writeText(1010, text_top, (char*)formatNumber(thanhtien).c_str(), 1, 0, 3, 15);
 	}
 
@@ -353,11 +349,11 @@ void in_hoa_don_table(
 		settextstyle(f_small, 0, 2);
 		outtextxy(870, bar_bottom + 15 + 13, (char*)"Tong gia");
 		DS_CT_HoaDon* nodeIt = ds;
-		long double tonggia = 0;
+		long long tonggia = 0;
 		while (nodeIt != NULL) {
 			if (nodeIt->ct_hoadon.TrangThai == 1) {
-				long double giagoc = (long double)nodeIt->ct_hoadon.Soluong * (long double)nodeIt->ct_hoadon.Dongia;
-				long double thue = (long double)nodeIt->ct_hoadon.Soluong * (long double)nodeIt->ct_hoadon.Dongia * (long double)nodeIt->ct_hoadon.VAT / 100;
+				long long giagoc = nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia;
+				long long thue = ceil(nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia * nodeIt->ct_hoadon.VAT / 100);
 				tonggia += giagoc + thue;
 			}
 			nodeIt = nodeIt->next;
