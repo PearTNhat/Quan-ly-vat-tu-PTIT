@@ -544,7 +544,8 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 					placeholder = e_search;
 					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
-							create_sf_header( (string)"Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
+							placeholder = "Nhap ten hoac id can tim kiem";
+							create_sf_header( (string)"Them nhan vien", placeholder);
 						}
 						break;
 					}
