@@ -532,7 +532,7 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 	search_staffs(ds_nv, fillter_nv, e_search);
 	staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, 10);
 	if (placeholder.length() > 0) {
-		create_sf_header((string)" Them nhan vien", placeholder);
+		create_sf_header((string)"Them nhan vien", placeholder);
 	}
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -544,7 +544,8 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 					placeholder = e_search;
 					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
-							create_sf_header( (string)"Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
+							placeholder = "Nhap ten hoac id can tim kiem";
+							create_sf_header( (string)"Them nhan vien", placeholder);
 						}
 						break;
 					}
