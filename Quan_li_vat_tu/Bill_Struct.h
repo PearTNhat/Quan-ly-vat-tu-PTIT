@@ -21,7 +21,7 @@ struct CT_HoaDon
 	float VAT;
 	bool TrangThai;
 
-	bool operator==(CT_HoaDon& other)
+	/*bool operator==(CT_HoaDon& other)
 	{
 		if (strcmp(this->MAVT, other.MAVT) == 0 &&
 			this->Soluong == other.Soluong &&
@@ -43,7 +43,7 @@ struct CT_HoaDon
 			return true;
 
 		return  false;
-	}
+	}*/
 };
 
 struct DS_CT_HoaDon
@@ -658,51 +658,4 @@ DS_CT_HoaDon* getIndexCTHD(DS_CT_HoaDon* first, int index) {
 	return NULL;
 }
 
-char menu()
-{
-	char chucnang;
-	do
-	{
-		system("cls");
-		cout << "NHAP XUAT VAT TU \n";
-		cout << "  1: Tao hoa don\n";
-		cout << "  2: Them hoa don\n";
-		cout << "  3: Xem danh sach hoa don\n";
-		cout << "  4: Hieu chinh danh sach hoa don va chi tiet hoa don:\n";
-		cout << "  0: Ket thuc chuong trinh\n";
-		cout << "Chuc nang ban chon: ";
-		cin >> chucnang;
-	} while (chucnang < '0' || chucnang> '4');
-	return chucnang;
-}
 
-void demoPhu()
-{
-
-	char chucnang;
-	PTRHD First;
-	Initialize_HD(First);
-	do
-	{
-		chucnang = menu();
-		switch (chucnang)
-		{
-		case'1':
-		{
-			system("cls");
-
-			break;
-		}
-		case'3':
-		{
-			system("cls");
-			//XuatDSHoaDon(First);
-			system("pause");
-			break;
-		}
-		}
-	} while (chucnang != '0');
-
-	Clearlist_HD(First);
-	//return 0;
-}

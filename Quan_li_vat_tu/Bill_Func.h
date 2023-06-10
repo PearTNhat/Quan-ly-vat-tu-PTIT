@@ -1187,11 +1187,12 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 	bool checkX = false;
 	int svt_NULL = 0;
 	int search_empty = 0;
+	string placeholder = e_search == "" ? "Nhap ten hoac id can tim kiem" : e_search;
 	templeDynamicArray<NhanVien> fillter_nv(ds_nv.length);
 	search_staffs(ds_nv, fillter_nv, e_search);
 	nhd_manv_table(fillter_nv.a, fillter_nv.size_current, vp_manv_table, chon, 10);
-	if (e_search.length() > 0) {
-		create_sf_header((string)" Them vat tu", e_search);
+	if (placeholder.length() > 0) {
+		create_sf_header((string)" Them vat tu", placeholder);
 	}
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -1200,9 +1201,11 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 			if (ktVT(50, 72, 400, 108, x, y)) {// search
 				while (1) {
 					e_search = input_one(x, y, 50, 72, 410, 108, 10, 10, e_search, 30);
+					placeholder = e_search;
 					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
-							create_sf_header((string)" Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
+							placeholder = "Nhap ten hoac id can tim kiem";
+							create_sf_header((string)"Them nhan vien", placeholder);
 						}
 						break;
 					}
@@ -1245,7 +1248,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 				}
 				next_page(650, 565, 685, 600, vp_manv_table);
 				delete_after_header();
-				nhd_manv_table(fillter_nv.a, fillter_nv.size_current, vp_manv_table, chon, 10);
+				nhd_manv_table(fillter_nv.a, fillter_nv.size_current, vp_manv_table, chon, 10, placeholder);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_manv_table.current == 1) {
@@ -1253,7 +1256,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 				}
 				prev_page(495, 565, 530, 600, vp_manv_table);
 				delete_after_header();
-				nhd_manv_table(fillter_nv.a, fillter_nv.size_current, vp_manv_table, chon, 10);
+				nhd_manv_table(fillter_nv.a, fillter_nv.size_current, vp_manv_table, chon, 10, placeholder);
 			}
 			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y)) {
 				b_page = false;
@@ -3251,7 +3254,7 @@ void bill_trahang_table(
 		char VAT_char[8];
 		snprintf(VAT_char, sizeof(VAT_char), "%.2f", VAT);
 
-		long double TT = 0.00;
+		long long TT = 0;
 		TT = thanhtien1vt(SL, DG, VAT);
 		char TT_char[20];
 		snprintf(TT_char, sizeof(TT_char), "%.lld", TT);
