@@ -9,7 +9,6 @@
 #include "input_one.h"
 
 
-char table_in_HD_header[][20] = { "Ten vat tu", "So luong", "Don gia", "%VAT", "Trang Thai", "Thanh tien (VND)" };
 
 void highlight_box_b(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {
 	setcolor(0);
@@ -159,7 +158,7 @@ bool checksoluongnhap(DS_VatTu* root, char* mvt, string x) {
 	DS_VatTu* p = root;
 	while (p != NULL) {
 		if (strcmp(p->vat_tu.maVT, mvt) == 0) { // so sánh trường maVT trước
-			if (stoi(x) + p->vat_tu.SLT > 99999 ) { // so sánh trường SLT nếu maVT khớp
+			if (stoi(x) + p->vat_tu.SLT > 99999) { // so sánh trường SLT nếu maVT khớp
 				return false;
 			}
 			else {
@@ -251,7 +250,6 @@ void in_hoa_don_table(
 	writeText(10, 130, (char*)"CONG TY TNHH NHAT PHU PHUONG", 3, COLOR(51, 51, 51), f_medium, 15);
 	writeText(800, 130, (char*)"HOA DON BAN HANG", 4, COLOR(51, 51, 51), BOLD_FONT, 15); // bk_screen
 	// create bar	
-	//setlinestyle(0, 0, 2);
 	rectangle(-2, 160, 500, 290);
 	rectangle(500, 160, 1200, 290);
 	setfillstyle(1, COLOR(221, 221, 221));
@@ -319,9 +317,6 @@ void in_hoa_don_table(
 		writeText(70, text_top, stt, 1, 0, 3, 15);
 		DS_CT_HoaDon* tempNodeCT = getIndexCTHD(ds, i);
 		string tenVT;
-		//DS_VatTu* nodeVT = searchVT(root, tempNodeCT->ct_hoadon.MAVT);
-		//if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
-		//else tenVT = "Unknown";
 		DS_VatTu* nodeVT = getNodebyId_maVT(root, tempNodeCT->ct_hoadon.MAVT);
 		if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
 		else tenVT = "Unknown";
@@ -338,7 +333,7 @@ void in_hoa_don_table(
 			writeText(833, text_top, (char*)"Khach mua", 1, 0, 3, 15);
 		else
 			writeText(833, text_top, (char*)"Khach tra", 1, 0, 3, 15);
-		long double thanhtien = ((long double)tempNodeCT->ct_hoadon.Soluong * (long double)tempNodeCT->ct_hoadon.Dongia) + ((long double)tempNodeCT->ct_hoadon.Soluong * (long double)tempNodeCT->ct_hoadon.Dongia * (long double)tempNodeCT->ct_hoadon.VAT / 100);
+		long long thanhtien = (tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia) + ceil(tempNodeCT->ct_hoadon.Soluong * tempNodeCT->ct_hoadon.Dongia * tempNodeCT->ct_hoadon.VAT / 100);
 		writeText(1010, text_top, (char*)formatNumber(thanhtien).c_str(), 1, 0, 3, 15);
 	}
 
@@ -354,11 +349,11 @@ void in_hoa_don_table(
 		settextstyle(f_small, 0, 2);
 		outtextxy(870, bar_bottom + 15 + 13, (char*)"Tong gia");
 		DS_CT_HoaDon* nodeIt = ds;
-		long double tonggia = 0;
+		long long tonggia = 0;
 		while (nodeIt != NULL) {
 			if (nodeIt->ct_hoadon.TrangThai == 1) {
-				long double giagoc = (long double)nodeIt->ct_hoadon.Soluong * (long double)nodeIt->ct_hoadon.Dongia;
-				long double thue = (long double)nodeIt->ct_hoadon.Soluong * (long double)nodeIt->ct_hoadon.Dongia * (long double)nodeIt->ct_hoadon.VAT / 100;
+				long long giagoc = nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia;
+				long long thue = ceil(nodeIt->ct_hoadon.Soluong * nodeIt->ct_hoadon.Dongia * nodeIt->ct_hoadon.VAT / 100);
 				tonggia += giagoc + thue;
 			}
 			nodeIt = nodeIt->next;
@@ -400,7 +395,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root, view_page& 
 				delete_after_header();
 				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 4);
 			}
-			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y))  {
+			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
 				ss_page = false;
 				goto ss_end;
 			}
@@ -637,15 +632,18 @@ void chuyentrangthainhap(HoaDon& hd, DS_VatTu*& ds_vt)
 	}
 }
 
-long double thanhtien1vt(int& soluong, int& dongia, float& VAT)
+long long thanhtien1vt(int& soluong, int& dongia, float& VAT)
 {
-	long double a = 0;
-	a = (long double)soluong * (long double)dongia + (long double)soluong * (long double)dongia * (long double)(VAT / 100);
-	return a;
+	long long tonggia = 0;
+	long long giagoc = soluong * dongia;
+	long long thue = ceil(soluong * dongia * VAT / 100);
+	tonggia += giagoc + thue;
+
+	return tonggia;
 }
 
-long double tongPhanTuDSLKD(HoaDon& hd) {
-	long double sum = 0;
+long long tongPhanTuDSLKD(HoaDon& hd) {
+	long long sum = 0;
 	dscthd current = hd.first_cthd;
 	while (current != NULL) {
 		sum += thanhtien1vt(current->ct_hoadon.Soluong, current->ct_hoadon.Dongia, current->ct_hoadon.VAT);
@@ -654,9 +652,9 @@ long double tongPhanTuDSLKD(HoaDon& hd) {
 	return sum;
 }
 
-long double tongtrangthai0(HoaDon hd)
+long long tongtrangthai0(HoaDon hd)
 {
-	long double sum = 0;
+	long long sum = 0;
 	dscthd current = getNodesByTrangThai(hd.first_cthd, 0);
 	while (current != NULL) {
 		sum += thanhtien1vt(current->ct_hoadon.Soluong, current->ct_hoadon.Dongia, current->ct_hoadon.VAT);
@@ -665,9 +663,9 @@ long double tongtrangthai0(HoaDon hd)
 	return sum;
 }
 
-long double tongtrangthai1(HoaDon hd)
+long long tongtrangthai1(HoaDon hd)
 {
-	long double sum = 0;
+	long long sum = 0;
 	dscthd current = getNodesByTrangThai(hd.first_cthd, 1);
 	while (current != NULL) {
 		sum += thanhtien1vt(current->ct_hoadon.Soluong, current->ct_hoadon.Dongia, current->ct_hoadon.VAT);
@@ -776,10 +774,10 @@ void bill_nhd_table(
 		char VAT_char[8];
 		snprintf(VAT_char, sizeof(VAT_char), "%.2f", VAT);
 
-		long double TT = 0.00;
+		long long TT = 0.00;
 		TT = thanhtien1vt(SL, DG, VAT);
 		char TT_char[20];
-		snprintf(TT_char, sizeof(TT_char), "%.2Lf", TT);
+		snprintf(TT_char, sizeof(TT_char), "%.lld", TT);
 
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
@@ -834,7 +832,7 @@ void bill_infor(string mvt, string tvt, string dvt, string vat) {
 
 }
 
-void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu, string& c_soluongvt, string& c_dongiavt, string& c_vatvt, bool& nhd_isEdit, DS_VatTu*& ds_vt)
+void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu, string& c_soluongvt, string& c_dongiavt, string& c_vatvt, bool& nhd_isEdit, DS_VatTu*& ds_vt, bool& nhap, bool& xuat)
 {
 	int checkSubmit[4];
 	if (nhd_isEdit) {
@@ -852,9 +850,21 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 			if (ktVT(430, 225, 800, 255, x, y)) { // so luong
 				c_soluongvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, c_soluongvt, 6, "number", "camelCase", COLOR_INFOR_SG, 430, 285);
 
-				if (nhd_isEdit) {
+				if (nhd_isEdit && xuat == true) {
 					if (checksoluong(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
 						warning_msg((char*)"Khong du so luong.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+						checkSubmit[1] = -2;
+					}
+					else if (empty(c_soluongvt) == 1) {
+						checkSubmit[1] = -1;
+					}
+					else {
+						checkSubmit[1] = 1;
+					}
+				}
+				if (nhd_isEdit && nhap == true) {
+					if (checksoluongnhap(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
+						warning_msg((char*)"So luong nhap qua lon!", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 						checkSubmit[1] = -2;
 					}
 					else if (empty(c_soluongvt) == 1) {
@@ -906,7 +916,7 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 					bill_infor(c_mavattu, c_soluongvt, c_dongiavt, c_vatvt);
 					if (nhd_isEdit) {
 
-					text_box(430, 165, 800, 195, (char*)c_mavattu.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mnv
+						text_box(430, 165, 800, 195, (char*)c_mavattu.c_str(), f_medium, 1, 6, 5, PROHIBIT, 0); // mnv
 					}
 					x = NULL, y = NULL;
 					goto nhdInfor;
@@ -960,7 +970,7 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 nhd_end:;
 }
 
-void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table_b, check_CURD& edit_table_b, view_page& vp_b_table, bool& nhd_isEdit, DS_VatTu*& ds_vt)
+void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table_b, check_CURD& edit_table_b, view_page& vp_b_table, bool& nhd_isEdit, DS_VatTu*& ds_vt, bool& check_sua_xoa, bool& nhap, bool& xuat)
 {
 	dscthd p = hd.first_cthd;
 	CT_HoaDon temp;
@@ -986,6 +996,7 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 
 			bill_infor(str_MAVT, str_Soluong, str_Dongia, str_VAT);
 			nhd_isEdit = true;
+			check_sua_xoa = true;
 			goto bill_out;
 		}
 	}
@@ -1003,6 +1014,7 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 				xoaNodeByvitri(hd.first_cthd, i_CRUD);
 				n--;
 			}
+			check_sua_xoa = true;
 			goto bill_end;
 		}
 	}
@@ -1014,7 +1026,7 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 		else {
 			next_page(650, 565, 685, 600, vp_b_table);
 			delete_bill_table();
-			bill_nhd_table( hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+			bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
 
 		}
 	}
@@ -1030,7 +1042,7 @@ void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table
 
 		}
 	}
-	if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) ||ktVT(1140, 10, 1190, 50, x, y)) {
+	if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
 		b_page = false;
 		goto bill_end;
 	}
@@ -1044,7 +1056,7 @@ bill_out:
 		stringstream ss;
 		ss << fixed << setprecision(2) << temp.VAT;
 		string c_vatvt = ss.str();
-		handle_nhd_table(x, y, hd, i_CRUD, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhd_isEdit, ds_vt);
+		handle_nhd_table(x, y, hd, i_CRUD, c_mavattu, c_soluongvt, c_dongiavt, c_vatvt, nhd_isEdit, ds_vt, nhap, xuat);
 		nhd_isEdit = false;
 	}
 bill_end:;
@@ -1057,8 +1069,8 @@ void create_mavtmanv_header(string title, string search) {
 	if (search == "Nhap ten hoac id can tim kiem") {
 		colorsearch = COLOR(153, 150, 150);
 	}
-	text_box(50, 72, 400, 108, (char*)search.c_str(), f_medium, 1, 10, 10, WHITE, colorsearch);
-	text_box_no_border(600, 72, 1100, 108, (char*)title.c_str(), f_medium, 3, 10, 10, bk_screen, RED );
+	text_box(50, 72, 410, 108, (char*)search.c_str(), f_medium, 1, 10, 10, WHITE, colorsearch);
+	text_box_no_border(600, 72, 1100, 108, (char*)title.c_str(), f_medium, 3, 10, 10, bk_screen, RED);
 	//setcolor(0);
 	//setfillstyle(1, bk_screen);
 	//text_box(950, 70, 1150, 110, (char*)subTitle.c_str(), f_medium, 2, 10, 20, 11);
@@ -1187,8 +1199,8 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 			//search
 			if (ktVT(50, 72, 400, 108, x, y)) {// search
 				while (1) {
-					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 30);
-					if (!ktVT(50, 72, 400, 108, x, y)) {
+					e_search = input_one(x, y, 50, 72, 410, 108, 10, 10, e_search, 30);
+					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
 							create_sf_header((string)" Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
 						}
@@ -1219,7 +1231,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 			//delete
 			for (int i = 0; i < chon.n; i++)
 			{
-				
+
 				if (ktVT(chon.data[i].l, chon.data[i].t, chon.data[i].r, chon.data[i].b, x, y)) {
 					i_CRUD = (vp_manv_table.current - 1) * ROW_STAFF + i;
 					strcpy((char*)manvphu, fillter_nv.a[i_CRUD]->maNV);
@@ -1358,7 +1370,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 	int svt_NULL = 0;
 	int search_empty = 0;
 	string placeholder = e_search;
-	DS_s_VT* result = NULL;
+	search_goods(ds_vt, ds_s_vt, e_search);
 	nhd_mavt_table(ds_vt, ds_s_vt, vp_mavt_table, chon, 10);
 	if (e_search.length() > 0) {
 		create_sf_header((string)" Them vat tu", placeholder);
@@ -1366,11 +1378,10 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
-		batdau:
-			if (ktVT(50, 72, 400, 108, x, y)) {// search
+			if (ktVT(50, 72, 410, 108, x, y)) {// search
 				while (1) {
-					e_search = input_one(x, y, 50, 72, 400, 108, 10, 10, e_search, 25);
-					if (!ktVT(50, 72, 400, 108, x, y)) {
+					e_search = input_one(x, y, 50, 72, 410, 108, 10, 10, e_search, 25);
+					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
 							placeholder = "Nhap ten hoac id can tim kiem";
 							create_sf_header((string)" Them vat tu", placeholder);
@@ -1378,27 +1389,24 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 						break;
 					}
 					placeholder = e_search;
-					result = NULL;
-					search_goods(ds_vt, result, e_search);
 					deleteTree(ds_s_vt);
 					ds_s_vt = NULL;
-					coppyVTtoSVT(result, ds_s_vt);
+					search_goods(ds_vt, ds_s_vt, e_search);
 					if (e_search == "") {
 						search_empty++;
 					}
 					else {
 						search_empty = 0;
 					}
-					if (result == NULL) {
+					if (ds_s_vt == NULL) {
 						svt_NULL++;
 					}
 					else {
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
-						nhd_mavt_table(ds_vt, result, vp_mavt_table, chon, 10, placeholder);
+						nhd_mavt_table(ds_vt, ds_s_vt, vp_mavt_table, chon, 10, placeholder);
 					}
-					deleteTree(result);
 					delay(1);
 				}
 
@@ -1446,7 +1454,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 				}
 				next_page(650, 565, 685, 600, vp_mavt_table);
 				delete_after_header();
-				nhd_mavt_table( ds_vt, ds_s_vt, vp_mavt_table, chon, 10, placeholder);
+				nhd_mavt_table(ds_vt, ds_s_vt, vp_mavt_table, chon, 10, placeholder);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_mavt_table.current == 1) {
@@ -1454,7 +1462,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 				}
 				prev_page(495, 565, 530, 600, vp_mavt_table);
 				delete_after_header();
-				nhd_mavt_table( ds_vt, ds_s_vt, vp_mavt_table, chon, 10, placeholder);
+				nhd_mavt_table(ds_vt, ds_s_vt, vp_mavt_table, chon, 10, placeholder);
 			}
 			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y)) {
 				b_page = false;
@@ -1463,10 +1471,12 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 		}
 		delay(1);
 	}
+
+
+bill_end:
+	deleteTree(ds_s_vt);
+	ds_s_vt = NULL;
 	return true;
-
-bill_end:;
-
 }
 
 int saukhithemvt(HoaDon& hd, int& n, char(&c_sohoadon)[21], char(&c_manhanvien)[11], bool& nhap, bool& xuat, int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, string& e_search_mavt)
@@ -1486,10 +1496,14 @@ lannua:
 	char c_dongiavt[11] = "";
 	char c_vatvt[6] = "10";
 
+	int sovt = 0;
+	int sovtphu = 0;
 	char mavtphu2[11] = "";
-	check_CURD chon;
+	check_CURD chonvt2;
 	view_page vp_mavt_table;
 	bool mavt_isChon = false;
+
+	bool check_sua_xoa = false;
 
 	//bool nhap = false, xuat = false;
 	//bool sohd = false, manv = false;
@@ -1501,8 +1515,25 @@ lannua:
 	string curr_date = to_string(ltm->tm_mday);
 	string curr_month = to_string(1 + ltm->tm_mon);
 	string curr_year = to_string(1900 + ltm->tm_year);
-
+	if (hd.first_cthd != NULL)
+	{
+		delete_after_header();
+		b_create_menu_title();
+		highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+		khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+		bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+		long long TONGCONG = tongPhanTuDSLKD(hd);
+		text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+		text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+		text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+		text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+		text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+		khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+		text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+		khung_b_nhd();
+	}
 	goto bang;
+helo:
 	while (1)
 	{
 		if (ismouseclick(WM_LBUTTONDOWN))
@@ -1513,9 +1544,10 @@ lannua:
 			{
 				resetbaoloi();
 			MAVT2:
-				if (mavt == true)
+				if (mavt == true && hd.first_cthd != NULL)
 				{
-					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap, hd, e_search_mavt);
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chonvt2, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap, hd, e_search_mavt);
+					cout << "???????????????????????????";
 					d = mavtphu2;
 					strcpy(mavtphu2, "");
 					delete_after_header();
@@ -1525,28 +1557,84 @@ lannua:
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
 					setlinestyle(0, 0, 1);
-					//d = input_bill(x, y, 235, 171, 430, 195, 5, 3, 985, 125, 1175, 215, c_mavattu, 10, "textNumberNoSpace", "upcase");
+					khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+					bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+					long long TONGCONG = tongPhanTuDSLKD(hd);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+					strcpy(c_mavattu2, "");
+
+				}
+				if (mavt == false && hd.first_cthd != NULL)
+				{
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chonvt2, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap, hd, e_search_mavt);
+
+					d = mavtphu2;
+					strcpy(mavtphu2, "");
+					delete_after_header();
+					createHeader(header_title);
+					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					b_delete_after_create();
+					setlinestyle(0, 0, 1);
+					khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+					bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+					long long TONGCONG = tongPhanTuDSLKD(hd);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+
+				}
+				if (mavt == true && hd.first_cthd == NULL)
+				{
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chonvt2, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap, hd, e_search_mavt);
+
+					d = mavtphu2;
+					strcpy(mavtphu2, "");
+					delete_after_header();
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, TONGCONG_char, f_medium, 2, 1, 30, 15, 0);
+
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
 					strcpy(c_mavattu2, "");
 				}
-				if (mavt == false)
+				if (mavt == false && hd.first_cthd == NULL)
 				{
-					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap,hd, e_search_mavt);
-					if (b_page == true)
-					{
-						d = mavtphu2;
-						strcpy(mavtphu2, "");
-						delete_after_header();
-						createHeader(header_title);
-						highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
-						b_create_menu_title();
-						highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
-						b_delete_after_create();
-						setlinestyle(0, 0, 1);
-					}
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chonvt2, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap, hd, e_search_mavt);
 
-					//d = input_bill(x, y, 235, 171, 430, 195, 5, 3, 985, 125, 1175, 215, "", 10, "textNumberNoSpace", "upcase");
+					d = mavtphu2;
+					strcpy(mavtphu2, "");
+					delete_after_header();
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, TONGCONG_char, f_medium, 2, 1, 30, 15, 0);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
 				}
-		
+
+
 				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
 					ktVT(320, 10, 520, 50, x, y) || // nhan vien
 					ktVT(620, 10, 820, 50, x, y) || // thanh toan
@@ -1557,7 +1645,7 @@ lannua:
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					return 2;
-					
+
 				}
 				if (checktrungmavt(ds_vt, d) == true)
 				{
@@ -1925,22 +2013,22 @@ lannua:
 				ktVT(920, 10, 1120, 50, x, y) || // thong ke
 				ktVT(15, 70, 310, 110, x, y) || // lap hoa don
 				ktVT(350, 70, 645, 110, x, y) || // tra hang
-				ktVT(685, 70, 980, 110, x, y)||
+				ktVT(685, 70, 980, 110, x, y) ||
 				ktVT(1140, 10, 1190, 50, x, y)) // thoat
 			{
 				return 2;
 			}
-			
+
 		bang:
-			b_handle_table(x, y, hd, n, delete_table_b, edit_table_b, vp_b_table, nhd_isEdit, ds_vt);
-			if (hd.first_cthd != NULL)
+			b_handle_table(x, y, hd, n, delete_table_b, edit_table_b, vp_b_table, nhd_isEdit, ds_vt, check_sua_xoa, nhap, xuat);
+			if (check_sua_xoa == true && hd.first_cthd != NULL)
 			{
 				delete_after_header();
 				b_create_menu_title();
 				highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 				khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
 				bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
-				long double TONGCONG = tongPhanTuDSLKD(hd);
+				long long TONGCONG = tongPhanTuDSLKD(hd);
 				text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
 				text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
 				text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
@@ -1949,8 +2037,9 @@ lannua:
 				khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
 				text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
 				khung_b_nhd();
+				check_sua_xoa = false;
 			}
-			else
+			if (check_sua_xoa == true && hd.first_cthd == NULL)
 			{
 				delete_after_header();
 				b_create_menu_title();
@@ -1959,9 +2048,10 @@ lannua:
 				text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
 				text_box_no_border(590, 195, 980, 220, TONGCONG_char, f_medium, 2, 1, 30, 15, 0);
 				khung_b_nhd();
-				goto MAVT2;
+				check_sua_xoa = false;
+				goto helo;
 			}
-			
+
 
 		}
 	}
@@ -1969,7 +2059,7 @@ lannua:
 
 
 
-void nhd_bill(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt, DS_s_VT *& ds_s_vt)
+void nhd_bill(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt)
 {
 nhd:
 	HoaDon hd;
@@ -2014,8 +2104,8 @@ nhd:
 	setlinestyle(0, 0, 1);
 	khunglan1();
 	khung_b_nhd();
-		
-	
+
+
 
 	while (1)
 	{
@@ -2116,12 +2206,12 @@ nhd:
 					{
 						goto batdau;
 					}
-					if(manv == false) goto MANV;
+					if (manv == false) goto MANV;
 					if (mavt == false) goto MAVT;
 					if (soluong == false) goto SL;
 					if (dongia == false) goto DG;
 					if (vat == false) goto VAT;
-					
+
 				}
 				if (ktVT(110, 120, 590, 145, x, y) || //sohd
 					ktVT(590, 120, 980, 145, x, y) || //manv
@@ -2144,79 +2234,77 @@ nhd:
 			MANV:
 				if (manv == true)
 				{
-					bool manv_out = manv_handle_table(x, y, ds_nv, chon, vp_manv_table, manv_isChon,manvphu, e_search_manv);
-					if (b_page == true)
+					bool manv_out = manv_handle_table(x, y, ds_nv, chon, vp_manv_table, manv_isChon, manvphu, e_search_manv);
+
+					d = manvphu;
+					strcpy(manvphu, "");
+					delete_after_header();
+					createHeader(header_title);
+					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					b_delete_after_create();
+					setlinestyle(0, 0, 1);
+					khunglan1();
+					//nx
+					if (nhap == true)
 					{
-						d = manvphu;
-						strcpy(manvphu, "");
-						delete_after_header();
-						createHeader(header_title);
-						highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
-						b_create_menu_title();
-						highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
-						b_delete_after_create();
-						setlinestyle(0, 0, 1);
-						khunglan1();
-						//nx
-						if (nhap == true)
-						{
-							text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
-							text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
-						}
-						if (xuat == true)
-						{
-							text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
-							text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
-						}
-						text_box_no_border(250, 121, 590, 145, c_sohoadon, f_medium, 1, 3, 5, 9);
-						text_box_no_border(235, 171, 430, 195, c_mavattu, f_medium, 1, 3, 5, 9);
-						text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
-						khung_b_nhd();
-						text_box_no_border(750, 121, 980, 145, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
-
-
-						//d = input_bill(x, y, 750, 121, 980, 145, 5, 3, 985, 125, 1175, 215, c_manhanvien, 10, "textNumberNoSpace", "upcase");
-						strcpy(c_manhanvien, "");
+						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
+						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
 					}
+					if (xuat == true)
+					{
+						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
+						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
+					}
+					text_box_no_border(250, 121, 590, 145, c_sohoadon, f_medium, 1, 3, 5, 9);
+					text_box_no_border(235, 171, 430, 195, c_mavattu, f_medium, 1, 3, 5, 9);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(750, 121, 980, 145, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+
+
+					//d = input_bill(x, y, 750, 121, 980, 145, 5, 3, 985, 125, 1175, 215, c_manhanvien, 10, "textNumberNoSpace", "upcase");
+					strcpy(c_manhanvien, "");
+
 				}
 				if (manv == false)
 				{
 					bool manv_out = manv_handle_table(x, y, ds_nv, chon, vp_manv_table, manv_isChon, manvphu, e_search_manv);
-					if (b_page == true)
-					{
-						d = manvphu;
-						strcpy(manvphu, "");
-						delete_after_header();
-						createHeader(header_title);
-						highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
-						b_create_menu_title();
-						highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
-						b_delete_after_create();
-						setlinestyle(0, 0, 1);
-						khunglan1();
-						//nx
-						if (nhap == true)
-						{
-							text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
-							text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
-						}
-						if (xuat == true)
-						{
-							text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
-							text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
-						}
-						text_box_no_border(250, 121, 590, 145, c_sohoadon, f_medium, 1, 3, 5, 9);
-						text_box_no_border(235, 171, 430, 195, c_mavattu, f_medium, 1, 3, 5, 9);
-						text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
-						khung_b_nhd();
-						text_box_no_border(750, 121, 980, 145, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
 
-						//d = input_bill(x, y, 750, 121, 980, 145, 5, 3, 985, 125, 1175, 215, "", 10, "textNumberNoSpace", "upcase");
+					d = manvphu;
+					strcpy(manvphu, "");
+					delete_after_header();
+					createHeader(header_title);
+					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					b_delete_after_create();
+					setlinestyle(0, 0, 1);
+					khunglan1();
+					//nx
+					if (nhap == true)
+					{
+						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
+						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
 					}
+					if (xuat == true)
+					{
+						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
+						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
+					}
+					text_box_no_border(250, 121, 590, 145, c_sohoadon, f_medium, 1, 3, 5, 9);
+					text_box_no_border(235, 171, 430, 195, c_mavattu, f_medium, 1, 3, 5, 9);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(750, 121, 980, 145, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+
+					//d = input_bill(x, y, 750, 121, 980, 145, 5, 3, 985, 125, 1175, 215, "", 10, "textNumberNoSpace", "upcase");
+
 				}
 				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
 					ktVT(320, 10, 520, 50, x, y) || // nhan vien
@@ -2279,8 +2367,8 @@ nhd:
 						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
 						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
 						khung_b_nhd();
-						nhap = true; xuat = false;mavt = false;
-						
+						nhap = true; xuat = false; mavt = false;
+
 						continue;
 					}
 					if (ktVT(20, 170, 100, 210, x, y))
@@ -2289,85 +2377,82 @@ nhd:
 						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
 						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
 						khung_b_nhd();
-						nhap = false; xuat = true;mavt = false;
+						nhap = false; xuat = true; mavt = false;
 						continue;
 					}
 				}
 				if (mavt == true)
 				{
 
-					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon, mavtphu, xuat, nhap,hd, e_search_mavt);
-					if (b_page == true)
-					{
-						d = mavtphu;
-						strcpy(mavtphu, "");
-						delete_after_header();
-						createHeader(header_title);
-						highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
-						b_create_menu_title();
-						highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
-						b_delete_after_create();
-						setlinestyle(0, 0, 1);
-						khunglan1();
-						//nx
-						if (nhap == true)
-						{
-							text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
-							text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
-						}
-						if (xuat == true)
-						{
-							text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
-							text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
-						}
-						text_box_no_border(250, 121, 590, 145, c_sohoadon, f_medium, 1, 3, 5, 9);
-						text_box_no_border(750, 121, 980, 145, c_manhanvien, f_medium, 1, 3, 5, 9);
-						text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
-						khung_b_nhd();
-						text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon, mavtphu, xuat, nhap, hd, e_search_mavt);
 
-						//d = input_bill(x, y, 235, 171, 430, 195, 5, 3, 985, 125, 1175, 215, c_mavattu, 10, "textNumberNoSpace", "upcase");
-						strcpy(c_mavattu, "");
+					d = mavtphu;
+					strcpy(mavtphu, "");
+					delete_after_header();
+					createHeader(header_title);
+					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					b_delete_after_create();
+					setlinestyle(0, 0, 1);
+					khunglan1();
+					//nx
+					if (nhap == true)
+					{
+						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
+						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
 					}
+					if (xuat == true)
+					{
+						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
+						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
+					}
+					text_box_no_border(250, 121, 590, 145, c_sohoadon, f_medium, 1, 3, 5, 9);
+					text_box_no_border(750, 121, 980, 145, c_manhanvien, f_medium, 1, 3, 5, 9);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+
+					//d = input_bill(x, y, 235, 171, 430, 195, 5, 3, 985, 125, 1175, 215, c_mavattu, 10, "textNumberNoSpace", "upcase");
+					strcpy(c_mavattu, "");
 				}
 				if (mavt == false)
 				{
 					// doan nay ne 
-					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon,mavtphu,xuat, nhap,hd, e_search_mavt);
-					if (b_page == true)
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, mavt_isChon, mavtphu, xuat, nhap, hd, e_search_mavt);
+
+					d = mavtphu;
+					strcpy(mavtphu, "");
+					delete_after_header();
+					createHeader(header_title);
+					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					b_delete_after_create();
+					setlinestyle(0, 0, 1);
+					khunglan1();
+					if (nhap == true)
 					{
-						d = mavtphu;
-						strcpy(mavtphu, "");
-						delete_after_header();
-						createHeader(header_title);
-						highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
-						b_create_menu_title();
-						highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
-						b_delete_after_create();
-						setlinestyle(0, 0, 1);
-						khunglan1();
-						if (nhap == true)
-						{
-							text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
-							text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
-						}
-						if (xuat == true)
-						{
-							text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
-							text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
-						}
-						text_box_no_border(250, 121, 590, 145, c_sohoadon, f_medium, 1, 3, 5, 9);
-						text_box_no_border(750, 121, 980, 145, c_manhanvien, f_medium, 1, 3, 5, 9);
-						text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
-						khung_b_nhd();
-						text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 9);
+						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 14, 0);
 					}
-			
-					
+					if (xuat == true)
+					{
+						text_box_no_border(20, 130, 100, 170, (char*)"N", f_medium, 3, 10, 30, 9);
+						text_box_no_border(20, 170, 100, 210, (char*)"X", f_medium, 3, 10, 30, 14, 0);
+					}
+					text_box_no_border(250, 121, 590, 145, c_sohoadon, f_medium, 1, 3, 5, 9);
+					text_box_no_border(750, 121, 980, 145, c_manhanvien, f_medium, 1, 3, 5, 9);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+
+
+
 				}
 				if (ktVT(20, 10, 220, 50, x, y) || //vat tu
 					ktVT(320, 10, 520, 50, x, y) || // nhan vien
@@ -2487,7 +2572,7 @@ nhd:
 					}
 					goto DG;
 				}
-				
+
 				if (nhap == true)
 				{
 					soluong = true;
@@ -2813,7 +2898,7 @@ nhd:
 					khung_b_nhd();
 					//vat tu lan 2 tu day xuong
 					int thoat2 = saukhithemvt(hd, n, c_sohoadon, c_manhanvien, nhap, xuat, x, y, ds_nv, ds_vt, ds_s_vt, e_search_mavt);
-					if(thoat2 == 2)
+					if (thoat2 == 2)
 					{
 						break;
 					}
@@ -3004,8 +3089,8 @@ void khungtrahang(HoaDon& hd, HoaDon& p, NhanVien*& nv, HoaDon& u)
 	{
 		text_box_no_border(10, 120, 110, 220, (char*)"X", f_medium, 8, 10, 25, 15, 0);
 	}
-	long double TONGCONGtra = tongPhanTuDSLKD(u);
-	long double TONGCONG = tongPhanTuDSLKD(hd);
+	long long TONGCONGtra = tongPhanTuDSLKD(u);
+	long long TONGCONG = tongPhanTuDSLKD(hd);
 	text_box_no_border(110, 170, 590, 195, (char*)"TRA LAI CHO KHACH", f_medium, 2, 5, 120, 15, 0);
 	text_box_no_border(110, 195, 590, 220, (char*)formatNumber(long long(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
 	text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
@@ -3169,7 +3254,7 @@ void bill_trahang_table(
 		long double TT = 0.00;
 		TT = thanhtien1vt(SL, DG, VAT);
 		char TT_char[20];
-		snprintf(TT_char, sizeof(TT_char), "%.2Lf", TT);
+		snprintf(TT_char, sizeof(TT_char), "%.lld", TT);
 
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
@@ -3201,8 +3286,8 @@ void bill_trahang_table(
 
 void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, view_page& vp_b_table, HoaDon& tra, DS_VatTu*& ds_vt)
 {
-	long double TONGCONGtra;
-	long double TONGCONG;
+	long long TONGCONGtra;
+	long long TONGCONG;
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_B_nhd = true;
@@ -3227,14 +3312,14 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 
 						text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
 						text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
-						cout << "?????!!!!!";
+
 						goto bill_end;
 					}
 					goto bill_end;
 				}
 
 			}
-			
+
 			// transition page
 			if (ktVT(650, 565, 685, 600, x, y)) {
 				if (vp_b_table.current == vp_b_table.page) {
@@ -3243,7 +3328,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 				else {
 					next_page(650, 565, 685, 600, vp_b_table);
 					delete_bill_table();
-					bill_trahang_table( hd, vp_b_table, edit_table_b, 7, ds_vt);
+					bill_trahang_table(hd, vp_b_table, edit_table_b, 7, ds_vt);
 
 				}
 			}
@@ -3471,7 +3556,7 @@ void bill_page(int& x, int& y, DS_NhanVien& ds_nv, DS_VatTu*& ds_vt, DS_s_VT*& d
 		batdau:
 			if (ktVT(15, 70, 310, 110, x, y))
 			{
-				nhd_bill(x, y, ds_nv, ds_vt,ds_s_vt);
+				nhd_bill(x, y, ds_nv, ds_vt, ds_s_vt);
 				goto batdau;
 			}
 			if (ktVT(350, 70, 645, 110, x, y))
