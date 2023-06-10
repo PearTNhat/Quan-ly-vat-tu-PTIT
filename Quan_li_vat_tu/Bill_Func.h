@@ -632,15 +632,18 @@ void chuyentrangthainhap(HoaDon& hd, DS_VatTu*& ds_vt)
 	}
 }
 
-long double thanhtien1vt(int& soluong, int& dongia, float& VAT)
+long long thanhtien1vt(int& soluong, int& dongia, float& VAT)
 {
-	long double a = 0;
-	a = (long double)soluong * (long double)dongia + (long double)soluong * (long double)dongia * (long double)(VAT / 100);
-	return a;
+	long long tonggia = 0;
+	long long giagoc = soluong * dongia;
+	long long thue = ceil(soluong * dongia * VAT / 100);
+	tonggia += giagoc + thue;
+
+	return tonggia;
 }
 
-long double tongPhanTuDSLKD(HoaDon& hd) {
-	long double sum = 0;
+long long tongPhanTuDSLKD(HoaDon& hd) {
+	long long sum = 0;
 	dscthd current = hd.first_cthd;
 	while (current != NULL) {
 		sum += thanhtien1vt(current->ct_hoadon.Soluong, current->ct_hoadon.Dongia, current->ct_hoadon.VAT);
@@ -649,9 +652,9 @@ long double tongPhanTuDSLKD(HoaDon& hd) {
 	return sum;
 }
 
-long double tongtrangthai0(HoaDon hd)
+long long tongtrangthai0(HoaDon hd)
 {
-	long double sum = 0;
+	long long sum = 0;
 	dscthd current = getNodesByTrangThai(hd.first_cthd, 0);
 	while (current != NULL) {
 		sum += thanhtien1vt(current->ct_hoadon.Soluong, current->ct_hoadon.Dongia, current->ct_hoadon.VAT);
@@ -660,9 +663,9 @@ long double tongtrangthai0(HoaDon hd)
 	return sum;
 }
 
-long double tongtrangthai1(HoaDon hd)
+long long tongtrangthai1(HoaDon hd)
 {
-	long double sum = 0;
+	long long sum = 0;
 	dscthd current = getNodesByTrangThai(hd.first_cthd, 1);
 	while (current != NULL) {
 		sum += thanhtien1vt(current->ct_hoadon.Soluong, current->ct_hoadon.Dongia, current->ct_hoadon.VAT);
@@ -771,10 +774,10 @@ void bill_nhd_table(
 		char VAT_char[8];
 		snprintf(VAT_char, sizeof(VAT_char), "%.2f", VAT);
 
-		long double TT = 0.00;
+		long long TT = 0.00;
 		TT = thanhtien1vt(SL, DG, VAT);
 		char TT_char[20];
-		snprintf(TT_char, sizeof(TT_char), "%.2Lf", TT);
+		snprintf(TT_char, sizeof(TT_char), "%.lld", TT);
 
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
@@ -967,7 +970,7 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 nhd_end:;
 }
 
-void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table_b, check_CURD& edit_table_b, view_page& vp_b_table, bool& nhd_isEdit, DS_VatTu*& ds_vt, bool& check_sua_xoa, bool& nhap,bool& xuat)
+void b_handle_table(int& x, int& y, HoaDon& hd, int& n, check_CURD& delete_table_b, check_CURD& edit_table_b, view_page& vp_b_table, bool& nhd_isEdit, DS_VatTu*& ds_vt, bool& check_sua_xoa, bool& nhap, bool& xuat)
 {
 	dscthd p = hd.first_cthd;
 	CT_HoaDon temp;
@@ -1468,7 +1471,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 		}
 		delay(1);
 	}
-	
+
 
 bill_end:
 	deleteTree(ds_s_vt);
@@ -1519,7 +1522,7 @@ lannua:
 		highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 		khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
 		bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
-		long double TONGCONG = tongPhanTuDSLKD(hd);
+		long long TONGCONG = tongPhanTuDSLKD(hd);
 		text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
 		text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
 		text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
@@ -1530,7 +1533,7 @@ lannua:
 		khung_b_nhd();
 	}
 	goto bang;
-	helo:
+helo:
 	while (1)
 	{
 		if (ismouseclick(WM_LBUTTONDOWN))
@@ -1541,56 +1544,76 @@ lannua:
 			{
 				resetbaoloi();
 			MAVT2:
-				if (mavt == true)
+				if (mavt == true && hd.first_cthd != NULL)
 				{
 					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chonvt2, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap, hd, e_search_mavt);
 					cout << "???????????????????????????";
-						d = mavtphu2;
-						strcpy(mavtphu2, "");
-						delete_after_header();
-						createHeader(header_title);
-						highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
-						b_create_menu_title();
-						highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
-						b_delete_after_create();
-						setlinestyle(0, 0, 1);
-						khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
-						bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
-						long double TONGCONG = tongPhanTuDSLKD(hd);
-						text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
-						text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
-						text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
-						khung_b_nhd();
-						text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
-						strcpy(c_mavattu2, "");
-					
+					d = mavtphu2;
+					strcpy(mavtphu2, "");
+					delete_after_header();
+					createHeader(header_title);
+					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					b_delete_after_create();
+					setlinestyle(0, 0, 1);
+					khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+					bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+					long long TONGCONG = tongPhanTuDSLKD(hd);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+					strcpy(c_mavattu2, "");
+
 				}
 				if (mavt == false && hd.first_cthd != NULL)
 				{
 					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chonvt2, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap, hd, e_search_mavt);
-					
-						d = mavtphu2;
-						strcpy(mavtphu2, "");
-						delete_after_header();
-						createHeader(header_title);
-						highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
-						b_create_menu_title();
-						highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
-						b_delete_after_create();
-						setlinestyle(0, 0, 1);
-						khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
-						bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
-						long double TONGCONG = tongPhanTuDSLKD(hd);
-						text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
-						text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
-						text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
-						text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
-						khung_b_nhd();
-						text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
-					
+
+					d = mavtphu2;
+					strcpy(mavtphu2, "");
+					delete_after_header();
+					createHeader(header_title);
+					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					b_delete_after_create();
+					setlinestyle(0, 0, 1);
+					khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+					bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
+					long long TONGCONG = tongPhanTuDSLKD(hd);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+
+				}
+				if (mavt == true && hd.first_cthd == NULL)
+				{
+					bool mavt_out = mavt_handle_table(x, y, ds_vt, ds_s_vt, chonvt2, vp_mavt_table, mavt_isChon, mavtphu2, xuat, nhap, hd, e_search_mavt);
+
+					d = mavtphu2;
+					strcpy(mavtphu2, "");
+					delete_after_header();
+					b_create_menu_title();
+					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
+					khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
+					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
+					text_box_no_border(590, 195, 980, 220, TONGCONG_char, f_medium, 2, 1, 30, 15, 0);
+
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
+					khung_b_nhd();
+					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
+					strcpy(c_mavattu2, "");
 				}
 				if (mavt == false && hd.first_cthd == NULL)
 				{
@@ -1604,6 +1627,9 @@ lannua:
 					khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
 					text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
 					text_box_no_border(590, 195, 980, 220, TONGCONG_char, f_medium, 2, 1, 30, 15, 0);
+					text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(450, 196, 590, 220, c_dongiavt, f_medium, 1, 3, 5, 9);
+					text_box_no_border(495, 171, 590, 195, c_vatvt, f_medium, 1, 3, 5, 9);
 					khung_b_nhd();
 					text_box_no_border(235, 171, 430, 195, (char*)d.c_str(), f_medium, 1, 3, 5, 9);
 				}
@@ -1994,7 +2020,7 @@ lannua:
 			}
 
 		bang:
-			b_handle_table(x, y, hd, n, delete_table_b, edit_table_b, vp_b_table, nhd_isEdit, ds_vt, check_sua_xoa,nhap,xuat);
+			b_handle_table(x, y, hd, n, delete_table_b, edit_table_b, vp_b_table, nhd_isEdit, ds_vt, check_sua_xoa, nhap, xuat);
 			if (check_sua_xoa == true && hd.first_cthd != NULL)
 			{
 				delete_after_header();
@@ -2002,7 +2028,7 @@ lannua:
 				highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 				khunglan2(c_sohoadon, c_manhanvien, nhap, xuat);
 				bill_nhd_table(hd, vp_b_table, edit_table_b, delete_table_b, 7, n, ds_vt);
-				long double TONGCONG = tongPhanTuDSLKD(hd);
+				long long TONGCONG = tongPhanTuDSLKD(hd);
 				text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
 				text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
 				text_box_no_border(220, 196, 350, 220, c_soluongvt, f_medium, 1, 3, 5, 9);
@@ -2013,7 +2039,7 @@ lannua:
 				khung_b_nhd();
 				check_sua_xoa = false;
 			}
-			if (hd.first_cthd == NULL)
+			if (check_sua_xoa == true && hd.first_cthd == NULL)
 			{
 				delete_after_header();
 				b_create_menu_title();
@@ -2022,8 +2048,7 @@ lannua:
 				text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
 				text_box_no_border(590, 195, 980, 220, TONGCONG_char, f_medium, 2, 1, 30, 15, 0);
 				khung_b_nhd();
-				mavt = false; soluong = false; dongia = false; vat = true;
-				 themvt = false;
+				check_sua_xoa = false;
 				goto helo;
 			}
 
@@ -3064,8 +3089,8 @@ void khungtrahang(HoaDon& hd, HoaDon& p, NhanVien*& nv, HoaDon& u)
 	{
 		text_box_no_border(10, 120, 110, 220, (char*)"X", f_medium, 8, 10, 25, 15, 0);
 	}
-	long double TONGCONGtra = tongPhanTuDSLKD(u);
-	long double TONGCONG = tongPhanTuDSLKD(hd);
+	long long TONGCONGtra = tongPhanTuDSLKD(u);
+	long long TONGCONG = tongPhanTuDSLKD(hd);
 	text_box_no_border(110, 170, 590, 195, (char*)"TRA LAI CHO KHACH", f_medium, 2, 5, 120, 15, 0);
 	text_box_no_border(110, 195, 590, 220, (char*)formatNumber(long long(TONGCONGtra)).c_str(), f_medium, 2, 1, 30, 15, 0);
 	text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
@@ -3229,7 +3254,7 @@ void bill_trahang_table(
 		long double TT = 0.00;
 		TT = thanhtien1vt(SL, DG, VAT);
 		char TT_char[20];
-		snprintf(TT_char, sizeof(TT_char), "%.2Lf", TT);
+		snprintf(TT_char, sizeof(TT_char), "%.lld", TT);
 
 		char stt[10];
 		strcpy_s(stt, to_string(i + 1).c_str());
@@ -3261,8 +3286,8 @@ void bill_trahang_table(
 
 void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, view_page& vp_b_table, HoaDon& tra, DS_VatTu*& ds_vt)
 {
-	long double TONGCONGtra;
-	long double TONGCONG;
+	long long TONGCONGtra;
+	long long TONGCONG;
 	bool break_all = false;
 	int i_CRUD = 0;
 	bool check_B_nhd = true;
@@ -3287,7 +3312,7 @@ void trahang_handle_table(int& x, int& y, HoaDon& hd, check_CURD& edit_table_b, 
 
 						text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG CON LAI", f_medium, 2, 5, 90, 15, 0);
 						text_box_no_border(590, 195, 980, 220, (char*)formatNumber(long long(TONGCONG)).c_str(), f_medium, 2, 1, 30, 15, 0);
-						cout << "?????!!!!!";
+
 						goto bill_end;
 					}
 					goto bill_end;
