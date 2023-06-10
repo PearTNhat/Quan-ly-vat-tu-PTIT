@@ -10,7 +10,7 @@ struct NhanVien {
 	DS_HoaDon *ds_hoadon;
 };
 struct DS_NhanVien {
-	NhanVien *nhan_vien[MAX_NV];
+	NhanVien *nhan_vien[MAX_NV];	
 	int length=0;
 };
  

@@ -34,8 +34,6 @@ int main() {
 	PTRHD ds_hd = NULL;
 	view_page vp_m_ss;
 	string soHD = "";
-	//read_file_DSHD(ds_hd);
-	//ds_tmp arr_temp = build_dshd_array(ds_hd);
 	//
 	int x, y;
 	initwindow(1200, 620, "Quan li vat tu");
