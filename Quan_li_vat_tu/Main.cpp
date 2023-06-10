@@ -9,6 +9,7 @@
 #include "Loading.h"
 //xem lai  so 0 trong slt
 // xem redender rooi gan khoi tao lai bien co hayb k
+// next pae placeholder bi loi
 int main() {
 	// nhân viên
 	string e_search_nv="";
