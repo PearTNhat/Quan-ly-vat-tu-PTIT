@@ -1163,7 +1163,7 @@ void  xu_li_thong_ke_hd(
 	}
 
 	// Click on TODAY button ====================
-	if (ktVT(540, 300, 650, 340, x, y)) {
+	if (ktVT(540, 300, 650, 340, x, y) && page) {
 		text_box(540, 300, 650, 340, (char*)"TODAY", f_medium, 3, 10, 20, COLOR(255, 153, 51), 0);
 		get_current_date(day_e, month_e, year_e);
 	}
