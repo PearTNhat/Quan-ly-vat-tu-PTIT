@@ -1094,7 +1094,7 @@ void nhd_manv_table
 	setlinestyle(0, 0, 0);
 	delete_after_header();
 
-	create_mavtmanv_header((string)"Danh sach nhan vien", searchValue);
+	create_mavtmanv_header((string)" Danh Sach Nhan Vien", searchValue);
 	// tnh so page co trong trang
 	setcolor(0);
 	int n = length;
@@ -1194,7 +1194,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 	search_staffs(ds_nv, fillter_nv, e_search);
 	nhd_manv_table(fillter_nv.a, fillter_nv.size_current, vp_manv_table, chon, 10);
 	if (placeholder.length() > 0) {
-		create_sf_header((string)" Them vat tu", placeholder);
+		create_mavtmanv_header((string)" Danh Sach Nhan Vien", placeholder);
 	}
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -1207,7 +1207,7 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
 							placeholder = "Nhap ten hoac id can tim kiem";
-							create_sf_header((string)"Them nhan vien", placeholder);
+							create_mavtmanv_header((string)" Danh Sach Nhan Vien", placeholder);
 						}
 						break;
 					}
@@ -1283,7 +1283,7 @@ void nhd_mavt_table
 ) {
 	setlinestyle(0, 0, 0);
 	delete_after_header();
-	create_mavtmanv_header((string)"Danh sach vat tu", searchValue);
+	create_mavtmanv_header((string)" Danh Sach Vat Tu", searchValue);
 	// tnh so page co trong trang
 	setcolor(0);
 	int n = getSize_s_VT(ds_s_vt);
@@ -1378,7 +1378,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 	search_goods(ds_vt, ds_s_vt, e_search);
 	nhd_mavt_table(ds_vt, ds_s_vt, vp_mavt_table, chon, 10);
 	if (e_search.length() > 0) {
-		create_sf_header((string)" Them vat tu", placeholder);
+		create_mavtmanv_header((string)" Danh Sach Vat Tu", placeholder);
 	}
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -1389,7 +1389,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
 							placeholder = "Nhap ten hoac id can tim kiem";
-							create_sf_header((string)" Them vat tu", placeholder);
+							create_mavtmanv_header((string)" Danh Sach Vat Tu", placeholder);
 						}
 						break;
 					}
