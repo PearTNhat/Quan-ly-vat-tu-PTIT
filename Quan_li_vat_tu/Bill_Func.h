@@ -500,7 +500,8 @@ void khunglan2(char(&c_sohoadon)[21], char(&c_mannhanvien)[11], bool& nhap, bool
 	text_box_no_border(110, 170, 430, 195, (char*)"Ma vat tu:", f_medium, 2, 1, 5, 9, 0);
 	text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
 	text_box_no_border(350, 195, 590, 220, (char*)"Don gia:", f_medium, 2, 1, 5, 9, 0);
-	text_box_no_border(430, 170, 590, 195, (char*)"%VAT: 10", f_medium, 2, 1, 5, 9, 0);
+	text_box_no_border(430, 170, 590, 195, (char*)"%VAT:", f_medium, 2, 1, 5, 9, 0);
+	text_box_no_border(495, 171, 590, 195, (char*)"10", f_medium, 1, 3, 5, 9);
 	text_box_no_border(620, 145, 770, 170, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
 	text_box_no_border(800, 145, 950, 170, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);
 
@@ -543,7 +544,8 @@ void khunglan1()
 	text_box_no_border(110, 170, 430, 195, (char*)"Ma vat tu:", f_medium, 2, 1, 5, 9, 0);
 	text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
 	text_box_no_border(350, 195, 590, 220, (char*)"Don gia:", f_medium, 2, 1, 5, 9, 0);
-	text_box_no_border(430, 170, 590, 195, (char*)"%VAT: 10", f_medium, 2, 1, 5, 9, 0);
+	text_box_no_border(430, 170, 590, 195, (char*)"%VAT:", f_medium, 2, 1, 5, 9, 0);
+	text_box_no_border(495, 171, 590, 195, (char*)"10", f_medium, 1, 3, 5, 9);
 	text_box_no_border(620, 145, 770, 170, (char*)"Them vat tu", f_medium, 2, 1, 5, 11, 0);
 	text_box_no_border(800, 145, 950, 170, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);
 	text_box_no_border(590, 170, 980, 195, (char*)"TONG CONG", f_medium, 2, 5, 130, 15, 0);
