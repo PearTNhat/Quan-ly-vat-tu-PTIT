@@ -479,10 +479,10 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 	bool checkX = false;
 	int svt_NULL = 0;
 	int search_empty = 0;
-	string placeholder = e_search;
+	string placeholder = e_search=="" ? "Nhap ten hoac id can tim kiem": e_search;
 	search_goods(ds_vt, ds_s_vt, e_search);
 	goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10);
-	if (e_search.length() > 0) {
+	if (placeholder.length() > 0) {
 		create_sf_header((string)" Them vat tu", placeholder);
 	}
 	while (1) { // chong rerender k can thiet
@@ -573,6 +573,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 				}
 				next_page(650, 565, 685, 600, vp_g_table);
 				delete_after_header();
+				cout << placeholder << "||||";
 				goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 
 			}

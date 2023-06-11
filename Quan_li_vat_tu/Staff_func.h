@@ -527,11 +527,12 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 	bool checkX = false;
 	int svt_NULL = 0;
 	int search_empty = 0;
+	string placeholder = e_search == "" ? "Nhap ten hoac id can tim kiem" : e_search;
 	templeDynamicArray<NhanVien> fillter_nv(ds_nv.length);
 	search_staffs(ds_nv, fillter_nv, e_search);
 	staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, 10);
-	if (e_search.length() > 0) {
-		create_sf_header((string)" Them vat tu", e_search);
+	if (placeholder.length() > 0) {
+		create_sf_header((string)" Them nhan vien", placeholder);
 	}
 	while (1) { // chong rerender k can thiet
 		if (ismouseclick(WM_LBUTTONDOWN)) {
@@ -540,9 +541,11 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 			if (ktVT(50, 72, 410, 108, x, y)) {// search
 				while (1) {
 					e_search = input_one(x, y, 50, 72, 410, 108, 10, 10, e_search, 30);
+					placeholder = e_search;
 					if (!ktVT(50, 72, 410, 108, x, y)) {
 						if (e_search == "") {
-							create_sf_header( (string)" Them nhan vien", (string)"Nhap ten hoac id can tim kiem");
+							placeholder = "Nhap ten hoac id can tim kiem";
+							create_sf_header( (string)"Them nhan vien", placeholder);
 						}
 						break;
 					}
@@ -619,7 +622,7 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 				}
 				next_page(650, 565, 685, 600, vp_m_sf);
 				delete_after_header();
-				staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, ROW_STAFF,placeholder);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_m_sf.current == 1) {
@@ -627,7 +630,7 @@ bool sf_handleTable(int& x, int& y,DS_NhanVien& ds_nv, check_CURD delete_sf, che
 				}
 				prev_page(495, 565, 530, 600, vp_m_sf);
 				delete_after_header();
-				staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, ROW_STAFF);
+				staff_table(fillter_nv.a, fillter_nv.size_current, vp_m_sf, edit_sf, delete_sf, ROW_STAFF, placeholder);
 			}
 			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x,y)) {
 				sf_page = false;
