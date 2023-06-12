@@ -86,9 +86,6 @@
     <ClInclude Include="Search_staffs.h">
       <Filter>Header Files\Staff</Filter>
     </ClInclude>
-    <ClInclude Include="CallbackInputt.h">
-      <Filter>Header Files\Goods</Filter>
-    </ClInclude>
     <ClInclude Include="Staff_func.h">
       <Filter>Header Files\Staff</Filter>
     </ClInclude>

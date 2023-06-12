@@ -43,8 +43,8 @@ int main() {
 	setlinestyle(0, 0, 2);
 	setbkcolor(bk_screen);
 	cleardevice();
-
 	createHeader(header_title);
+	readimagefile((char*)"a.jfif", 100, 200, 600, 400);
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -71,7 +71,6 @@ int main() {
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
 				}
-
 			}
 			// nhan vien
 			if (ktVT(320, 10, 520, 50, x, y)) {
