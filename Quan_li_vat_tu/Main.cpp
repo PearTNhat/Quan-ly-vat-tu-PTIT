@@ -12,7 +12,7 @@
 // next pae placeholder bi loi
 int main() {
 	// nhân viên
-	string e_search_nv="";
+	string e_search_nv = "";
 	check_CURD delete_sf;
 	check_CURD edit_sf;
 	view_page vp_m_sf;
@@ -66,6 +66,7 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
+
 				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd, e_search_vt);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
 					goto beginning;
@@ -177,7 +178,7 @@ int main() {
 			if (X_page)
 			{
 				highlight_box(1140, 10, 1190, 50, (char*)"X", f_medium, 4, 5, 14);
-				
+
 				announce_board(x, y, 50, 20, "THOAT CHUONG TRINH");
 				delay(500);
 				announce_board(x, y, 80, 20, "XIN CAM ON");
@@ -191,14 +192,13 @@ end:
 	deleteTree(ds_vt);
 	for (int i = 0; i < ds_nv.length; i++)
 	{
-		while (ds_nv.nhan_vien[i]->ds_hoadon != NULL)
+
+		while (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd != NULL)
 		{
-			while (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd != NULL)
-			{
-				Clearlist_CTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
-			}
-			Clearlist_HD(ds_nv.nhan_vien[i]->ds_hoadon);
+			Clearlist_CTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
 		}
+		Clearlist_HD(ds_nv.nhan_vien[i]->ds_hoadon);
+
 		delete ds_nv.nhan_vien[i];
 	}
 	ds_nv.length = 0; // Đặt độ dài của mảng về 0

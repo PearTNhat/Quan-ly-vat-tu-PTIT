@@ -73,7 +73,7 @@ void deleteNode_k_tenVT(DS_s_VT*& root, string key)
 			else
 				newCurr = curr->left;
 
-			if (prev == NULL) {
+			if (prev == NULL) {// khi co 1 node goc
 				root = newCurr;
 			}
 			else {
@@ -81,7 +81,6 @@ void deleteNode_k_tenVT(DS_s_VT*& root, string key)
 					prev->left = newCurr;
 				else
 					prev->right = newCurr;
-
 			}
 		}
 		else
