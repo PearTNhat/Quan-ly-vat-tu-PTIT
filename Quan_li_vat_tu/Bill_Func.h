@@ -133,6 +133,13 @@ bool checktrungmavthoadonhientai(HoaDon& hd, string mavt)
 	return true;
 }
 
+bool checkbang0(string x) {
+	if (stoi(x) == 0) {
+		return true;
+	}
+	else return false;
+}
+
 bool checksoluong(DS_VatTu* root, char* mvt, string x) {
 	DS_VatTu* p = root;
 	while (p != NULL) {
