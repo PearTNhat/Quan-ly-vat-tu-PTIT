@@ -192,13 +192,14 @@ end:
 	deleteTree(ds_vt);
 	for (int i = 0; i < ds_nv.length; i++)
 	{
-
-		while (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd != NULL)
+		while (ds_nv.nhan_vien[i]->ds_hoadon != NULL)
 		{
-			Clearlist_CTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
+			while (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd != NULL)
+			{
+				Clearlist_CTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
+			}
+			Clearlist_HD(ds_nv.nhan_vien[i]->ds_hoadon);
 		}
-		Clearlist_HD(ds_nv.nhan_vien[i]->ds_hoadon);
-
 		delete ds_nv.nhan_vien[i];
 	}
 	ds_nv.length = 0; // Đặt độ dài của mảng về 0
