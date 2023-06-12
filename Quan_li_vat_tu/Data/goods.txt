@@ -1,9 +1,9 @@
-VT125,Bay,Cai,2,9913
+VT125,Bay,Cai,3,10036
 VT115,Riu,Bao,1,9920
 CUCSI,Bua Keo Bao,Cai,2,10212
 ABC,Tao Bao,Cai,1,9957
 SDA,Con ga,Cai,4,678
-VT1,Bao,Bao,2,10093
+VT1,Bao,Bao,3,10216
 VT117,Banh bao bao,Cai,4,505
 VT116,Keo,Cai,0,123
 VT12,Cat,Khoi,0,10300

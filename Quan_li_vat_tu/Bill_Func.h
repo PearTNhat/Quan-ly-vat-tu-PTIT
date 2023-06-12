@@ -1995,6 +1995,7 @@ helo:
 
 					Insert_last_HD(ds_nv.nhan_vien[search_ID_Staff(ds_nv, c_manhanvien)]->ds_hoadon, hd);
 					write_file_staff(ds_nv);
+					Clearlist_CTHD(hd.first_cthd);
 					delay(800);
 					resetbaoloi();
 					text_box_no_border(800, 145, 950, 170, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);

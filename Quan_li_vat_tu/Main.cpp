@@ -179,6 +179,7 @@ int main() {
 			if (X_page)
 			{
 				highlight_box(1140, 10, 1190, 50, (char*)"X", f_medium, 4, 5, 14);
+				
 				announce_board(x, y, 50, 20, "THOAT CHUONG TRINH");
 				delay(500);
 				announce_board(x, y, 80, 20, "XIN CAM ON");
@@ -192,6 +193,14 @@ end:
 	deleteTree(ds_vt);
 	for (int i = 0; i < ds_nv.length; i++)
 	{
+		while (ds_nv.nhan_vien[i]->ds_hoadon != NULL)
+		{
+			while (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd != NULL)
+			{
+				Clearlist_CTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
+			}
+			Clearlist_HD(ds_nv.nhan_vien[i]->ds_hoadon);
+		}
 		delete ds_nv.nhan_vien[i];
 	}
 	ds_nv.length = 0; // Đặt độ dài của mảng về 0
