@@ -173,7 +173,11 @@ int Delete_after_CTHD(dscthd d)
 void Clearlist_CTHD(dscthd& first_cthd)
 {
 	//PTRHD p;
-	while (first_cthd != NULL) Delete_First_CTHD(first_cthd);
+	while (first_cthd != NULL) {
+		Delete_First_CTHD(first_cthd);
+		cout << 1;
+	}
+	
 }
 
 CT_HoaDon getNodeByMaVT(dscthd head, char c_mavattu) {
