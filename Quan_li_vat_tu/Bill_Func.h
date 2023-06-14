@@ -1272,7 +1272,11 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 			//delete
 			for (int i = 0; i < chon.n; i++)
 			{
-
+				if (ktVT(900, 145, 950, 170, x, y))
+				{
+					x = 955;
+					y = 171;
+				}
 				if (ktVT(chon.data[i].l, chon.data[i].t, chon.data[i].r, chon.data[i].b, x, y)) {
 					i_CRUD = (vp_manv_table.current - 1) * ROW_STAFF + i;
 					strcpy((char*)manvphu, fillter_nv.a[i_CRUD]->maNV);
@@ -1456,6 +1460,11 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 
 			for (int i = 0; i < chon.n; i++)
 			{
+				if (ktVT(900, 145, 950, 170, x, y))
+				{
+					x = 955;
+					y = 171;
+				}
 				if (ktVT(chon.data[i].l, chon.data[i].t, chon.data[i].r, chon.data[i].b, x, y)) {
 					keyCRUD = chon.data[i].key;
 					VatTu x_vt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
