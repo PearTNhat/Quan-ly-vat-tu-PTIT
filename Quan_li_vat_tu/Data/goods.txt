@@ -2,7 +2,7 @@ VT12341,Xi Mang,Cai,0,10000
 SDA,Ca ca,Cai,0,678
 CON,Bao gao to qua,Bao,0,2134
 ABC,Tao Bao,Cai,1,9957
-CUCSI,Bua Keo Bao,Cai,2,10212
+CUCSI,Bua Keo Bao,Cai,2,99999
 DSA,Tao bbao,Bao,0,3424
 VT115,Riu,Bao,1,9920
 VT1,Bao,Bao,3,10216

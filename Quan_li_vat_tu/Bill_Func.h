@@ -1478,7 +1478,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 					if (checkSLTfull(ds_vt, d) == true && nhap == true)
 					{
 
-						announce_board(x, y, 40, 20, "Da toi da! Khong the nhap them");
+						announce_board(x, y, 0, 10, "Toi da!Khong nhap them");
 						delay(500);
 						strcpy((char*)mavtphu, "");
 						bool a = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, is_chon, mavtphu, xuat, nhap, hd, placeholder);
@@ -2673,7 +2673,22 @@ nhd:
 					}
 					goto DG;
 				}
-
+				if (checksoluong(ds_vt, c_mavattu, d) == false && xuat == true)
+				{
+					soluong = false;
+					text_box(985, 125, 1175, 215, (char*)"Ko du so luong!", f_medium, 2, 30, 8, RED, 0, 0);
+					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
+					khung_b_nhd();
+					goto SL;
+				}
+				if (checksoluongnhap(ds_vt, c_mavattu, d) == false && nhap == true)
+				{
+					soluong = false;
+					text_box(985, 125, 1175, 215, (char*)"SLnhap qua lon!", f_medium, 2, 30, 8, RED, 0, 0);
+					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
+					khung_b_nhd();
+					goto SL;
+				}
 				if (nhap == true)
 				{
 					soluong = true;
@@ -2694,22 +2709,7 @@ nhd:
 					}
 					goto DG;
 				}
-				if (checksoluong(ds_vt, c_mavattu, d) == false && xuat == true)
-				{
-					soluong = false;
-					text_box(985, 125, 1175, 215, (char*)"Ko du so luong!", f_medium, 2, 30, 8, RED, 0, 0);
-					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
-					khung_b_nhd();
-					goto SL;
-				}
-				if (checksoluongnhap(ds_vt, c_mavattu, d) == false && nhap == true)
-				{
-					soluong = false;
-					text_box(985, 125, 1175, 215, (char*)"SLnhap qua lon!", f_medium, 2, 30, 8, RED, 0, 0);
-					text_box_no_border(110, 195, 350, 220, (char*)"So luong:", f_medium, 2, 1, 5, 9, 0);
-					khung_b_nhd();
-					goto SL;
-				}
+				
 				if (checksoluong(ds_vt, c_mavattu, d) == true && xuat == true)
 				{
 					soluong = true;
