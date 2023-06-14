@@ -377,6 +377,31 @@ DS_VatTu* getIndexGoods(DS_VatTu*& root, int index) {
 	}
 	return NULL;
 }
+bool check_tvt_k_id(DS_VatTu*& root, string target) {
+	DS_VatTu* temp = root;
+	DS_VatTu* res;
+	Stack <DS_VatTu> s(getSizeGoods(root));
+	int k = 0;
+	while (1) {
+		while (temp != NULL) {
+			push(s, temp);
+			temp = temp->left;
+		}
+		if (!isEmpty(s)) {
+			res = pop(s);
+			if ( res->vat_tu.tenVT == target) {
+				return 1;
+			}
+			if (res->right != NULL) {
+				temp = res->right;
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return 0;
+}
 void lnr(DS_VatTu* root)
 {
 	if (root != NULL)

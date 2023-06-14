@@ -9,7 +9,9 @@
 #include "Loading.h"
 //xem lai  so 0 trong slt
 // xem redender rooi gan khoi tao lai bien co hayb k
-// next pae placeholder bi loi
+// coi mang ron co search dc k
+// lam them format number slt
+// doi thanh tim kiem nhi phan staff
 int main() {
 	// nhân viên
 	string e_search_nv = "";
@@ -48,7 +50,6 @@ int main() {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			//------------------------
 			//code
-		beginning:
 		start:
 			//Nhat
 		batdau:
@@ -67,7 +68,7 @@ int main() {
 
 				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd, e_search_vt);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
-					goto beginning;
+					goto start;
 				}
 			}
 			// nhan vien
@@ -85,8 +86,9 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd, e_search_nv);
-				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
-					goto beginning;
+				if (sf_out || ktVT(320, 10, 520, 50, x, y)) {
+								// click vào chính nó để trở thành trang chính
+					goto start;
 				}
 			}
 			//Phu
@@ -198,7 +200,6 @@ end:
 		}
 		delete ds_nv.nhan_vien[i];
 	}
-	ds_nv.length = 0; // Đặt độ dài của mảng về 0
 	closegraph();
 	return 0;
 }
