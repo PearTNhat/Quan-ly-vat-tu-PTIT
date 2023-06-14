@@ -175,7 +175,6 @@ void Clearlist_CTHD(dscthd& first_cthd)
 	//PTRHD p;
 	while (first_cthd != NULL) {
 		Delete_First_CTHD(first_cthd);
-		cout << 1;
 	}
 	
 }

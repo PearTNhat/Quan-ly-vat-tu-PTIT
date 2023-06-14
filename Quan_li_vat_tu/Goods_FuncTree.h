@@ -337,7 +337,6 @@ void deleteNode_k_maVT(DS_VatTu*& root, string key)
 			curr->vat_tu.SLT = temp->vat_tu.SLT;
 			strcpy_s(curr->vat_tu.DVT, temp->vat_tu.DVT);
 			curr->vat_tu.sldaban= temp->vat_tu.sldaban;
-
 		}
 	}
 	else {

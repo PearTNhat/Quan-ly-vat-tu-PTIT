@@ -30,7 +30,6 @@ int main() {
 	DS_VatTu* ds_vt = NULL;
 	DS_s_VT* ds_s_vt = NULL;
 	read_file_goods(ds_vt);
-	//coppyVTtoSVT(ds_vt, ds_s_vt);
 	//
 	PTRHD ds_hd = NULL;
 	view_page vp_m_ss;
@@ -43,8 +42,7 @@ int main() {
 	setlinestyle(0, 0, 2);
 	setbkcolor(bk_screen);
 	cleardevice();
-	createHeader(header_title);
-	readimagefile((char*)"a.jfif", 100, 200, 600, 400);
+	createHeader();
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -56,8 +54,8 @@ int main() {
 		batdau:
 			//vat tu 
 			if (ktVT(20, 10, 220, 50, x, y)) {
-				createHeader(header_title);
-				highlight_box(20, 10, 220, 50, header_title[0], f_medium, 3, 10, 56);
+				createHeader();
+				highlight_box(20, 10, 220, 50,(char *) header_title[0], f_medium, 3, 10, 56);
 				g_page = true;
 				sf_page = false;
 				b_page = false;
@@ -74,8 +72,8 @@ int main() {
 			}
 			// nhan vien
 			if (ktVT(320, 10, 520, 50, x, y)) {
-				createHeader(header_title);
-				highlight_box(320, 10, 520, 50, header_title[1], f_medium, 3, 10, 43);
+				createHeader();
+				highlight_box(320, 10, 520, 50, (char*)header_title[1], f_medium, 3, 10, 43);
 				g_page = false;
 				sf_page = true;
 				b_page = false;
@@ -93,8 +91,8 @@ int main() {
 			}
 			//Phu
 			if (ktVT(620, 10, 820, 50, x, y)) {
-				createHeader(header_title);
-				highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+				createHeader();
+				highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 				g_page = false;
 				sf_page = false;
 				b_page = true;
@@ -113,8 +111,8 @@ int main() {
 			}
 			//Phuong
 			if (ktVT(920, 10, 1120, 50, x, y)) {
-				createHeader(header_title);
-				highlight_box(920, 10, 1120, 50, header_title[3], f_medium, 3, 10, 45);
+				createHeader();
+				highlight_box(920, 10, 1120, 50, (char*)header_title[3], f_medium, 3, 10, 45);
 				g_page = false;
 				sf_page = false;
 				b_page = false;
@@ -194,10 +192,8 @@ end:
 	{
 		while (ds_nv.nhan_vien[i]->ds_hoadon != NULL)
 		{
-			while (ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd != NULL)
-			{
-				Clearlist_CTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
-			}
+			Clearlist_CTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
+
 			Clearlist_HD(ds_nv.nhan_vien[i]->ds_hoadon);
 		}
 		delete ds_nv.nhan_vien[i];

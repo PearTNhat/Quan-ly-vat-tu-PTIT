@@ -55,15 +55,15 @@ void text_box_no_border(int l, int t, int r, int b, char s[], int font, int f_si
 	outtextxy(l + d_l, t + d_t, s);
 }
 
-void createHeader(char x[][maxTHeader]) {
+void createHeader() {
 	setfillstyle(1, HEADER_BACKGROUND);
 	setcolor(HEADER_TEXT_COLOR);
 	bar3d(-1, 0, 1200, 60, 0, 0);
 
-	text_box(20, 10, 220, 50, x[0], f_medium, 3, 10, 56);
-	text_box(320, 10, 520, 50, x[1], f_medium, 3, 10, 43);
-	text_box(620, 10, 820, 50, x[2], f_medium, 3, 10, 35);
-	text_box(920, 10, 1120, 50, x[3], f_medium, 3, 10, 45);
+	text_box(20, 10, 220, 50, (char *)header_title[0], f_medium, 3, 10, 56);
+	text_box(320, 10, 520, 50, (char*)header_title[1], f_medium, 3, 10, 43);
+	text_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
+	text_box(920, 10, 1120, 50, (char*)header_title[3], f_medium, 3, 10, 45);
 	text_box(1140, 10, 1190, 50, (char*)"X", f_medium, 4, 5, 14,LIGHTRED);
 }
 void highlight_box(int l, int t, int r, int b, char s[], int font, int f_size, int kct, int kcl, int bg = HIGHLIGHT_BACKGROUND, int color = 0) {

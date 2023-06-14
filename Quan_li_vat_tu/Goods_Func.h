@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Staff_func.h"
 #include "input_one.h"
 #include "Search_Goods.h"
@@ -502,13 +502,13 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 					deleteTree(ds_s_vt);
 					ds_s_vt = NULL;
 					search_goods(ds_vt, ds_s_vt, e_search);
-					if (e_search == "") {
+					if (e_search == "") { // "" 1 lần search
 						search_empty++;
 					}
 					else {
 						search_empty = 0;
 					}
-					if (ds_s_vt == NULL) {
+					if (ds_s_vt == NULL) { // NULL 1 lần là search
 						svt_NULL++;
 					}
 					else {

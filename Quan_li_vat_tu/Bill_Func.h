@@ -1563,8 +1563,8 @@ helo:
 					d = mavtphu2;
 					strcpy(mavtphu2, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -1589,8 +1589,8 @@ helo:
 					d = mavtphu2;
 					strcpy(mavtphu2, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -2251,8 +2251,8 @@ nhd:
 					d = manvphu;
 					strcpy(manvphu, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -2289,8 +2289,8 @@ nhd:
 					d = manvphu;
 					strcpy(manvphu, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -2401,8 +2401,8 @@ nhd:
 					d = mavtphu;
 					strcpy(mavtphu, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -2438,8 +2438,8 @@ nhd:
 					d = mavtphu;
 					strcpy(mavtphu, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
