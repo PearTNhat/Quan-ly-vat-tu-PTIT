@@ -858,29 +858,51 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 		nhdInfor:
 			if (ktVT(430, 225, 800, 255, x, y)) { // so luong
 				c_soluongvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, c_soluongvt, 6, "number", "camelCase", COLOR_INFOR_SG, 430, 285);
-
-				if (nhd_isEdit && xuat == true) {
-					if (checksoluong(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
-						warning_msg((char*)"Khong du so luong.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
-						checkSubmit[1] = -2;
-					}
-					else if (empty(c_soluongvt) == 1) {
+				if (nhd_isEdit) {
+					
+					if (empty(c_soluongvt) == 1) {
 						checkSubmit[1] = -1;
 					}
 					else {
+						if (checkbang0(c_soluongvt) == true) {
+							warning_msg((char*)"Lon hon 0!", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+							checkSubmit[1] = -2;
+						}
+						else {
+							checkSubmit[1] = 1;
+						}
+						
+					}
+				}
+				if (nhd_isEdit && xuat == true) {
+					
+					if (empty(c_soluongvt) == 1) {
+						checkSubmit[1] = -1;
+					}
+					else {
+						if (checksoluong(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
+							warning_msg((char*)"Khong du so luong.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+							checkSubmit[1] = -2;
+						}
+						else {
+
 						checkSubmit[1] = 1;
+						}
 					}
 				}
 				if (nhd_isEdit && nhap == true) {
-					if (checksoluongnhap(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
-						warning_msg((char*)"So luong nhap qua lon!", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
-						checkSubmit[1] = -2;
-					}
-					else if (empty(c_soluongvt) == 1) {
+					
+					if (empty(c_soluongvt) == 1) {
 						checkSubmit[1] = -1;
 					}
 					else {
+						if (checksoluongnhap(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
+							warning_msg((char*)"So luong nhap qua lon!", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+							checkSubmit[1] = -2;
+						}
+						else {
 						checkSubmit[1] = 1;
+						}
 					}
 				}
 				goto nhdInfor;
@@ -893,7 +915,14 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 						checkSubmit[2] = -1;
 					}
 					else {
-						checkSubmit[2] = 1;
+						if (checkbang0(c_dongiavt) == true) {
+							warning_msg((char*)"Lon hon 0!", 430 +5, 285 + 34, COLOR_INFOR_SG, I_ERROR_COLOR);
+							checkSubmit[2] = -2;
+						}
+						else {
+							checkSubmit[2] = 1;
+						}
+						
 					}
 				}
 				goto nhdInfor;
@@ -1718,6 +1747,25 @@ helo:
 				{
 					return 2;
 				}
+				if (empty(d) == false)
+				{
+					if (checkbang0(d) == true)
+					{
+						soluong = false;
+						text_box(985, 125, 1175, 215, (char*)"Lon hon 0!", f_medium, 2, 30, 8, RED, 0, 0);
+						if (ktVT(110, 170, 430, 195, x, y) || //mavt
+							ktVT(110, 195, 350, 220, x, y) || //soluong
+							ktVT(350, 195, 590, 220, x, y) || //dongia
+							ktVT(430, 170, 590, 195, x, y) || //vat
+							ktVT(620, 145, 770, 170, x, y) || // them vt
+							ktVT(800, 145, 950, 170, x, y) || // them hd
+							ktVT(9, 229, 1181, 900, x, y))
+						{
+							goto batdau2;
+						}
+						goto SL2;
+					}
+				}
 				if (empty(d) == true)
 				{
 					soluong = false;
@@ -1823,6 +1871,25 @@ helo:
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					return 2;
+				}
+				if (empty(d) == false)
+				{
+					if (checkbang0(d) == true)
+					{
+						dongia = false;
+						text_box(985, 125, 1175, 215, (char*)"Lon hon 0!", f_medium, 2, 30, 8, RED, 0, 0);
+						if (ktVT(110, 170, 430, 195, x, y) || //mavt
+							ktVT(110, 195, 350, 220, x, y) || //soluong
+							ktVT(350, 195, 590, 220, x, y) || //dongia
+							ktVT(430, 170, 590, 195, x, y) || //vat
+							ktVT(620, 145, 770, 170, x, y) || // them vt
+							ktVT(800, 145, 950, 170, x, y) || // them hd
+							ktVT(9, 229, 1181, 900, x, y))
+						{
+							goto batdau2;
+						}
+						goto DG2;
+					}
 				}
 				if (empty(d) == true)
 				{
@@ -2566,6 +2633,28 @@ nhd:
 				{
 					break;
 				}
+				if (empty(d) == false)
+				{
+					if (checkbang0(d) == true)
+					{
+						soluong = false;
+						text_box(985, 125, 1175, 215, (char*)"Lon hon 0!", f_medium, 2, 30, 8, RED, 0, 0);
+						if (ktVT(110, 120, 590, 145, x, y) || //sohd
+							ktVT(590, 120, 980, 145, x, y) || //manv
+							ktVT(110, 170, 430, 195, x, y) || //mavt
+							ktVT(110, 195, 350, 220, x, y) || //soluong
+							ktVT(350, 195, 590, 220, x, y) || //dongia
+							ktVT(430, 170, 590, 195, x, y) || //vat
+							ktVT(620, 145, 770, 170, x, y) || // them vt
+							ktVT(800, 145, 950, 170, x, y) ||// them hd
+							ktVT(20, 130, 100, 170, x, y) || // nhap
+							ktVT(20, 170, 100, 210, x, y))  // xuat
+						{
+							goto batdau;
+						}
+						goto SL;
+					}
+				}
 				if (empty(d) == true)
 				{
 					soluong = false;
@@ -2709,6 +2798,28 @@ nhd:
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
+				}
+				if(empty(d) == false)
+				{
+					if (checkbang0(d) == true)
+					{
+						dongia = false;
+						text_box(985, 125, 1175, 215, (char*)"Lon hon 0!", f_medium, 2, 30, 8, RED, 0, 0);
+						if (ktVT(110, 120, 590, 145, x, y) || //sohd
+							ktVT(590, 120, 980, 145, x, y) || //manv
+							ktVT(110, 170, 430, 195, x, y) || //mavt
+							ktVT(110, 195, 350, 220, x, y) || //soluong
+							ktVT(350, 195, 590, 220, x, y) || //dongia
+							ktVT(430, 170, 590, 195, x, y) || //vat
+							ktVT(620, 145, 770, 170, x, y) || // them vt
+							ktVT(800, 145, 950, 170, x, y) ||// them hd
+							ktVT(20, 130, 100, 170, x, y) || // nhap
+							ktVT(20, 170, 100, 210, x, y))  // xuat
+						{
+							goto batdau;
+						}
+						goto DG;
+					}
 				}
 				if (empty(d) == true)
 				{
