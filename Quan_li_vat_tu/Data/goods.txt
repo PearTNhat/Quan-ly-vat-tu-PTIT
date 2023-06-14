@@ -1,19 +1,19 @@
-VT125,Bay,Cai,1,9940
+VT125,Bay,Cai,2,10000
 VT115,Riu,Bao,0,10000
 CUCSI,Bua Keo Bao,Cai,0,99999
-ABC,Tao Bao,Cai,1,9800
-SDA,Con ga,Cai,0,0
-VT1,Bao,Bao,1,9900
-VT117,Banh bao bao,Cai,1,9950
-VT116,Keo,Cai,0,10000
-VT12,Cat,Khoi,0,10000
+ABC,Tao Bao,Cai,0,10000
+SDA,Con ga,Cai,5,3500
+VT1,Bao,Bao,3,9890
+VT117,Banh bao bao,Cai,3,9850
+VT116,Keo,Cai,1,9877
+VT12,Cat,Khoi,2,9720
 VT12341,Xi Mang,Cai,1,9900
-VT35,Bua,Cai,0,10000
-VT25,Gach,Vien,1,99899
+VT35,Bua,Cai,4,10085
+VT25,Gach,Vien,3,99810
 VT135,Phan,Bao,0,10000
-VT3,Da,Khoi,1,9980
+VT3,Da,Khoi,4,10000
 VT3442,Con Dao,Con,0,0
-VT4123,Xeng,Cai,1,9960
+VT4123,Xeng,Cai,0,10000
 VT39,Xi Muoi,Cai,0,10000
 VT44,Kim Bam Babi,Cai,0,10000
-VT60,Sat,Kg,0,10000
+VT60,Sat,Kg,2,10000
