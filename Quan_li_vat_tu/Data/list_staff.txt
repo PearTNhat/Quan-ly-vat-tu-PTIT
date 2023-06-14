@@ -1,8 +1,4 @@
-NV35,Bach Con,Con,Nu,
-0
 CS,Ly,Da,Nu,
-0
-NV1412414,Banh Cong Vuong,Tu,Nu,
 0
 NV9,Ly Thanh,Hau,Nam,
 0
@@ -31,6 +27,8 @@ HANH11,22/5/2023,X
 2
 CUCSI,10,111,10,1,
 VT25,100,1000,10,1
+NV3,Chu Tu,Mach,Nu,
+0
 NV11,Ly Thanh,Hoang,Nam,
 1
 HANH10,20/5/2023,X
@@ -48,7 +46,7 @@ VT125,100,10000,3,1,
 VT135,30,30000,2,1,
 CUCSI,60,40000,6,1,
 ABC,80,40000,12,1
-NV3,Chu Tu,Mach,Nu,
+NV1412414,Banh Cong Vuong,Tu,Nu,
 0
 NV25,Khuong Tu,Nha,Nam,
 0
@@ -79,4 +77,6 @@ VT115,100,30000,10,1
 NV2,Han Bang,Tuyet,Nu,
 0
 NV8,Tieu,Viem,Nam,
+0
+NV35,Bach Tieu,Zi,Nu,
 0

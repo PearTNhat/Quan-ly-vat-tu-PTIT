@@ -212,7 +212,7 @@ string input(
 						setcolor(i_color);
 						continue;
 					}
-					// delete _ ;
+					// delete | ;
 					input.erase(input.end() - 1);
 
 					// kiem tra function
@@ -231,6 +231,11 @@ string input(
 						}
 					}
 					// kiem tra function
+					if (function=="formatNumber") {
+						if (input.length() == 2 && input[0] == '0') {
+							input.erase(0, 1);
+						}
+					}
 					if (input.length() > 0 && function == "camelCase") { // camelCase
 						int n = input.length();
 						if (n > 1 && input[n - 2] == ' ') {
