@@ -31,6 +31,7 @@ void table_searching(int &x,int &y,DS_NhanVien ds_nv) {
 	int search_empty = 0;
 	string value;
 	view_page searhcing_view;
+	string placeholder = "Nhap ten hoac id can tim kiem";
 	templeDynamicArray<NhanVien> fillter_nv(ds_nv.length);
 	search_staffs(ds_nv, fillter_nv, value);
 	staff_table_normal(fillter_nv.a, fillter_nv.capacity, searhcing_view, 10, (string)"Nhap ten hoac id can tim kiem");
@@ -42,7 +43,9 @@ void table_searching(int &x,int &y,DS_NhanVien ds_nv) {
 				while (1) {
 					value = input_one(x, y, 50, 72, 410, 108, 10, 10, value, 30);
 					if (!ktVT(50, 72, 400, 108, x, y)) {
+						placeholder = value;
 						if (value == "") {
+							placeholder = "Nhap ten hoac id can tim kiem";
 							create_sf_header((string)"  Tro ve", (string)"Nhap ten hoac id can tim kiem");
 						}
 						break;
@@ -75,7 +78,7 @@ void table_searching(int &x,int &y,DS_NhanVien ds_nv) {
 				}
 				next_page(650, 565, 685, 600, searhcing_view);
 				delete_after_header();
-				staff_table_normal(fillter_nv.a, fillter_nv.size_current, searhcing_view, 10, value);
+				staff_table_normal(fillter_nv.a, fillter_nv.size_current, searhcing_view, 10, placeholder);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (searhcing_view.current == 1) {
@@ -83,7 +86,7 @@ void table_searching(int &x,int &y,DS_NhanVien ds_nv) {
 				}
 				prev_page(495, 565, 530, 600, searhcing_view);
 				delete_after_header();
-				staff_table_normal(fillter_nv.a, fillter_nv.size_current, searhcing_view, 10,value);
+				staff_table_normal(fillter_nv.a, fillter_nv.size_current, searhcing_view, 10, placeholder);
 			}
 			if (ktVT(950, 70, 1150, 110, x, y) || ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
 				break;

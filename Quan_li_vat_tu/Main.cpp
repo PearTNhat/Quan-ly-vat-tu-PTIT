@@ -47,7 +47,7 @@ int main() {
 	createHeader();
 	readimagefile("logo.jfif", 100, 100, 850, 600);
 
-	createHeader(header_title);
+	createHeader();
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -89,7 +89,7 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd, e_search_nv);
-				if (sf_out || ktVT(320, 10, 520, 50, x, y)) {
+				if (sf_out || ktVT(320, 10, 520, 50, x, y)|| ktVT(20, 10, 220, 50, x, y)) {
 								// click vào chính nó để trở thành trang chính
 					goto start;
 				}

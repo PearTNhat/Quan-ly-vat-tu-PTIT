@@ -51,6 +51,7 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 	string value;
 	view_page searhcing_view;
 	DS_s_VT* result = NULL;
+	string placeholder = "Nhap ten hoac id can tim kiem";
 	search_goods(ds_vt, result, value);
 	goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
 	create_sf_header((string)"    Tro ve", (string)"Nhap ten hoac id can tim kiem");
@@ -60,9 +61,12 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 			if (ktVT(50, 72, 400, 108, x, y)) {
 				while (1) {
 					value = input_one(x, y, 50, 72, 410, 108, 10, 10, value, 25);
+					placeholder = value;
+
 					if (!ktVT(50, 72, 400, 108, x, y)) {
 						if (value == "") {
-							create_sf_header((string)"    Tro ve", (string)"Nhap ten hoac id can tim kiem");
+							placeholder = "Nhap ten hoac id can tim kiem";
+							create_sf_header((string)"    Tro ve", placeholder);
 						}
 						break;
 					}
@@ -93,14 +97,14 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 					continue;
 				}
 				next_page(650, 565, 685, 600, searhcing_view);
-				goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
+				goods_table_reducing(ds_vt, result, searhcing_view, 10, placeholder);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (searhcing_view.current == 1) {
 					continue;
 				}
 				prev_page(495, 565, 530, 600, searhcing_view);
-				goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
+				goods_table_reducing(ds_vt, result, searhcing_view, 10, placeholder);
 			}
 			if (ktVT(950, 70, 1150, 110,x,y) || ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
 				break;
