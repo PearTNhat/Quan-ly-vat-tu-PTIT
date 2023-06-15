@@ -73,7 +73,7 @@ void deleteNode_k_tenVT(DS_s_VT*& root, string key)
 			else
 				newCurr = curr->left;
 
-			if (prev == NULL) {
+			if (prev == NULL) {// khi co 1 node goc
 				root = newCurr;
 			}
 			else {
@@ -81,7 +81,6 @@ void deleteNode_k_tenVT(DS_s_VT*& root, string key)
 					prev->left = newCurr;
 				else
 					prev->right = newCurr;
-
 			}
 		}
 		else
@@ -338,7 +337,6 @@ void deleteNode_k_maVT(DS_VatTu*& root, string key)
 			curr->vat_tu.SLT = temp->vat_tu.SLT;
 			strcpy_s(curr->vat_tu.DVT, temp->vat_tu.DVT);
 			curr->vat_tu.sldaban= temp->vat_tu.sldaban;
-
 		}
 	}
 	else {
@@ -378,6 +376,31 @@ DS_VatTu* getIndexGoods(DS_VatTu*& root, int index) {
 		}
 	}
 	return NULL;
+}
+bool check_tvt_k_id(DS_VatTu*& root, string target) {
+	DS_VatTu* temp = root;
+	DS_VatTu* res;
+	Stack <DS_VatTu> s(getSizeGoods(root));
+	int k = 0;
+	while (1) {
+		while (temp != NULL) {
+			push(s, temp);
+			temp = temp->left;
+		}
+		if (!isEmpty(s)) {
+			res = pop(s);
+			if ( res->vat_tu.tenVT == target) {
+				return 1;
+			}
+			if (res->right != NULL) {
+				temp = res->right;
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return 0;
 }
 void lnr(DS_VatTu* root)
 {

@@ -133,6 +133,13 @@ bool checktrungmavthoadonhientai(HoaDon& hd, string mavt)
 	return true;
 }
 
+bool checkbang0(string x) {
+	if (stoi(x) == 0) {
+		return true;
+	}
+	else return false;
+}
+
 bool checksoluong(DS_VatTu* root, char* mvt, string x) {
 	DS_VatTu* p = root;
 	while (p != NULL) {
@@ -850,29 +857,51 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 		nhdInfor:
 			if (ktVT(430, 225, 800, 255, x, y)) { // so luong
 				c_soluongvt = input(x, y, 430, 225, 800, 255, 5, 6, 5, 35, 50, c_soluongvt, 6, "number", "camelCase", COLOR_INFOR_SG, 430, 285);
-
-				if (nhd_isEdit && xuat == true) {
-					if (checksoluong(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
-						warning_msg((char*)"Khong du so luong.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
-						checkSubmit[1] = -2;
-					}
-					else if (empty(c_soluongvt) == 1) {
+				if (nhd_isEdit) {
+					
+					if (empty(c_soluongvt) == 1) {
 						checkSubmit[1] = -1;
 					}
 					else {
+						if (checkbang0(c_soluongvt) == true) {
+							warning_msg((char*)"Lon hon 0!", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+							checkSubmit[1] = -2;
+						}
+						else {
+							checkSubmit[1] = 1;
+						}
+						
+					}
+				}
+				if (nhd_isEdit && xuat == true) {
+					
+					if (empty(c_soluongvt) == 1) {
+						checkSubmit[1] = -1;
+					}
+					else {
+						if (checksoluong(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
+							warning_msg((char*)"Khong du so luong.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+							checkSubmit[1] = -2;
+						}
+						else {
+
 						checkSubmit[1] = 1;
+						}
 					}
 				}
 				if (nhd_isEdit && nhap == true) {
-					if (checksoluongnhap(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
-						warning_msg((char*)"So luong nhap qua lon!", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
-						checkSubmit[1] = -2;
-					}
-					else if (empty(c_soluongvt) == 1) {
+					
+					if (empty(c_soluongvt) == 1) {
 						checkSubmit[1] = -1;
 					}
 					else {
+						if (checksoluongnhap(ds_vt, (char*)c_mavattu.c_str(), c_soluongvt) == false) {
+							warning_msg((char*)"So luong nhap qua lon!", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+							checkSubmit[1] = -2;
+						}
+						else {
 						checkSubmit[1] = 1;
+						}
 					}
 				}
 				goto nhdInfor;
@@ -885,7 +914,14 @@ void handle_nhd_table(int& x, int& y, HoaDon& hd, int i_CRUD, string& c_mavattu,
 						checkSubmit[2] = -1;
 					}
 					else {
-						checkSubmit[2] = 1;
+						if (checkbang0(c_dongiavt) == true) {
+							warning_msg((char*)"Lon hon 0!", 430 +5, 285 + 34, COLOR_INFOR_SG, I_ERROR_COLOR);
+							checkSubmit[2] = -2;
+						}
+						else {
+							checkSubmit[2] = 1;
+						}
+						
 					}
 				}
 				goto nhdInfor;
@@ -1235,7 +1271,11 @@ bool manv_handle_table(int& x, int& y, DS_NhanVien& ds_nv, check_CURD chon, view
 			//delete
 			for (int i = 0; i < chon.n; i++)
 			{
-
+				if (ktVT(900, 145, 950, 170, x, y))
+				{
+					x = 955;
+					y = 171;
+				}
 				if (ktVT(chon.data[i].l, chon.data[i].t, chon.data[i].r, chon.data[i].b, x, y)) {
 					i_CRUD = (vp_manv_table.current - 1) * ROW_STAFF + i;
 					strcpy((char*)manvphu, fillter_nv.a[i_CRUD]->maNV);
@@ -1419,6 +1459,11 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 
 			for (int i = 0; i < chon.n; i++)
 			{
+				if (ktVT(900, 145, 950, 170, x, y))
+				{
+					x = 955;
+					y = 171;
+				}
 				if (ktVT(chon.data[i].l, chon.data[i].t, chon.data[i].r, chon.data[i].b, x, y)) {
 					keyCRUD = chon.data[i].key;
 					VatTu x_vt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
@@ -1441,7 +1486,7 @@ bool mavt_handle_table(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, chec
 					if (checkSLTfull(ds_vt, d) == true && nhap == true)
 					{
 
-						announce_board(x, y, 40, 20, "Da toi da! Khong the nhap them");
+						announce_board(x, y, 0, 10, "Toi da!Khong nhap them");
 						delay(500);
 						strcpy((char*)mavtphu, "");
 						bool a = mavt_handle_table(x, y, ds_vt, ds_s_vt, chon, vp_mavt_table, is_chon, mavtphu, xuat, nhap, hd, placeholder);
@@ -1555,8 +1600,8 @@ helo:
 					d = mavtphu2;
 					strcpy(mavtphu2, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -1581,8 +1626,8 @@ helo:
 					d = mavtphu2;
 					strcpy(mavtphu2, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -1710,6 +1755,25 @@ helo:
 				{
 					return 2;
 				}
+				if (empty(d) == false)
+				{
+					if (checkbang0(d) == true)
+					{
+						soluong = false;
+						text_box(985, 125, 1175, 215, (char*)"Lon hon 0!", f_medium, 2, 30, 8, RED, 0, 0);
+						if (ktVT(110, 170, 430, 195, x, y) || //mavt
+							ktVT(110, 195, 350, 220, x, y) || //soluong
+							ktVT(350, 195, 590, 220, x, y) || //dongia
+							ktVT(430, 170, 590, 195, x, y) || //vat
+							ktVT(620, 145, 770, 170, x, y) || // them vt
+							ktVT(800, 145, 950, 170, x, y) || // them hd
+							ktVT(9, 229, 1181, 900, x, y))
+						{
+							goto batdau2;
+						}
+						goto SL2;
+					}
+				}
 				if (empty(d) == true)
 				{
 					soluong = false;
@@ -1815,6 +1879,25 @@ helo:
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					return 2;
+				}
+				if (empty(d) == false)
+				{
+					if (checkbang0(d) == true)
+					{
+						dongia = false;
+						text_box(985, 125, 1175, 215, (char*)"Lon hon 0!", f_medium, 2, 30, 8, RED, 0, 0);
+						if (ktVT(110, 170, 430, 195, x, y) || //mavt
+							ktVT(110, 195, 350, 220, x, y) || //soluong
+							ktVT(350, 195, 590, 220, x, y) || //dongia
+							ktVT(430, 170, 590, 195, x, y) || //vat
+							ktVT(620, 145, 770, 170, x, y) || // them vt
+							ktVT(800, 145, 950, 170, x, y) || // them hd
+							ktVT(9, 229, 1181, 900, x, y))
+						{
+							goto batdau2;
+						}
+						goto DG2;
+					}
 				}
 				if (empty(d) == true)
 				{
@@ -1994,6 +2077,7 @@ helo:
 
 					Insert_last_HD(ds_nv.nhan_vien[search_ID_Staff(ds_nv, c_manhanvien)]->ds_hoadon, hd);
 					write_file_staff(ds_nv);
+					
 					delay(800);
 					resetbaoloi();
 					text_box_no_border(800, 145, 950, 170, (char*)"Luu hoa don", f_medium, 2, 1, 5, 11, 0);
@@ -2213,7 +2297,6 @@ nhd:
 					if (manv == false) goto MANV;
 					if (mavt == false) goto MAVT;
 					if (soluong == false) goto SL;
-					if (dongia == false) goto DG;
 					if (vat == false) goto VAT;
 
 				}
@@ -2243,8 +2326,8 @@ nhd:
 					d = manvphu;
 					strcpy(manvphu, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -2281,8 +2364,8 @@ nhd:
 					d = manvphu;
 					strcpy(manvphu, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -2393,8 +2476,8 @@ nhd:
 					d = mavtphu;
 					strcpy(mavtphu, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -2430,8 +2513,8 @@ nhd:
 					d = mavtphu;
 					strcpy(mavtphu, "");
 					delete_after_header();
-					createHeader(header_title);
-					highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+					createHeader();
+					highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 					b_create_menu_title();
 					highlight_box(15, 70, 310, 110, (char*)"Lap hoa don", f_medium, 3, 10, 40, 14, 0);
 					b_delete_after_create();
@@ -2558,30 +2641,31 @@ nhd:
 				{
 					break;
 				}
+				if (empty(d) == false)
+				{
+					if (checkbang0(d) == true)
+					{
+						soluong = false;
+						text_box(985, 125, 1175, 215, (char*)"Lon hon 0!", f_medium, 2, 30, 8, RED, 0, 0);
+						if (ktVT(110, 120, 590, 145, x, y) || //sohd
+							ktVT(590, 120, 980, 145, x, y) || //manv
+							ktVT(110, 170, 430, 195, x, y) || //mavt
+							ktVT(110, 195, 350, 220, x, y) || //soluong
+							ktVT(350, 195, 590, 220, x, y) || //dongia
+							ktVT(430, 170, 590, 195, x, y) || //vat
+							ktVT(620, 145, 770, 170, x, y) || // them vt
+							ktVT(800, 145, 950, 170, x, y) ||// them hd
+							ktVT(20, 130, 100, 170, x, y) || // nhap
+							ktVT(20, 170, 100, 210, x, y))  // xuat
+						{
+							goto batdau;
+						}
+						goto SL;
+					}
+				}
 				if (empty(d) == true)
 				{
 					soluong = false;
-					if (ktVT(110, 120, 590, 145, x, y) || //sohd
-						ktVT(590, 120, 980, 145, x, y) || //manv
-						ktVT(110, 170, 430, 195, x, y) || //mavt
-						ktVT(110, 195, 350, 220, x, y) || //soluong
-						ktVT(350, 195, 590, 220, x, y) || //dongia
-						ktVT(430, 170, 590, 195, x, y) || //vat
-						ktVT(620, 145, 770, 170, x, y) || // them vt
-						ktVT(800, 145, 950, 170, x, y) ||// them hd
-						ktVT(20, 130, 100, 170, x, y) || // nhap
-						ktVT(20, 170, 100, 210, x, y))  // xuat
-					{
-						goto batdau;
-					}
-					goto DG;
-				}
-
-				if (nhap == true)
-				{
-					soluong = true;
-					strcat(c_soluongvt, d.c_str());
-					// if click chuyen o input
 					if (ktVT(110, 120, 590, 145, x, y) || //sohd
 						ktVT(590, 120, 980, 145, x, y) || //manv
 						ktVT(110, 170, 430, 195, x, y) || //mavt
@@ -2613,6 +2697,27 @@ nhd:
 					khung_b_nhd();
 					goto SL;
 				}
+				if (nhap == true)
+				{
+					soluong = true;
+					strcat(c_soluongvt, d.c_str());
+					// if click chuyen o input
+					if (ktVT(110, 120, 590, 145, x, y) || //sohd
+						ktVT(590, 120, 980, 145, x, y) || //manv
+						ktVT(110, 170, 430, 195, x, y) || //mavt
+						ktVT(110, 195, 350, 220, x, y) || //soluong
+						ktVT(350, 195, 590, 220, x, y) || //dongia
+						ktVT(430, 170, 590, 195, x, y) || //vat
+						ktVT(620, 145, 770, 170, x, y) || // them vt
+						ktVT(800, 145, 950, 170, x, y) ||// them hd
+						ktVT(20, 130, 100, 170, x, y) || // nhap
+						ktVT(20, 170, 100, 210, x, y))  // xuat
+					{
+						goto batdau;
+					}
+					goto DG;
+				}
+				
 				if (checksoluong(ds_vt, c_mavattu, d) == true && xuat == true)
 				{
 					soluong = true;
@@ -2701,6 +2806,28 @@ nhd:
 					ktVT(1140, 10, 1190, 50, x, y)) // thoat
 				{
 					break;
+				}
+				if(empty(d) == false)
+				{
+					if (checkbang0(d) == true)
+					{
+						dongia = false;
+						text_box(985, 125, 1175, 215, (char*)"Lon hon 0!", f_medium, 2, 30, 8, RED, 0, 0);
+						if (ktVT(110, 120, 590, 145, x, y) || //sohd
+							ktVT(590, 120, 980, 145, x, y) || //manv
+							ktVT(110, 170, 430, 195, x, y) || //mavt
+							ktVT(110, 195, 350, 220, x, y) || //soluong
+							ktVT(350, 195, 590, 220, x, y) || //dongia
+							ktVT(430, 170, 590, 195, x, y) || //vat
+							ktVT(620, 145, 770, 170, x, y) || // them vt
+							ktVT(800, 145, 950, 170, x, y) ||// them hd
+							ktVT(20, 130, 100, 170, x, y) || // nhap
+							ktVT(20, 170, 100, 210, x, y))  // xuat
+						{
+							goto batdau;
+						}
+						goto DG;
+					}
 				}
 				if (empty(d) == true)
 				{

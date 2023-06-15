@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Staff_func.h"
 #include "input_one.h"
 #include "Search_Goods.h"
@@ -165,7 +165,7 @@ void goods_table(
 			bar_bottom += 40;
 			text_top += 39;
 		}
-		if (i == max_rows - 1) {
+		if (i == max_rows - 1) { //
 			bar_bottom -= (max_rows - num_cols * (view_page.current - 1)) - 2;
 		}
 		// Neu k su dung thi xoa tu day xuong
@@ -189,8 +189,8 @@ void goods_table(
 		setcolor(0);
 		bar3d(50, bar_top, 1150, bar_bottom, 0, 0);
 		// title header
-		char stt[10];
-		strcpy_s(stt, to_string(i + 1).c_str());
+		char stt[COLS_G];
+		strcpy_s(stt,to_string(i + 1).c_str());
 		writeText(55, text_top, stt, 1, 0, 3, 15);
 		writeText(95, text_top, tempVT.maVT, 1, 0, 3, 15);
 		writeText(230, text_top, tempVT.tenVT, 1, 0, 3, 15);
@@ -214,7 +214,7 @@ void goods_table(
 }
 bool handleInfor_goods(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, string& t_mvt, string& t_tvt, string& t_dvt, string& t_slt, string keyCRUD, bool& isEdit, bool& isAdd) {
 start:;
-	int isBack = false;
+	int isBack = false;// lúc bấm huỷ trong trở về vẫn còn báo lỗi
 	int checkSubmit[4];
 	if (isAdd) {
 		for (int i = 0; i < 4; i++)
@@ -234,7 +234,7 @@ start:;
 	bool checkCancle = true;
 	bool checkBreak = false;
 	
-	while (1) { // chong rerender k can thiet
+	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 		headInfor:;
@@ -302,14 +302,14 @@ start:;
 					else if (t_tvt.length() == 0) {
 						checkSubmit[1] = -1;
 					}
-					if (searchNode_k_tenVT(ds_s_vt, t_tvt) == 1) {
-						warning_msg((char*)"Ten vat tu da ton tai.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
+					if (check_tvt_k_id(ds_vt, t_tvt) == 1) {
+						warning_msg((char*)"Ten vat tu da ton tai.", 435,225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 						checkSubmit[1] = -2;
 					}
 				}
 				if (isEdit) {
 					string test_tvt = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu.tenVT;
-					if (((string)t_tvt != test_tvt) && searchNode_k_tenVT(ds_s_vt, t_tvt) == 1) {
+					if (((string)t_tvt != test_tvt) && check_tvt_k_id(ds_vt, t_tvt) == 1) {
 						warning_msg((char*)"Ten vat tu da ton tai.", 435, 225 + 35, COLOR_INFOR_SG, I_ERROR_COLOR);
 						checkSubmit[1] = -2;
 					}
@@ -351,7 +351,7 @@ start:;
 			// slt
 			if (isAdd) {
 				if (ktVT(430, 345, 800, 375, x, y)) {
-					t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt, 5, "number", "camelCase", COLOR_INFOR_SG, NULL, NULL);
+					t_slt = input(x, y, 430, 345, 800, 375, 5, 6, 5, 35, 50, t_slt, 5, "number","formatNumber", COLOR_INFOR_SG, NULL, NULL);
 					if (t_slt.length() > 0) {
 						checkSubmit[3] = 1;
 					}
@@ -397,8 +397,6 @@ start:;
 				text_box(840, 420, 910, 450, (char*)"Luu", f_medium, 2, 5, 15, 11, 0);
 				if (checkSubmitEditAdd(checkSubmit, 4) == 0) {
 					VatTu vt_temp;
-					VatTu prev;
-					s_VT svt_temp;
 					if (isAdd) {
 						vt_temp = {};
 						strcpy_s(vt_temp.maVT, t_mvt.c_str());
@@ -406,34 +404,23 @@ start:;
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT = stoi(t_slt);
 						vt_temp.sldaban = 0;
-						strcpy_s(svt_temp.maVT, t_mvt.c_str());
-						strcpy_s(svt_temp.tenVT, t_tvt.c_str());
 						insertNode_k_maVT(ds_vt, vt_temp);
-						insertNode_k_tenVT(ds_s_vt, svt_temp);
-						write_file_goods(ds_vt);
 						announce_board(x, y, 40, 20, "Ban da luu thanh cong.");
 						delay(500);
 						goods_infor("","","","",isAdd);
 						x = NULL, y = NULL;
 						t_mvt = t_dvt = t_slt = t_tvt = "";
+						write_file_goods(ds_vt);
 						goto start;
 					}
 					if (isEdit) {
 						vt_temp = {};
-						svt_temp = {};
-
 						strcpy_s(vt_temp.maVT, t_mvt.c_str());
 						strcpy_s(vt_temp.tenVT, t_tvt.c_str());
 						strcpy_s(vt_temp.DVT, t_dvt.c_str());
 						vt_temp.SLT = stoi(t_slt);
-						prev = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
 						getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu = vt_temp;
-
-						strcpy_s(svt_temp.maVT, t_mvt.c_str());
-						strcpy_s(svt_temp.tenVT, t_tvt.c_str());
-						deleteNode_k_tenVT(ds_s_vt, prev.tenVT);
-						insertNode_k_tenVT(ds_s_vt, svt_temp);
-						lnrSVT(ds_s_vt);
+				
 					}
 					isEdit = false;
 					isAdd = false;
@@ -455,7 +442,7 @@ start:;
 						warning_msg("Khong duoc de trong", 435, 225 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
 					if (checkSubmit[1] == -2) {
-						warning_msg("Ten vat tu da ton tai", 435, 165 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
+						warning_msg("Ten vat tu da ton tai", 435, 225 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
 					}
 					if (checkSubmit[2] == -1) {
 						warning_msg("Khong duoc de trong", 435, 285 + 30 + 5, COLOR_INFOR_SG, I_ERROR_COLOR);
@@ -475,8 +462,8 @@ sf_end:;
 }
 bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CURD& delete_table_g, check_CURD& edit_table_g, view_page& vp_g_table, bool& g_isEdit, bool& g_isAdd,string &e_search) {
 	bool check_D_staff = true;
-	string keyCRUD = "";
-	bool checkX = false;
+	string keyCRUD = ""; // vị trí để CRUD
+	bool checkX = false; // thoát
 	int svt_NULL = 0;
 	int search_empty = 0;
 	string placeholder = e_search=="" ? "Nhap ten hoac id can tim kiem": e_search;
@@ -502,13 +489,13 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 					deleteTree(ds_s_vt);
 					ds_s_vt = NULL;
 					search_goods(ds_vt, ds_s_vt, e_search);
-					if (e_search == "") {
+					if (e_search == "") { // "" 1 lần search
 						search_empty++;
 					}
 					else {
 						search_empty = 0;
 					}
-					if (ds_s_vt == NULL) {
+					if (ds_s_vt == NULL) { // NULL 1 lần là search
 						svt_NULL++;
 					}
 					else {
@@ -519,7 +506,6 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 					}
 					delay(1);
 				}
-
 			}
 			// them nhan vien moi
 			if (ktVT(950, 70, 1150, 110, x, y)) { // them vat tu
@@ -534,6 +520,7 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 					keyCRUD = edit_table_g.data[i].key;
 					VatTu temp;
 					temp = getNodebyId_maVT(ds_vt, keyCRUD)->vat_tu;
+					// k can edit cây tạm vì lúc search lại là oke rồi
 					text_box(edit_table_g.data[i].l, edit_table_g.data[i].t, edit_table_g.data[i].r, edit_table_g.data[i].b, (char*)"Chinh sua", f_small, 1, 1, 2, XANH_LA_CAY, 0);
 					delay(200);
 					goods_infor(temp.maVT, temp.tenVT, temp.DVT, to_string(temp.SLT));
@@ -558,12 +545,11 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 						check_D_staff = announce_board(x, y, 40, 0, "Ban co muon xoa khong.", "");
 						if (check_D_staff) {
 							deleteNode_k_maVT(ds_vt, x_vt.maVT);
-							deleteNode_k_tenVT(ds_s_vt, x_vt.tenVT);
+							// k can xoa cây tạm vì lúc search lại là oke rồi
 							write_file_goods(ds_vt);
 						}
 					}
 					goto sf_out;
-
 				}
 			}
 			// transition page
@@ -573,7 +559,6 @@ bool g_handleTable(int& x, int& y, DS_VatTu*& ds_vt, DS_s_VT*& ds_s_vt, check_CU
 				}
 				next_page(650, 565, 685, 600, vp_g_table);
 				delete_after_header();
-				cout << placeholder << "||||";
 				goods_table(ds_vt, ds_s_vt, vp_g_table, edit_table_g, delete_table_g, 10, placeholder);
 
 			}

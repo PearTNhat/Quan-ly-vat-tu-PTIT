@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Goods_Func.h"
 #include "Header.h"
 #include"Common.h"
@@ -82,6 +82,7 @@ void search_goods_I(int &x, int &y,DS_VatTu *ds_vt) {
 						svt_NULL = 0;
 					}
 					if (svt_NULL == 1 || search_empty == 1 || (search_empty == 0 && svt_NULL == 0)) {
+															// là lúc đang bấm chữ
 						goods_table_reducing(ds_vt, result, searhcing_view, 10, value);
 					}
 					delay(1);
@@ -123,7 +124,6 @@ void goods_table_reducing(
 	// tnh so page co trong trang
 	setcolor(0);
 	int n = getSize_s_VT(ds_s_vt);
-	cout << "n la :     " << n;
 	int page = n / num_cols;
 	int du = n % num_cols;
 	view_page.page = du? page + 1 : page;

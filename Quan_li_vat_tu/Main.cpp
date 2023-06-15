@@ -9,10 +9,12 @@
 #include "Loading.h"
 //xem lai  so 0 trong slt
 // xem redender rooi gan khoi tao lai bien co hayb k
-// next pae placeholder bi loi
+// coi mang ron co search dc k
+// lam them format number slt
+// doi thanh tim kiem nhi phan staff
 int main() {
 	// nhân viên
-	string e_search_nv="";
+	string e_search_nv = "";
 	check_CURD delete_sf;
 	check_CURD edit_sf;
 	view_page vp_m_sf;
@@ -30,7 +32,6 @@ int main() {
 	DS_VatTu* ds_vt = NULL;
 	DS_s_VT* ds_s_vt = NULL;
 	read_file_goods(ds_vt);
-	//coppyVTtoSVT(ds_vt, ds_s_vt);
 	//
 	PTRHD ds_hd = NULL;
 	view_page vp_m_ss;
@@ -43,6 +44,7 @@ int main() {
 	setlinestyle(0, 0, 2);
 	setbkcolor(bk_screen);
 	cleardevice();
+	createHeader();
 	readimagefile("logo.jfif", 100, 100, 850, 600);
 
 	createHeader(header_title);
@@ -51,14 +53,13 @@ int main() {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			//------------------------
 			//code
-		beginning:
 		start:
 			//Nhat
 		batdau:
 			//vat tu 
 			if (ktVT(20, 10, 220, 50, x, y)) {
-				createHeader(header_title);
-				highlight_box(20, 10, 220, 50, header_title[0], f_medium, 3, 10, 56);
+				createHeader();
+				highlight_box(20, 10, 220, 50,(char *) header_title[0], f_medium, 3, 10, 56);
 				g_page = true;
 				sf_page = false;
 				b_page = false;
@@ -67,17 +68,16 @@ int main() {
 				delete_after_header();
 			}
 			if (g_page) {
-				
+
 				bool sf_out = g_handleTable(x, y, ds_vt, ds_s_vt, delete_table_g, edit_table_g, vp_g_table, g_isEdit, g_isAdd, e_search_vt);
 				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
-					goto beginning;
+					goto start;
 				}
-
 			}
 			// nhan vien
 			if (ktVT(320, 10, 520, 50, x, y)) {
-				createHeader(header_title);
-				highlight_box(320, 10, 520, 50, header_title[1], f_medium, 3, 10, 43);
+				createHeader();
+				highlight_box(320, 10, 520, 50, (char*)header_title[1], f_medium, 3, 10, 43);
 				g_page = false;
 				sf_page = true;
 				b_page = false;
@@ -89,14 +89,15 @@ int main() {
 			if (sf_page) {
 				create_sf_header();
 				bool sf_out = sf_handleTable(x, y, ds_nv, delete_sf, edit_sf, vp_m_sf, sf_isEdit, sf_isAdd, e_search_nv);
-				if (sf_out || ktVT(20, 10, 220, 50, x, y)) {
-					goto beginning;
+				if (sf_out || ktVT(320, 10, 520, 50, x, y)) {
+								// click vào chính nó để trở thành trang chính
+					goto start;
 				}
 			}
 			//Phu
 			if (ktVT(620, 10, 820, 50, x, y)) {
-				createHeader(header_title);
-				highlight_box(620, 10, 820, 50, header_title[2], f_medium, 3, 10, 35);
+				createHeader();
+				highlight_box(620, 10, 820, 50, (char*)header_title[2], f_medium, 3, 10, 35);
 				g_page = false;
 				sf_page = false;
 				b_page = true;
@@ -115,8 +116,8 @@ int main() {
 			}
 			//Phuong
 			if (ktVT(920, 10, 1120, 50, x, y)) {
-				createHeader(header_title);
-				highlight_box(920, 10, 1120, 50, header_title[3], f_medium, 3, 10, 45);
+				createHeader();
+				highlight_box(920, 10, 1120, 50, (char*)header_title[3], f_medium, 3, 10, 45);
 				g_page = false;
 				sf_page = false;
 				b_page = false;
@@ -180,6 +181,7 @@ int main() {
 			if (X_page)
 			{
 				highlight_box(1140, 10, 1190, 50, (char*)"X", f_medium, 4, 5, 14);
+
 				announce_board(x, y, 50, 20, "THOAT CHUONG TRINH");
 				delay(500);
 				announce_board(x, y, 80, 20, "XIN CAM ON");
@@ -193,9 +195,14 @@ end:
 	deleteTree(ds_vt);
 	for (int i = 0; i < ds_nv.length; i++)
 	{
+		while (ds_nv.nhan_vien[i]->ds_hoadon != NULL)
+		{
+			Clearlist_CTHD(ds_nv.nhan_vien[i]->ds_hoadon->hoadon.first_cthd);
+
+			Clearlist_HD(ds_nv.nhan_vien[i]->ds_hoadon);
+		}
 		delete ds_nv.nhan_vien[i];
 	}
-	ds_nv.length = 0; // Đặt độ dài của mảng về 0
 	closegraph();
 	return 0;
 }

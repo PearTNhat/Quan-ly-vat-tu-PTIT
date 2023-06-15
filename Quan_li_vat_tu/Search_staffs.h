@@ -13,6 +13,7 @@ void staff_table_normal(
 void table_searching(int& x, int& y, DS_NhanVien ds_nv);
 
 void search_staffs(DS_NhanVien ds_nv, templeDynamicArray<NhanVien> &arr,string value) {
+	arr.size_current = 0;
 	value = lowercase(value);
 	deleteAllSpace(value);
 	for (int i = 0; i < ds_nv.length; i++)
@@ -46,7 +47,7 @@ void table_searching(int &x,int &y,DS_NhanVien ds_nv) {
 						}
 						break;
 					}
-					fillter_nv.size_current = 0;
+				
 					search_staffs(ds_nv, fillter_nv, value);
 					if (value == "") {
 						search_empty++;
@@ -85,7 +86,6 @@ void table_searching(int &x,int &y,DS_NhanVien ds_nv) {
 				staff_table_normal(fillter_nv.a, fillter_nv.size_current, searhcing_view, 10,value);
 			}
 			if (ktVT(950, 70, 1150, 110, x, y) || ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
-				cout << "X ";
 				break;
 			}
 		}
