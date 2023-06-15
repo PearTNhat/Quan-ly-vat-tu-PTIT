@@ -3140,7 +3140,6 @@ void duyetlaihdsaukhitrahang(HoaDon tra, HoaDon phu, DS_VatTu*& ds_vt, HoaDon& h
 			current_a->ct_hoadon.TrangThai = false; // nếu tìm thấy thì gán TrangThai của a là false
 
 			cout << "666" << current_a->ct_hoadon.MAVT;
-			TimKiemNode(ds_vt, current_a->ct_hoadon.MAVT)->vat_tu.sldaban--;
 			TimKiemNode(ds_vt, current_a->ct_hoadon.MAVT)->vat_tu.SLT += current_a->ct_hoadon.Soluong;
 			write_file_goods(ds_vt);
 			current_a = current_a->next;
@@ -3151,7 +3150,6 @@ void duyetlaihdsaukhitrahang(HoaDon tra, HoaDon phu, DS_VatTu*& ds_vt, HoaDon& h
 			while (current_b != NULL) { // tìm kiếm trường MAVT trong danh sách b
 				if (strcmp(current_a->ct_hoadon.MAVT, current_b->ct_hoadon.MAVT) == 0) {
 					current_a->ct_hoadon.TrangThai = false; // nếu tìm thấy thì gán TrangThai của a là false
-					TimKiemNode(ds_vt, current_a->ct_hoadon.MAVT)->vat_tu.sldaban--;
 					TimKiemNode(ds_vt, current_a->ct_hoadon.MAVT)->vat_tu.SLT += current_a->ct_hoadon.Soluong;
 					write_file_goods(ds_vt);
 					break; // thoát khỏi vòng lặp tìm kiếm
