@@ -224,7 +224,6 @@ void resetbaoloi()
 }
 
 void in_hoa_don_table(
-	char table_in_HD_header[][20],
 	DS_info* nodeInfo,
 	DS_VatTu* root,
 	view_page& view_page,
@@ -288,12 +287,12 @@ void in_hoa_don_table(
 	setcolor(0);
 	settextstyle(f_small, 0, 2);
 	outtextxy(55, text_top, (char*)"STT");
-	outtextxy(130, text_top, table_in_HD_header[0]);
-	outtextxy(270, text_top, table_in_HD_header[1]);
-	outtextxy(470, text_top, table_in_HD_header[2]);
-	outtextxy(660, text_top, table_in_HD_header[3]);
-	outtextxy(830, text_top, table_in_HD_header[4]);
-	outtextxy(1000, text_top, table_in_HD_header[5]);
+	outtextxy(130, text_top, (char*)table_in_HD_header[0]);
+	outtextxy(270, text_top, (char*)table_in_HD_header[1]);
+	outtextxy(470, text_top, (char*)table_in_HD_header[2]);
+	outtextxy(660, text_top, (char*)table_in_HD_header[3]);
+	outtextxy(830, text_top, (char*)table_in_HD_header[4]);
+	outtextxy(1000, text_top, (char*)table_in_HD_header[5]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
 	for (; i < max_rows; i++)
@@ -317,13 +316,13 @@ void in_hoa_don_table(
 		writeText(70, text_top, stt, 1, 0, 3, 15);
 		DS_CT_HoaDon* tempNodeCT = getIndexCTHD(ds, i);
 		string tenVT;
-		DS_VatTu* nodeVT = getNodebyId_maVT(root, tempNodeCT->ct_hoadon.MAVT);
+		DS_VatTu* nodeVT = getNodebyId_maVT(root, tempNodeCT->ct_hoadon.MAVT); 
 		if (nodeVT != NULL) tenVT = nodeVT->vat_tu.tenVT;
 		else tenVT = "Unknown";
 		writeText(135, text_top, (char*)tenVT.c_str(), 1, 0, 3, 15);
 		string soluong = to_string(tempNodeCT->ct_hoadon.Soluong);
 		writeText(290, text_top, (char*)soluong.c_str(), 1, 0, 3, 15);
-		string dongia = formatNumber(tempNodeCT->ct_hoadon.Dongia);
+		string dongia = formatNumber(tempNodeCT->ct_hoadon.Dongia); 
 		writeText(470, text_top, (char*)dongia.c_str(), 1, 0, 3, 15);
 		stringstream s;
 		s << tempNodeCT->ct_hoadon.VAT;
@@ -385,7 +384,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root, view_page& 
 				next_page(650, 565, 685, 600, vp_m_print, true);
 
 				delete_after_header();
-				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 4);
+				in_hoa_don_table(ds, root, vp_m_print, 4);
 			}
 			if (ktVT(495, 565, 530, 600, x, y)) {
 				if (vp_m_print.current == 1) {
@@ -393,7 +392,7 @@ void handle_in_HD_table(int& x, int& y, DS_info* ds, DS_VatTu* root, view_page& 
 				}
 				prev_page(495, 565, 530, 600, vp_m_print, true);
 				delete_after_header();
-				in_hoa_don_table(table_in_HD_header, ds, root, vp_m_print, 4);
+				in_hoa_don_table(ds, root, vp_m_print, 4);
 			}
 			if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y)) {
 				ss_page = false;
@@ -449,7 +448,7 @@ void xu_li_tra_cuu_hoa_don(int& x, int& y, bool& error_sohd, string& soHD, bool 
 				writeText(460, 370, (char*)"So hoa don khong ton tai!", 2, COLOR(255, 0, 0), 8, COLOR_INFOR_SS);
 			}
 			else {
-				in_hoa_don_table(table_in_HD_header, result_info, root, vp_m_print, 4);
+				in_hoa_don_table(result_info, root, vp_m_print, 4);
 				handle_in_HD_table(x, y, result_info, root, vp_m_print);
 			}
 		}

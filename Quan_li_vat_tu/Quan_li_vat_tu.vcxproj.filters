@@ -92,6 +92,9 @@
     <ClInclude Include="Staff_func.h">
       <Filter>Header Files\Staff</Filter>
     </ClInclude>
+    <ClInclude Include="Statistic.h">
+      <Filter>Header Files\Statistic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\list_staff.txt">
