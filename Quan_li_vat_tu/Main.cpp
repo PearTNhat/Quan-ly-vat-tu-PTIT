@@ -45,6 +45,9 @@ int main() {
 	setbkcolor(bk_screen);
 	cleardevice();
 	createHeader();
+	readimagefile("logo.jfif", 100, 100, 850, 600);
+
+	createHeader(header_title);
 	while (1) {
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -162,7 +165,7 @@ int main() {
 							year_dt = "";
 						}
 						xu_li_thong_ke_hd(x, y, is_all_valid, error_dayb, error_monthb, error_yearb, error_daye, error_monthe, error_yeare, day_b, month_b, year_b, day_e, month_e, year_e, thong_ke_hd_pg, ds_nv, vp_m_ss);
-						xu_li_tra_cuu_doanh_thu(x, y, is_all_valid, error_year, year_dt, thong_ke_doanh_thu_pg, ds_nv);
+						xu_li_tra_cuu_doanh_thu(x, y, is_all_valid, error_year, year_dt, thong_ke_doanh_thu_pg, ds_nv, ds_vt);
 						if (ktVT(20, 10, 220, 50, x, y) || ktVT(320, 10, 520, 50, x, y) || ktVT(620, 10, 820, 50, x, y) || ktVT(920, 10, 1120, 50, x, y) || ktVT(1140, 10, 1190, 50, x, y))
 							goto start;
 					}
