@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.h";
+#include "Statistic.h";
 
 #define MAXTITLE 25
 #define I_BG_SS COLOR(186, 245, 223) // màu nền khi enter nhập xong
@@ -88,7 +89,6 @@ void create_ss_header() {
 
 
 void ss_table(
-	//char ss_table_header[][20],
 	DS_info* ds,
 	view_page& view_page,
 	int num_per_pg
@@ -110,6 +110,13 @@ void ss_table(
 	strcpy_s(m, from_date.c_str());
 	writeText(465, 140, (char*)"THONG KE HOA DON", 4, 15, 8, bk_screen);
 	writeText(480, 170, m, 2, 15, 8, bk_screen);
+	writeText(1000, 148, (char*)"Co", 2, 15, 8, bk_screen);
+	string numOfHD_str = to_string(n);
+	strcpy_s(m, numOfHD_str.c_str());
+	settextjustify(CENTER_TEXT, TOP_TEXT);
+	writeText(1040, 145, (char*)m, 2, 15, 3, bk_screen);
+	settextjustify(LEFT_TEXT, TOP_TEXT);
+	writeText(1060, 148, (char*)"hoa don", 2, 15, 8, bk_screen);
 	// header num_rows
 	int bar_top = 220, bar_bottom = 252;
 	int text_top = 225;
@@ -372,14 +379,17 @@ ss_end:;
 }
 
 void table_doanhThu(
+	DS_VatTu* root,
 	DS_HoaDon* ds
 ) {
 	delete_after_header();
 	create_ss_header();
 	// create doanhThu array
 	int doanhThu_arr[3][12] = {};
+	// create soldItem array
+	SoldItem_arr soldItemArr;
 	// reder page
-	int i = 0;
+	int i = 0, j = 0;
 	// create table title
 	string title = "THONG KE DOANH THU NAM ";
 	title += year_dt;
@@ -399,6 +409,7 @@ void table_doanhThu(
 	outtextxy(315, text_top, (char*) table_doanhThu_header[1]);
 	setfillstyle(1, 15);
 	setbkcolor(15);
+
 	for (; i < 12; i++)
 	{
 		int bkcolor = 15;
@@ -423,6 +434,7 @@ void table_doanhThu(
 		DS_HoaDon* nodeHD = ds;
 		long long doanh_thu = 0;
 
+		bool check;
 		while (nodeHD != NULL) {
 			if (nodeHD->hoadon.date.thang == i + 1 && !strcmp(nodeHD->hoadon.Loai, "X")) {
 				doanhThu_arr[2][i]++;
@@ -430,6 +442,23 @@ void table_doanhThu(
 				while (nodeCT != NULL) {
 					if (nodeCT->ct_hoadon.TrangThai == 1) {
 						doanh_thu += (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong) + (nodeCT->ct_hoadon.Dongia * nodeCT->ct_hoadon.Soluong * nodeCT->ct_hoadon.VAT / 100);
+						// check item đã có trong soldItem_arr
+						check = false;
+						for (j = 0; j < soldItemArr.length; j++) {
+							if (strcmp(soldItemArr.soldItem[j]->MAVT, nodeCT->ct_hoadon.MAVT) == 0) {
+								soldItemArr.soldItem[j]->sold++;
+								check = true;
+								break;
+							}
+						}
+
+						if (check == false) {
+							SoldItem* newItem = new SoldItem();
+							strcpy(newItem->MAVT, nodeCT->ct_hoadon.MAVT);
+							newItem->sold = 1;
+							soldItemArr.soldItem[soldItemArr.length] = newItem;
+							soldItemArr.length++;
+						}
 					}
 					nodeCT = nodeCT->next;
 				}
@@ -451,6 +480,9 @@ void table_doanhThu(
 		indent += 3*(strlen(m) - 0);
 		writeText(372 - indent, text_top, (char*)m, 1, 0, 3, bkcolor);
 	}
+	
+	int bestSeller_qty = 0;
+	char maVT_bestSeller[11];
 
 	setbkcolor(bk_screen);
 	setcolor(15);
@@ -528,8 +560,24 @@ void table_doanhThu(
 	string tongDT_str = formatNumber(tongDT);
 	tongDT_str += " vnd";
 	m = tongDT_str.c_str();
-	settextstyle(6, 0, 3); // 4, 6, 8, 9
-	outtextxy(550, 200, (char*)m);	
+	settextstyle(8, 0, 3); // 4, 6, 8, 9
+	settextjustify(CENTER_TEXT, TOP_TEXT);
+	outtextxy(660, 200, (char*)m);	
+	settextjustify(LEFT_TEXT, TOP_TEXT);
+	// Vặt tư bán chạy nhất
+	for (j = 0; j < soldItemArr.length; j++)
+		if (soldItemArr.soldItem[j]->sold > bestSeller_qty) {
+			bestSeller_qty = soldItemArr.soldItem[j]->sold;
+			strcpy(maVT_bestSeller, soldItemArr.soldItem[j]->MAVT);
+		}
+
+	DS_VatTu* nodeVT = getNodebyId_maVT(root, maVT_bestSeller);
+	string tit = "Vat tu ban chay nhat: ";
+	tit += nodeVT->vat_tu.tenVT;
+	const char* mes = tit.c_str();
+
+	settextstyle(3, 0, 1);
+	outtextxy(550, 245, (char*)mes);
 
 	// ========= Tổng đơn hàng =========
 	setfillstyle(1, 15);
@@ -1109,7 +1157,7 @@ void do_hoa_search_doanh_thu() {
 	bar3d(670, 285, 835, 320, 0, 0);
 }
 
-void xu_li_tra_cuu_doanh_thu(int &x, int &y, bool &is_all_valid, bool &error_year, string &year, bool page, DS_NhanVien ds_nv) {
+void xu_li_tra_cuu_doanh_thu(int &x, int &y, bool &is_all_valid, bool &error_year, string &year, bool page, DS_NhanVien ds_nv, DS_VatTu* root) {
 	if (ktVT(670, 285, 835, 320, x, y) && page) {
 		cout << "Tien hanh nhap input --nam";
 		year = ss_page_input(is_all_valid, error_year, x, y, 670, 285, 835, 320, 66, 10, 470, 370, 50, year, 4, 1, "year_search_doanh_thu", false, COLOR_INFOR_SS);
@@ -1122,7 +1170,7 @@ void xu_li_tra_cuu_doanh_thu(int &x, int &y, bool &is_all_valid, bool &error_yea
 		else {
 			DS_HoaDon* dshd_dt = NULL;
 			getDataTKDT(dshd_dt, ds_nv, stoi(year));
-			table_doanhThu(dshd_dt);
+			table_doanhThu(root, dshd_dt);
 		}
 	}
 }
