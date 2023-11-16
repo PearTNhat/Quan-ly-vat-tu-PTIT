@@ -1,5 +1,6 @@
-Dùng visual studio code 2022, hoăch thấp hơn để mở project
-
+Dùng visual studio code 2022, hoặc thấp hơn để mở project
+___
+___
 ![image](https://github.com/PearTNhat/Quan-ly-vat-tu-PTIT/assets/99273772/3c091b24-a339-400f-91dd-e5728aa02a21)# Quan-ly-vat-tu-PTIT
 ![image](https://github.com/PearTNhat/Quan-ly-vat-tu-PTIT/assets/99273772/393222da-28ce-4da8-b2fb-0551937952c4)
 ![image](https://github.com/PearTNhat/Quan-ly-vat-tu-PTIT/assets/99273772/52f28745-f882-4b45-b654-21cbb8dc15ca)
